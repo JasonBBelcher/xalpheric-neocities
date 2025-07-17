@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Xalpheric - Thoughts & Musings</title>
+  <link rel="stylesheet" href="css/theme.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header>
+    <img src="assets/xalpheric_logo.jpeg" alt="Xalpheric" class="logo" />
+    <h1>Thoughts & Musings</h1>
+  </header>
+  
+  <section class="musings-container">
+    <nav class="back-nav">
+      <a href="#" onclick="window.close(); return false;" class="download">Back to Main</a>
+    </nav>
+    
+    <div class="musings-list" id="musings-list">
+      <!-- Content will be loaded from musings/index.html -->
+    </div>
+  </section>
+
+  <script src="js/main.js"></script>
+  <script>
+    // Load the musings content
+    $(document).ready(() => {
+      $.get('musings/index.html')
+        .done((data) => {
+          $('#musings-list').html(data);
+        })
+        .fail(() => {
+          $('#musings-list').html('<p>No musings available yet.</p>');
+        });
+    });
+  </script>
+</body>
+</html>

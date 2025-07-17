@@ -1,0 +1,246 @@
+body {
+  margin: 0;
+  padding: 0;
+  background: #000 url('../assets/xalpheric_glitch_bg.png') no-repeat center center fixed;
+  background-size: cover;
+  animation: glitchScroll 3s linear infinite;
+  color: #e0e0e0;
+  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  text-align: center;
+}
+
+@keyframes glitchScroll {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 -100px;
+  }
+}
+
+header {
+  padding: 2rem;
+}
+
+.logo {
+  height: 100px;
+  filter: drop-shadow(0 0 10px #0ff);
+}
+
+h1 {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px #f0f;
+  margin: 0.5rem 0;
+}
+
+p {
+  font-size: 1rem;
+  color: #bbb;
+}
+
+.cover-art {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 0 10px #6f0fff;
+  margin-bottom: 1rem;
+}
+
+audio {
+  width: 100%;
+  margin: 1rem 0;
+  filter: drop-shadow(0 0 5px #0ff);
+}
+
+.download {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #0ff;
+  color: #000;
+  text-decoration: none;
+  border-radius: 10px;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.download:hover {
+  background: #f0f;
+}
+
+
+footer {
+  margin-top: auto;
+  padding: 2rem;
+  font-size: 0.9rem;
+  color: #555;
+}
+
+.coffee-link {
+  display: inline-block;
+  transition: transform 0.3s ease;
+  text-decoration: none;
+}
+
+.coffee-link:hover {
+  transform: scale(1.1);
+}
+
+.coffee-icon {
+  width: 64px;
+  height: 64px;
+  filter: drop-shadow(0 0 10px #0ff);
+  transition: filter 0.3s ease;
+  display: block;
+  margin: 0 auto;
+}
+
+.coffee-icon:hover {
+  filter: drop-shadow(0 0 15px #f0f);
+}
+
+.coffee-text {
+  color: #e0e0e0;
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0 0;
+  font-family: 'Orbitron', sans-serif;
+  transition: color 0.3s ease;
+}
+
+.coffee-link:hover .coffee-text {
+  color: #0ff;
+}
+
+/* Navigation styles */
+.main-nav, .back-nav {
+  margin: 2rem 0;
+}
+
+.main-nav a, .back-nav a {
+  margin: 0 1rem;
+}
+
+/* Release carousel styles */
+.release-carousel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.release-viewer {
+  background: #111;
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 0 20px #0ff33a;
+  max-width: 400px;
+  width: 90%;
+  margin-bottom: 1rem;
+}
+
+.carousel-nav {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav {
+  display: inline-block;
+  margin: 0.5rem 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #0ff;
+  color: #000;
+  text-decoration: none;
+  border: none;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.nav:hover {
+  background: #f0f;
+}
+
+/* Musings and Notes styles */
+.musings-container, .notes-container {
+  background: #111;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 0 20px #0ff33a;
+  max-width: 600px;
+  width: 90%;
+  margin: 2rem 0;
+}
+
+.musings-list ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.musings-list li {
+  margin: 1rem 0;
+  background: #222;
+  border-radius: 8px;
+  padding: 1rem;
+  border-left: 4px solid #0ff;
+}
+
+.musings-list a {
+  color: #e0e0e0;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.musings-list a:hover {
+  color: #0ff;
+}
+
+/* Notes styles */
+.notes-content {
+  margin-top: 1rem;
+}
+
+.note-entry {
+  background: #222;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  border-left: 4px solid #f0f;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.note-entry:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255, 0, 255, 0.3);
+}
+
+.note-entry h3 {
+  color: #fff;
+  margin: 0 0 1rem 0;
+  font-size: 1.3rem;
+  text-shadow: 0 0 5px #f0f;
+}
+
+.note-content {
+  color: #e0e0e0;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.note-timestamp {
+  color: #888;
+  font-size: 0.9rem;
+  text-align: right;
+  font-style: italic;
+}

@@ -1,0 +1,24 @@
+{
+  "name": "xalpheric-neocities",
+  "version": "1.0.0",
+  "description": "Static site builder for Thoughts & Musings section using Node.js",
+  "main": "build.js",
+  "scripts": {
+    "build": "node build.js",
+    "serve": "http-server public -p 8080",
+    "start": "npm run build && npm run serve",
+    "deploy": "node build_and_deploy.js"
+  },
+  "author": "Jason Belcher",
+  "license": "MIT",
+   "dependencies": {
+    "fs-extra": "^11.1.1",
+    "markdown-it": "^13.0.1",
+    "marked": "^10.0.0",
+    "form-data": "^4.0.0",
+    "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
