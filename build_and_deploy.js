@@ -65,8 +65,10 @@ async function buildMusings() {
 
   for (const { file } of posts) {
     const name = path.basename(file, '.md');
+    // Sanitize filename: replace spaces and special characters with hyphens
+    const sanitizedName = name.replace(/[^a-zA-Z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     const src = path.join(SOURCE_DIR, file);
-    const dst = path.join(MUSINGS_DIR, `${name}.html`);
+    const dst = path.join(MUSINGS_DIR, `${sanitizedName}.html`);
 
     const markdownContent = fs.readFileSync(src, 'utf-8');
     
@@ -94,9 +96,9 @@ async function buildMusings() {
     
     fs.writeFileSync(dst, htmlContent, 'utf-8');
     filesToUpload.push(dst);
-    console.log(`✅ Built: ${name}.html`);
+    console.log(`✅ Built: ${sanitizedName}.html`);
 
-    indexHtml += `<li><a href='musings/${name}.html'>${name}</a></li>\n`;
+    indexHtml += `<li><a href='musings/${sanitizedName}.html'>${name}</a></li>\n`;
   }
 
   indexHtml += `</ul>`;
@@ -123,7 +125,9 @@ async function uploadFile(filePath, retryCount = 0) {
   const retryDelay = 1000 * (retryCount + 1); // Progressive delay: 1s, 2s, 3s
   const relativePath = path.relative(TARGET_DIR, filePath);
   const form = new FormData();
-  form.append('file', fs.createReadStream(filePath), { filename: relativePath });
+  
+  // Use the relative path as the form field name (this is the key!)
+  form.append(relativePath, fs.createReadStream(filePath));
 
   const options = {
     method: 'POST',
@@ -142,7 +146,8 @@ async function uploadFile(filePath, retryCount = 0) {
       res.on('end', () => {
         const json = tryParseJSON(data);
         if (json.result !== 'success') {
-          console.warn(`⚠️ Upload failed for ${relativePath} (attempt ${retryCount + 1}/${maxRetries + 1}):`, json.message || 'Unknown error');
+          console.warn(`⚠️ Upload failed for ${relativePath} (attempt ${retryCount + 1}/${maxRetries + 1}):`);
+          console.warn(`   Server response:`, json);
           
           if (retryCount < maxRetries) {
             console.log(`🔄 Retrying in ${retryDelay}ms...`);
@@ -152,6 +157,7 @@ async function uploadFile(filePath, retryCount = 0) {
             }, retryDelay);
           } else {
             console.error(`❌ Failed to upload ${relativePath} after ${maxRetries + 1} attempts`);
+            console.error(`   Final server response:`, json);
             resolve(false);
           }
         } else {
@@ -211,9 +217,9 @@ async function delay(ms) {
         failureCount++;
       }
       
-      // Add a small delay between uploads to be respectful to the API
+      // Add a delay between uploads to respect API rate limits
       if (i < filesToUpload.length - 1) {
-        await delay(500); // 500ms delay between uploads
+        await delay(2000); // 2 seconds delay between uploads (more respectful)
       }
     }
 
