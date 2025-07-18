@@ -1,36 +1,50 @@
+// build_and_deploy.js
 
-import fs from 'fs';
-import path from 'path';
-import { marked } from 'marked';
-import fetch from 'node-fetch';
-import FormData from 'form-data';
+const fs = require('fs');
+const path = require('path');
+const fetch = require('node-fetch');
+const FormData = require('form-data');
 
-const notesDir = './thoughts-and-musings';
-const outputDir = './public/musings';
+const API_KEY = process.env.NEOCITIES_API_KEY;
+const DIST_DIR = './';
 
-fs.readdirSync(notesDir).forEach(file => {
-  if (file.endsWith('.md')) {
-    const markdown = fs.readFileSync(path.join(notesDir, file), 'utf8');
-    const html = marked.parse(markdown);
-    const outputFile = file.replace('.md', '.html');
-    fs.writeFileSync(path.join(outputDir, outputFile), html);
-  }
-});
-
-// Upload to Neocities
-const form = new FormData();
-fs.readdirSync(outputDir).forEach(file => {
-  const filePath = path.join(outputDir, file);
-  const relPath = path.relative(outputDir, filePath);
+const uploadFile = async (filePath, relPath) => {
+  const form = new FormData();
   form.append('file', fs.createReadStream(filePath), relPath);
-});
 
-const res = await fetch('https://neocities.org/api/upload', {
-  method: 'POST',
-  headers: {
-    Authorization: `Bearer ${process.env.NEOCITIES_API_KEY}`
-  },
-  body: form
-});
+  const res = await fetch('https://neocities.org/api/upload', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${API_KEY}`
+    },
+    body: form
+  });
 
-console.log(await res.text());
+  const text = await res.text();
+  console.log(`[Uploaded] ${relPath}\n${text}`);
+};
+
+const walkDir = (dir, callback) => {
+  fs.readdirSync(dir).forEach(f => {
+    const fullPath = path.join(dir, f);
+    if (fs.statSync(fullPath).isDirectory()) {
+      walkDir(fullPath, callback);
+    } else {
+      callback(fullPath);
+    }
+  });
+};
+
+(async () => {
+  if (!API_KEY) {
+    console.error('❌ Missing NEOCITIES_API_KEY in environment.');
+    process.exit(1);
+  }
+
+  console.log('🚀 Starting upload to Neocities...\n');
+  walkDir(DIST_DIR, async filePath => {
+    const relPath = path.relative(DIST_DIR, filePath);
+    if (relPath === path.basename(__filename)) return;
+    await uploadFile(filePath, relPath);
+  });
+})();
