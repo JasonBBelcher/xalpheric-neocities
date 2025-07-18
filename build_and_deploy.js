@@ -98,7 +98,7 @@ async function buildMusings() {
     filesToUpload.push(dst);
     console.log(`✅ Built: ${sanitizedName}.html`);
 
-    indexHtml += `<li><a href='musings/${sanitizedName}.html'>${name}</a></li>\n`;
+    indexHtml += `<li><a href='${sanitizedName}.html'>${name}</a></li>\n`;
   }
 
   indexHtml += `</ul>`;

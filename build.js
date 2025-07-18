@@ -1,5 +1,6 @@
 // build-musings.js
-const fs = require('fs-extra');
+const fs = require('fs').promises;
+const fsSync = require('fs');
 const path = require('path');
 const MarkdownIt = require('markdown-it');
 
@@ -10,7 +11,10 @@ const INDEX_FILE = path.join(DEST_DIR, 'index.html');
 const md = new MarkdownIt();
 
 async function buildMusings() {
-  await fs.ensureDir(DEST_DIR);
+  // Ensure destination directory exists
+  if (!fsSync.existsSync(DEST_DIR)) {
+    fsSync.mkdirSync(DEST_DIR, { recursive: true });
+  }
 
   const files = await fs.readdir(SOURCE_DIR);
   const posts = [];
@@ -29,8 +33,10 @@ async function buildMusings() {
 
   for (const { file } of posts) {
     const name = path.basename(file, '.md');
+    // Sanitize filename: replace spaces and special characters with hyphens
+    const sanitizedName = name.replace(/[^a-zA-Z0-9-]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
     const src = path.join(SOURCE_DIR, file);
-    const dst = path.join(DEST_DIR, `${name}.html`);
+    const dst = path.join(DEST_DIR, `${sanitizedName}.html`);
 
     const markdownContent = await fs.readFile(src, 'utf-8');
     
@@ -58,7 +64,7 @@ async function buildMusings() {
     
     await fs.writeFile(dst, htmlContent, 'utf-8');
 
-    indexHtml += `<li><a href='musings/${name}.html'>${name}</a></li>\n`;
+    indexHtml += `<li><a href='${sanitizedName}.html'>${name}</a></li>\n`;
   }
 
   indexHtml += `</ul>`;
