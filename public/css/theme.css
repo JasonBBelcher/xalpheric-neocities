@@ -81,17 +81,24 @@ footer {
   color: #555;
 }
 
-.coffee-link {
+.footer-links {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.coffee-link, .email-link {
   display: inline-block;
   transition: transform 0.3s ease;
   text-decoration: none;
 }
 
-.coffee-link:hover {
+.coffee-link:hover, .email-link:hover {
   transform: scale(1.1);
 }
 
-.coffee-icon {
+.coffee-icon, .email-icon {
   width: 64px;
   height: 64px;
   filter: drop-shadow(0 0 10px #0ff);
@@ -100,11 +107,11 @@ footer {
   margin: 0 auto;
 }
 
-.coffee-icon:hover {
+.coffee-icon:hover, .email-icon:hover {
   filter: drop-shadow(0 0 15px #f0f);
 }
 
-.coffee-text {
+.coffee-text, .email-text {
   color: #e0e0e0;
   font-size: 0.9rem;
   margin: 0.5rem 0 0 0;
@@ -112,7 +119,7 @@ footer {
   transition: color 0.3s ease;
 }
 
-.coffee-link:hover .coffee-text {
+.coffee-link:hover .coffee-text, .email-link:hover .email-text {
   color: #0ff;
 }
 
