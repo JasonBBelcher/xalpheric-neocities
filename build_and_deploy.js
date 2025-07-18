@@ -4,49 +4,79 @@ const https = require('https');
 const FormData = require('form-data');
 
 const API_KEY = process.env.NEOCITIES_API_KEY;
-const PUBLIC_DIR = path.join(__dirname, 'public');
+const TARGET_DIR = 'public';
+const MAX_RETRIES = 3;
+const RETRY_DELAY_MS = 2000;
+const THROTTLE_DELAY_MS = 250;
 
-function uploadFile(filePath, relativePath) {
-  return new Promise((resolve, reject) => {
-    const form = new FormData();
-    form.append('file', fs.createReadStream(filePath), relativePath);
+const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-    const request = https.request({
-      method: 'POST',
-      hostname: 'neocities.org',
-      path: '/api/upload',
-      headers: {
-        ...form.getHeaders(),
-        Authorization: `Bearer ${API_KEY}`
-      }
-    }, res => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        if (res.statusCode === 200) {
-          console.log(`✅ Uploaded: ${relativePath}`);
-          resolve();
-        } else {
-          console.error(`❌ Failed: ${relativePath} – ${res.statusCode}`, data);
-          reject(data);
-        }
+async function uploadFile(filePath) {
+  const relativePath = path.relative(TARGET_DIR, filePath);
+  const form = new FormData();
+  form.append('file', fs.createReadStream(filePath), relativePath);
+
+  const options = {
+    method: 'POST',
+    host: 'neocities.org',
+    path: '/api/upload',
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      ...form.getHeaders(),
+    },
+  };
+
+  for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+    try {
+      const res = await new Promise((resolve, reject) => {
+        const req = https.request(options, (res) => {
+          let data = '';
+          res.on('data', (chunk) => (data += chunk));
+          res.on('end', () => resolve({ status: res.statusCode, body: data }));
+        });
+
+        req.on('error', (err) => reject(err));
+        form.pipe(req);
       });
-    });
 
-    form.pipe(request);
+      if (res.status >= 200 && res.status < 300) {
+        console.log(`✅ Uploaded: ${relativePath}`);
+        return;
+      }
 
-    request.on('error', err => {
-      console.error(`🚨 HTTPS error: ${relativePath}`, err);
-      reject(err);
-    });
-  });
+      const message = tryParseJSON(res.body)?.message || res.body;
+
+      if (res.status >= 500 && attempt < MAX_RETRIES) {
+        console.warn(`⚠️ Retry ${attempt} for ${relativePath} – Server error: ${message}`);
+        await sleep(RETRY_DELAY_MS);
+      } else {
+        console.error(`❌ Failed: ${relativePath} – ${res.status} ${message}`);
+        return;
+      }
+    } catch (err) {
+      if (attempt < MAX_RETRIES) {
+        console.warn(`⚠️ Retry ${attempt} for ${relativePath} – Network error: ${err.message}`);
+        await sleep(RETRY_DELAY_MS);
+      } else {
+        console.error(`❌ Upload failed permanently: ${relativePath} – ${err.message}`);
+        return;
+      }
+    }
+  }
+}
+
+function tryParseJSON(str) {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return null;
+  }
 }
 
 function walkDir(dir, callback) {
-  fs.readdirSync(dir).forEach(file => {
+  fs.readdirSync(dir).forEach((file) => {
     const fullPath = path.join(dir, file);
-    const stat = fs.statSync(fullPath);
-    if (stat.isDirectory()) {
+    if (fs.statSync(fullPath).isDirectory()) {
       walkDir(fullPath, callback);
     } else {
       callback(fullPath);
@@ -54,21 +84,18 @@ function walkDir(dir, callback) {
   });
 }
 
-(async () => {
+async function main() {
   console.log('🚀 Uploading files to Neocities...');
+  const files = [];
+  walkDir(TARGET_DIR, (filePath) => files.push(filePath));
 
-  const uploadPromises = [];
-
-  walkDir(PUBLIC_DIR, fullPath => {
-    const relative = path.relative(PUBLIC_DIR, fullPath);
-    uploadPromises.push(uploadFile(fullPath, relative));
-  });
-
-  try {
-    await Promise.all(uploadPromises);
-    console.log('🎉 All files uploaded successfully!');
-  } catch (err) {
-    console.error('❌ Deployment failed.', err);
-    process.exit(1);
+  for (const file of files) {
+    await uploadFile(file);
+    await sleep(THROTTLE_DELAY_MS);
   }
-})();
+}
+
+main().catch((err) => {
+  console.error('Unhandled error:', err);
+  process.exit(1);
+});
