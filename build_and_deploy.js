@@ -20,7 +20,9 @@ fs.readdirSync(notesDir).forEach(file => {
 // Upload to Neocities
 const form = new FormData();
 fs.readdirSync(outputDir).forEach(file => {
-  form.append('files[]', fs.createReadStream(path.join(outputDir, file)), file);
+  const filePath = path.join(outputDir, file);
+  const relPath = path.relative(outputDir, filePath);
+  form.append('file', fs.createReadStream(filePath), relPath);
 });
 
 const res = await fetch('https://neocities.org/api/upload', {
