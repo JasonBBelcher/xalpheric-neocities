@@ -64,7 +64,7 @@ async function buildMusings() {
     
     await fs.writeFile(dst, htmlContent, 'utf-8');
 
-    indexHtml += `<li><a href='${sanitizedName}.html'>${name}</a></li>\n`;
+    indexHtml += `<li><a href='musings/${sanitizedName}.html'>${name}</a></li>\n`;
   }
 
   indexHtml += `</ul>`;
