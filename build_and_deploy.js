@@ -22,44 +22,9 @@ function tryParseJSON(str) {
   }
 }
 
-async function deleteFile(filePath) {
-  const relativePath = path.relative(TARGET_DIR, filePath);
-  const form = new FormData();
-  form.append('filenames[]', relativePath);
-
-  const options = {
-    method: 'POST',
-    host: 'neocities.org',
-    path: '/api/delete',
-    headers: {
-      Authorization: `Bearer ${API_KEY}`,
-      ...form.getHeaders()
-    }
-  };
-
-  return new Promise((resolve) => {
-    const req = https.request(options, res => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        const json = tryParseJSON(data);
-        if (json.result !== 'success') {
-          console.warn(`⚠️ Failed to delete ${relativePath}:`, json);
-        } else {
-          console.log(`❌ Deleted: ${relativePath}`);
-        }
-        resolve();
-      });
-    });
-    form.pipe(req);
-    req.on('error', () => {
-      console.warn(`⚠️ Failed to delete ${relativePath}: Network error`);
-      resolve();
-    });
-  });
-}
-
-async function uploadFile(filePath) {
+async function uploadFile(filePath, retryCount = 0) {
+  const maxRetries = 3;
+  const retryDelay = 1000 * (retryCount + 1); // Progressive delay: 1s, 2s, 3s
   const relativePath = path.relative(TARGET_DIR, filePath);
   const form = new FormData();
   form.append('file', fs.createReadStream(filePath), { filename: relativePath });
@@ -81,24 +46,54 @@ async function uploadFile(filePath) {
       res.on('end', () => {
         const json = tryParseJSON(data);
         if (json.result !== 'success') {
-          console.warn(`⚠️ Failed to upload ${relativePath}:`, json);
+          console.warn(`⚠️ Upload failed for ${relativePath} (attempt ${retryCount + 1}/${maxRetries + 1}):`, json.message || 'Unknown error');
+          
+          if (retryCount < maxRetries) {
+            console.log(`🔄 Retrying in ${retryDelay}ms...`);
+            setTimeout(async () => {
+              const result = await uploadFile(filePath, retryCount + 1);
+              resolve(result);
+            }, retryDelay);
+          } else {
+            console.error(`❌ Failed to upload ${relativePath} after ${maxRetries + 1} attempts`);
+            resolve(false);
+          }
         } else {
           console.log(`✅ Uploaded: ${relativePath}`);
+          resolve(true);
         }
-        resolve();
       });
     });
-    form.pipe(req);
-    req.on('error', () => {
-      console.warn(`⚠️ Failed to upload ${relativePath}: Network error`);
-      resolve();
+
+    req.on('error', (error) => {
+      console.warn(`⚠️ Network error for ${relativePath} (attempt ${retryCount + 1}/${maxRetries + 1}):`, error.message);
+      
+      if (retryCount < maxRetries) {
+        console.log(`🔄 Retrying in ${retryDelay}ms...`);
+        setTimeout(async () => {
+          const result = await uploadFile(filePath, retryCount + 1);
+          resolve(result);
+        }, retryDelay);
+      } else {
+        console.error(`❌ Failed to upload ${relativePath} after ${maxRetries + 1} attempts`);
+        resolve(false);
+      }
     });
+
+    form.pipe(req);
   });
 }
 
+// Add delay between uploads to avoid rate limiting
+async function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 (async () => {
-  console.log("🧹 Fetching and deleting existing files...");
+  console.log("🚀 Starting upload to Neocities...");
   const files = [];
+  let successCount = 0;
+  let failureCount = 0;
 
   function walkDir(dir) {
     fs.readdirSync(dir).forEach(file => {
@@ -112,17 +107,36 @@ async function uploadFile(filePath) {
   }
 
   walkDir(TARGET_DIR);
-  for (const file of files) {
-    await deleteFile(file);
+  
+  console.log(`📁 Found ${files.length} files to upload`);
+  
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    const relativePath = path.relative(TARGET_DIR, file);
+    
+    console.log(`� Uploading ${i + 1}/${files.length}: ${relativePath}`);
+    
+    const success = await uploadFile(file);
+    if (success) {
+      successCount++;
+    } else {
+      failureCount++;
+    }
+    
+    // Add a small delay between uploads to be respectful to the API
+    if (i < files.length - 1) {
+      await delay(500); // 500ms delay between uploads
+    }
   }
 
-  console.log("🚀 Uploading files to Neocities...");
-  for (const file of files) {
-    await uploadFile(file);
-  }
+  console.log("\n📊 Upload Summary:");
+  console.log(`✅ Successful uploads: ${successCount}`);
+  console.log(`❌ Failed uploads: ${failureCount}`);
+  console.log(`📋 Total files: ${files.length}`);
 
-  console.log("📜 Final file list on Neocities:");
-  files.forEach(f => {
-    console.log("- " + path.relative(TARGET_DIR, f));
-  });
+  if (failureCount > 0) {
+    console.log("\n⚠️ Some files failed to upload. You may want to run the script again.");
+  } else {
+    console.log("\n🎉 All files uploaded successfully!");
+  }
 })();
