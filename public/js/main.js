@@ -1,6 +1,7 @@
 const releases = [
   { title: "Face The Shadow", cover: "assets/release1.png", audio: "music/face_the_shadow.mp3" },
-  { title: "Contemplate", cover: "assets/release2.jpg", audio: "music/contemplate.mp3" }
+  { title: "Contemplate", cover: "assets/release2.jpg", audio: "music/contemplate.mp3" },
+  { title: "Hitch Crack Pot", cover: "assets/release3.png", audio: "music/hitchcrackpot.mp3" },
 ];
 let current = 0;
 
