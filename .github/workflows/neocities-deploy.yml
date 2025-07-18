@@ -18,9 +18,28 @@ jobs:
         node-version: '20'
 
     - name: Install Dependencies
-      run: npm install
+      run: npm ci
+
+    - name: Validate Environment
+      run: |
+        echo "📂 Checking workspace structure..."
+        ls -la
+        echo "📝 Checking thoughts-and-musings directory..."
+        ls -la thoughts-and-musings/ || echo "⚠️ thoughts-and-musings directory not found"
+        echo "🔑 Checking environment variables..."
+        if [ -z "$NEOCITIES_API_KEY" ]; then
+          echo "❌ NEOCITIES_API_KEY not found"
+          exit 1
+        else
+          echo "✅ NEOCITIES_API_KEY is set"
+        fi
+      env:
+        NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
 
     - name: Build & Deploy to Neocities
       env:
         NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
-      run: npm run deploy
+      run: |
+        echo "🚀 Starting build and deploy process..."
+        npm run deploy
+        echo "✅ Deploy process completed"
