@@ -2,12 +2,12 @@
   "name": "xalpheric-neocities",
   "version": "1.0.0",
   "description": "Static site builder for Thoughts & Musings section using Node.js",
-  "main": "build.js",
+  "main": "build-musings.js",
   "scripts": {
-    "build": "node build.js",
+    "build": "node build-musings.js",
     "serve": "http-server public -p 8080",
     "start": "npm run build && npm run serve",
-    "deploy": "node .github/scripts/build_and_deploy.js",
+    "deploy": "node .github/scripts/deploy-musings.js",
     "process-photos": "node process-photos.js"
   },
   "author": "Jason Belcher",
