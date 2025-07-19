@@ -7,7 +7,9 @@
     "build": "node build.js",
     "serve": "http-server public -p 8080",
     "start": "npm run build && npm run serve",
-    "deploy": "node build_and_deploy.js"
+    "deploy": "node .github/scripts/build_and_deploy.js",
+    "process-photos:jpg": "cd process_photos && ./run_me.sh 512x512 jpg",
+    "process-photos:png": "cd process_photos && ./run_me.sh 512x512 png"
   },
   "author": "Jason Belcher",
   "license": "MIT",

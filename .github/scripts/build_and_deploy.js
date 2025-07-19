@@ -14,8 +14,8 @@ if (!API_KEY) {
   console.error("💡 Set it with: export NEOCITIES_API_KEY='your_api_key_here'");
   process.exit(1);
 }
-const SOURCE_DIR = path.join(__dirname, 'thoughts-and-musings');
-const TARGET_DIR = path.join(__dirname, 'public');
+const SOURCE_DIR = path.join(__dirname, '../../thoughts-and-musings');
+const TARGET_DIR = path.join(__dirname, '../../public');
 const MUSINGS_DIR = path.join(TARGET_DIR, 'musings');
 const INDEX_FILE = path.join(MUSINGS_DIR, 'index.html');
 
