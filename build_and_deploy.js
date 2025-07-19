@@ -74,8 +74,9 @@ async function buildMusings() {
     
     // Wrap the markdown content in proper HTML structure with styling
     const htmlContent = `<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
   <title>Xalpheric - ${name}</title>
   <link rel="stylesheet" href="../css/theme.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
