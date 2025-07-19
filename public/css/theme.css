@@ -17,8 +17,8 @@ body {
 /* Site Header and Top Navigation */
 .site-header {
   width: 100%;
-  background: rgba(17, 17, 17, 0.9);
-  border-bottom: 2px solid #0ff;
+  background: rgba(17, 17, 17, 0.5);
+  border-bottom: 2px solid rgba(0, 255, 255, 0.3);
   box-shadow: 0 2px 20px rgba(0, 255, 255, 0.3);
   backdrop-filter: blur(10px);
   position: sticky;
