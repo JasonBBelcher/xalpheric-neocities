@@ -1,35 +1,55 @@
 $(document).ready(function() {
   // Define gallery images - this will be the source of truth for which images to show
-  // For local development: IMG_* files, for live site: studio* files
+  // Each image can have: filename (required), displayName (optional), description (optional)
   const galleryImages = [
-    'IMG_1876.jpg',
-    'IMG_1877.jpg', 
-    'IMG_1879.jpg',
-    'IMG_1882.jpg',
-    'IMG_1884.jpg'
-    // When deployed to live site with studio files, update this to:
-    // 'studio1.png', 'studio2.jpg', 'studio3.png', 'studio4.jpg', 'studio5.png'
+    { 
+      filename: 'studio1.jpg', 
+      displayName: 'Studio Setup', 
+      description: 'Studio Angle 1' 
+    },
+    { 
+      filename: 'studio4.png', 
+      displayName: 'Studio Angle 2' 
+    },
+    { 
+      filename: 'studio6.png', 
+      displayName: 'My battle station and cup a joe' 
+    },
+    { 
+      filename: 'studio9.jpg', 
+      displayName: 'Studio Overview', 
+      description: 'Prophet Rev 2 Synthesizer' 
+    },
   ];
 
   // Function to create gallery item
-  function createGalleryItem(imagePath) {
-    // Extract number from filename for alt text and caption
-    const numberMatch = imagePath.match(/\d+/);
-    const imageNumber = numberMatch ? numberMatch[0] : '';
-    const baseName = imagePath.replace(/\.[^/.]+$/, ""); // Remove extension
+  function createGalleryItem(imageObj) {
+    // Support both string (backward compatibility) and object formats
+    let filename, displayName, description;
     
-    // Create display name for caption
-    const displayName = baseName.includes('studio') ? 
-      `Studio ${imageNumber}` : 
-      `Image ${imageNumber}`;
+    if (typeof imageObj === 'string') {
+      filename = imageObj;
+      // Extract number from filename for fallback display name
+      const numberMatch = filename.match(/\d+/);
+      const imageNumber = numberMatch ? numberMatch[0] : '';
+      const baseName = filename.replace(/\.[^/.]+$/, ""); // Remove extension
+      displayName = baseName.includes('studio') ? 
+        `Studio ${imageNumber}` : 
+        `Image ${imageNumber}`;
+      description = '';
+    } else {
+      filename = imageObj.filename;
+      displayName = imageObj.displayName || filename;
+      description = imageObj.description || '';
+    }
     
     return `
       <div class="gallery-item">
-        <img src="assets/${imagePath}" 
+        <img src="assets/${filename}" 
              alt="${displayName}" 
              class="gallery-image"
              loading="lazy"
-             onclick="openLightbox('assets/${imagePath}', '${displayName}')">
+             onclick="openLightbox('assets/${filename}', '${displayName}', '${description}')">
       </div>
     `;
   }
@@ -56,6 +76,7 @@ $(document).ready(function() {
           <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
           <img id="lightbox-image" src="" alt="">
           <div class="lightbox-caption" id="lightbox-caption"></div>
+          <div class="lightbox-description" id="lightbox-description"></div>
           <div class="lightbox-nav">
             <button class="lightbox-prev" onclick="navigateImage(-1)">❮ Previous</button>
             <button class="lightbox-next" onclick="navigateImage(1)">Next ❯</button>
@@ -70,12 +91,25 @@ $(document).ready(function() {
   let currentImageIndex = 0;
 
   // Global functions for lightbox
-  window.openLightbox = function(imageSrc, caption) {
+  window.openLightbox = function(imageSrc, caption, description = '') {
     const imageName = imageSrc.split('/').pop();
-    currentImageIndex = galleryImages.indexOf(imageName);
+    // Find the index by comparing filenames
+    currentImageIndex = galleryImages.findIndex(img => {
+      const filename = typeof img === 'string' ? img : img.filename;
+      return filename === imageName;
+    });
     
     $('#lightbox-image').attr('src', imageSrc);
     $('#lightbox-caption').text(caption);
+    $('#lightbox-description').text(description);
+    
+    // Show/hide description based on whether it exists
+    if (description) {
+      $('#lightbox-description').show();
+    } else {
+      $('#lightbox-description').hide();
+    }
+    
     $('#lightbox').fadeIn(300);
   };
 
@@ -92,15 +126,34 @@ $(document).ready(function() {
       currentImageIndex = 0;
     }
     
-    const newImage = galleryImages[currentImageIndex];
-    const numberMatch = newImage.match(/\d+/);
-    const imageNumber = numberMatch ? numberMatch[0] : '';
-    const displayName = newImage.includes('studio') ? 
-      `Studio ${imageNumber}` : 
-      `Image ${imageNumber}`;
+    const imageObj = galleryImages[currentImageIndex];
+    let filename, displayName, description;
     
-    $('#lightbox-image').attr('src', `assets/${newImage}`);
+    if (typeof imageObj === 'string') {
+      filename = imageObj;
+      // Extract number from filename for fallback display name
+      const numberMatch = filename.match(/\d+/);
+      const imageNumber = numberMatch ? numberMatch[0] : '';
+      displayName = filename.includes('studio') ? 
+        `Studio ${imageNumber}` : 
+        `Image ${imageNumber}`;
+      description = '';
+    } else {
+      filename = imageObj.filename;
+      displayName = imageObj.displayName || filename;
+      description = imageObj.description || '';
+    }
+    
+    $('#lightbox-image').attr('src', `assets/${filename}`);
     $('#lightbox-caption').text(displayName);
+    $('#lightbox-description').text(description);
+    
+    // Show/hide description based on whether it exists
+    if (description) {
+      $('#lightbox-description').show();
+    } else {
+      $('#lightbox-description').hide();
+    }
   };
 
   // Keyboard navigation for lightbox
