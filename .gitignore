@@ -25,13 +25,9 @@ process_video/*.MOV
 process_video/*.mov
 process_video/palette.png
 
-# Generated music files (keep only committed tracks)
-public/music/*.mp3
+# Generated music files (only allow MP3s for web)
 public/music/*.wav
 public/music/*.webm
 public/music/*.gif
-!public/music/contemplate.mp3
-!public/music/face_the_shadow.mp3
-!public/music/hitchcrackpot.mp3
 
 
