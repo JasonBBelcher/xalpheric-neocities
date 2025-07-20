@@ -107,7 +107,7 @@ The script expects a JSON array where each object has:
 
 1. Place your input video files in the `process_video/` directory
 2. Run the npm script
-3. Output files will be created in the same directory
+3. Output files will be created in `public/music/` directory (ready for your website)
 
 ## Common Use Cases
 
@@ -118,6 +118,8 @@ npm run process-video '[
   {"inputName":"IMG_1002.mp4","outputName":"recording2.wav"}
 ]'
 ```
+
+Output files will be saved to `public/music/recording1.mp3` and `public/music/recording2.wav`
 
 ### Convert Videos for Web
 ```bash

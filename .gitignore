@@ -23,10 +23,15 @@ yarn-error.log*
 process_video/*.mp4
 process_video/*.MOV
 process_video/*.mov
-process_video/*.mp3
-process_video/*.wav
-process_video/*.webm
-process_video/*.gif
 process_video/palette.png
+
+# Generated music files (keep only committed tracks)
+public/music/*.mp3
+public/music/*.wav
+public/music/*.webm
+public/music/*.gif
+!public/music/contemplate.mp3
+!public/music/face_the_shadow.mp3
+!public/music/hitchcrackpot.mp3
 
 

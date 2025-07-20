@@ -28,10 +28,13 @@ CONVERSIONS_JSON="$1"
 echo "🎬 Starting video processing with ffmpeg..."
 echo "📋 Conversion mapping: $CONVERSIONS_JSON"
 
+# Ensure output directory exists
+mkdir -p ../public/music
+
 # Parse JSON and process each conversion
 echo "$CONVERSIONS_JSON" | jq -c '.[]' | while read -r conversion; do
     INPUT_FILE=$(echo "$conversion" | jq -r '.inputName')
-    OUTPUT_FILE=$(echo "$conversion" | jq -r '.outputName')
+    OUTPUT_FILE="../public/music/$(echo "$conversion" | jq -r '.outputName')"
     
     echo ""
     echo "🔄 Processing: $INPUT_FILE → $OUTPUT_FILE"
