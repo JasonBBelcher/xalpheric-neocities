@@ -15,6 +15,7 @@
   "author": "Jason Belcher",
   "license": "MIT",
   "dependencies": {
+    "dotenv": "^17.2.0",
     "form-data": "^4.0.0",
     "markdown-it": "^13.0.1",
     "marked": "^10.0.0",

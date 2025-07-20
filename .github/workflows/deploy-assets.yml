@@ -25,6 +25,7 @@ jobs:
     - name: Install dependencies
       run: |
         npm install form-data
+        npm install dotenv
         npm install crypto
     
     - name: Check for asset changes and deploy

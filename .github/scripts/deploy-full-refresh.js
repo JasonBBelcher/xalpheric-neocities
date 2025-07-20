@@ -4,6 +4,9 @@ const https = require('https');
 const FormData = require('form-data');
 const readline = require('readline');
 
+// Load environment variables from .env file
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+
 // Dependency checking for Node.js packages
 function checkNodePackage(packageName) {
   try {
@@ -31,7 +34,7 @@ async function promptInstallPackages(missing) {
 async function checkNodeDependencies() {
   console.log('🔍 Checking Node.js dependencies...');
   
-  const requiredPackages = ['form-data'];
+  const requiredPackages = ['form-data', 'dotenv'];
   const missing = [];
   
   for (const pkg of requiredPackages) {

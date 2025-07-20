@@ -5,6 +5,9 @@ const FormData = require('form-data');
 const MarkdownIt = require('markdown-it');
 const readline = require('readline');
 
+// Load environment variables from .env file
+require('dotenv').config({ path: path.join(__dirname, '../../.env') });
+
 // Dependency checking for Node.js packages
 function checkNodePackage(packageName) {
   try {
@@ -32,7 +35,7 @@ async function promptInstallPackages(missing) {
 async function checkNodeDependencies() {
   console.log('🔍 Checking Node.js dependencies...');
   
-  const requiredPackages = ['form-data', 'markdown-it'];
+  const requiredPackages = ['form-data', 'markdown-it', 'dotenv'];
   const missing = [];
   
   for (const pkg of requiredPackages) {
