@@ -3,17 +3,78 @@ const path = require('path');
 const https = require('https');
 const FormData = require('form-data');
 const MarkdownIt = require('markdown-it');
+const readline = require('readline');
+
+// Dependency checking for Node.js packages
+function checkNodePackage(packageName) {
+  try {
+    require(packageName);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function promptInstallPackages(missing) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  return new Promise((resolve) => {
+    rl.question(`\n🤔 Would you like me to install the missing Node.js packages? (y/N): `, (answer) => {
+      rl.close();
+      resolve(answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes');
+    });
+  });
+}
+
+async function checkNodeDependencies() {
+  console.log('🔍 Checking Node.js dependencies...');
+  
+  const requiredPackages = ['form-data', 'markdown-it'];
+  const missing = [];
+  
+  for (const pkg of requiredPackages) {
+    if (!checkNodePackage(pkg)) {
+      missing.push(pkg);
+      console.error(`❌ Missing package: ${pkg}`);
+    } else {
+      console.log(`✅ ${pkg} is available`);
+    }
+  }
+
+  if (missing.length > 0) {
+    console.log(`\n❌ Missing ${missing.length} required Node.js packages`);
+    console.log('💡 Install with: npm install ' + missing.join(' '));
+    
+    const shouldInstall = await promptInstallPackages(missing);
+    
+    if (shouldInstall) {
+      try {
+        const { execSync } = require('child_process');
+        console.log('\n📦 Installing packages...');
+        execSync(`npm install ${missing.join(' ')}`, { stdio: 'inherit' });
+        console.log('✅ Packages installed successfully!');
+      } catch (error) {
+        console.error('❌ Failed to install packages:', error.message);
+        console.log('💡 Please run: npm install ' + missing.join(' '));
+        process.exit(1);
+      }
+    } else {
+      console.log('\n❌ Cannot proceed without required packages.');
+      console.log('💡 Please run: npm install ' + missing.join(' '));
+      process.exit(1);
+    }
+  }
+
+  console.log('✅ All Node.js dependencies are available!\n');
+}
 
 const md = new MarkdownIt();
 
+// Validate API key (will be checked later in main execution)
 const API_KEY = process.env.NEOCITIES_API_KEY;
-
-// Validate required environment variables
-if (!API_KEY) {
-  console.error("❌ NEOCITIES_API_KEY environment variable is required");
-  console.error("💡 Set it with: export NEOCITIES_API_KEY='your_api_key_here'");
-  process.exit(1);
-}
 const SOURCE_DIR = path.join(__dirname, '../../thoughts-and-musings');
 const TARGET_DIR = path.join(__dirname, '../../public');
 const MUSINGS_DIR = path.join(TARGET_DIR, 'musings');
@@ -196,6 +257,16 @@ async function delay(ms) {
   console.log("🚀 Starting build and deploy for musings...");
   
   try {
+    // Check Node.js dependencies first
+    await checkNodeDependencies();
+
+    // Validate API key
+    if (!API_KEY) {
+      console.error("❌ NEOCITIES_API_KEY environment variable is required");
+      console.error("💡 Set it with: export NEOCITIES_API_KEY='your_api_key_here'");
+      process.exit(1);
+    }
+
     // Step 1: Build musings from markdown
     await buildMusings();
     

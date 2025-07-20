@@ -2,6 +2,73 @@ const fs = require('fs');
 const path = require('path');
 const https = require('https');
 const FormData = require('form-data');
+const readline = require('readline');
+
+// Dependency checking for Node.js packages
+function checkNodePackage(packageName) {
+  try {
+    require(packageName);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+async function promptInstallPackages(missing) {
+  const rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+  });
+
+  return new Promise((resolve) => {
+    rl.question(`\n🤔 Would you like me to install the missing Node.js packages? (y/N): `, (answer) => {
+      rl.close();
+      resolve(answer.toLowerCase() === 'y' || answer.toLowerCase() === 'yes');
+    });
+  });
+}
+
+async function checkNodeDependencies() {
+  console.log('🔍 Checking Node.js dependencies...');
+  
+  const requiredPackages = ['form-data'];
+  const missing = [];
+  
+  for (const pkg of requiredPackages) {
+    if (!checkNodePackage(pkg)) {
+      missing.push(pkg);
+      console.error(`❌ Missing package: ${pkg}`);
+    } else {
+      console.log(`✅ ${pkg} is available`);
+    }
+  }
+
+  if (missing.length > 0) {
+    console.log(`\n❌ Missing ${missing.length} required Node.js packages`);
+    console.log('💡 Install with: npm install ' + missing.join(' '));
+    
+    const shouldInstall = await promptInstallPackages(missing);
+    
+    if (shouldInstall) {
+      try {
+        const { execSync } = require('child_process');
+        console.log('\n📦 Installing packages...');
+        execSync(`npm install ${missing.join(' ')}`, { stdio: 'inherit' });
+        console.log('✅ Packages installed successfully!');
+      } catch (error) {
+        console.error('❌ Failed to install packages:', error.message);
+        console.log('💡 Please run: npm install ' + missing.join(' '));
+        process.exit(1);
+      }
+    } else {
+      console.log('\n❌ Cannot proceed without required packages.');
+      console.log('💡 Please run: npm install ' + missing.join(' '));
+      process.exit(1);
+    }
+  }
+
+  console.log('✅ All Node.js dependencies are available!\n');
+}
 
 const API_KEY = process.env.NEOCITIES_API_KEY;
 
@@ -292,6 +359,9 @@ async function uploadLocalFiles(files) {
 // Main execution
 (async () => {
   try {
+    // Check Node.js dependencies first
+    await checkNodeDependencies();
+
     // Validation
     if (!fs.existsSync(PUBLIC_DIR)) {
       console.error(`❌ Public directory not found: ${PUBLIC_DIR}`);

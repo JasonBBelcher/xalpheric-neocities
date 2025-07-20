@@ -4,13 +4,12 @@
   "description": "Static site builder for Thoughts & Musings section using Node.js",
   "main": "build-musings.js",
   "scripts": {
-    "build": "node build-musings.js",
-    "serve": "http-server public -p 8080",
-    "start": "npm run build && npm run serve",
+    "build-musings": "node .github/scripts/build-musings.js",
     "deploy": "node .github/scripts/deploy-musings.js",
     "deploy-full-refresh": "node .github/scripts/deploy-full-refresh.js",
     "process-photos": "node process-photos.js",
-    "process-video": "node process-video.js"
+    "process-video": "node process-video.js",
+    "check-deps": "node check-deps.js"
   },
   "author": "Jason Belcher",
   "license": "MIT",
