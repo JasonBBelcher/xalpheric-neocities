@@ -1,0 +1,358 @@
+const fs = require('fs');
+const path = require('path');
+const https = require('https');
+const FormData = require('form-data');
+
+const API_KEY = process.env.NEOCITIES_API_KEY;
+
+// Check for help flag first
+if (process.argv.includes('--help') || process.argv.includes('-h')) {
+  console.log(`
+🚀 Neocities Full Site Refresh
+
+Usage: node deploy-full-refresh.js [options]
+
+Options:
+  --dry-run          Show what would happen without making changes
+  --include-mp3s     Include MP3 files in the refresh (excluded by default)
+  --help, -h         Show this help message
+
+Examples:
+  npm run deploy-full-refresh -- --dry-run
+  npm run deploy-full-refresh -- --include-mp3s
+  npm run deploy-full-refresh -- --dry-run --include-mp3s
+
+Environment Variables:
+  NEOCITIES_API_KEY  Your Neocities API key (required for non-dry-run)
+
+⚠️  WARNING: This script will DELETE ALL files on your Neocities site
+   and replace them with the contents of your public/ folder.
+   Always test with --dry-run first!
+`);
+  process.exit(0);
+}
+
+// Configuration
+const CONFIG = {
+  includeMp3s: process.argv.includes('--include-mp3s'),
+  dryRun: process.argv.includes('--dry-run'),
+  maxConcurrentUploads: 2, // Conservative for rate limiting
+  delayBetweenRequests: 3000, // 3 seconds between API calls
+  maxFilesPerDelete: 10, // Batch delete in smaller chunks
+};
+
+// Validate required environment variables (skip in dry-run for testing)
+if (!API_KEY && !CONFIG.dryRun) {
+  console.error("❌ NEOCITIES_API_KEY environment variable is required");
+  console.error("💡 Set it with: export NEOCITIES_API_KEY='your_api_key_here'");
+  process.exit(1);
+}
+
+const PUBLIC_DIR = path.join(__dirname, '../../public');
+
+console.log("🚀 Neocities Full Site Refresh");
+console.log(`📁 Source: ${PUBLIC_DIR}`);
+console.log(`🎵 Include MP3s: ${CONFIG.includeMp3s ? 'YES' : 'NO (default)'}`);
+console.log(`🔍 Dry Run: ${CONFIG.dryRun ? 'YES' : 'NO'}`);
+console.log("");
+
+// Utility functions
+function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function tryParseJSON(str) {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return { result: "error", message: "Invalid JSON from server" };
+  }
+}
+
+// API call wrapper with rate limiting
+async function makeAPICall(options, data = null) {
+  return new Promise((resolve) => {
+    const req = https.request(options, res => {
+      let responseData = '';
+      res.on('data', chunk => responseData += chunk);
+      res.on('end', () => {
+        const json = tryParseJSON(responseData);
+        resolve(json);
+      });
+    });
+
+    req.on('error', (error) => {
+      console.error(`❌ Network error:`, error.message);
+      resolve({ result: "error", message: error.message });
+    });
+
+    if (data) {
+      data.pipe(req);
+    } else {
+      req.end();
+    }
+  });
+}
+
+// Get list of all files on Neocities
+async function listRemoteFiles() {
+  console.log("📋 Getting list of files on Neocities...");
+  
+  const options = {
+    method: 'GET',
+    host: 'neocities.org',
+    path: '/api/list',
+    headers: {
+      Authorization: `Bearer ${API_KEY}`
+    }
+  };
+
+  const response = await makeAPICall(options);
+  
+  if (response.result !== 'success') {
+    console.error("❌ Failed to get file list:", response);
+    throw new Error("Failed to get remote file list");
+  }
+
+  // Filter out directories and get just file paths
+  const files = response.files
+    .filter(file => !file.is_directory)
+    .map(file => file.path);
+
+  console.log(`✅ Found ${files.length} files on Neocities`);
+  return files;
+}
+
+// Delete files from Neocities (in batches)
+async function deleteRemoteFiles(filePaths) {
+  if (filePaths.length === 0) {
+    console.log("ℹ️  No files to delete");
+    return;
+  }
+
+  // Filter out files we can't delete
+  const deletableFiles = filePaths.filter(file => {
+    if (file === 'index.html') {
+      console.log("🛡️  Skipping index.html (cannot be deleted via API)");
+      return false;
+    }
+    return true;
+  });
+
+  if (CONFIG.dryRun) {
+    console.log("🔍 DRY RUN - Would delete these files:");
+    deletableFiles.forEach(file => console.log(`  - ${file}`));
+    return;
+  }
+
+  console.log(`🗑️  Deleting ${deletableFiles.length} files in batches...`);
+
+  // Process in smaller batches for rate limiting
+  for (let i = 0; i < deletableFiles.length; i += CONFIG.maxFilesPerDelete) {
+    const batch = deletableFiles.slice(i, i + CONFIG.maxFilesPerDelete);
+    
+    console.log(`🗑️  Deleting batch ${Math.floor(i / CONFIG.maxFilesPerDelete) + 1}: ${batch.length} files`);
+    
+    const form = new FormData();
+    batch.forEach(file => {
+      form.append('filenames[]', file);
+    });
+
+    const options = {
+      method: 'POST',
+      host: 'neocities.org',
+      path: '/api/delete',
+      headers: {
+        Authorization: `Bearer ${API_KEY}`,
+        ...form.getHeaders()
+      }
+    };
+
+    const response = await makeAPICall(options, form);
+    
+    if (response.result !== 'success') {
+      console.error(`❌ Failed to delete batch:`, response);
+      throw new Error("Failed to delete files");
+    }
+
+    console.log(`✅ Deleted batch successfully`);
+    
+    // Rate limiting delay
+    if (i + CONFIG.maxFilesPerDelete < deletableFiles.length) {
+      console.log(`⏳ Waiting ${CONFIG.delayBetweenRequests}ms for rate limiting...`);
+      await delay(CONFIG.delayBetweenRequests);
+    }
+  }
+}
+
+// Get list of local files to upload
+function getLocalFiles(dir, baseDir = dir) {
+  let files = [];
+  const items = fs.readdirSync(dir);
+
+  for (const item of items) {
+    const fullPath = path.join(dir, item);
+    const stat = fs.statSync(fullPath);
+
+    if (stat.isDirectory()) {
+      files = files.concat(getLocalFiles(fullPath, baseDir));
+    } else {
+      const relativePath = path.relative(baseDir, fullPath);
+      const normalizedPath = relativePath.replace(/\\/g, '/'); // Normalize for web
+      
+      // Filter MP3s unless explicitly included
+      if (!CONFIG.includeMp3s && path.extname(fullPath).toLowerCase() === '.mp3') {
+        console.log(`🎵 Skipping MP3: ${normalizedPath}`);
+        continue;
+      }
+
+      files.push({
+        localPath: fullPath,
+        remotePath: normalizedPath
+      });
+    }
+  }
+
+  return files;
+}
+
+// Upload file with retry logic
+async function uploadFile(localPath, remotePath, retryCount = 0) {
+  const maxRetries = 3;
+  const form = new FormData();
+  
+  form.append(remotePath, fs.createReadStream(localPath));
+
+  const options = {
+    method: 'POST',
+    host: 'neocities.org',
+    path: '/api/upload',
+    headers: {
+      Authorization: `Bearer ${API_KEY}`,
+      ...form.getHeaders()
+    }
+  };
+
+  const response = await makeAPICall(options, form);
+  
+  if (response.result !== 'success') {
+    console.warn(`⚠️ Upload failed for ${remotePath} (attempt ${retryCount + 1}/${maxRetries + 1})`);
+    
+    if (retryCount < maxRetries) {
+      console.log(`🔄 Retrying in ${CONFIG.delayBetweenRequests}ms...`);
+      await delay(CONFIG.delayBetweenRequests);
+      return await uploadFile(localPath, remotePath, retryCount + 1);
+    } else {
+      console.error(`❌ Failed to upload ${remotePath} after ${maxRetries + 1} attempts`);
+      return false;
+    }
+  }
+
+  console.log(`✅ Uploaded: ${remotePath}`);
+  return true;
+}
+
+// Upload all local files
+async function uploadLocalFiles(files) {
+  if (CONFIG.dryRun) {
+    console.log("🔍 DRY RUN - Would upload these files:");
+    files.forEach(file => console.log(`  - ${file.remotePath}`));
+    return;
+  }
+
+  console.log(`📤 Uploading ${files.length} files...`);
+  
+  let successCount = 0;
+  let failureCount = 0;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    
+    console.log(`📤 Uploading ${i + 1}/${files.length}: ${file.remotePath}`);
+    
+    const success = await uploadFile(file.localPath, file.remotePath);
+    if (success) {
+      successCount++;
+    } else {
+      failureCount++;
+    }
+    
+    // Rate limiting delay between uploads
+    if (i < files.length - 1) {
+      await delay(CONFIG.delayBetweenRequests);
+    }
+  }
+
+  console.log("\n📊 Upload Summary:");
+  console.log(`✅ Successful uploads: ${successCount}`);
+  console.log(`❌ Failed uploads: ${failureCount}`);
+  console.log(`📋 Total files: ${files.length}`);
+}
+
+// Main execution
+(async () => {
+  try {
+    // Validation
+    if (!fs.existsSync(PUBLIC_DIR)) {
+      console.error(`❌ Public directory not found: ${PUBLIC_DIR}`);
+      process.exit(1);
+    }
+
+    const localFiles = getLocalFiles(PUBLIC_DIR);
+    
+    if (localFiles.length === 0) {
+      console.error("❌ No files found in public directory");
+      process.exit(1);
+    }
+
+    console.log(`📁 Found ${localFiles.length} local files to upload`);
+
+    // Safety check
+    if (localFiles.length < 5) {
+      console.warn("⚠️  Warning: Only found a few files. Is your public directory complete?");
+    }
+
+    // Get confirmation for destructive operation
+    if (!CONFIG.dryRun) {
+      console.log("\n⚠️  WARNING: This will DELETE all files on your Neocities site and replace with local files!");
+      console.log("🎵 MP3 files will be " + (CONFIG.includeMp3s ? "INCLUDED" : "EXCLUDED"));
+      console.log("\nPress Ctrl+C to cancel, or press Enter to continue...");
+      
+      // Wait for user input
+      await new Promise(resolve => {
+        process.stdin.once('data', () => resolve());
+      });
+    }
+
+    // Step 1: List remote files
+    let remoteFiles = [];
+    if (CONFIG.dryRun) {
+      console.log("🔍 DRY RUN - Skipping remote file listing");
+      remoteFiles = ['example1.html', 'example2.css', 'assets/example.jpg']; // Mock data for demo
+    } else {
+      remoteFiles = await listRemoteFiles();
+      await delay(CONFIG.delayBetweenRequests);
+    }
+
+    // Step 2: Delete remote files
+    await deleteRemoteFiles(remoteFiles);
+    
+    if (remoteFiles.length > 0 && !CONFIG.dryRun) {
+      await delay(CONFIG.delayBetweenRequests);
+    }
+
+    // Step 3: Upload local files
+    await uploadLocalFiles(localFiles);
+
+    if (CONFIG.dryRun) {
+      console.log("\n🔍 DRY RUN COMPLETE - No changes were made");
+      console.log("💡 Run without --dry-run to perform the actual refresh");
+    } else {
+      console.log("\n🎉 Full site refresh complete!");
+    }
+
+  } catch (error) {
+    console.error("💥 Full refresh failed:", error.message);
+    process.exit(1);
+  }
+})();
