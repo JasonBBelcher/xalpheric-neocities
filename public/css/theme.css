@@ -424,6 +424,35 @@ footer {
   margin-top: 0.5rem;
 }
 
+/* Social Media Links */
+.social-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 1rem;
+}
+
+.social-link {
+  display: inline-block;
+  color: #0ff !important;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.6rem 1rem;
+  background: rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.social-link:hover {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: #0ff;
+  color: #fff !important;
+  text-shadow: 0 0 8px #0ff;
+  transform: translateX(5px);
+}
+
 /* Responsive design for links */
 @media (max-width: 768px) {
   .links-section {

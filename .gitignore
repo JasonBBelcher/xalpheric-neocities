@@ -25,6 +25,20 @@ process_video/*.MOV
 process_video/*.mov
 process_video/palette.png
 
+# Photo processing temporary files
+process_photos/*.jpg
+process_photos/*.jpeg
+process_photos/*.png
+process_photos/*.heic
+process_photos/*.HEIC
+process_photos/*.JPG
+process_photos/*.JPEG
+process_photos/*.PNG
+process_photos/*.gif
+process_photos/*.GIF
+process_photos/*.webp
+process_photos/*.WEBP
+
 # Generated music files (only allow MP3s for web)
 public/music/*.wav
 public/music/*.webm
