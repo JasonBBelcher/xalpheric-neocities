@@ -8,7 +8,8 @@
     "serve": "http-server public -p 8080",
     "start": "npm run build && npm run serve",
     "deploy": "node .github/scripts/deploy-musings.js",
-    "process-photos": "node process-photos.js"
+    "process-photos": "node process-photos.js",
+    "process-video": "node process-video.js"
   },
   "author": "Jason Belcher",
   "license": "MIT",

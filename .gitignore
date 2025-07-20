@@ -19,4 +19,14 @@ yarn-error.log*
 */.obsidian/
 **/.obsidian/
 
+# Video processing temporary files
+process_video/*.mp4
+process_video/*.MOV
+process_video/*.mov
+process_video/*.mp3
+process_video/*.wav
+process_video/*.webm
+process_video/*.gif
+process_video/palette.png
+
 
