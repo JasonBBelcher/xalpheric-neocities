@@ -16,5 +16,7 @@ yarn-error.log*
 
 # Obsidian
 .obsidian/
+*/.obsidian/
+**/.obsidian/
 
 
