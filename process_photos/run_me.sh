@@ -24,7 +24,7 @@ setopt NULL_GLOB
 # Initialize counter for naming pattern
 counter=1
 
-for file in *.jpg *.jpeg *.png *.heic *.HEIC *.JPG *.JPEG *.PNG; do
+for file in *.jpg *.jpeg *.png *.heic *.HEIC *.avif *.AVIF *.JPG *.JPEG *.PNG; do
   # Skip if no files match (in case glob returns the pattern itself)
   [[ -f "$file" ]] || continue
   
@@ -47,8 +47,8 @@ for file in *.jpg *.jpeg *.png *.heic *.HEIC *.JPG *.JPEG *.PNG; do
 done
 
 # --- Cleanup ---
-echo "🧹 Cleaning up source HEIC files..."
-for file in *.heic *.HEIC; do
+echo "🧹 Cleaning up source HEIC and AVIF files..."
+for file in *.heic *.HEIC *.avif *.AVIF; do
   [[ -f "$file" ]] || continue
   echo "Deleting $file ..."
   rm "$file"
