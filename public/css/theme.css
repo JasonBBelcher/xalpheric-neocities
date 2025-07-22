@@ -417,6 +417,17 @@ footer {
   text-shadow: 0 0 5px #f0f;
 }
 
+/* Site icon hover effects */
+.site-icon {
+  transition: all 0.3s ease;
+  border-radius: 4px;
+}
+
+.site-icon:hover {
+  transform: scale(1.1);
+  filter: brightness(1.2) drop-shadow(0 0 10px rgb(100, 150, 255));
+}
+
 .link-url {
   font-size: 0.9rem;
   color: #888;
