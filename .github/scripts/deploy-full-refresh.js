@@ -383,6 +383,24 @@ async function uploadLocalFiles(files) {
       process.exit(1);
     }
 
+    // Build musings first to ensure latest content
+    if (!CONFIG.dryRun) {
+      console.log("📝 Building musings first...");
+      try {
+        const { execSync } = require('child_process');
+        execSync('node build-musings.js', { 
+          stdio: 'inherit',
+          cwd: path.join(__dirname, '../..')
+        });
+        console.log("✅ Musings built successfully!");
+      } catch (error) {
+        console.error("❌ Failed to build musings:", error.message);
+        process.exit(1);
+      }
+    } else {
+      console.log("🔍 DRY RUN - Skipping musings build");
+    }
+
     const localFiles = getLocalFiles(PUBLIC_DIR);
     
     if (localFiles.length === 0) {
@@ -403,9 +421,17 @@ async function uploadLocalFiles(files) {
       console.log("🎵 MP3 files will be " + (CONFIG.includeMp3s ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
       console.log("\nPress Ctrl+C to cancel, or press Enter to continue...");
       
-      // Wait for user input
+      // Wait for user input with proper cleanup
+      const rl = readline.createInterface({
+        input: process.stdin,
+        output: process.stdout
+      });
+      
       await new Promise(resolve => {
-        process.stdin.once('data', () => resolve());
+        rl.question('', () => {
+          rl.close();
+          resolve();
+        });
       });
     }
 
@@ -438,6 +464,8 @@ async function uploadLocalFiles(files) {
         console.log("🎵 MP3 files were preserved - use --include-mp3s if you need to update them");
       }
     }
+
+    process.exit(0);
 
   } catch (error) {
     console.error("💥 Full refresh failed:", error.message);
