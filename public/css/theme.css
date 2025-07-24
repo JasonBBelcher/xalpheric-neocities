@@ -457,45 +457,35 @@ audio[data-custom-player] {
 }
 
 .radio-toggle-btn {
-  background: #0ff;
-  color: #000;
-  border: none;
+  background: transparent;
+  border: 2px solid rgba(0, 255, 255, 0.3);
   border-radius: 8px;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
+  width: 44px;
+  height: 44px;
+  padding: 2px;
   cursor: pointer;
   transition: all 0.3s;
   flex-shrink: 0;
+  overflow: hidden;
 }
 
 .radio-toggle-btn:hover {
-  background: #f0f;
-  transform: scale(1.1);
-}
-
-.radio-cover {
-  flex-shrink: 0;
-  margin-right: 8px;
+  border-color: #0ff;
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+  transform: scale(1.05);
 }
 
 .radio-album-cover {
-  width: 32px;
-  height: 32px;
-  border-radius: 4px;
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
   object-fit: cover;
-  border: 1px solid rgba(0, 255, 255, 0.3);
+  display: block;
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-.radio-album-cover:hover {
-  border-color: #0ff;
-  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
-  transform: scale(1.05);
+.radio-toggle-btn:hover .radio-album-cover {
+  transform: scale(1.02);
 }
 
 .radio-info {
@@ -731,14 +721,8 @@ audio[data-custom-player] {
   }
   
   .radio-toggle-btn {
-    width: 35px;
-    height: 35px;
-    font-size: 16px;
-  }
-  
-  .radio-album-cover {
-    width: 28px;
-    height: 28px;
+    width: 38px;
+    height: 38px;
   }
   
   .radio-prev-btn,
@@ -767,9 +751,9 @@ audio[data-custom-player] {
     width: 60px;
   }
   
-  .radio-album-cover {
-    width: 24px;
-    height: 24px;
+  .radio-toggle-btn {
+    width: 32px;
+    height: 32px;
   }
 }
 
