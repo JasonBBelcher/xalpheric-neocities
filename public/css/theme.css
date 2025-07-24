@@ -477,6 +477,27 @@ audio[data-custom-player] {
   transform: scale(1.1);
 }
 
+.radio-cover {
+  flex-shrink: 0;
+  margin-right: 8px;
+}
+
+.radio-album-cover {
+  width: 32px;
+  height: 32px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.radio-album-cover:hover {
+  border-color: #0ff;
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
 .radio-info {
   flex: 1;
   min-width: 0;
@@ -715,6 +736,11 @@ audio[data-custom-player] {
     font-size: 16px;
   }
   
+  .radio-album-cover {
+    width: 28px;
+    height: 28px;
+  }
+  
   .radio-prev-btn,
   .radio-play-pause-btn,
   .radio-next-btn,
@@ -739,6 +765,11 @@ audio[data-custom-player] {
   
   .xalpheric-radio-player.collapsed {
     width: 60px;
+  }
+  
+  .radio-album-cover {
+    width: 24px;
+    height: 24px;
   }
 }
 

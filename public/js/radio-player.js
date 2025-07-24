@@ -87,6 +87,9 @@ class XalphericRadioPlayer {
                     <button class="radio-toggle-btn" title="Toggle Radio">
                         <span class="radio-icon">📻</span>
                     </button>
+                    <div class="radio-cover">
+                        <img src="${this.playlist[0].cover}" alt="Album Cover" class="radio-album-cover">
+                    </div>
                     <div class="radio-info">
                         <div class="radio-track-title">Xalpheric Radio</div>
                         <div class="radio-track-artist">Select a track</div>
@@ -374,9 +377,14 @@ class XalphericRadioPlayer {
         const track = this.playlist[this.currentTrack];
         const titleElement = this.container.querySelector('.radio-track-title');
         const artistElement = this.container.querySelector('.radio-track-artist');
+        const coverElement = this.container.querySelector('.radio-album-cover');
         
         if (titleElement) titleElement.textContent = track.title;
         if (artistElement) artistElement.textContent = 'Xalpheric';
+        if (coverElement) {
+            coverElement.src = track.cover;
+            coverElement.alt = track.title;
+        }
     }
     
     updatePlayState(playing) {
