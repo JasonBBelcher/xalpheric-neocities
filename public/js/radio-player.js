@@ -158,6 +158,12 @@ class XalphericRadioPlayer {
             this.homePlayer.addEventListener('pause', () => this.onHomePlayerPause());
             this.homePlayer.addEventListener('loadstart', () => this.onHomePlayerTrackChange());
             
+            // Add ended event listener for continuous playback on home page
+            this.homePlayer.addEventListener('ended', () => {
+                console.log('Home player ended - advancing to next track');
+                this.nextTrack();
+            });
+            
             // Monitor for track changes from the carousel
             const observer = new MutationObserver(() => {
                 this.syncWithHomePlayer();
