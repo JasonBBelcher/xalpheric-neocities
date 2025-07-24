@@ -157,6 +157,7 @@ class XalphericRadioPlayer {
             this.homePlayer.addEventListener('play', () => this.onHomePlayerPlay());
             this.homePlayer.addEventListener('pause', () => this.onHomePlayerPause());
             this.homePlayer.addEventListener('loadstart', () => this.onHomePlayerTrackChange());
+            this.homePlayer.addEventListener('timeupdate', () => this.saveHomePlayerPosition());
             
             // Add ended event listener for continuous playback on home page
             this.homePlayer.addEventListener('ended', () => {
@@ -181,7 +182,13 @@ class XalphericRadioPlayer {
         window.xalphericRadio = this;
         
         // Save state before page unload
-        window.addEventListener('beforeunload', () => this.saveState());
+        window.addEventListener('beforeunload', () => {
+            this.saveState();
+            // On home page, save home player state specifically
+            if (this.isHomePage && this.homePlayer) {
+                this.saveHomePlayerPosition();
+            }
+        });
     }
     
     bindEvents() {
@@ -236,17 +243,49 @@ class XalphericRadioPlayer {
         // Update mini progress bar
         this.updateMiniProgress();
         
-        // Save position during playback or when paused (if there's progress)
-        if (this.audio && this.audio.currentTime > 0) {
+        // Determine which audio element to save position from
+        let audioElement;
+        let isPlaying;
+        
+        if (this.isHomePage && this.homePlayer && !this.homePlayer.paused && this.homePlayer.currentTime > 0) {
+            // Save home player position if it's playing
+            audioElement = this.homePlayer;
+            isPlaying = !this.homePlayer.paused;
+        } else if (this.audio && this.audio.currentTime > 0) {
+            // Save radio player position
+            audioElement = this.audio;
+            isPlaying = !this.audio.paused;
+        } else {
+            // If nothing is playing, don't save position
+            return;
+        }
+        
+        if (audioElement && audioElement.currentTime > 0) {
             const state = {
                 currentTrack: this.currentTrack,
-                currentTime: this.audio.currentTime,
-                duration: this.audio.duration || 0,
-                isPlaying: !this.audio.paused,
-                trackSrc: this.audio.src,
-                timestamp: Date.now()
+                currentTime: audioElement.currentTime,
+                duration: audioElement.duration || 0,
+                isPlaying: isPlaying,
+                trackSrc: audioElement.src,
+                timestamp: Date.now(),
+                fromHomePage: this.isHomePage && audioElement === this.homePlayer
             };
             sessionStorage.setItem('xalphericRadioPosition', JSON.stringify(state));
+        }
+    }
+    
+    saveHomePlayerPosition() {
+        // Specifically save home player position when it's active
+        if (this.homePlayer && this.homePlayer.duration > 0 && this.homePlayer.currentTime > 0) {
+            const positionData = {
+                currentTrack: this.currentTrack,
+                currentTime: this.homePlayer.currentTime,
+                duration: this.homePlayer.duration,
+                isPlaying: !this.homePlayer.paused,
+                timestamp: Date.now(),
+                fromHomePage: true
+            };
+            sessionStorage.setItem('xalphericRadioPosition', JSON.stringify(positionData));
         }
     }
     
@@ -480,8 +519,15 @@ class XalphericRadioPlayer {
             }
             
             // Auto-resume if there's any meaningful progress (more than 1 second)
-            if (position.currentTime > 1 && position.currentTrack < this.playlist.length) {
-                console.log(`Auto-resuming track ${position.currentTrack} at ${position.currentTime}s`);
+            // OR if this came from home page and was playing (even with minimal progress)
+            const shouldResume = (position.currentTime > 1 && position.currentTrack < this.playlist.length) ||
+                                (position.fromHomePage && position.isPlaying && position.currentTime > 0);
+            
+            if (shouldResume) {
+                const resumeMessage = position.fromHomePage ? 
+                    `Continuing playback from home page: track ${position.currentTrack} at ${position.currentTime}s` :
+                    `Auto-resuming track ${position.currentTrack} at ${position.currentTime}s`;
+                console.log(resumeMessage);
                 
                 this.currentTrack = position.currentTrack;
                 this.audio.src = this.playlist[this.currentTrack].audio;
@@ -494,6 +540,7 @@ class XalphericRadioPlayer {
                         this.audio.currentTime = position.currentTime;
                         // Auto-resume playback if it was playing when page changed
                         if (position.isPlaying) {
+                            console.log('Resuming playback from', position.fromHomePage ? 'home page' : 'radio player');
                             this.audio.play().catch(e => console.log('Auto-resume play failed:', e));
                         }
                     }
