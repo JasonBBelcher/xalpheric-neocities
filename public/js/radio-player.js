@@ -1,10 +1,16 @@
 class XalphericRadioPlayer {
     constructor() {
+        // Determine path prefix based on current location
+        const isInSubfolder = window.location.pathname.includes('/musings/') || 
+                             window.location.pathname.includes('/gallery/') ||
+                             window.location.pathname.includes('/links/');
+        const pathPrefix = isInSubfolder ? '../' : '';
+        
         this.playlist = [
-            { title: "Face The Shadow", cover: "assets/release1.png", audio: "music/face_the_shadow.mp3" },
-            { title: "Contemplate", cover: "assets/release2.jpg", audio: "music/contemplate.mp3" },
-            { title: "Hitch Crack Pot", cover: "assets/release3.png", audio: "music/hitchcrackpot.mp3" },
-            { title: "Dogs in the Street", cover: "assets/release4.png", audio: "music/dogs_in_the_street.mp3" }
+            { title: "Face The Shadow", cover: `${pathPrefix}assets/release1.png`, audio: `${pathPrefix}music/face_the_shadow.mp3` },
+            { title: "Contemplate", cover: `${pathPrefix}assets/release2.jpg`, audio: `${pathPrefix}music/contemplate.mp3` },
+            { title: "Hitch Crack Pot", cover: `${pathPrefix}assets/release3.png`, audio: `${pathPrefix}music/hitchcrackpot.mp3` },
+            { title: "Dogs in the Street", cover: `${pathPrefix}assets/release4.png`, audio: `${pathPrefix}music/dogs_in_the_street.mp3` }
         ];
         
         this.currentTrack = 0;
@@ -39,6 +45,22 @@ class XalphericRadioPlayer {
         
         // Load saved state and auto-resume if applicable
         this.loadAndResumeState();
+        
+        // Ensure first track is loaded for metadata
+        this.loadCurrentTrackMetadata();
+        
+        // Update UI after everything is initialized
+        this.updateRadioUI();
+    }
+    
+    loadCurrentTrackMetadata() {
+        if (this.audio && this.playlist[this.currentTrack]) {
+            const track = this.playlist[this.currentTrack];
+            if (!this.audio.src || this.audio.src !== track.audio) {
+                this.audio.src = track.audio;
+                console.log('Loaded track metadata for:', track.title);
+            }
+        }
     }
     
     createAudioElement() {
@@ -111,6 +133,14 @@ class XalphericRadioPlayer {
         const siteHeader = document.querySelector('.site-header');
         if (siteHeader) {
             siteHeader.appendChild(this.container);
+        } else {
+            console.warn('Radio Player: .site-header not found, trying to append to body');
+            // Fallback: create a temporary header-like container
+            const fallbackHeader = document.createElement('div');
+            fallbackHeader.className = 'site-header';
+            fallbackHeader.style.cssText = 'position: relative; width: 100%; z-index: 1000;';
+            document.body.insertBefore(fallbackHeader, document.body.firstChild);
+            fallbackHeader.appendChild(this.container);
         }
         
         // Bind all events
@@ -266,6 +296,14 @@ class XalphericRadioPlayer {
     
     playCurrentTrack() {
         const track = this.playlist[this.currentTrack];
+        console.log('Playing track:', track.title, 'Audio path:', track.audio);
+        
+        // Ensure audio element exists
+        if (!this.audio) {
+            console.error('Audio element not initialized');
+            return;
+        }
+        
         this.audio.src = track.audio;
         this.audio.play().catch(error => {
             console.log('Audio play failed:', error);
@@ -284,7 +322,9 @@ class XalphericRadioPlayer {
     }
     
     nextTrack() {
+        console.log('Next track called - current:', this.currentTrack);
         this.currentTrack = (this.currentTrack + 1) % this.playlist.length;
+        console.log('Moving to track:', this.currentTrack, this.playlist[this.currentTrack].title);
         this.playTrack(this.currentTrack);
     }
     
@@ -483,9 +523,18 @@ class XalphericRadioPlayer {
 }
 
 // Initialize radio player when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    window.xalphericRadioInstance = new XalphericRadioPlayer();
-});
+function initializeRadioPlayer() {
+    if (!window.xalphericRadioInstance) {
+        window.xalphericRadioInstance = new XalphericRadioPlayer();
+    }
+}
+
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRadioPlayer);
+} else {
+    // DOM is already loaded
+    initializeRadioPlayer();
+}
 
 // Save state and position before page unload
 window.addEventListener('beforeunload', function() {
