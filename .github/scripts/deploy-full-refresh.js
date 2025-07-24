@@ -95,8 +95,13 @@ Examples:
 Environment Variables:
   NEOCITIES_API_KEY  Your Neocities API key (required for non-dry-run)
 
-⚠️  WARNING: This script will DELETE ALL files on your Neocities site
+⚠️  WARNING: This script will DELETE most files on your Neocities site
    and replace them with the contents of your public/ folder.
+   
+🎵 MP3 files are PRESERVED by default - they will NOT be deleted unless
+   you explicitly use the --include-mp3s flag. This protects your audio files
+   while refreshing other content.
+   
    Always test with --dry-run first!
 `);
   process.exit(0);
@@ -107,7 +112,7 @@ const CONFIG = {
   includeMp3s: process.argv.includes('--include-mp3s'),
   dryRun: process.argv.includes('--dry-run'),
   maxConcurrentUploads: 2, // Conservative for rate limiting
-  delayBetweenRequests: 3000, // 3 seconds between API calls
+  delayBetweenRequests: 5000, // 5 seconds between API calls
   maxFilesPerDelete: 10, // Batch delete in smaller chunks
 };
 
@@ -206,6 +211,13 @@ async function deleteRemoteFiles(filePaths) {
       console.log("🛡️  Skipping index.html (cannot be deleted via API)");
       return false;
     }
+    
+    // Skip MP3 files if not explicitly including them
+    if (!CONFIG.includeMp3s && file.toLowerCase().endsWith('.mp3')) {
+      console.log(`🎵 Preserving MP3 file: ${file} (use --include-mp3s to replace)`);
+      return false;
+    }
+    
     return true;
   });
 
@@ -387,8 +399,8 @@ async function uploadLocalFiles(files) {
 
     // Get confirmation for destructive operation
     if (!CONFIG.dryRun) {
-      console.log("\n⚠️  WARNING: This will DELETE all files on your Neocities site and replace with local files!");
-      console.log("🎵 MP3 files will be " + (CONFIG.includeMp3s ? "INCLUDED" : "EXCLUDED"));
+      console.log("\n⚠️  WARNING: This will DELETE most files on your Neocities site and replace with local files!");
+      console.log("🎵 MP3 files will be " + (CONFIG.includeMp3s ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
       console.log("\nPress Ctrl+C to cancel, or press Enter to continue...");
       
       // Wait for user input
@@ -422,6 +434,9 @@ async function uploadLocalFiles(files) {
       console.log("💡 Run without --dry-run to perform the actual refresh");
     } else {
       console.log("\n🎉 Full site refresh complete!");
+      if (!CONFIG.includeMp3s) {
+        console.log("🎵 MP3 files were preserved - use --include-mp3s if you need to update them");
+      }
     }
 
   } catch (error) {
