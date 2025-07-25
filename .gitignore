@@ -1,5 +1,11 @@
-# macOS
+# macOS system files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
 
 # Environment variables
 .env
@@ -29,6 +35,7 @@ process_video/*.mp4
 process_video/*.MOV
 process_video/*.mov
 process_video/palette.png
+process_video/.DS_Store
 
 # Photo processing temporary files
 process_photos/*.jpg
@@ -43,10 +50,19 @@ process_photos/*.gif
 process_photos/*.GIF
 process_photos/*.webp
 process_photos/*.WEBP
+process_photos/.DS_Store
 
 # Generated music files (only allow MP3s for web)
 public/music/*.wav
 public/music/*.webm
 public/music/*.gif
+public/music/.DS_Store
+
+# Test files and temporary artifacts
+test-*.js
+quick-test.js
+.processed-photos.json
+*.tmp
+*.temp
 
 
