@@ -28,6 +28,16 @@ Each script now automatically checks for its required dependencies when you run 
   - macOS: `brew install jq`
   - Ubuntu/Debian: `sudo apt install jq`
   - RHEL/CentOS: `sudo yum install jq`
+
+#### 3. Photos Watcher (`npm run watch-photos`)
+**Dependencies:**
+- **Node.js packages**: `chokidar` (auto-installed)
+- **macOS System Tools**:
+  - **sqlite3** - for database access method
+    - macOS: `brew install sqlite3` (usually pre-installed)
+  - **osascript** - for AppleScript method (built into macOS)
+- **Photos App** - Must be installed and initialized
+- **System Permissions** - Photos access and Full Disk Access
   - Windows: Download from https://jqlang.github.io/jq/download/
 
 #### 3. Deploy Scripts (`npm run deploy`, `npm run deploy-full-refresh`)
