@@ -20,6 +20,61 @@ $(document).ready(function() {
       displayName: 'Studio Overview', 
       description: 'Prophet Rev 2 Synthesizer' 
     },
+    { 
+      filename: 'saturn-oscillations11.jpg', 
+      displayName: 'Xalpheric Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations10.jpg', 
+      displayName: 'Xalpheric Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations9.jpg', 
+      displayName: 'Xalpheric Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations8.jpg', 
+      displayName: 'Paul Mathews Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations7.jpg', 
+      displayName: 'Paul Mathews Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations6.jpg', 
+      displayName: 'Paul Mathews Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations5.jpg', 
+      displayName: 'Noah Richardson Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations4.jpg', 
+      displayName: 'Noah Richardson Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations3.jpg', 
+      displayName: 'Noah Richardson Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations2.jpg', 
+      displayName: 'Noah Richardson Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    },
+    { 
+      filename: 'saturn-oscillations1.jpg', 
+      displayName: 'Noah Richardson Live', 
+      description: 'Midi Mob Live at Saturn Birmingham - Oscillations 2025' 
+    }
   ];
 
   // Function to create gallery item
