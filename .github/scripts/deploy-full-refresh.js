@@ -83,14 +83,17 @@ if (process.argv.includes('--help') || process.argv.includes('-h')) {
 Usage: node deploy-full-refresh.js [options]
 
 Options:
-  --dry-run          Show what would happen without making changes
-  --include-mp3s     Include MP3 files in the refresh (excluded by default)
-  --help, -h         Show this help message
+  --dry-run            Show what would happen without making changes
+  --include-mp3s       Include MP3 files in the refresh (excluded by default)
+  --include-assets     Include assets folder files in the refresh (excluded by default)
+  --help, -h           Show this help message
 
 Examples:
   npm run deploy-full-refresh -- --dry-run
   npm run deploy-full-refresh -- --include-mp3s
-  npm run deploy-full-refresh -- --dry-run --include-mp3s
+  npm run deploy-full-refresh -- --include-assets
+  npm run deploy-full-refresh -- --include-mp3s --include-assets
+  npm run deploy-full-refresh -- --dry-run --include-assets
 
 Environment Variables:
   NEOCITIES_API_KEY  Your Neocities API key (required for non-dry-run)
@@ -101,6 +104,10 @@ Environment Variables:
 🎵 MP3 files are PRESERVED by default - they will NOT be deleted unless
    you explicitly use the --include-mp3s flag. This protects your audio files
    while refreshing other content.
+
+🖼️  ASSETS files are PRESERVED by default - they will NOT be deleted unless
+   you explicitly use the --include-assets flag. This protects your images,
+   icons, and other assets while refreshing other content.
    
    Always test with --dry-run first!
 `);
@@ -110,6 +117,7 @@ Environment Variables:
 // Configuration
 const CONFIG = {
   includeMp3s: process.argv.includes('--include-mp3s'),
+  includeAssets: process.argv.includes('--include-assets'),
   dryRun: process.argv.includes('--dry-run'),
   maxConcurrentUploads: 2, // Conservative for rate limiting
   delayBetweenRequests: 5000, // 5 seconds between API calls
@@ -128,7 +136,8 @@ const PUBLIC_DIR = path.join(__dirname, '../../public');
 console.log("🚀 Neocities Full Site Refresh");
 console.log(`📁 Source: ${PUBLIC_DIR}`);
 console.log(`🎵 Include MP3s: ${CONFIG.includeMp3s ? 'YES' : 'NO (default)'}`);
-console.log(`🔍 Dry Run: ${CONFIG.dryRun ? 'YES' : 'NO'}`);
+console.log(`�️  Include Assets: ${CONFIG.includeAssets ? 'YES' : 'NO (default)'}`);
+console.log(`�🔍 Dry Run: ${CONFIG.dryRun ? 'YES' : 'NO'}`);
 console.log("");
 
 // Utility functions
@@ -218,6 +227,12 @@ async function deleteRemoteFiles(filePaths) {
       return false;
     }
     
+    // Skip assets files if not explicitly including them
+    if (!CONFIG.includeAssets && file.startsWith('assets/')) {
+      console.log(`🖼️  Preserving assets file: ${file} (use --include-assets to replace)`);
+      return false;
+    }
+    
     return true;
   });
 
@@ -285,6 +300,12 @@ function getLocalFiles(dir, baseDir = dir) {
       // Filter MP3s unless explicitly included
       if (!CONFIG.includeMp3s && path.extname(fullPath).toLowerCase() === '.mp3') {
         console.log(`🎵 Skipping MP3: ${normalizedPath}`);
+        continue;
+      }
+
+      // Filter assets unless explicitly included
+      if (!CONFIG.includeAssets && normalizedPath.startsWith('assets/')) {
+        console.log(`🖼️  Skipping assets file: ${normalizedPath}`);
         continue;
       }
 
@@ -419,6 +440,7 @@ async function uploadLocalFiles(files) {
     if (!CONFIG.dryRun) {
       console.log("\n⚠️  WARNING: This will DELETE most files on your Neocities site and replace with local files!");
       console.log("🎵 MP3 files will be " + (CONFIG.includeMp3s ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
+      console.log("🖼️  Assets files will be " + (CONFIG.includeAssets ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
       console.log("\nPress Ctrl+C to cancel, or press Enter to continue...");
       
       // Wait for user input with proper cleanup
@@ -462,6 +484,9 @@ async function uploadLocalFiles(files) {
       console.log("\n🎉 Full site refresh complete!");
       if (!CONFIG.includeMp3s) {
         console.log("🎵 MP3 files were preserved - use --include-mp3s if you need to update them");
+      }
+      if (!CONFIG.includeAssets) {
+        console.log("🖼️  Assets files were preserved - use --include-assets if you need to update them");
       }
     }
 

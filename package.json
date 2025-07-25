@@ -10,12 +10,17 @@
     "deploy-recent": "node .github/scripts/deploy-recent-commit.js",
     "process-photos": "node process-photos.js",
     "process-video": "node process-video.js",
+    "watch-photos": "./watch-photos.sh",
+    "watch-photos-simple": "node watch-photos-applescript.js",
+    "watch-photos-advanced": "node watch-photos.js",
+    "test-photo-watcher": "node test-photo-watcher.js",
     "check-deps": "node check-deps.js",
     "serve": "http-server public -p 8080"
   },
   "author": "Jason Belcher",
   "license": "MIT",
   "dependencies": {
+    "chokidar": "^4.0.3",
     "dotenv": "^17.2.0",
     "form-data": "^4.0.0",
     "markdown-it": "^13.0.1",
