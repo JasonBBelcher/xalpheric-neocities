@@ -4,14 +4,11 @@ class XalphericRadioPlayer {
         const isInSubfolder = window.location.pathname.includes('/musings/') || 
                              window.location.pathname.includes('/gallery/') ||
                              window.location.pathname.includes('/links/');
-        const pathPrefix = isInSubfolder ? '../' : '';
+        this.pathPrefix = isInSubfolder ? '../' : '';
         
-        this.playlist = [
-            { title: "Face The Shadow", cover: `${pathPrefix}assets/release1.png`, audio: `${pathPrefix}music/face_the_shadow.mp3` },
-            { title: "Contemplate", cover: `${pathPrefix}assets/release2.jpg`, audio: `${pathPrefix}music/contemplate.mp3` },
-            { title: "Hitch Crack Pot", cover: `${pathPrefix}assets/release3.png`, audio: `${pathPrefix}music/hitchcrackpot.mp3` },
-            { title: "Dogs in the Street", cover: `${pathPrefix}assets/release4.png`, audio: `${pathPrefix}music/dogs_in_the_street.mp3` }
-        ];
+        // Initialize with empty playlist - will be loaded from JSON
+        this.playlist = [];
+        this.releasesConfig = null;
         
         this.currentTrack = 0;
         this.isPlaying = false;
@@ -25,12 +22,16 @@ class XalphericRadioPlayer {
         this.init();
     }
     
-    init() {
+    async init() {
         // Check if we're on the home page
         this.isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html');
         
-        // Create the radio player UI
+        // Create the radio player UI first (with loading state)
         this.createRadioPlayer();
+        
+        // Load releases configuration and update UI
+        await this.loadReleasesConfig();
+        this.refreshPlaylistUI();
         
         // Create audio element
         this.createAudioElement();
@@ -51,6 +52,82 @@ class XalphericRadioPlayer {
         
         // Update UI after everything is initialized
         this.updateRadioUI();
+    }
+    
+    async loadReleasesConfig() {
+        try {
+            const response = await fetch(`${this.pathPrefix}config/releases.json`);
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            
+            this.releasesConfig = await response.json();
+            
+            // Convert releases to playlist format
+            this.playlist = this.releasesConfig.releases.map(release => ({
+                id: release.id,
+                title: release.title,
+                cover: `${this.pathPrefix}${release.cover}`,
+                audio: `${this.pathPrefix}${release.audio}`,
+                description: release.description || '',
+                year: release.year || '',
+                duration: release.duration || ''
+            }));
+            
+            console.log(`Radio Player: Loaded ${this.playlist.length} tracks from config`);
+            
+        } catch (error) {
+            console.error('Error loading releases configuration:', error);
+            // Fallback to hardcoded playlist if config fails
+            console.log('Radio Player: Falling back to hardcoded playlist');
+            this.playlist = [
+                { 
+                    id: "face_the_shadow",
+                    title: "Face The Shadow", 
+                    cover: `${this.pathPrefix}assets/release1.png`, 
+                    audio: `${this.pathPrefix}music/face_the_shadow.mp3`,
+                    description: "Dark ambient electronic piece",
+                    year: "2024",
+                    duration: "4:32"
+                },
+                { 
+                    id: "contemplate",
+                    title: "Contemplate", 
+                    cover: `${this.pathPrefix}assets/release2.jpg`, 
+                    audio: `${this.pathPrefix}music/contemplate.mp3`,
+                    description: "Meditative soundscape",
+                    year: "2024", 
+                    duration: "5:18"
+                },
+                { 
+                    id: "hitchcrackpot",
+                    title: "Hitch Crack Pot", 
+                    cover: `${this.pathPrefix}assets/release3.png`, 
+                    audio: `${this.pathPrefix}music/hitchcrackpot.mp3`,
+                    description: "Experimental glitch composition",
+                    year: "2024",
+                    duration: "3:45"
+                },
+                { 
+                    id: "dogs_in_the_street",
+                    title: "Dogs in the Street", 
+                    cover: `${this.pathPrefix}assets/release4.png`, 
+                    audio: `${this.pathPrefix}music/dogs_in_the_street.mp3`,
+                    description: "Urban soundscape",
+                    year: "2024",
+                    duration: "4:12"
+                },
+                { 
+                    id: "Arrival_on_Ganymede",
+                    title: "Arrival on Ganymede", 
+                    cover: `${this.pathPrefix}assets/release5.png`, 
+                    audio: `${this.pathPrefix}music/Arrival_on_Ganymede.mp3`,
+                    description: "Progressive House track with spacey vibe",
+                    year: "2024",
+                    duration: "4:32"
+                }
+            ];
+        }
     }
     
     loadCurrentTrackMetadata() {
@@ -78,6 +155,9 @@ class XalphericRadioPlayer {
     }
     
     createRadioPlayer() {
+        // Provide default cover if playlist is empty
+        const defaultCover = this.playlist.length > 0 ? this.playlist[0].cover : `${this.pathPrefix}assets/xalpheric_logo.jpeg`;
+        
         // Create container
         this.container = document.createElement('div');
         this.container.className = 'xalpheric-radio-player';
@@ -85,11 +165,11 @@ class XalphericRadioPlayer {
             <div class="radio-controls">
                 <div class="radio-main">
                     <button class="radio-toggle-btn" title="Toggle Radio">
-                        <img src="${this.playlist[0].cover}" alt="Album Cover - Click to Toggle" class="radio-album-cover">
+                        <img src="${defaultCover}" alt="Album Cover - Click to Toggle" class="radio-album-cover">
                     </button>
                     <div class="radio-info">
                         <div class="radio-track-title">Xalpheric Radio</div>
-                        <div class="radio-track-artist">Select a track</div>
+                        <div class="radio-track-artist">Loading tracks...</div>
                         <div class="radio-progress-mini">
                             <div class="progress-mini-bar">
                                 <div class="progress-mini-fill"></div>
@@ -114,16 +194,7 @@ class XalphericRadioPlayer {
                         <button class="playlist-close">✕</button>
                     </div>
                     <div class="playlist-items">
-                        ${this.playlist.map((track, index) => `
-                            <div class="playlist-item" data-index="${index}">
-                                <img src="${track.cover}" alt="${track.title}" class="playlist-cover">
-                                <div class="playlist-info">
-                                    <div class="playlist-title">${track.title}</div>
-                                    <div class="playlist-artist">Xalpheric</div>
-                                </div>
-                                <button class="playlist-play-btn" data-index="${index}">▶</button>
-                            </div>
-                        `).join('')}
+                        ${this.generatePlaylistHTML()}
                     </div>
                 </div>
             </div>
@@ -145,6 +216,55 @@ class XalphericRadioPlayer {
         
         // Bind all events
         this.bindEvents();
+    }
+    
+    generatePlaylistHTML() {
+        if (this.playlist.length === 0) {
+            return '<div class="playlist-loading">Loading tracks...</div>';
+        }
+        
+        return this.playlist.map((track, index) => `
+            <div class="playlist-item" data-index="${index}">
+                <img src="${track.cover}" alt="${track.title}" class="playlist-cover">
+                <div class="playlist-info">
+                    <div class="playlist-title">${track.title}</div>
+                    <div class="playlist-artist">Xalpheric</div>
+                    ${track.description ? `<div class="playlist-description">${track.description}</div>` : ''}
+                    <div class="playlist-meta">
+                        ${track.year ? `<span class="playlist-year">${track.year}</span>` : ''}
+                        ${track.duration ? `<span class="playlist-duration">${track.duration}</span>` : ''}
+                    </div>
+                </div>
+                <button class="playlist-play-btn" data-index="${index}">▶</button>
+            </div>
+        `).join('');
+    }
+    
+    // Method to refresh playlist UI after loading config
+    refreshPlaylistUI() {
+        const playlistContainer = this.container?.querySelector('.playlist-items');
+        if (playlistContainer) {
+            playlistContainer.innerHTML = this.generatePlaylistHTML();
+            // Re-bind playlist events
+            this.bindPlaylistEvents();
+        }
+        
+        // Update the initial cover image
+        const coverElement = this.container?.querySelector('.radio-album-cover');
+        if (coverElement && this.playlist.length > 0) {
+            coverElement.src = this.playlist[0].cover;
+            coverElement.alt = this.playlist[0].title;
+        }
+        
+        // Update the artist text
+        const artistElement = this.container?.querySelector('.radio-track-artist');
+        if (artistElement) {
+            if (this.playlist.length > 0) {
+                artistElement.textContent = 'Select a track';
+            } else {
+                artistElement.textContent = 'No tracks available';
+            }
+        }
     }
     
     setupHomePageSync() {
@@ -220,6 +340,11 @@ class XalphericRadioPlayer {
             this.togglePlaylist();
         });
         
+        // Bind playlist-specific events
+        this.bindPlaylistEvents();
+    }
+    
+    bindPlaylistEvents() {
         // Playlist items
         this.container.querySelectorAll('.playlist-item').forEach(item => {
             item.addEventListener('click', (e) => {
@@ -581,7 +706,7 @@ class XalphericRadioPlayer {
 }
 
 // Initialize radio player when DOM is ready
-function initializeRadioPlayer() {
+async function initializeRadioPlayer() {
     if (!window.xalphericRadioInstance) {
         window.xalphericRadioInstance = new XalphericRadioPlayer();
     }
