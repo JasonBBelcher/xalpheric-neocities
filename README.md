@@ -1,4 +1,10 @@
-# Xalpheric Neocities Site Builder
+# Xalpheri### Core Documentation
+- [🚀 Quick Start](#-quick-start) - Get up and running in minutes
+- [🏗️ Project Architecture](#%EF%B8%8F-project-architecture) - System overview and structure
+- [⚙️ Available Scripts](#%EF%B8%8F-available-scripts) - Complete command reference
+- [🎯 Features](#-features) - What this system can do
+- [🔧 Dependencies](#-dependencies) - System requirements and setup
+- [📋 Configuration System](#-configuration-system) - JSON-based content managementities Site Builder
 
 A complete static site builder and deployment system for the Neocities platform, featuring automated content management, media processing workflows, and sophisticated deployment strategies.
 
@@ -432,19 +438,325 @@ The knowledge base provides:
 
 **For AI Assistants**: The knowledge base includes a specialized context loading prompt that enables AI to provide project-specific assistance with complete understanding of the system architecture and workflows.
 
-## 🔧 Dependencies
+## � Configuration System
+
+### JSON-Based Content Management
+This system uses JSON configuration files to manage releases and gallery content, providing better maintainability and preventing orphaned files.
+
+#### Configuration Files Location
+```
+public/config/
+├── releases.json    # Music releases with metadata
+└── gallery.json     # Gallery images with categories
+```
+
+### 🎵 Music Releases Configuration
+
+#### `public/config/releases.json`
+Defines all music releases with rich metadata:
+```json
+{
+  "releases": [
+    {
+      "id": "unique_identifier",
+      "title": "Display Title",
+      "cover": "assets/cover_image.png",
+      "audio": "music/audio_file.mp3",
+      "description": "Description text",
+      "year": 2024,
+      "duration": "4:32"
+    }
+  ]
+}
+```
+
+#### Current Releases
+The system currently manages 5 releases:
+- **Arrival on Ganymede** - Progressive House track with spacey vibe
+- **Face The Shadow** - Dark ambient electronic piece
+- **Contemplate** - Meditative soundscape with evolving textures
+- **Hitch Crack Pot** - Experimental glitch composition
+- **Dogs in the Street** - Urban soundscape with field recordings
+
+### 🎨 Gallery Configuration
+
+#### `public/config/gallery.json`
+Defines gallery images with categories and metadata:
+```json
+{
+  "gallery": {
+    "title": "Gallery Title",
+    "description": "Gallery description",
+    "images": [
+      {
+        "id": "unique_id",
+        "filename": "image.jpg",
+        "path": "assets/image.jpg",
+        "title": "Image Title",
+        "description": "Image description",
+        "category": "category_key",
+        "year": 2024
+      }
+    ],
+    "categories": {
+      "studio": "Studio Environment",
+      "equipment": "Hardware & Equipment",
+      "live": "Live Performances"
+    }
+  }
+}
+```
+
+### 🎵 Music Deployment with Configuration
+
+#### Deploy MP3s with Smart Management
+```bash
+npm run deploy-music
+```
+
+**Features:**
+- ✅ **Configuration Validation**: Ensures all referenced MP3s exist locally
+- ⚠️ **Orphan Detection**: Identifies files not referenced in configuration
+- 🗑️ **Cleanup Option**: Interactive removal of orphaned remote files
+- ⏱️ **Rate Limiting**: Respects Neocities API limits
+- 📊 **Detailed Reporting**: Shows upload/delete statistics
+
+**Process Flow:**
+1. Loads `releases.json` configuration
+2. Checks local `public/music/` directory for MP3 files
+3. Compares with remote Neocities files
+4. Uploads new files referenced in configuration
+5. Identifies orphaned files (local and remote)
+6. Optionally cleans up orphaned remote files
+
+#### Example Output
+```
+🎵 Starting music deployment...
+📋 Found 5 releases in configuration
+📂 Found 5 MP3 files locally
+🌐 Checking remote files...
+📋 Found 4 MP3 files on Neocities
+📤 Uploading 1 new MP3 files...
+📤 Uploading: Arrival_on_Ganymede.mp3
+✅ Successfully uploaded: Arrival_on_Ganymede.mp3
+
+📊 Deployment Summary:
+✅ Successful uploads: 1
+📋 Total configured releases: 5
+```
+
+### 🛠️ Configuration Management Workflow
+
+#### Adding New Releases
+1. **Add MP3 file** to `public/music/`
+2. **Update configuration** in `public/config/releases.json`:
+   ```json
+   {
+     "id": "new_track",
+     "title": "New Track",
+     "cover": "assets/new_cover.jpg",
+     "audio": "music/new_track.mp3",
+     "description": "Track description",
+     "year": 2025,
+     "duration": "3:45"
+   }
+   ```
+3. **Deploy music**: `npm run deploy-music`
+4. **Deploy site**: `npm run deploy`
+
+#### Adding Gallery Images
+1. **Process images** with `npm run process-photos`
+2. **Update configuration** in `public/config/gallery.json`
+3. **Deploy assets**: `npm run deploy-assets`
+
+### 🎯 Enhanced JavaScript Features
+
+#### Music Player (main.js)
+- **JSON Configuration**: Loads releases from `config/releases.json`
+- **Fallback Support**: Uses hardcoded releases if JSON fails
+- **Enhanced Metadata**: Displays description, year, duration
+- **Keyboard Navigation**: Arrow keys and spacebar controls
+- **Track Counter**: Shows current position in playlist
+- **Error Handling**: Graceful degradation for missing files
+
+#### Gallery System (gallery.js)
+- **JSON Configuration**: Loads images from `config/gallery.json`
+- **Category Support**: Organizes images by category with filters
+- **Dynamic Titles**: Updates page title from configuration
+- **Metadata Display**: Shows year, category information
+- **Backward Compatibility**: Supports old image format as fallback
+
+### ✅ Configuration Validation
+
+The deploy script validates:
+- ✅ All referenced MP3 files exist locally
+- ⚠️ No orphaned local files (files not in configuration)
+- 🔍 Remote file consistency
+- 📝 JSON syntax and structure
+
+### 🔧 Configuration Troubleshooting
+
+#### Common Issues
+
+**❌ "Missing required MP3 files"**
+- Files referenced in `releases.json` don't exist in `public/music/`
+- **Solution**: Add missing files or update configuration
+
+**⚠️ "Found orphaned local MP3 files"**
+- MP3 files exist locally but aren't referenced in configuration
+- **Solution**: Add to configuration or remove unused files
+
+**❌ "Error loading releases configuration"**
+- Invalid JSON syntax in `releases.json`
+- **Solution**: Validate JSON syntax and fix errors
+
+**🌐 "Failed to fetch remote files"**
+- Network or API key issues
+- **Solution**: Check `NEOCITIES_API_KEY` and internet connection
+
+### 🎯 Configuration Benefits
+
+#### For Content Management
+- **Single Source of Truth**: All releases/images defined in JSON
+- **Metadata Rich**: Descriptions, years, categories, durations
+- **Validation**: Prevents broken references and orphaned files
+- **Version Control**: JSON files tracked in Git
+
+#### For Development
+- **Separation of Concerns**: Content separate from code
+- **Easy Updates**: No code changes needed for new content
+- **Type Safety**: Structured data format
+- **Scalability**: Easy to add new fields and features
+
+#### For Deployment
+- **Efficiency**: Only uploads needed files
+- **Safety**: Validates before uploading
+- **Cleanup**: Removes orphaned files
+- **Reporting**: Clear success/failure feedback
+
+This configuration-based approach makes the site more maintainable and reduces the chance of broken links or orphaned files while providing rich metadata for enhanced user experience.
+
+## �🔧 Dependencies
+
+### Automatic Dependency Management
+Your project now has comprehensive dependency checking built into all processing scripts. This ensures that required tools are installed before attempting to run any operations.
+
+Each script automatically checks for its required dependencies when you run it and offers to help install missing ones.
 
 ### System Requirements
-- **Node.js** (v14+ recommended)
-- **ImageMagick** (for photo processing) - `brew install imagemagick`
-- **FFmpeg** (for video processing) - `brew install ffmpeg`
-- **jq** (for JSON processing) - `brew install jq`
+
+#### Core Dependencies
+- **Node.js** (v14+ recommended) - Runtime environment
+- **Git** - Version control (for development)
+- **Neocities API Key** - For deployment ([Get yours here](https://neocities.org/settings))
+
+#### Media Processing Dependencies
+- **ImageMagick** (`magick` command) - Photo processing
+  - macOS: `brew install imagemagick`
+  - Ubuntu/Debian: `sudo apt install imagemagick`
+  - RHEL/CentOS: `sudo yum install ImageMagick`
+  - Windows: Download from https://imagemagick.org/script/download.php
+
+- **FFmpeg** (`ffmpeg` command) - Video processing
+  - macOS: `brew install ffmpeg`
+  - Ubuntu/Debian: `sudo apt install ffmpeg`
+  - RHEL/CentOS: `sudo yum install ffmpeg`
+  - Windows: Download from https://ffmpeg.org/download.html
+
+- **jq** (`jq` command) - JSON processing
+  - macOS: `brew install jq`
+  - Ubuntu/Debian: `sudo apt install jq`
+  - RHEL/CentOS: `sudo yum install jq`
+  - Windows: Download from https://jqlang.github.io/jq/download/
+
+#### Photos Watcher Dependencies (macOS)
+- **sqlite3** - Database access (usually pre-installed)
+- **osascript** - AppleScript execution (built into macOS)
+- **Photos App** - Must be installed and initialized
+- **System Permissions** - Photos access and Full Disk Access
 
 ### Node.js Packages (auto-installed)
 - **form-data** - File uploads to Neocities API
 - **markdown-it** - Markdown to HTML conversion
+- **chokidar** - File system watching (for photo watcher)
 
-*All dependencies are automatically checked when you run scripts. Missing dependencies will trigger installation prompts.*
+### Dependency Management Features
+
+#### 🔍 Automatic Detection
+- Each script checks for its required dependencies at startup
+- Clear error messages with installation instructions for each platform
+- Supports macOS, Linux (apt/yum), and Windows
+
+#### 🛠️ Automated Installation
+- Scripts offer to automatically install missing dependencies
+- Uses appropriate package managers (Homebrew on macOS, apt on Ubuntu, etc.)
+- Graceful fallback to manual installation instructions if auto-install fails
+
+#### 📋 Comprehensive Checking
+```bash
+# Check all dependencies at once
+npm run check-deps
+
+# Individual scripts provide detailed installation guidance
+npm run process-photos -- 512 jpg  # Will check ImageMagick
+npm run process-video               # Will check FFmpeg and jq
+```
+
+### Usage Examples
+
+#### Interactive Installation
+When you run a script with missing dependencies:
+```bash
+npm run process-photos -- 512x512 jpg
+# Output:
+# 🔍 Checking dependencies...
+# ❌ magick is not installed or not in PATH
+# 💡 Install instructions:
+#    macOS: brew install imagemagick
+#    Ubuntu/Debian: sudo apt install imagemagick
+# 
+# 🤔 Would you like me to attempt to install the missing dependencies? (y/N):
+```
+
+Choose 'y' for automatic installation or 'n' for manual installation.
+
+#### Successful Run
+Once dependencies are installed:
+```bash
+npm run process-photos -- 512x512 jpg
+# Output:
+# 🔍 Checking dependencies...
+# ✅ ImageMagick is available
+# ✅ All dependencies are available!
+# [continues with photo processing...]
+```
+
+### Troubleshooting Dependencies
+
+#### Permission Issues
+If automatic installation fails due to permissions:
+- **macOS**: Install Homebrew first: `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+- **Linux**: Make sure you have sudo access
+- **Windows**: Run as administrator or install tools manually
+
+#### Package Manager Not Found
+- **macOS**: Install Homebrew if `brew` command is not found
+- **Linux**: The script tries `apt` first, then suggests alternatives
+- **Windows**: Manual installation links are provided
+
+#### Network Issues
+If automatic installation fails due to network:
+- Check your internet connection
+- Try running the suggested manual installation commands
+- Some corporate networks may block package manager repositories
+
+### Safety Features
+- **No sudo by default**: Scripts won't run privileged commands without explicit user consent
+- **Graceful fallbacks**: If auto-install fails, clear manual instructions are provided
+- **Platform detection**: Appropriate installation commands for your operating system
+- **Confirmation prompts**: You always choose whether to attempt automatic installation
+
+*All dependencies are automatically checked when you run scripts. Missing dependencies will trigger installation prompts with clear instructions for your platform.*
 
 ## � iOS/iPhone Integration
 
@@ -489,9 +801,40 @@ npm run deploy-full-refresh -- --include-mp3s
 
 ### GitHub Actions Automated Deployment
 
-This project includes automated GitHub Actions for continuous deployment to Neocities.
+This project includes automated GitHub Actions for continuous deployment to Neocities with two specialized workflows:
 
-#### Setup Instructions
+#### 🎵 Music Deployment Workflow
+
+**Automatic Triggers:**
+- MP3 files added/changed in `public/music/`
+- Changes to `releases.json` configuration
+- Manual workflow dispatch with options
+
+**Features:**
+- ✅ **Smart Deployment**: Only uploads new or changed MP3 files
+- 🔍 **Configuration Validation**: Ensures `releases.json` is valid
+- ⚠️ **Orphan Detection**: Finds unreferenced files (unless skipped)
+- 🤖 **CI-Friendly**: Non-interactive mode for GitHub Actions
+- ⏱️ **Rate Limiting**: Respects Neocities API limits
+- 📊 **Detailed Reporting**: Comprehensive deployment summaries
+
+**Setup for Music Deployment:**
+1. Add GitHub Secrets:
+   - `NEOCITIES_API_KEY` (required)
+   - `NEOCITIES_SITENAME` (optional, for verification)
+2. Push MP3 changes or update `releases.json`
+3. Workflow runs automatically
+
+**Manual Music Deployment:**
+1. Go to **Actions** tab → "Deploy Music Files"
+2. Click **Run workflow**
+3. Options available:
+   - **Force deploy**: Upload all MP3 files (not just new ones)
+   - **Skip orphan check**: Skip checking for orphaned files
+
+#### 🎨 Assets Deployment Workflow
+
+**Setup Instructions:**
 
 **1. Add Your Neocities API Key as a GitHub Secret**
 1. Go to your GitHub repository **Settings** → **Secrets and variables** → **Actions**
@@ -528,6 +871,25 @@ The automation will:
 - **Change Detection**: Only uploads modified files
 
 #### Example GitHub Actions Output
+
+**Music Deployment:**
+```
+🎵 Starting music deployment...
+📋 Found 5 releases in configuration
+📂 Found 5 MP3 files locally
+🌐 Checking remote files...
+📋 Found 4 MP3 files on Neocities
+📤 Uploading 1 new MP3 files...
+📤 Uploading: Arrival_on_Ganymede.mp3
+✅ Successfully uploaded: Arrival_on_Ganymede.mp3
+
+📊 Deployment Summary:
+✅ Successful uploads: 1
+📋 Total configured releases: 5
+🎉 Music deployment completed!
+```
+
+**Assets Deployment:**
 ```
 🔍 Checking for asset changes to deploy...
 📂 Scanning local assets...
@@ -553,10 +915,22 @@ The automation will:
 ```
 
 #### GitHub Actions Troubleshooting
+
+**General Issues:**
 - **API Key Issues**: Verify `NEOCITIES_API_KEY` secret is set correctly
-- **File Not Found**: Ensure files are in `public/assets/` directory
+- **File Not Found**: Ensure files are in correct directories (`public/assets/`, `public/music/`)
 - **Upload Failures**: Check Actions logs for detailed error messages
 - **Rate Limiting**: Automatic handling with delays and retries
+
+**Music Deployment Specific:**
+- **Configuration Errors**: Ensure `releases.json` has valid JSON syntax
+- **Missing MP3 Files**: All files referenced in configuration must exist in `public/music/`
+- **Orphaned Files**: Check warnings about unreferenced MP3 files
+- **Large File Issues**: MP3 files may take longer to upload due to size
+
+**Assets Deployment Specific:**
+- **Directory Structure**: Files must be in `public/assets/` directory
+- **File Format Issues**: Ensure supported image/asset formats
 
 🔗 **Advanced CI/CD**: See [GitHub Actions Documentation](https://github.com/JasonBBelcher/xalpheric-neocities-kb/blob/main/deployment/github-actions.md) for complete automation setup.
 

@@ -1,0 +1,215 @@
+name: Deploy Music Files
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'public/music/**/*.mp3'
+      - 'public/config/releases.json'
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'public/music/**/*.mp3'
+      - 'public/config/releases.json'
+  workflow_dispatch:
+    inputs:
+      force_deploy:
+        description: 'Force deploy all music files'
+        required: false
+        default: false
+        type: boolean
+      skip_orphan_check:
+        description: 'Skip orphan file detection'
+        required: false
+        default: false
+        type: boolean
+
+jobs:
+  deploy-music:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 2  # Fetch current and previous commit for diff
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    - name: Detect changed MP3 files
+      id: changes
+      run: |
+        # Get list of changed MP3 files
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ] && [ "${{ github.event.inputs.force_deploy }}" == "true" ]; then
+          echo "Force deploy requested - deploying all MP3 files"
+          find public/music -name "*.mp3" -type f | sed 's|^public/||' > changed_files.txt
+        else
+          echo "Detecting changed MP3 files..."
+          git diff --name-only HEAD~1 HEAD | grep -E "public/music/.*\.mp3$" | sed 's|^public/||' > changed_files.txt || touch changed_files.txt
+        fi
+        
+        # Also check if releases.json changed
+        if git diff --name-only HEAD~1 HEAD | grep -q "public/config/releases.json"; then
+          echo "releases.json changed - will validate configuration"
+          echo "config_changed=true" >> $GITHUB_OUTPUT
+        fi
+        
+        # Output changed files for logging
+        if [ -s changed_files.txt ]; then
+          echo "Changed MP3 files:"
+          cat changed_files.txt
+          echo "has_changes=true" >> $GITHUB_OUTPUT
+        else
+          echo "No MP3 files changed"
+          echo "has_changes=false" >> $GITHUB_OUTPUT
+        fi
+    
+    - name: Validate releases configuration
+      if: steps.changes.outputs.has_changes == 'true' || steps.changes.outputs.config_changed == 'true'
+      run: |
+        echo "Validating releases.json configuration..."
+        node -e "
+          const fs = require('fs');
+          try {
+            const config = JSON.parse(fs.readFileSync('public/config/releases.json', 'utf8'));
+            console.log('✅ releases.json is valid JSON');
+            console.log('Found', config.releases.length, 'releases configured');
+            
+            // Validate required fields
+            config.releases.forEach((release, index) => {
+              if (!release.title || !release.file) {
+                throw new Error(\`Release \${index + 1} missing required fields (title, file)\`);
+              }
+            });
+            console.log('✅ All releases have required fields');
+          } catch (error) {
+            console.error('❌ Configuration validation failed:', error.message);
+            process.exit(1);
+          }
+        "
+    
+    - name: Check for orphaned files
+      if: steps.changes.outputs.has_changes == 'true' && github.event.inputs.skip_orphan_check != 'true'
+      run: |
+        echo "Checking for orphaned MP3 files..."
+        node -e "
+          const fs = require('fs');
+          const path = require('path');
+          
+          // Load releases configuration
+          const config = JSON.parse(fs.readFileSync('public/config/releases.json', 'utf8'));
+          const configuredFiles = new Set(config.releases.map(r => r.file));
+          
+          // Find all MP3 files
+          function findMp3Files(dir) {
+            const files = [];
+            function scan(currentDir) {
+              const items = fs.readdirSync(currentDir, { withFileTypes: true });
+              for (const item of items) {
+                const fullPath = path.join(currentDir, item.name);
+                if (item.isDirectory()) {
+                  scan(fullPath);
+                } else if (item.name.endsWith('.mp3')) {
+                  files.push(path.relative('public', fullPath));
+                }
+              }
+            }
+            scan(dir);
+            return files;
+          }
+          
+          const allMp3Files = findMp3Files('public/music');
+          const orphanedFiles = allMp3Files.filter(file => !configuredFiles.has(file));
+          
+          if (orphanedFiles.length > 0) {
+            console.log('⚠️  Warning: Found orphaned MP3 files not in releases.json:');
+            orphanedFiles.forEach(file => console.log('  -', file));
+            console.log('');
+            console.log('These files will be uploaded but not appear in the music player.');
+            console.log('Consider adding them to releases.json or removing them.');
+          } else {
+            console.log('✅ No orphaned MP3 files found');
+          }
+        "
+    
+    - name: Deploy music files to Neocities
+      if: steps.changes.outputs.has_changes == 'true'
+      env:
+        NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        NEOCITIES_SITENAME: ${{ secrets.NEOCITIES_SITENAME }}
+        CI: true
+      run: |
+        echo "Deploying music files using deploy-music.js..."
+        
+        # Set deploy options based on workflow inputs
+        DEPLOY_ARGS=""
+        if [ "${{ github.event.inputs.force_deploy }}" == "true" ]; then
+          DEPLOY_ARGS="$DEPLOY_ARGS --force"
+        fi
+        if [ "${{ github.event.inputs.skip_orphan_check }}" == "true" ]; then
+          DEPLOY_ARGS="$DEPLOY_ARGS --skip-orphan-check"
+        fi
+        
+        # Run the deploy script
+        node deploy-music.js $DEPLOY_ARGS
+    
+    - name: Deploy updated configuration
+      if: steps.changes.outputs.config_changed == 'true'
+      env:
+        NEOCITIES_API_KEY: ${{ secrets.NEOCITIES_API_KEY }}
+        NEOCITIES_SITENAME: ${{ secrets.NEOCITIES_SITENAME }}
+      run: |
+        echo "Deploying updated releases.json configuration..."
+        curl -X POST \
+          -H "Authorization: Bearer $NEOCITIES_API_KEY" \
+          -F "config/releases.json=@public/config/releases.json" \
+          "https://neocities.org/api/upload"
+        echo ""
+    
+    - name: Verify deployment
+      if: steps.changes.outputs.has_changes == 'true'
+      env:
+        NEOCITIES_SITENAME: ${{ secrets.NEOCITIES_SITENAME }}
+      run: |
+        echo "Verifying deployment..."
+        sleep 5  # Wait for Neocities to process uploads
+        
+        # Check if site is accessible
+        if curl -s -f "https://$NEOCITIES_SITENAME.neocities.org/" > /dev/null; then
+          echo "✅ Site is accessible"
+        else
+          echo "⚠️  Warning: Site may not be accessible yet"
+        fi
+        
+        # Verify releases.json is accessible
+        if curl -s -f "https://$NEOCITIES_SITENAME.neocities.org/config/releases.json" > /dev/null; then
+          echo "✅ releases.json is accessible"
+        else
+          echo "⚠️  Warning: releases.json may not be accessible yet"
+        fi
+    
+    - name: Post-deployment summary
+      if: always()
+      run: |
+        echo "=== Deployment Summary ==="
+        echo "Trigger: ${{ github.event_name }}"
+        echo "Branch: ${{ github.ref_name }}"
+        echo "Commit: ${{ github.sha }}"
+        echo "Changed files detected: ${{ steps.changes.outputs.has_changes }}"
+        echo "Configuration changed: ${{ steps.changes.outputs.config_changed }}"
+        
+        if [ -s changed_files.txt ]; then
+          echo ""
+          echo "Deployed files:"
+          cat changed_files.txt
+        fi
+        
+        echo ""
+        echo "🎵 Music deployment complete!"

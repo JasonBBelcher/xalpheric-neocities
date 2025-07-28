@@ -1,0 +1,49 @@
+{
+  "releases": [
+    {
+      "id": "Arrival_on_Ganymede",
+      "title": "Arrival on Ganymede",
+      "cover": "assets/release5.png",
+      "audio": "music/Arrival_on_Ganymede.mp3",
+      "description": "Progressive House track with a spacey vibe",
+      "year": 2024,
+      "duration": "4:32"
+    },
+    {
+      "id": "face_the_shadow",
+      "title": "Face The Shadow",
+      "cover": "assets/release1.png",
+      "audio": "music/face_the_shadow.mp3",
+      "description": "Dark ambient electronic piece exploring themes of self-reflection",
+      "year": 2024,
+      "duration": "4:32"
+    },
+    {
+      "id": "contemplate",
+      "title": "Contemplate",
+      "cover": "assets/release2.jpg",
+      "audio": "music/contemplate.mp3",
+      "description": "Meditative soundscape with evolving textures",
+      "year": 2024,
+      "duration": "5:18"
+    },
+    {
+      "id": "hitchcrackpot",
+      "title": "Hitch Crack Pot",
+      "cover": "assets/release3.png",
+      "audio": "music/hitchcrackpot.mp3",
+      "description": "Experimental glitch composition with found sounds",
+      "year": 2024,
+      "duration": "3:45"
+    },
+    {
+      "id": "dogs_in_the_street",
+      "title": "Dogs in the Street",
+      "cover": "assets/release4.png",
+      "audio": "music/dogs_in_the_street.mp3",
+      "description": "Urban soundscape with field recordings",
+      "year": 2024,
+      "duration": "4:12"
+    }
+  ]
+}
