@@ -21,6 +21,8 @@ npm run process-photos -- 512x512 jpg studio{increment}
 npm run process-video -- '[{"inputName":"video.mp4","outputName":"audio.mp3"}]'
 ```
 
+**📚 Need detailed documentation?** Check out the [comprehensive knowledge base](https://github.com/JasonBBelcher/xalpheric-neocities-kb) with complete technical details and AI-optimized assistance.
+
 ## ️ Available Scripts
 
 ### Content Management
@@ -115,6 +117,8 @@ xalpheric-neocities/
 └── check-deps.js              # Dependency checker
 ```
 
+**📚 Documentation**: Complete technical documentation and AI-optimized knowledge base available at: [xalpheric-neocities-kb](https://github.com/JasonBBelcher/xalpheric-neocities-kb)
+
 ## 🎯 Features
 
 ### ✅ Content Management
@@ -147,6 +151,22 @@ xalpheric-neocities/
 - **Interactive installation** prompts
 - **Platform-specific instructions** (macOS, Linux, Windows)
 - **Graceful fallbacks** when auto-install fails
+
+## 📚 Documentation
+
+### Comprehensive Knowledge Base
+This project includes a detailed **AI-optimized knowledge base** with complete technical documentation:
+
+**🔗 [Xalpheric Neocities Knowledge Base](https://github.com/JasonBBelcher/xalpheric-neocities-kb)**
+
+The knowledge base provides:
+- **Complete system architecture** and technical implementation details
+- **Step-by-step workflows** for content creation and media processing
+- **AI-optimized documentation** for enhanced assistance with Claude AI and other AI tools
+- **Troubleshooting guides** with real-world solutions
+- **Development best practices** and optimization strategies
+
+**For AI Assistants**: The knowledge base includes a specialized context loading prompt that enables AI to provide project-specific assistance with complete understanding of the system architecture and workflows.
 
 ## 🔧 Dependencies
 
