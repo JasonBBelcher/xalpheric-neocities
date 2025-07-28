@@ -487,6 +487,79 @@ npm run deploy-full-refresh
 npm run deploy-full-refresh -- --include-mp3s
 ```
 
+### GitHub Actions Automated Deployment
+
+This project includes automated GitHub Actions for continuous deployment to Neocities.
+
+#### Setup Instructions
+
+**1. Add Your Neocities API Key as a GitHub Secret**
+1. Go to your GitHub repository **Settings** → **Secrets and variables** → **Actions**
+2. Click **New repository secret**
+3. Name: `NEOCITIES_API_KEY`
+4. Value: Your Neocities API key (get it from [neocities.org/api](https://neocities.org/api))
+
+**2. How Automated Deployment Works**
+
+The GitHub Action automatically triggers when:
+- You push changes to the `main` branch
+- The changes include files in the `public/assets/` directory
+
+The automation will:
+1. **Compare Files**: Use SHA1 hashes to detect changes
+2. **Upload Only Changes**: Only upload new or modified files
+3. **Preserve Structure**: Maintain directory organization
+4. **Provide Logging**: Detailed deployment reports
+
+**3. Manual Deployment Trigger**
+- Go to **Actions** tab in your GitHub repository
+- Select **Deploy Assets to Neocities** workflow
+- Click **Run workflow** to deploy manually
+
+**4. What Gets Deployed Automatically**
+- All files in `public/assets/` and subdirectories
+- Files uploaded to `assets/` directory on Neocities
+- Directory structure preserved (e.g., `public/assets/images/photo.jpg` → `assets/images/photo.jpg`)
+
+**5. Built-in Safety Features**
+- **Rate Limiting**: 1-second delays between uploads
+- **Retry Logic**: Automatic retry for failed uploads
+- **Error Reporting**: Detailed failure logging
+- **Change Detection**: Only uploads modified files
+
+#### Example GitHub Actions Output
+```
+🔍 Checking for asset changes to deploy...
+📂 Scanning local assets...
+📋 Found 8 local asset files
+🌐 Fetching remote assets list...
+📤 Found 3 files to upload:
+   🆕 NEW: studio1.jpg
+   🆕 NEW: studio2.jpg
+   🔄 UPDATED: logo.png
+📤 Uploading 1/3: studio1.jpg
+✅ Successfully uploaded: studio1.jpg
+📤 Uploading 2/3: studio2.jpg
+✅ Successfully uploaded: studio2.jpg
+📤 Uploading 3/3: logo.png
+✅ Successfully uploaded: logo.png
+
+📊 Upload Summary:
+✅ Successful uploads: 3
+❌ Failed uploads: 0
+📋 Total files: 3
+
+🎉 All assets deployed successfully!
+```
+
+#### GitHub Actions Troubleshooting
+- **API Key Issues**: Verify `NEOCITIES_API_KEY` secret is set correctly
+- **File Not Found**: Ensure files are in `public/assets/` directory
+- **Upload Failures**: Check Actions logs for detailed error messages
+- **Rate Limiting**: Automatic handling with delays and retries
+
+🔗 **Advanced CI/CD**: See [GitHub Actions Documentation](https://github.com/JasonBBelcher/xalpheric-neocities-kb/blob/main/deployment/github-actions.md) for complete automation setup.
+
 ## 🔍 Troubleshooting
 
 ### Common Issues and Solutions
