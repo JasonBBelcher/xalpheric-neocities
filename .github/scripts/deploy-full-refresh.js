@@ -86,6 +86,7 @@ Options:
   --dry-run            Show what would happen without making changes
   --include-mp3s       Include MP3 files in the refresh (excluded by default)
   --include-assets     Include assets folder files in the refresh (excluded by default)
+  --rate-limit <sec>   Rate limit between requests in seconds (default: 5)
   --help, -h           Show this help message
 
 Examples:
@@ -94,6 +95,7 @@ Examples:
   npm run deploy-full-refresh -- --include-assets
   npm run deploy-full-refresh -- --include-mp3s --include-assets
   npm run deploy-full-refresh -- --dry-run --include-assets
+  npm run deploy-full-refresh -- --include-mp3s --include-assets --rate-limit 10
 
 Environment Variables:
   NEOCITIES_API_KEY  Your Neocities API key (required for non-dry-run)
@@ -114,13 +116,28 @@ Environment Variables:
   process.exit(0);
 }
 
+// Parse rate limit argument
+function parseRateLimit() {
+  const rateLimitIndex = process.argv.findIndex(arg => arg === '--rate-limit');
+  if (rateLimitIndex !== -1 && rateLimitIndex + 1 < process.argv.length) {
+    const rateLimitValue = parseInt(process.argv[rateLimitIndex + 1]);
+    if (!isNaN(rateLimitValue) && rateLimitValue > 0) {
+      return rateLimitValue * 1000; // Convert seconds to milliseconds
+    } else {
+      console.error('❌ Invalid rate limit value. Must be a positive number of seconds.');
+      process.exit(1);
+    }
+  }
+  return 5000; // Default 5 seconds
+}
+
 // Configuration
 const CONFIG = {
   includeMp3s: process.argv.includes('--include-mp3s'),
   includeAssets: process.argv.includes('--include-assets'),
   dryRun: process.argv.includes('--dry-run'),
   maxConcurrentUploads: 2, // Conservative for rate limiting
-  delayBetweenRequests: 5000, // 5 seconds between API calls
+  delayBetweenRequests: parseRateLimit(),
   maxFilesPerDelete: 10, // Batch delete in smaller chunks
 };
 
@@ -430,6 +447,19 @@ async function uploadLocalFiles(files) {
     }
 
     console.log(`📁 Found ${localFiles.length} local files to upload`);
+    console.log(`⏱️  Rate limit: ${CONFIG.delayBetweenRequests / 1000} seconds between requests`);
+    
+    if (CONFIG.includeMp3s) {
+      console.log("🎵 Including MP3 files in refresh");
+    } else {
+      console.log("🎵 Excluding MP3 files (use --include-mp3s to include)");
+    }
+    
+    if (CONFIG.includeAssets) {
+      console.log("🖼️  Including assets files in refresh");
+    } else {
+      console.log("🖼️  Excluding assets files (use --include-assets to include)");
+    }
 
     // Safety check
     if (localFiles.length < 5) {
