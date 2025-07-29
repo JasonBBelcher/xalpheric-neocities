@@ -52,6 +52,55 @@ function showRelease(index) {
   $("#track-counter").text(`${index + 1} / ${releases.length}`);
 }
 
+// Release Lightbox functionality
+function createReleaseLightbox() {
+  const lightboxHTML = `
+    <div id="release-lightbox" class="release-lightbox" onclick="closeReleaseLightbox()">
+      <div class="release-lightbox-content" onclick="event.stopPropagation()">
+        <span class="release-lightbox-close" onclick="closeReleaseLightbox()">&times;</span>
+        <img id="release-lightbox-image" src="" alt="" class="release-lightbox-album">
+        <div class="release-lightbox-info">
+          <h3 id="release-lightbox-title"></h3>
+          <div class="release-lightbox-meta">
+            <span id="release-lightbox-year"></span>
+            <span id="release-lightbox-duration"></span>
+          </div>
+          <p id="release-lightbox-description"></p>
+        </div>
+      </div>
+    </div>
+  `;
+  
+  $('body').append(lightboxHTML);
+}
+
+function openReleaseLightbox(releaseIndex) {
+  if (!releases || releases.length === 0) return;
+  
+  const release = releases[releaseIndex];
+  
+  // Update lightbox content
+  $('#release-lightbox-image').attr('src', release.cover);
+  $('#release-lightbox-title').text(release.title);
+  $('#release-lightbox-year').text(release.year || '');
+  $('#release-lightbox-duration').text(release.duration || '');
+  $('#release-lightbox-description').text(release.description || '');
+  
+  // Show/hide description based on content
+  if (release.description) {
+    $('#release-lightbox-description').show();
+  } else {
+    $('#release-lightbox-description').hide();
+  }
+  
+  // Fade in lightbox
+  $('#release-lightbox').fadeIn(300);
+}
+
+function closeReleaseLightbox() {
+  $('#release-lightbox').fadeOut(300);
+}
+
 function updateNavigationState() {
   // Disable/enable navigation buttons based on current position
   $(".nav.left").toggleClass('disabled', current === 0);
@@ -78,28 +127,45 @@ $(document).ready(() => {
   // Load releases configuration
   loadReleases();
   
+  // Create release lightbox
+  createReleaseLightbox();
+  
   // Navigation event handlers
   $(".nav.left").click(navigateLeft);
   $(".nav.right").click(navigateRight);
   
+  // Album cover click handler for lightbox
+  $(document).on('click', '#cover', function() {
+    openReleaseLightbox(current);
+  });
+  
   // Keyboard navigation
   $(document).keydown((e) => {
-    switch(e.key) {
-      case 'ArrowLeft':
-        navigateLeft();
-        break;
-      case 'ArrowRight':
-        navigateRight();
-        break;
-      case ' ': // Spacebar for play/pause
-        e.preventDefault();
-        const player = $("#player")[0];
-        if (player.paused) {
-          player.play();
-        } else {
-          player.pause();
-        }
-        break;
+    // Close lightbox with ESC key
+    if ($('#release-lightbox').is(':visible') && e.key === 'Escape') {
+      closeReleaseLightbox();
+      return;
+    }
+    
+    // Regular navigation (only when lightbox is closed)
+    if (!$('#release-lightbox').is(':visible')) {
+      switch(e.key) {
+        case 'ArrowLeft':
+          navigateLeft();
+          break;
+        case 'ArrowRight':
+          navigateRight();
+          break;
+        case ' ': // Spacebar for play/pause
+          e.preventDefault();
+          const player = $("#player")[0];
+          if (player.paused) {
+            player.play();
+          } else {
+            player.pause();
+          }
+          break;
+      }
     }
   });
   
