@@ -141,13 +141,15 @@ p {
 
 audio {
   width: 100%;
-  margin: 1rem 0;
+  max-width: 350px;
+  margin: 1rem auto;
   filter: drop-shadow(0 0 5px #0ff);
   background: #111;
   border-radius: 8px;
   border: 2px solid rgba(0, 255, 255, 0.3);
   padding: 0.5rem;
   transition: all 0.3s ease;
+  display: block;
 }
 
 audio:hover {
@@ -782,7 +784,7 @@ audio[data-custom-player] {
 
 .download {
   display: inline-block;
-  margin-top: 0.5rem;
+  margin: 0.5rem auto;
   padding: 0.5rem 1rem;
   background: #0ff;
   color: #000;
@@ -871,6 +873,10 @@ footer {
   max-width: 400px;
   width: 90%;
   margin-bottom: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .carousel-nav {
@@ -898,6 +904,41 @@ footer {
 
 .nav:hover {
   background: #f0f;
+}
+
+/* Release Carousel Responsive */
+@media (max-width: 768px) {
+  .release-viewer {
+    max-width: 350px;
+    width: 95%;
+    padding: 1rem;
+  }
+  
+  audio {
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .release-viewer {
+    max-width: 320px;
+    width: 98%;
+    padding: 0.8rem;
+  }
+  
+  audio {
+    max-width: 280px;
+  }
+  
+  .carousel-nav {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .nav {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
 }
 
 /* Musings and Notes styles */
