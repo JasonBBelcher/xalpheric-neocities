@@ -424,20 +424,19 @@ audio[data-custom-player] {
 
 /* Xalpheric Radio Player Styles */
 .xalpheric-radio-player {
-  position: absolute;
-  top: 0;
+  position: fixed;
+  top: 70px; /* Position below the header */
   right: 20px;
   width: 300px;
   max-width: calc(100vw - 40px);
   background: rgba(17, 17, 17, 0.95);
   border: 2px solid #0ff;
-  border-top: none;
-  border-radius: 0 0 12px 12px;
+  border-radius: 12px;
   backdrop-filter: blur(15px);
   font-family: 'Orbitron', monospace;
   box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
   transition: all 0.3s ease;
-  z-index: 1001;
+  z-index: 9998;
 }
 
 .xalpheric-radio-player.collapsed {
@@ -709,11 +708,28 @@ audio[data-custom-player] {
 }
 
 /* Radio Player Responsive Design */
+@media (max-width: 1024px) {
+  .xalpheric-radio-player {
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 12px;
+    border: 2px solid #0ff;
+  }
+}
+
 @media (max-width: 768px) {
   .xalpheric-radio-player {
     width: 250px;
     max-width: calc(100vw - 40px);
     font-size: 0.9em;
+    position: fixed;
+    top: auto;
+    bottom: 20px;
+    right: 20px;
+    border-radius: 12px;
+    border: 2px solid #0ff;
   }
   
   .xalpheric-radio-player.collapsed {

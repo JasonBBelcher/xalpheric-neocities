@@ -200,19 +200,8 @@ class XalphericRadioPlayer {
             </div>
         `;
         
-                // Add to header
-        const siteHeader = document.querySelector('.site-header');
-        if (siteHeader) {
-            siteHeader.appendChild(this.container);
-        } else {
-            console.warn('Radio Player: .site-header not found, trying to append to body');
-            // Fallback: create a temporary header-like container
-            const fallbackHeader = document.createElement('div');
-            fallbackHeader.className = 'site-header';
-            fallbackHeader.style.cssText = 'position: relative; width: 100%; z-index: 1000;';
-            document.body.insertBefore(fallbackHeader, document.body.firstChild);
-            fallbackHeader.appendChild(this.container);
-        }
+                // Add to body to position below header
+        document.body.appendChild(this.container);
         
         // Bind all events
         this.bindEvents();
