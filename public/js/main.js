@@ -157,6 +157,10 @@ $(document).ready(() => {
           navigateRight();
           break;
         case ' ': // Spacebar for play/pause
+          // Don't intercept spacebar if user is typing in form fields
+          if ($(e.target).is('input, textarea, [contenteditable]')) {
+            return; // Allow normal spacebar behavior in form fields
+          }
           e.preventDefault();
           const player = $("#player")[0];
           if (player.paused) {
