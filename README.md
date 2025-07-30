@@ -29,8 +29,10 @@ A complete static site builder and deployment system for the Neocities platform,
 - [🎨 Gallery Integration](#-gallery-integration) - Photo gallery system
 
 ### Advanced Documentation
+- [� System Knowledge Base](SYSTEM-KNOWLEDGE-BASE.md) - Complete technical overview of entire ecosystem
+- [💬 Guestbook System](GUESTBOOK.md) - Guestbook setup and integration guide
+- [� Guestbook Integration](GUESTBOOK-INTEGRATION.md) - Technical integration details
 - [📁 Features Documentation](features/) - Detailed feature-specific documentation
-- [📚 Comprehensive Knowledge Base](https://github.com/JasonBBelcher/xalpheric-neocities-kb) - Complete technical documentation with AI optimization
 - [🔄 Development Workflows](#-development-workflows) - Development best practices
 - [🤝 Contributing](#-contributing) - How to contribute to this project
 
