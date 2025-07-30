@@ -5,6 +5,10 @@
   "main": "build-musings.js",
   "scripts": {
     "build-musings": "node build-musings.js",
+    "process-blog-photos": "./process-photos-enhanced.sh blog 512 jpg",
+    "process-asset-photos": "./process-photos-enhanced.sh assets 512 jpg",
+    "sync-obsidian-images": "node sync-obsidian-images.js",
+    "obsidian-to-blog": "node obsidian-to-blog.js",
     "deploy": "node .github/scripts/deploy-musings.js",
     "deploy-full-refresh": "node .github/scripts/deploy-full-refresh.js",
     "deploy-music": "node deploy-music.js",

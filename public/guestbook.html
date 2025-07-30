@@ -3,11 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Guest book - Xalpheria</title>
+  <title>Guest book - Xalpheric</title>
+  
+  <!-- 
+    NOTE: This guestbook requires a separate API backend!
+    Repository: https://github.com/YourUsername/xalpheric-guestbook-api
+    Deploy the API and update the API_BASE_URL in guestbook.js
+  -->
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="Sign my guestbook and leave a message! Connect with Xalpheric and other visitors.">
-  <meta name="keywords" content="guestbook, messages, visitors, xalpheric, neocities">
+  <meta name="keywords" content="guestbook, messages, visitors, xalpheric, neocities, electronic music">
   <meta name="author" content="Xalpheric">
   <meta name="robots" content="index, follow">
   
@@ -17,54 +23,128 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/theme.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 </head>
 <body>
   <header class="site-header">
-    <nav class="top-nav">
-      <a href="index.html" class="nav-link">Home</a>
-      <a href="musings.html" class="nav-link">Thoughts & Musings</a>
-      <a href="gallery.html" class="nav-link">Gallery</a>
-      <a href="links.html" class="nav-link">Essential Links</a>
-      <a href="guestbook.html" class="nav-link active">Guest book</a>
-    </nav>
+    <div class="header-content">
+      <nav class="top-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="musings.html" class="nav-link">Thoughts & Musings</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="links.html" class="nav-link">Essential Links</a>
+        <a href="guestbook.html" class="nav-link active">Guest book</a>
+      </nav>
+    </div>
   </header>
 
-  <h1>Guest book</h1>
-
-  <section class="guestbook-container">
-    <div class="guestbook-intro">
-      <p>Welcome to my guestbook! Feel free to leave a message, share your thoughts, or just say hello. I love connecting with visitors and hearing what brings you to my corner of the web.</p>
-    </div>
-
-    <div class="guestbook-widget">
-      <!-- UltraGuest HTML Code Start -->
-      <center>
-      [ <a href="http://www.ultraguest.com/view/1753185281">View Guestbook</a> ] 
-      [ <a href="http://www.ultraguest.com/sign/1753185281">Sign Guestbook</a> ]
-      <br><a href="http://www.ultraguest.com"><font size="1">Free Guestbook by UltraGuest.com</font></a>
-      </center>
-      <!-- UltraGuest HTML Code End -->
-    </div>
-
-    <div class="guestbook-footer">
-      <p>Thank you for taking the time to visit and sign my guestbook. Your messages mean a lot to me!</p>
-      <p>I apologize for the lack of styling in the guestbook widget. Please bear with me as I work on improving the design.</p>
+  <section class="hero-section">
+    <div class="hero-content">
+      <h1 class="glow-text">Digital Guest Registry</h1>
+      <p class="subtitle">Leave your mark in the datastream</p>
     </div>
   </section>
 
-  <footer>
-    <div class="footer-links">
-      <a href="mailto:xalpheric@proton.me" class="email-link">
-        <img src="assets/email_me_128x64.png" alt="Email me" class="email-icon" />
-        <p class="email-text">xalpheric@proton.me</p>
-      </a>
-      <a href="https://buymeacoffee.com/xalpheric" target="_blank" class="coffee-link">
-        <img src="assets/coffee_icon_128x128.png" alt="Buy me a coffee" class="coffee-icon" />
-        <p class="coffee-text">Buy me a coffee</p>
-      </a>
+  <section class="guestbook-section">
+    <div class="container">
+      <!-- Guestbook Form -->
+      <div class="guestbook-form-container">
+        <div class="form-header">
+          <h2 class="glow-text">Sign the Registry</h2>
+          <p class="form-description">Connect with the Xalpheric community. Your message will be reviewed before appearing in the datastream.</p>
+        </div>
+        
+        <form id="guestbook-form" class="guestbook-form">
+          <div class="form-row">
+            <div class="form-group">
+              <label for="gb-email">Email Address <span class="required">*</span></label>
+              <input type="email" id="gb-email" name="email" required maxlength="255" class="cyber-input">
+              <div class="input-glow"></div>
+            </div>
+            
+            <div class="form-group">
+              <label for="gb-name">Handle / Name</label>
+              <input type="text" id="gb-name" name="name" maxlength="100" class="cyber-input" placeholder="Anonymous">
+              <div class="input-glow"></div>
+            </div>
+          </div>
+          
+          <div class="form-group">
+            <label for="gb-website">Website / Profile</label>
+            <input type="url" id="gb-website" name="website" placeholder="https://your-site.com" maxlength="500" class="cyber-input">
+            <div class="input-glow"></div>
+          </div>
+          
+          <div class="form-group">
+            <label for="gb-comment">Message <span class="required">*</span></label>
+            <textarea id="gb-comment" name="comment" required maxlength="1000" rows="4" class="cyber-textarea"
+                      placeholder="Share your thoughts about the music, site, or just say hello! What brought you to this corner of cyberspace?"></textarea>
+            <div class="character-count">
+              <span id="comment-count">0</span><span class="count-separator">/</span><span class="count-max">1000</span>
+            </div>
+            <div class="input-glow"></div>
+          </div>
+          
+          <button type="submit" class="submit-btn cyber-btn">
+            <span class="btn-text">TRANSMIT MESSAGE</span>
+            <span class="btn-glow"></span>
+          </button>
+        </form>
+        
+        <!-- Status messages will appear here -->
+        <div id="guestbook-status" class="status-container"></div>
+      </div>
+      
+      <!-- Existing Entries -->
+      <div class="guestbook-entries-container">
+        <div class="entries-header">
+          <h2 class="glow-text">Message Archive</h2>
+          <div class="entries-count">
+            <span id="entries-count">Loading...</span> messages in the datastream
+          </div>
+        </div>
+        
+        <div id="guestbook-entries" class="entries-grid">
+          <!-- Loading state -->
+          <div class="loading-container">
+            <div class="cyber-loader">
+              <div class="loader-ring"></div>
+              <div class="loader-ring"></div>
+              <div class="loader-ring"></div>
+            </div>
+            <p class="loading-text">Accessing message archive...</p>
+          </div>
+        </div>
+        
+        <div class="load-more-container">
+          <button id="load-more-btn" class="load-more-btn cyber-btn" style="display: none;">
+            <span class="btn-text">LOAD MORE MESSAGES</span>
+            <span class="btn-glow"></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-content">
+      <div class="footer-links">
+        <a href="mailto:xalpheric@proton.me" class="email-link">
+          <img src="assets/email_me_128x64.png" alt="Email me" class="email-icon" />
+          <p class="email-text">xalpheric@proton.me</p>
+        </a>
+        <a href="https://buymeacoffee.com/xalpheric" target="_blank" class="coffee-link">
+          <img src="assets/coffee_icon_128x128.png" alt="Buy me a coffee" class="coffee-icon" />
+          <p class="coffee-text">Buy me a coffee</p>
+        </a>
+      </div>
     </div>
   </footer>
   
+  <script src="js/main.js"></script>
   <script src="js/radio-player.js"></script>
+  <script src="js/guestbook.js"></script>
 </body>
 </html>

@@ -29,6 +29,7 @@ A complete static site builder and deployment system for the Neocities platform,
 - [🎨 Gallery Integration](#-gallery-integration) - Photo gallery system
 
 ### Advanced Documentation
+- [📁 Features Documentation](features/) - Detailed feature-specific documentation
 - [📚 Comprehensive Knowledge Base](https://github.com/JasonBBelcher/xalpheric-neocities-kb) - Complete technical documentation with AI optimization
 - [🔄 Development Workflows](#-development-workflows) - Development best practices
 - [🤝 Contributing](#-contributing) - How to contribute to this project
@@ -316,14 +317,23 @@ xalpheric-neocities/
 ### 🖼️ Advanced Media Processing
 
 #### Photo Processing Engine
+- **Dual-Mode Processing**: Blog images and general assets
+- **Obsidian Integration**: Support for `![[image.jpg]]` syntax
+- **Automatic Optimization**: Intelligent resizing and format conversion
 - **Batch Processing**: Process entire directories at once
 - **Smart Scaling**: Proportional or exact dimension scaling
 - **Format Conversion**: JPEG ↔ PNG ↔ WebP ↔ HEIC
 - **Custom Naming**: Sequential numbering with custom patterns
 - **Quality Control**: Configurable compression and quality settings
 
+📖 **[Complete Photo Processing Documentation](features/photo-processing-system.md)**
+
 **Supported Photo Workflows**:
 ```
+# Blog Images
+thoughts-and-musings/ → Enhanced Processing → public/assets/blog-images/ → Blog Display
+
+# General Assets  
 Raw Photos → process_photos/ → ImageMagick → public/assets/ → Gallery Display
 ```
 
