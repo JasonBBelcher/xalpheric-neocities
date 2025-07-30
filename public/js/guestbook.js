@@ -456,7 +456,7 @@ class GuestbookUI {
 }
 
 // Configuration - Update this with your deployed API URL
-const API_BASE_URL = 'http://localhost:3001'; // Change this to your deployed API URL
+const API_BASE_URL = 'https://xalpheric-guestbook-api.onrender.com'; // Live API URL
 
 // Initialize guestbook
 let guestbook;
