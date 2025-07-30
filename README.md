@@ -1344,6 +1344,19 @@ Permission is hereby granted, free of charge, to any person obtaining a copy of 
 
 ---
 
+## 🌐 Related Projects
+
+This site integrates with the **[Xalpheric Guestbook API](https://github.com/YOUR_USERNAME/xalpheric-guestbook-api)** - a standalone backend service that provides:
+
+- ✅ Secure guestbook functionality with email notifications
+- 🛡️ Spam protection and admin moderation workflow  
+- 🚀 One-click deployment to Render.com
+- 📧 Gmail integration with admin action buttons
+
+**See the [Guestbook Integration Guide](GUESTBOOK-INTEGRATION.md) for setup instructions.**
+
+---
+
 <div align="center">
 
 **🎵 Built with passion for music, technology, and the independent web 🎵**
