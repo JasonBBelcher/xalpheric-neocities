@@ -187,3 +187,63 @@ $(document).ready(() => {
     $("#error-message").text('Error loading audio file').show();
   });
 });
+
+// Hamburger Menu Functionality
+$(document).ready(function() {
+  const hamburger = $('.hamburger-menu');
+  const nav = $('.top-nav');
+  const body = $('body');
+  
+  // Toggle hamburger menu
+  hamburger.on('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    hamburger.toggleClass('active');
+    nav.toggleClass('active');
+    
+    // Prevent body scroll when menu is open
+    if (hamburger.hasClass('active')) {
+      body.css('overflow', 'hidden');
+    } else {
+      body.css('overflow', 'auto');
+    }
+  });
+  
+  // Close menu when clicking nav links
+  $('.nav-link').on('click', function() {
+    hamburger.removeClass('active');
+    nav.removeClass('active');
+    body.css('overflow', 'auto');
+  });
+  
+  // Close menu when clicking outside
+  $(document).on('click', function(e) {
+    if (!hamburger.is(e.target) && 
+        !hamburger.has(e.target).length && 
+        !nav.is(e.target) && 
+        !nav.has(e.target).length) {
+      hamburger.removeClass('active');
+      nav.removeClass('active');
+      body.css('overflow', 'auto');
+    }
+  });
+  
+  // Close menu on escape key
+  $(document).on('keydown', function(e) {
+    if (e.key === 'Escape') {
+      hamburger.removeClass('active');
+      nav.removeClass('active');
+      body.css('overflow', 'auto');
+    }
+  });
+  
+  // Handle window resize - close menu and reset overflow on desktop
+  $(window).on('resize', function() {
+    if ($(window).width() > 768) {
+      hamburger.removeClass('active');
+      nav.removeClass('active');
+      body.css('overflow', 'auto');
+    }
+  });
+});
