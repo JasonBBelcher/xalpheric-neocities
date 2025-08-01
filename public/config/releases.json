@@ -1,6 +1,15 @@
 {
   "releases": [
     {
+      "id": "xaphoid_quasar_total_remake",
+      "title": "Quasar",
+      "cover": "assets/release6.jpg",
+      "audio": "music/xaphoid - quasar-total-remake.mp3",
+      "description": "Progressive House with elements of Trance and Tech, radiating energy like a quasar - one of the universe's most luminous objects powered by supermassive black holes. Just as quasars can outshine entire galaxies while being billions of light-years away, this track channels cosmic intensity through pulsing rhythms and stellar melodies.",
+      "year": 2025,
+      "duration": "5:42"
+    },
+    {
       "id": "Arrival_on_Ganymede",
       "title": "Arrival on Ganymede",
       "cover": "assets/release5.png",
