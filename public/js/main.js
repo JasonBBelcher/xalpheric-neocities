@@ -192,6 +192,7 @@ $(document).ready(() => {
 $(document).ready(function() {
   const hamburger = $('.hamburger-menu');
   const nav = $('.top-nav');
+  const header = $('.site-header');
   const body = $('body');
   
   // Toggle hamburger menu
@@ -201,6 +202,7 @@ $(document).ready(function() {
     
     hamburger.toggleClass('active');
     nav.toggleClass('active');
+    header.toggleClass('menu-open'); // Add header expansion
     
     // Prevent body scroll when menu is open
     if (hamburger.hasClass('active')) {
@@ -214,6 +216,7 @@ $(document).ready(function() {
   $('.nav-link').on('click', function() {
     hamburger.removeClass('active');
     nav.removeClass('active');
+    header.removeClass('menu-open'); // Remove header expansion
     body.css('overflow', 'auto');
   });
   
@@ -225,6 +228,7 @@ $(document).ready(function() {
         !nav.has(e.target).length) {
       hamburger.removeClass('active');
       nav.removeClass('active');
+      header.removeClass('menu-open'); // Remove header expansion
       body.css('overflow', 'auto');
     }
   });
@@ -234,6 +238,7 @@ $(document).ready(function() {
     if (e.key === 'Escape') {
       hamburger.removeClass('active');
       nav.removeClass('active');
+      header.removeClass('menu-open'); // Remove header expansion
       body.css('overflow', 'auto');
     }
   });

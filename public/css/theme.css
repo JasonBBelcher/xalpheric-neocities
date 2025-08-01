@@ -397,11 +397,21 @@ body {
 /* Responsive design for mobile */
 @media (max-width: 768px) {
   body {
-    padding-top: 60px; /* Thinner header on mobile */
+    padding-top: 70px; /* Increased for taller mobile header */
   }
   
   .site-header {
-    padding: 0.25rem 0; /* Thinner mobile header */
+    padding: 0.5rem 0; /* Increased mobile header padding */
+    min-height: 70px; /* Ensure adequate header height */
+    height: 70px; /* Fixed height when menu is closed */
+    transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    /* Remove overflow hidden - it was hiding the hamburger menu */
+  }
+  
+  /* Header grows when mobile menu is active */
+  .site-header.menu-open {
+    height: auto;
+    min-height: calc(70px + 260px); /* Base header + menu height */
   }
   
   .header-content {
@@ -409,7 +419,7 @@ body {
     align-items: center;
     justify-content: space-between;
     padding: 0 1rem;
-    min-height: 50px; /* Ensure minimum touch target */
+    min-height: 60px; /* Increased minimum touch target */
   }
   
   .hamburger-menu {
@@ -417,61 +427,62 @@ body {
   }
   
   .top-nav {
-    position: absolute;
-    top: 100%;
+    position: relative; /* Changed from absolute to relative */
+    top: 0; /* Reset positioning */
     left: 0;
     width: 100%;
     background: rgba(17, 17, 17, 0.95);
     backdrop-filter: blur(15px);
     border-top: 2px solid rgba(0, 255, 255, 0.3);
     box-shadow: 0 5px 30px rgba(0, 255, 255, 0.3);
-    transform: translateY(-100%);
+    transform: translateY(-260px); /* Hide menu completely off-screen */
     opacity: 0;
     visibility: hidden;
     transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: flex;
     flex-direction: column;
+    align-items: stretch;
     gap: 0;
     padding: 0;
     z-index: 999;
-    max-height: calc(100vh - 60px);
+    height: 260px; /* Fixed height for the menu */
     overflow-y: auto;
-    animation: slideUp 0.3s ease-out reverse both;
+    border-radius: 0 0 12px 12px;
+    margin-top: -260px; /* Pull menu up so it doesn't affect header height initially */
   }
   
   .top-nav.active {
     transform: translateY(0);
+    margin-top: 0; /* Reset margin when active */
     opacity: 1;
     visibility: visible;
-    animation: slideDown 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: slideDownMenu 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
   }
   
   .nav-link {
+    width: 100%;
     padding: 1rem 2rem;
     border-radius: 0;
     border: none;
     border-bottom: 1px solid rgba(0, 255, 255, 0.1);
     transition: all 0.3s ease;
     text-align: center;
-    transform: translateX(-100%);
+    display: block;
+    transform: translateX(-50%) translateY(-20px);
     opacity: 0;
-    animation: slideInFromLeft 0.6s ease forwards;
+    animation: none;
+    box-sizing: border-box;
   }
   
-  .top-nav.active .nav-link:nth-child(1) { 
-    animation-delay: 0.1s; 
+  .top-nav.active .nav-link {
+    animation: slideInFromLeft 0.4s ease forwards;
   }
-  .top-nav.active .nav-link:nth-child(2) { 
-    animation-delay: 0.2s; 
-  }
-  .top-nav.active .nav-link:nth-child(3) { 
-    animation-delay: 0.3s; 
-  }
-  .top-nav.active .nav-link:nth-child(4) { 
-    animation-delay: 0.4s; 
-  }
-  .top-nav.active .nav-link:nth-child(5) { 
-    animation-delay: 0.5s; 
-  }
+  
+  .top-nav.active .nav-link:nth-child(1) { animation-delay: 0.1s; }
+  .top-nav.active .nav-link:nth-child(2) { animation-delay: 0.15s; }
+  .top-nav.active .nav-link:nth-child(3) { animation-delay: 0.2s; }
+  .top-nav.active .nav-link:nth-child(4) { animation-delay: 0.25s; }
+  .top-nav.active .nav-link:nth-child(5) { animation-delay: 0.3s; }
   
   .nav-link:last-child {
     border-bottom: none;
@@ -483,42 +494,21 @@ body {
   }
 }
 
+@keyframes slideDownMenu {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 @keyframes slideInFromLeft {
   to {
-    transform: translateX(0);
-  }
-}
-
-/* Mobile menu slide-down animations */
-@keyframes slideDown {
-  0% {
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(0);
+    transform: translateX(0) translateY(0);
     opacity: 1;
-    visibility: visible;
-  }
-}
-
-@keyframes slideUp {
-  0% {
-    transform: translateY(0);
-    opacity: 1;
-    visibility: visible;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(-100%);
-    opacity: 0;
-    visibility: hidden;
   }
 }
 
@@ -825,7 +815,7 @@ h1 {
   .xalpheria-title {
     font-size: 1.6rem;
     letter-spacing: 0.05em;
-    margin: 1.5rem 0 0.5rem 0; /* Slightly less margin on mobile due to thinner header */
+    margin: 1.5rem 0 0.5rem 0; /* Adjusted for taller mobile header */
   }
 }
 
