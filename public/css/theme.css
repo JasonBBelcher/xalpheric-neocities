@@ -120,6 +120,260 @@ h1 {
   margin: 0.5rem 0;
 }
 
+/* Xalpheria Title Light Reflection & Refractive Wave Effects */
+.xalpheria-title {
+  font-size: 2.5rem;
+  color: #fff;
+  text-shadow: 0 0 10px #f0f;
+  margin: 0.5rem 0;
+  display: inline-block;
+  position: relative;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+}
+
+/* Character Styling */
+.xalpheria-title .char {
+  display: inline-block;
+  position: relative;
+  transition: all 0.3s ease;
+  color: #fff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+  animation: 
+    lightSweep 7.5s infinite,
+    refractiveWave 7.5s infinite;
+}
+
+.xalpheria-title .char.space {
+  background: none;
+  color: transparent;
+  width: 0.3em;
+}
+
+/* Light Reflection Sweep Animation */
+@keyframes lightSweep {
+  /* Normal state - before thunderbolt */
+  0%, 3% {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    opacity: 1;
+  }
+  
+  /* Thunderbolt approaches - anticipation */
+  4% {
+    color: #fff;
+    text-shadow: 
+      0 0 15px rgba(255, 255, 255, 1.2),
+      0 0 25px rgba(0, 255, 255, 1),
+      0 0 35px rgba(173, 216, 230, 0.8);
+    opacity: 1;
+  }
+  
+  /* Thunderbolt strikes - maximum shock */
+  6% {
+    color: #fff;
+    text-shadow: 
+      0 0 30px rgba(255, 255, 255, 2.5),
+      0 0 40px rgba(0, 255, 255, 2),
+      0 0 50px rgba(173, 216, 230, 1.5);
+    opacity: 1;
+  }
+  
+  /* Thunderbolt passes through - letters start to dissolve */
+  8% {
+    color: rgba(255, 255, 255, 0.6);
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 1.5),
+      0 0 30px rgba(0, 255, 255, 1.2);
+    opacity: 0.7;
+  }
+  
+  /* Thunderbolt effect - pixelation begins */
+  10% {
+    color: rgba(255, 255, 255, 0.2);
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.8);
+    opacity: 0.4;
+  }
+  
+  /* Fully pixelated/gone after thunderbolt */
+  12%, 16% {
+    color: transparent;
+    text-shadow: none;
+    opacity: 0;
+  }
+  
+  /* Light begins to reveal - sky blue */
+  20% {
+    color: #87ceeb;
+    text-shadow: 
+      0 0 15px rgba(135, 206, 235, 1),
+      0 0 25px rgba(173, 216, 230, 0.8),
+      0 0 35px rgba(0, 191, 255, 0.6);
+    opacity: 0.3;
+  }
+  
+  /* Bright white revelation */
+  24% {
+    color: #ffffff;
+    text-shadow: 
+      0 0 20px rgba(255, 255, 255, 1.2),
+      0 0 30px rgba(0, 255, 255, 1),
+      0 0 40px rgba(30, 144, 255, 0.8);
+    opacity: 0.6;
+  }
+  
+  /* Cyan peak */
+  28% {
+    color: #00ffff;
+    text-shadow: 
+      0 0 25px rgba(0, 255, 255, 1.5),
+      0 0 35px rgba(255, 255, 255, 1),
+      0 0 45px rgba(0, 191, 255, 0.8);
+    opacity: 1;
+  }
+  
+  /* Dodger blue */
+  32% {
+    color: #1e90ff;
+    text-shadow: 
+      0 0 20px rgba(30, 144, 255, 1.2),
+      0 0 30px rgba(135, 206, 235, 0.8),
+      0 0 40px rgba(0, 255, 255, 0.6);
+    opacity: 1;
+  }
+  
+  /* Light blue finish */
+  36% {
+    color: #add8e6;
+    text-shadow: 
+      0 0 15px rgba(173, 216, 230, 1),
+      0 0 25px rgba(0, 255, 255, 0.8),
+      0 0 35px rgba(30, 144, 255, 0.6);
+    opacity: 1;
+  }
+  
+  /* Return to normal */
+  40%, 100% {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    opacity: 1;
+  }
+}
+
+/* Refractive Wave Animation */
+@keyframes refractiveWave {
+  /* Normal state before thunderbolt */
+  0%, 3% {
+    transform: translateX(0) translateY(0) skewX(0deg) scale(1);
+    filter: blur(0px) hue-rotate(0deg) contrast(1) brightness(1);
+  }
+  
+  /* Anticipation - slight tremor */
+  4% {
+    transform: translateX(-1px) translateY(-1px) skewX(-1deg) scale(1.02);
+    filter: blur(0px) hue-rotate(0deg) contrast(1.2) brightness(1.2);
+  }
+  
+  /* Thunderbolt strikes - violent shake */
+  6% {
+    transform: translateX(-8px) translateY(-5px) skewX(-12deg) scale(1.2);
+    filter: blur(0px) hue-rotate(0deg) contrast(2.5) brightness(2.5);
+  }
+  
+  /* Thunderbolt passes through - chaotic movement */
+  8% {
+    transform: translateX(12px) translateY(8px) skewX(18deg) scale(0.8);
+    filter: blur(2px) hue-rotate(180deg) contrast(1.5) brightness(1.5);
+  }
+  
+  /* Pixelation effect - break apart */
+  10% {
+    transform: translateX(-15px) translateY(-12px) skewX(-25deg) scale(0.5);
+    filter: blur(4px) hue-rotate(200deg) contrast(0.8) brightness(0.8) saturate(0.2);
+  }
+  
+  /* Fully pixelated - scattered by thunderbolt */
+  12%, 16% {
+    transform: translateX(20px) translateY(-18px) skewX(30deg) scale(0.1);
+    filter: blur(10px) hue-rotate(220deg) contrast(0) brightness(0) saturate(0);
+  }
+  
+  /* Light starts revealing - gradual reformation */
+  20% {
+    transform: translateX(5px) translateY(3px) skewX(5deg) scale(0.4);
+    filter: blur(5px) hue-rotate(180deg) contrast(0.4) brightness(0.4) saturate(0.3);
+  }
+  
+  /* More visible as light passes */
+  24% {
+    transform: translateX(-2px) translateY(-2px) skewX(-3deg) scale(0.7);
+    filter: blur(2.5px) hue-rotate(220deg) contrast(0.7) brightness(0.7) saturate(0.6);
+  }
+  
+  /* Peak revelation */
+  28% {
+    transform: translateX(3px) translateY(2px) skewX(3deg) scale(1.05);
+    filter: blur(1px) hue-rotate(240deg) contrast(1.2) brightness(1.2) saturate(1.2);
+  }
+  
+  /* Settling down */
+  32% {
+    transform: translateX(-1px) translateY(0px) skewX(-1deg) scale(1.02);
+    filter: blur(0.5px) hue-rotate(200deg) contrast(1.1) brightness(1.1) saturate(1);
+  }
+  
+  /* Almost normal */
+  36% {
+    transform: translateX(0px) translateY(0px) skewX(0deg) scale(1.01);
+    filter: blur(0.2px) hue-rotate(180deg) contrast(1.05) brightness(1.05) saturate(0.9);
+  }
+  
+  /* Back to normal */
+  40%, 100% {
+    transform: translateX(0) translateY(0) skewX(0deg) scale(1);
+    filter: blur(0px) hue-rotate(0deg) contrast(1) brightness(1) saturate(1);
+  }
+}
+
+/* Individual character timing for wave effect */
+.xalpheria-title .char:nth-child(1) { animation-delay: 0s; }
+.xalpheria-title .char:nth-child(2) { animation-delay: 0.05s; }
+.xalpheria-title .char:nth-child(3) { animation-delay: 0.1s; }
+.xalpheria-title .char:nth-child(4) { animation-delay: 0.15s; }
+.xalpheria-title .char:nth-child(5) { animation-delay: 0.2s; }
+.xalpheria-title .char:nth-child(6) { animation-delay: 0.25s; }
+.xalpheria-title .char:nth-child(7) { animation-delay: 0.3s; }
+.xalpheria-title .char:nth-child(8) { animation-delay: 0.35s; }
+.xalpheria-title .char:nth-child(9) { animation-delay: 0.4s; }
+.xalpheria-title .char:nth-child(10) { animation-delay: 0.45s; }
+.xalpheria-title .char:nth-child(11) { animation-delay: 0.5s; }
+.xalpheria-title .char:nth-child(12) { animation-delay: 0.55s; }
+.xalpheria-title .char:nth-child(13) { animation-delay: 0.6s; }
+.xalpheria-title .char:nth-child(14) { animation-delay: 0.65s; }
+.xalpheria-title .char:nth-child(15) { animation-delay: 0.7s; }
+.xalpheria-title .char:nth-child(16) { animation-delay: 0.75s; }
+.xalpheria-title .char:nth-child(17) { animation-delay: 0.8s; }
+.xalpheria-title .char:nth-child(18) { animation-delay: 0.85s; }
+.xalpheria-title .char:nth-child(19) { animation-delay: 0.9s; }
+.xalpheria-title .char:nth-child(20) { animation-delay: 0.95s; }
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .xalpheria-title {
+    font-size: 2rem;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (max-width: 480px) {
+  .xalpheria-title {
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+  }
+}
+
 p {
   font-size: 1rem;
   color: #bbb;
