@@ -2,27 +2,16 @@ let releases = [];
 let current = 0;
 
 // Load releases configuration from JSON
+// Use shared releases loading utility
 async function loadReleases() {
   try {
-    const response = await fetch('config/releases.json');
-    const data = await response.json();
-    releases = data.releases;
-    
-    if (releases.length > 0) {
-      showRelease(current);
-      updateNavigationState();
-    } else {
-      console.warn('No releases found in configuration');
-    }
+    const releasesData = await loadReleasesConfig();
+    releases = formatReleasesForMain(releasesData);
+    showRelease(current);
+    updateNavigationState();
   } catch (error) {
-    console.error('Error loading releases configuration:', error);
-    // Fallback to hardcoded releases if JSON fails
-    releases = [
-      { title: "Face The Shadow", cover: "assets/release1.png", audio: "music/face_the_shadow.mp3" },
-      { title: "Contemplate", cover: "assets/release2.jpg", audio: "music/contemplate.mp3" },
-      { title: "Hitch Crack Pot", cover: "assets/release3.png", audio: "music/hitchcrackpot.mp3" },
-      { title: "Dogs in the Street", cover: "assets/release4.png", audio: "music/dogs_in_the_street.mp3" },
-    ];
+    console.error('Failed to load releases:', error);
+    // Fallback is already handled in utility
     showRelease(current);
     updateNavigationState();
   }
@@ -186,10 +175,8 @@ $(document).ready(() => {
     console.error('Audio playback error:', e);
     $("#error-message").text('Error loading audio file').show();
   });
-});
 
-// Hamburger Menu Functionality
-$(document).ready(function() {
+  // Hamburger Menu Functionality
   const hamburger = $('.hamburger-menu');
   const nav = $('.top-nav');
   const header = $('.site-header');
@@ -251,4 +238,108 @@ $(document).ready(function() {
       body.css('overflow', 'auto');
     }
   });
+
+  // Auto-hiding header functionality
+  let lastScrollTop = 0;
+  let headerTimeout = null;
+  let isHeaderVisible = true;
+  let scrollThreshold = 30; // Reduced threshold - more sensitive to small scrolls
+  
+  // Add header peek indicator to the DOM
+  if (!$('.header-peek-indicator').length) {
+    $('body').prepend('<div class="header-peek-indicator" title="Click to show header for 30 seconds"></div>');
+  }
+  
+  const peekIndicator = $('.header-peek-indicator');
+  
+  // Show header temporarily (30 seconds)
+  function showHeaderTemporarily() {
+    header.removeClass('header-hidden').addClass('header-peek');
+    peekIndicator.addClass('active');
+    isHeaderVisible = true;
+    
+    // Clear any existing timeout
+    if (headerTimeout) {
+      clearTimeout(headerTimeout);
+    }
+    
+    // Hide header after 30 seconds
+    headerTimeout = setTimeout(() => {
+      if (!hamburger.hasClass('active')) { // Don't hide if mobile menu is open
+        header.addClass('header-hidden').removeClass('header-peek');
+        peekIndicator.removeClass('active');
+        isHeaderVisible = false;
+      }
+    }, 30000); // 30 seconds
+  }
+  
+  // Click handler for peek indicator
+  peekIndicator.on('click', function() {
+    showHeaderTemporarily();
+  });
+  
+  // Scroll handler for auto-hiding header with aggressive throttling
+  let scrollTimeout = null;
+  let isProcessingScroll = false;
+  
+  $(window).on('scroll', function() {
+    if (scrollTimeout) {
+      clearTimeout(scrollTimeout);
+    }
+    
+    // Skip if already processing a scroll event
+    if (isProcessingScroll) {
+      return;
+    }
+    
+    scrollTimeout = setTimeout(() => {
+      isProcessingScroll = true;
+      const scrollTop = $(window).scrollTop();
+      
+      // Don't hide header if mobile menu is open
+      if (hamburger.hasClass('active')) {
+        isProcessingScroll = false;
+        return;
+      }
+    
+    // Show header when at top of page
+    if (scrollTop <= scrollThreshold) {
+      header.removeClass('header-hidden').addClass('header-peek');
+      peekIndicator.removeClass('active');
+      isHeaderVisible = true;
+      
+      // Clear timeout when back at top
+      if (headerTimeout) {
+        clearTimeout(headerTimeout);
+        headerTimeout = null;
+      }
+    } 
+    // Hide header when scrolling down past threshold
+    else if (scrollTop > lastScrollTop && scrollTop > scrollThreshold && isHeaderVisible) {
+      header.addClass('header-hidden').removeClass('header-peek');
+      peekIndicator.removeClass('active');
+      isHeaderVisible = false;
+      
+      // Clear timeout
+      if (headerTimeout) {
+        clearTimeout(headerTimeout);
+        headerTimeout = null;
+      }
+    }
+    // Show header when scrolling up
+    else if (scrollTop < lastScrollTop && !isHeaderVisible) {
+      showHeaderTemporarily();
+    }
+    
+    lastScrollTop = scrollTop;
+    isProcessingScroll = false; // Reset processing flag
+    }, 50); // Increased throttle delay for stability
+  });
+  
+  // Show header initially for 5 seconds to let user see it
+  setTimeout(() => {
+    if ($(window).scrollTop() > scrollThreshold) {
+      showHeaderTemporarily();
+    }
+  }, 1000);
 });

@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  padding-top: 80px; /* Account for fixed header */
+  padding-top: 140px; /* Simple fixed space for header - no dynamic changes */
   background: #000 url('../assets/xalpheric_glitch_bg.png') no-repeat center center fixed;
   background-size: cover;
   animation: glitchScroll 3s linear infinite;
@@ -29,14 +29,72 @@ body {
   z-index: 1000;
   box-sizing: border-box;
   overflow-x: hidden;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateY(0); /* Default visible state */
+}
+
+/* Auto-hide header states */
+.site-header.header-hidden {
+  transform: translateY(-100%);
+}
+
+.site-header.header-peek {
+  transform: translateY(0);
+}
+
+/* Header peek indicator - always visible at top */
+.header-peek-indicator {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 8px;
+  background: linear-gradient(90deg, #00ffff, #ff00ff);
+  border-radius: 0 0 12px 12px;
+  z-index: 1001;
+  cursor: pointer;
   transition: all 0.3s ease;
+  opacity: 0.6;
+  box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+}
+
+/* Hide peek indicator on mobile - not needed with hamburger menu */
+@media (max-width: 768px) {
+  .header-peek-indicator {
+    display: none;
+  }
+}
+
+.header-peek-indicator:hover {
+  opacity: 1;
+  height: 12px;
+  width: 80px;
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.6);
+  background: linear-gradient(90deg, #ffffff, #00ffff, #ff00ff, #ffffff);
+}
+
+.header-peek-indicator.active {
+  opacity: 1;
+  background: linear-gradient(90deg, #ff00ff, #00ffff);
+  animation: peekPulse 2s ease-in-out infinite;
+}
+
+@keyframes peekPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+/* Body spacing - simple fixed approach */
+body {
+  transition: none; /* No dynamic transitions needed */
 }
 
 .top-nav {
   display: flex;
   justify-content: center;
   gap: 2rem;
-  padding: 1rem 2rem;
+  padding: 0.5rem 2rem; /* Further reduced for minimal header thickness */
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -47,7 +105,7 @@ body {
   font-family: 'Orbitron', sans-serif;
   font-weight: 500;
   font-size: 1rem;
-  padding: 0.5rem 1.5rem;
+  padding: 0.3rem 1.2rem; /* Reduced padding for thinner nav links */
   border: 2px solid transparent;
   border-radius: 8px;
   transition: all 0.3s ease;
@@ -396,15 +454,14 @@ body {
 
 /* Responsive design for mobile */
 @media (max-width: 768px) {
-  body {
-    padding-top: 70px; /* Increased for taller mobile header */
-  }
+  /* No body padding needed - header auto-hides on mobile too */
   
   .site-header {
     padding: 0.5rem 0; /* Increased mobile header padding */
     min-height: 70px; /* Ensure adequate header height */
     height: 70px; /* Fixed height when menu is closed */
-    transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    transition: height 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     /* Remove overflow hidden - it was hiding the hamburger menu */
   }
   
@@ -514,9 +571,7 @@ body {
 
 /* Desktop - hide hamburger */
 @media (min-width: 769px) {
-  body {
-    padding-top: 80px; /* Standard header height on desktop */
-  }
+  /* No body padding needed - header auto-hides */
   
   .hamburger-menu {
     display: none;
@@ -534,14 +589,14 @@ body {
     box-shadow: none !important;
     flex-direction: row !important;
     gap: 2rem !important;
-    padding: 1rem 2rem !important;
+    padding: 0.5rem 2rem !important; /* Reduced padding for minimal thickness */
   }
   
   .nav-link {
     animation: none !important;
     transform: none !important;
     border-radius: 8px !important;
-    padding: 0.5rem 1.5rem !important;
+    padding: 0.3rem 1.2rem !important; /* Reduced padding to match thinner links */
     border: 2px solid transparent !important;
   }
 }
@@ -576,7 +631,7 @@ h1 {
   font-size: 2.5rem;
   color: #fff;
   text-shadow: 0 0 10px #f0f;
-  margin: 2rem 0 0.5rem 0; /* Added top margin to clear fixed header */
+  margin: 1rem 0 0.5rem 0; /* Reduced from 2rem - less space wasted */
   display: inline-block;
   position: relative;
   font-family: 'Orbitron', sans-serif;
@@ -1141,7 +1196,7 @@ audio[data-custom-player] {
 /* Xalpheric Radio Player Styles */
 .xalpheric-radio-player {
   position: fixed;
-  top: 70px; /* Position below the header */
+  top: 20px; /* Positioned from top since header auto-hides */
   right: 20px;
   width: 300px;
   max-width: calc(100vw - 40px);
@@ -1153,6 +1208,12 @@ audio[data-custom-player] {
   box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
   transition: all 0.3s ease;
   z-index: 9998;
+  user-select: none; /* Prevent text selection while dragging */
+}
+
+/* Draggable visual feedback */
+.xalpheric-radio-player:hover {
+  box-shadow: 0 6px 25px rgba(0, 255, 255, 0.6);
 }
 
 .xalpheric-radio-player.collapsed {

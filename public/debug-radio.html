@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radio Player Debug</title>
+    <link rel="stylesheet" href="css/theme.css">
+</head>
+<body>
+    <h1>Radio Player Debug Page</h1>
+    <div id="debug-info">
+        <p>Testing radio player initialization...</p>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script>
+        console.log('Utils.js loaded, getPathPrefix available:', typeof getPathPrefix);
+        console.log('Path prefix:', getPathPrefix());
+    </script>
+    <script src="js/radio-player.js"></script>
+    <script>
+        setTimeout(() => {
+            const debugDiv = document.getElementById('debug-info');
+            debugDiv.innerHTML += '<p>Radio player instance: ' + (window.xalphericRadioInstance ? 'EXISTS' : 'MISSING') + '</p>';
+            
+            if (window.xalphericRadioInstance) {
+                debugDiv.innerHTML += '<p>Playlist length: ' + window.xalphericRadioInstance.playlist.length + '</p>';
+                debugDiv.innerHTML += '<p>Container: ' + (window.xalphericRadioInstance.container ? 'EXISTS' : 'MISSING') + '</p>';
+            }
+            
+            const radioElements = document.querySelectorAll('.xalpheric-radio-player');
+            debugDiv.innerHTML += '<p>Radio elements found: ' + radioElements.length + '</p>';
+        }, 2000);
+    </script>
+</body>
+</html>

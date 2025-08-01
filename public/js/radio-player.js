@@ -1,10 +1,7 @@
 class XalphericRadioPlayer {
     constructor() {
-        // Determine path prefix based on current location
-        const isInSubfolder = window.location.pathname.includes('/musings/') || 
-                             window.location.pathname.includes('/gallery/') ||
-                             window.location.pathname.includes('/links/');
-        this.pathPrefix = isInSubfolder ? '../' : '';
+        // Use shared path prefix utility
+        this.pathPrefix = getPathPrefix();
         
         // Initialize with empty playlist - will be loaded from JSON
         this.playlist = [];
@@ -18,6 +15,11 @@ class XalphericRadioPlayer {
         this.homePlayer = null;
         this.isHomePage = false;
         this.positionSaveInterval = null;
+        
+        // Dragging functionality
+        this.isDragging = false;
+        this.dragOffset = { x: 0, y: 0 };
+        this.savedPosition = { x: 20, y: 20 }; // Default top-right position
         
         this.init();
     }
@@ -56,77 +58,22 @@ class XalphericRadioPlayer {
     
     async loadReleasesConfig() {
         try {
-            const response = await fetch(`${this.pathPrefix}config/releases.json`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
+            const releasesData = await loadReleasesConfig(this.pathPrefix);
             
-            this.releasesConfig = await response.json();
+            // Store the raw config for reference
+            this.releasesConfig = { releases: releasesData };
             
             // Convert releases to playlist format
-            this.playlist = this.releasesConfig.releases.map(release => ({
-                id: release.id,
-                title: release.title,
-                cover: `${this.pathPrefix}${release.cover}`,
-                audio: `${this.pathPrefix}${release.audio}`,
-                description: release.description || '',
-                year: release.year || '',
-                duration: release.duration || ''
-            }));
+            this.playlist = formatReleasesForRadio(releasesData, this.pathPrefix);
             
             console.log(`Radio Player: Loaded ${this.playlist.length} tracks from config`);
             
         } catch (error) {
             console.error('Error loading releases configuration:', error);
-            // Fallback to hardcoded playlist if config fails
-            console.log('Radio Player: Falling back to hardcoded playlist');
-            this.playlist = [
-                { 
-                    id: "face_the_shadow",
-                    title: "Face The Shadow", 
-                    cover: `${this.pathPrefix}assets/release1.png`, 
-                    audio: `${this.pathPrefix}music/face_the_shadow.mp3`,
-                    description: "Dark ambient electronic piece",
-                    year: "2024",
-                    duration: "4:32"
-                },
-                { 
-                    id: "contemplate",
-                    title: "Contemplate", 
-                    cover: `${this.pathPrefix}assets/release2.jpg`, 
-                    audio: `${this.pathPrefix}music/contemplate.mp3`,
-                    description: "Meditative soundscape",
-                    year: "2024", 
-                    duration: "5:18"
-                },
-                { 
-                    id: "hitchcrackpot",
-                    title: "Hitch Crack Pot", 
-                    cover: `${this.pathPrefix}assets/release3.png`, 
-                    audio: `${this.pathPrefix}music/hitchcrackpot.mp3`,
-                    description: "Experimental glitch composition",
-                    year: "2024",
-                    duration: "3:45"
-                },
-                { 
-                    id: "dogs_in_the_street",
-                    title: "Dogs in the Street", 
-                    cover: `${this.pathPrefix}assets/release4.png`, 
-                    audio: `${this.pathPrefix}music/dogs_in_the_street.mp3`,
-                    description: "Urban soundscape",
-                    year: "2024",
-                    duration: "4:12"
-                },
-                { 
-                    id: "Arrival_on_Ganymede",
-                    title: "Arrival on Ganymede", 
-                    cover: `${this.pathPrefix}assets/release5.png`, 
-                    audio: `${this.pathPrefix}music/Arrival_on_Ganymede.mp3`,
-                    description: "Progressive House track with spacey vibe",
-                    year: "2024",
-                    duration: "4:32"
-                }
-            ];
+            // Fallback is already handled in utility
+            console.log('Radio Player: Using fallback playlist');
+            const fallbackReleases = getFallbackReleases(this.pathPrefix);
+            this.playlist = formatReleasesForRadio(fallbackReleases, this.pathPrefix);
         }
     }
     
@@ -329,6 +276,9 @@ class XalphericRadioPlayer {
             this.togglePlaylist();
         });
         
+        // Add dragging functionality
+        this.setupDragFunctionality();
+        
         // Bind playlist-specific events
         this.bindPlaylistEvents();
     }
@@ -351,6 +301,118 @@ class XalphericRadioPlayer {
                 this.playTrack(index);
             });
         });
+    }
+    
+    setupDragFunctionality() {
+        // Load saved position
+        const saved = localStorage.getItem('xalpheric-radio-position');
+        if (saved) {
+            this.savedPosition = JSON.parse(saved);
+            this.setPosition(this.savedPosition.x, this.savedPosition.y);
+        } else {
+            // Set default position to top-right corner (like CSS default)
+            const defaultX = window.innerWidth - 320 - 20; // 320px width + 20px margin
+            const defaultY = 20; // 20px from top
+            this.setPosition(defaultX, defaultY);
+        }
+        
+        // Make the radio player draggable
+        let isDragging = false;
+        let startX, startY, startLeft, startTop;
+        
+        // Add drag cursor style
+        const dragHandle = this.container.querySelector('.radio-main');
+        dragHandle.style.cursor = 'grab';
+        
+        // Shared drag start logic
+        const startDrag = (clientX, clientY) => {
+            isDragging = true;
+            startX = clientX;
+            startY = clientY;
+            
+            const rect = this.container.getBoundingClientRect();
+            startLeft = rect.left;
+            startTop = rect.top;
+            
+            dragHandle.style.cursor = 'grabbing';
+            this.container.style.transition = 'none';
+            this.container.style.zIndex = '9999';
+        };
+        
+        // Shared drag move logic
+        const updateDrag = (clientX, clientY) => {
+            if (!isDragging) return;
+            
+            const deltaX = clientX - startX;
+            const deltaY = clientY - startY;
+            const newLeft = startLeft + deltaX;
+            const newTop = startTop + deltaY;
+            
+            this.setPosition(newLeft, newTop);
+        };
+        
+        // Shared drag end logic
+        const endDrag = () => {
+            if (isDragging) {
+                isDragging = false;
+                dragHandle.style.cursor = 'grab';
+                this.container.style.transition = '';
+                this.container.style.zIndex = '9998';
+                
+                // Save position
+                localStorage.setItem('xalpheric-radio-position', JSON.stringify(this.savedPosition));
+            }
+        };
+        
+        // Mouse events
+        dragHandle.addEventListener('mousedown', (e) => {
+            if (e.target.closest('button') || e.target.closest('.radio-progress-mini')) {
+                return;
+            }
+            startDrag(e.clientX, e.clientY);
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            updateDrag(e.clientX, e.clientY);
+        });
+
+        document.addEventListener('mouseup', endDrag);
+
+        // Touch events for mobile support
+        dragHandle.addEventListener('touchstart', (e) => {
+            if (e.target.closest('button') || e.target.closest('.radio-progress-mini')) {
+                return;
+            }
+            const touch = e.touches[0];
+            startDrag(touch.clientX, touch.clientY);
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchmove', (e) => {
+            if (!e.touches[0]) return;
+            const touch = e.touches[0];
+            updateDrag(touch.clientX, touch.clientY);
+            e.preventDefault();
+        });
+
+        document.addEventListener('touchend', endDrag);
+    }
+    
+    setPosition(x, y) {
+        // Constrain to viewport bounds
+        const maxLeft = window.innerWidth - this.container.offsetWidth;
+        const maxTop = window.innerHeight - this.container.offsetHeight;
+        
+        x = Math.max(0, Math.min(x, maxLeft));
+        y = Math.max(0, Math.min(y, maxTop));
+        
+        this.container.style.left = x + 'px';
+        this.container.style.top = y + 'px';
+        this.container.style.right = 'auto';
+        
+        // Update internal position tracking
+        this.savedPosition = { x, y };
     }
     
     saveCurrentPosition() {
