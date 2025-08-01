@@ -267,7 +267,7 @@ async function buildMusings() {
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="Thoughts and musings from Xalpheric - ${name}">
-  <meta name="keywords" content="electronic music thoughts, music creation, technology musings, creative process, Xalpheric">
+  <meta name="keywords" content="electronic music thoughts, triphop, psychedelic hiphop, dub music, trance music, progressive house, electronica, synthpop, blues electronic, folktronica, drum and bass, chillout music, synthwave, jazz house, jazzhop, atmospheric music, blissful soundscapes, existential electronic, music creation, technology musings, creative process, downtempo philosophy, ambient composition, IDM thoughts, breakbeat culture, bass music theory, experimental hip hop, consciousness music, transcendental beats, meditative soundscapes, Xalpheric">
   <meta name="author" content="Xalpheric">
   <meta name="robots" content="index, follow">
   
