@@ -1,0 +1,378 @@
+{
+  "copyimagetoblogimages_function": [
+    {
+      "path": "build-musings.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "279-280"
+      ]
+    }
+  ],
+  "posts_function": [
+    {
+      "path": "build-musings.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "279-280"
+      ]
+    }
+  ],
+  "database_query": [
+    {
+      "path": "build-musings.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "279-280"
+      ]
+    },
+    {
+      "path": "public/js/guestbook.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "4-5"
+      ]
+    },
+    {
+      "path": "public/js/radio-player.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "263-264",
+        "393-394"
+      ]
+    },
+    {
+      "path": "watch-photos-applescript.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "248-254",
+        "330-336"
+      ]
+    },
+    {
+      "path": "watch-photos.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "85-86",
+        "98-99"
+      ]
+    }
+  ],
+  "neocities_api_key_function": [
+    {
+      "path": "deploy-music.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "6-8",
+        "31-32"
+      ]
+    }
+  ],
+  "getmusicfiles_function": [
+    {
+      "path": "deploy-music.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "6-8",
+        "31-32"
+      ]
+    }
+  ],
+  "getremotefiles_function": [
+    {
+      "path": "deploy-music.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "6-8",
+        "31-32"
+      ]
+    }
+  ],
+  "http_response": [
+    {
+      "path": "deploy-music.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "6-8",
+        "31-32"
+      ]
+    },
+    {
+      "path": "public/js/gallery.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "9-10",
+        "127-128"
+      ]
+    },
+    {
+      "path": "public/js/guestbook-wakeup.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "2-3"
+      ]
+    },
+    {
+      "path": "public/js/guestbook.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "4-5"
+      ]
+    },
+    {
+      "path": "public/js/utils.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "21-22"
+      ]
+    }
+  ],
+  "createcategoryfilters_function": [
+    {
+      "path": "public/js/gallery.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "9-10",
+        "127-128"
+      ]
+    }
+  ],
+  "filterscontainer_function": [
+    {
+      "path": "public/js/gallery.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "9-10",
+        "127-128"
+      ]
+    }
+  ],
+  "event_handler": [
+    {
+      "path": "public/js/gallery.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "9-10",
+        "127-128"
+      ]
+    },
+    {
+      "path": "public/js/main.js",
+      "workspace": "xalpheric-neocities",
+      "lines": []
+    }
+  ],
+  "filtergallerybycategory_function": [
+    {
+      "path": "public/js/gallery.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "9-10",
+        "127-128"
+      ]
+    }
+  ],
+  "updatelightboxcontent_function": [
+    {
+      "path": "public/js/gallery.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "9-10",
+        "127-128"
+      ]
+    }
+  ],
+  "business_service": [
+    {
+      "path": "public/js/guestbook-wakeup.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "2-3"
+      ]
+    }
+  ],
+  "guestbook_api_base_url_function": [
+    {
+      "path": "public/js/guestbook-wakeup.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "2-3"
+      ]
+    }
+  ],
+  "wakeupguestbookapi_function": [
+    {
+      "path": "public/js/guestbook-wakeup.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "2-3"
+      ]
+    }
+  ],
+  "http_request": [
+    {
+      "path": "public/js/guestbook-wakeup.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "2-3"
+      ]
+    }
+  ],
+  "data_repository": [
+    {
+      "path": "public/js/guestbook.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "4-5"
+      ]
+    }
+  ],
+  "unit_test": [
+    {
+      "path": "public/js/guestbook.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "4-5"
+      ]
+    },
+    {
+      "path": "public/js/notes.js",
+      "workspace": "xalpheric-neocities",
+      "lines": []
+    },
+    {
+      "path": "watch-photos-applescript.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "248-254",
+        "330-336"
+      ]
+    }
+  ],
+  "api_base_url_function": [
+    {
+      "path": "public/js/guestbook.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "4-5"
+      ]
+    }
+  ],
+  "api_function": [
+    {
+      "path": "public/js/guestbook.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "1-2",
+        "4-5"
+      ]
+    }
+  ],
+  "updatenavigationstate_function": [
+    {
+      "path": "public/js/main.js",
+      "workspace": "xalpheric-neocities",
+      "lines": []
+    }
+  ],
+  "observer_pattern": [
+    {
+      "path": "public/js/radio-player.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "263-264",
+        "393-394"
+      ]
+    }
+  ],
+  "getpathprefix_function": [
+    {
+      "path": "public/js/utils.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "21-22"
+      ]
+    }
+  ],
+  "getfallbackreleases_function": [
+    {
+      "path": "public/js/utils.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "21-22"
+      ]
+    }
+  ],
+  "copyimagetoblog_function": [
+    {
+      "path": "sync-obsidian-images.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "173-174"
+      ]
+    }
+  ],
+  "getfilecategory_function": [
+    {
+      "path": "watch-photos-applescript.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "248-254",
+        "330-336"
+      ]
+    },
+    {
+      "path": "watch-photos.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "85-86",
+        "98-99"
+      ]
+    }
+  ],
+  "targetdir_function": [
+    {
+      "path": "watch-photos-applescript.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "248-254",
+        "330-336"
+      ]
+    },
+    {
+      "path": "watch-photos.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "85-86",
+        "98-99"
+      ]
+    }
+  ],
+  "targetpath_function": [
+    {
+      "path": "watch-photos-applescript.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "248-254",
+        "330-336"
+      ]
+    },
+    {
+      "path": "watch-photos.js",
+      "workspace": "xalpheric-neocities",
+      "lines": [
+        "85-86",
+        "98-99"
+      ]
+    }
+  ]
+}

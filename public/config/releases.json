@@ -2,6 +2,15 @@
   "releases": [
     {
       "id": "xaphoid_quasar_total_remake",
+      "title": "Descent",
+      "cover": "assets/release7.png",
+      "audio": "music/xaphoid - descencion.mp3",
+      "description": " Imagine decending into a dystopian megatropolis.  As you decend into the fog belowyou realize this is the home you didn't choose among the damned and the blessed. Lights of all the shades of heaven shine among this hellish city of mans own making.How many murders will there be tonight?  How many lovers will embrace.  Do you love this city or do you hate it?  Maybe it's both and maybe that is ok.",
+      "year": 2025,
+      "duration": "5:42"
+    },
+    {
+      "id": "xaphoid_quasar_total_remake",
       "title": "Quasar",
       "cover": "assets/release6.jpg",
       "audio": "music/xaphoid - quasar-total-remake.mp3",
