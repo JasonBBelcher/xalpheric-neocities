@@ -1,17 +1,55 @@
 let releases = [];
 let current = 0;
 
+// Fallback releases when utility functions are not available
+function getFallbackReleasesForMain() {
+  return [
+    { 
+      id: "face_the_shadow",
+      title: "Face The Shadow", 
+      cover: "assets/release1.png", 
+      audio: "music/face_the_shadow.mp3",
+      description: "Dark ambient electronic piece",
+      year: "2024",
+      duration: "4:23"
+    },
+    { 
+      id: "arrival_on_ganymede",
+      title: "Arrival on Ganymede", 
+      cover: "assets/arrival_on_ganymede.jpg", 
+      audio: "music/Arrival_on_Ganymede.mp3",
+      description: "Space ambient journey",
+      year: "2024", 
+      duration: "6:15"
+    }
+  ];
+}
+
+// Format releases data for main player
+function formatReleasesForMain(releasesData) {
+  return releasesData.map(release => ({
+    ...release,
+    cover: release.cover || "assets/default-cover.png",
+    audio: release.audio || "music/default.mp3"
+  }));
+}
+
 // Load releases configuration from JSON
 // Use shared releases loading utility
 async function loadReleases() {
   try {
+    // Check if loadReleasesConfig is available
+    if (typeof loadReleasesConfig !== 'function') {
+      throw new Error('loadReleasesConfig utility not available');
+    }
     const releasesData = await loadReleasesConfig();
     releases = formatReleasesForMain(releasesData);
     showRelease(current);
     updateNavigationState();
   } catch (error) {
     console.error('Failed to load releases:', error);
-    // Fallback is already handled in utility
+    // Use fallback releases
+    releases = getFallbackReleasesForMain();
     showRelease(current);
     updateNavigationState();
   }

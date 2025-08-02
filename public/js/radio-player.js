@@ -1,7 +1,12 @@
 class XalphericRadioPlayer {
     constructor() {
-        // Use shared path prefix utility
-        this.pathPrefix = getPathPrefix();
+        // Use shared path prefix utility - with fallback if not loaded yet
+        try {
+            this.pathPrefix = typeof getPathPrefix === 'function' ? getPathPrefix() : '';
+        } catch (error) {
+            console.warn('getPathPrefix not available, using empty prefix:', error);
+            this.pathPrefix = '';
+        }
         
         // Initialize with empty playlist - will be loaded from JSON
         this.playlist = [];
