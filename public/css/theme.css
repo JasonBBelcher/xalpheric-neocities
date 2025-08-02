@@ -1196,7 +1196,7 @@ audio[data-custom-player] {
 /* Xalpheric Radio Player Styles */
 .xalpheric-radio-player {
   position: fixed;
-  top: 20px; /* Positioned from top since header auto-hides */
+  top: 70px; /* Positioned in header area for desktop */
   right: 20px;
   width: 300px;
   max-width: calc(100vw - 40px);
@@ -1216,9 +1216,68 @@ audio[data-custom-player] {
   box-shadow: 0 6px 25px rgba(0, 255, 255, 0.6);
 }
 
+.xalpheric-radio-player.dragging {
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.8);
+  transform: scale(1.02);
+}
+
+.radio-drag-handle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 30px;
+  background: rgba(0, 255, 255, 0.2);
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  border-radius: 3px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #0ff;
+  user-select: none;
+  touch-action: none;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.radio-drag-handle:hover {
+  background: rgba(0, 255, 255, 0.4);
+  border-color: #0ff;
+}
+
+.radio-drag-handle:active {
+  cursor: grabbing;
+  background: rgba(0, 255, 255, 0.6);
+}
+
 .xalpheric-radio-player.collapsed {
-  width: 60px;
+  width: 70px; /* Slightly larger for better photo visibility */
   overflow: hidden;
+}
+
+.xalpheric-radio-player.collapsed .radio-drag-handle {
+  top: 2px;
+  right: 2px;
+  width: 15px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.xalpheric-radio-player.collapsed .radio-toggle-btn {
+  width: 60px; /* Larger toggle button when collapsed */
+  height: 60px; /* Square aspect ratio for better photo display */
+  border-width: 3px; /* Thicker border for emphasis */
+}
+
+.xalpheric-radio-player.collapsed .radio-album-cover {
+  border-radius: 8px; /* Slightly more rounded corners */
+}
+
+.xalpheric-radio-player.collapsed:hover {
+  transform: scale(1.02); /* Subtle hover effect when collapsed */
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.7);
 }
 
 .radio-controls {
@@ -1484,69 +1543,55 @@ audio[data-custom-player] {
   transform: scale(1.1);
 }
 
-/* Radio Player Responsive Design */
-@media (max-width: 1024px) {
+/* Desktop: Ensure fixed positioning on larger screens - draggable */
+@media (min-width: 1025px) {
   .xalpheric-radio-player {
     position: fixed;
-    top: auto;
-    bottom: 20px;
+    /* Default position - top right in header area */
+    top: 70px;
     right: 20px;
-    border-radius: 12px;
-    border: 2px solid #0ff;
-  }
-}
-
-@media (max-width: 768px) {
-  .xalpheric-radio-player {
-    width: 250px;
-    max-width: calc(100vw - 40px);
-    font-size: 0.9em;
-    position: fixed;
-    top: auto;
-    bottom: 20px;
-    right: 20px;
-    border-radius: 12px;
-    border: 2px solid #0ff;
+    /* Allow JavaScript to override positioning for dragging */
+    width: 300px;
+    max-width: 300px;
   }
   
   .xalpheric-radio-player.collapsed {
-    width: 50px;
-  }
-  
-  .radio-toggle-btn {
-    width: 38px;
-    height: 38px;
-  }
-  
-  .radio-prev-btn,
-  .radio-play-pause-btn,
-  .radio-next-btn,
-  .radio-playlist-toggle {
-    width: 24px;
-    height: 24px;
-    font-size: 10px;
+    width: 70px;
+    max-width: 70px;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet and smaller: Fixed bottom positioning */
+@media (max-width: 1024px) {
   .xalpheric-radio-player {
-    width: 200px;
+    position: fixed !important;
+    top: auto !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    left: auto !important;
+    width: 250px;
     max-width: calc(100vw - 40px);
-    position: fixed;
-    top: auto;
-    bottom: 20px;
-    right: 20px;
-    border-radius: 12px;
-    border: 2px solid #0ff;
   }
   
   .xalpheric-radio-player.collapsed {
     width: 60px;
   }
+}
+
+/* Mobile phones */
+@media (max-width: 480px) {
+  .xalpheric-radio-player {
+    width: 200px !important;
+    max-width: calc(100vw - 40px) !important;
+  }
   
-  .radio-toggle-btn {
-    width: 32px;
-    height: 32px;
+  .xalpheric-radio-player.collapsed {
+    width: 55px !important;
+  }
+  
+  .xalpheric-radio-player.collapsed .radio-toggle-btn {
+    width: 45px !important;
+    height: 45px !important;
   }
 }
 
@@ -2449,13 +2494,28 @@ footer {
   }
   
   .xalpheric-radio-player {
-    width: 180px;
+    /* Remove positioning constraints to allow free dragging */
+    width: 160px !important; /* Reduced from 180px for better mobile fit */
     max-width: calc(100vw - 30px);
-    right: 15px;
+    font-size: 0.8em;
+    z-index: 9998 !important; /* Ensure it's visible */
   }
   
   .xalpheric-radio-player.collapsed {
-    width: 50px;
+    width: 50px !important; /* Consistent with the collapsed design */
+    height: auto;
+  }
+  
+  .xalpheric-radio-player.collapsed .radio-toggle-btn {
+    width: 40px !important;
+    height: 40px !important;
+  }
+  
+  /* Ensure radio player is always visible on very small screens */
+  .xalpheric-radio-player {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: block !important;
   }
   
   .lightbox-content {

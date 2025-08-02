@@ -15,6 +15,7 @@ class XalphericRadioPlayer {
         this.homePlayer = null;
         this.isHomePage = false;
         this.positionSaveInterval = null;
+        this.resizeTimeout = null;
         
         // Dragging functionality
         this.isDragging = false;
@@ -54,6 +55,31 @@ class XalphericRadioPlayer {
         
         // Update UI after everything is initialized
         this.updateRadioUI();
+        
+        // Ensure optimal positioning for photo visibility
+        this.ensureOptimalPosition();
+        
+        // Add resize listener to reposition on screen changes and re-evaluate drag capability
+        window.addEventListener('resize', () => {
+            // Debounce resize events
+            clearTimeout(this.resizeTimeout);
+            this.resizeTimeout = setTimeout(() => {
+                // If switching between desktop/mobile, clear any conflicting positioning
+                const isDesktop = window.innerWidth >= 1025;
+                if (!isDesktop) {
+                    // Switching to mobile - clear any saved desktop position
+                    localStorage.removeItem('xalpheric-radio-position');
+                    if (this.container) {
+                        this.container.style.left = '';
+                        this.container.style.top = '';
+                        this.container.style.right = '';
+                        this.container.style.bottom = '';
+                        this.container.style.transform = '';
+                    }
+                }
+                this.ensureOptimalPosition();
+            }, 250);
+        });
     }
     
     async loadReleasesConfig() {
@@ -112,7 +138,8 @@ class XalphericRadioPlayer {
             <div class="radio-controls">
                 <div class="radio-main">
                     <button class="radio-toggle-btn" title="Toggle Radio">
-                        <img src="${defaultCover}" alt="Album Cover - Click to Toggle" class="radio-album-cover">
+                        <img src="${defaultCover}" alt="Album Cover - Click to Toggle" class="radio-album-cover" 
+                             onerror="this.src='${this.pathPrefix}assets/xalpheric_logo.jpeg'">
                     </button>
                     <div class="radio-info">
                         <div class="radio-track-title">Xalpheric Radio</div>
@@ -135,6 +162,8 @@ class XalphericRadioPlayer {
                         <span class="playlist-icon">☰</span>
                     </button>
                 </div>
+                    </button>
+                </div>
                 <div class="radio-playlist" style="display: none;">
                     <div class="playlist-header">
                         <h3>Xalpheric Tracks</h3>
@@ -147,8 +176,11 @@ class XalphericRadioPlayer {
             </div>
         `;
         
-                // Add to body to position below header
+        // Add to body for fixed positioning
         document.body.appendChild(this.container);
+        
+        // Ensure visibility immediately after creation
+        this.ensureVisibility();
         
         // Bind all events
         this.bindEvents();
@@ -304,21 +336,30 @@ class XalphericRadioPlayer {
     }
     
     setupDragFunctionality() {
-        // Load saved position
+        // Only enable dragging on desktop (1025px and up)
+        if (window.innerWidth < 1025) {
+            console.log('Mobile/tablet detected - disabling drag functionality');
+            return;
+        }
+        
+        console.log('Desktop detected - enabling drag functionality');
+        
+        // Load saved position only on desktop
         const saved = localStorage.getItem('xalpheric-radio-position');
         if (saved) {
-            this.savedPosition = JSON.parse(saved);
-            this.setPosition(this.savedPosition.x, this.savedPosition.y);
-        } else {
-            // Set default position to top-right corner (like CSS default)
-            const defaultX = window.innerWidth - 320 - 20; // 320px width + 20px margin
-            const defaultY = 20; // 20px from top
-            this.setPosition(defaultX, defaultY);
+            try {
+                this.savedPosition = JSON.parse(saved);
+                this.setPosition(this.savedPosition.x, this.savedPosition.y);
+            } catch (error) {
+                console.log('Error loading saved position:', error);
+                localStorage.removeItem('xalpheric-radio-position');
+            }
         }
         
         // Make the radio player draggable
         let isDragging = false;
         let startX, startY, startLeft, startTop;
+        let dragStarted = false; // Track if drag actually started (helps with touch)
         
         // Add drag cursor style
         const dragHandle = this.container.querySelector('.radio-main');
@@ -326,7 +367,9 @@ class XalphericRadioPlayer {
         
         // Shared drag start logic
         const startDrag = (clientX, clientY) => {
+            console.log('Starting drag at:', clientX, clientY);
             isDragging = true;
+            dragStarted = false; // Will be set to true on first move
             startX = clientX;
             startY = clientY;
             
@@ -337,34 +380,63 @@ class XalphericRadioPlayer {
             dragHandle.style.cursor = 'grabbing';
             this.container.style.transition = 'none';
             this.container.style.zIndex = '9999';
+            
+            // Add active dragging class for visual feedback
+            this.container.classList.add('dragging');
+            console.log('Drag initialized - element positioned at:', startLeft, startTop);
         };
         
         // Shared drag move logic
         const updateDrag = (clientX, clientY) => {
             if (!isDragging) return;
             
+            // Validate coordinates for large displays
+            if (!isFinite(clientX) || !isFinite(clientY) || 
+                clientX < 0 || clientY < 0 || 
+                clientX > window.innerWidth + 100 || clientY > window.innerHeight + 100) {
+                console.warn('Invalid drag coordinates:', clientX, clientY);
+                return;
+            }
+            
+            // Check if we've moved enough to consider this a real drag (helps with accidental touches)
             const deltaX = clientX - startX;
             const deltaY = clientY - startY;
-            const newLeft = startLeft + deltaX;
-            const newTop = startTop + deltaY;
+            const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
             
-            this.setPosition(newLeft, newTop);
+            if (!dragStarted && distance > 5) {
+                dragStarted = true;
+                console.log('Drag threshold reached - starting actual drag movement');
+            }
+            
+            if (dragStarted) {
+                const newLeft = startLeft + deltaX;
+                const newTop = startTop + deltaY;
+                
+                // Additional bounds check before setting position
+                if (isFinite(newLeft) && isFinite(newTop)) {
+                    this.setPosition(newLeft, newTop);
+                } else {
+                    console.warn('Invalid calculated position:', newLeft, newTop);
+                }
+            }
         };
         
         // Shared drag end logic
         const endDrag = () => {
             if (isDragging) {
                 isDragging = false;
+                dragStarted = false;
                 dragHandle.style.cursor = 'grab';
                 this.container.style.transition = '';
                 this.container.style.zIndex = '9998';
+                this.container.classList.remove('dragging');
                 
                 // Save position
                 localStorage.setItem('xalpheric-radio-position', JSON.stringify(this.savedPosition));
             }
         };
         
-        // Mouse events
+        // Mouse events (desktop only)
         dragHandle.addEventListener('mousedown', (e) => {
             if (e.target.closest('button') || e.target.closest('.radio-progress-mini')) {
                 return;
@@ -378,38 +450,70 @@ class XalphericRadioPlayer {
         });
 
         document.addEventListener('mouseup', endDrag);
-
-        // Touch events for mobile support
-        dragHandle.addEventListener('touchstart', (e) => {
-            if (e.target.closest('button') || e.target.closest('.radio-progress-mini')) {
-                return;
-            }
-            const touch = e.touches[0];
-            startDrag(touch.clientX, touch.clientY);
-            e.preventDefault();
-        });
-
-        document.addEventListener('touchmove', (e) => {
-            if (!e.touches[0]) return;
-            const touch = e.touches[0];
-            updateDrag(touch.clientX, touch.clientY);
-            e.preventDefault();
-        });
-
-        document.addEventListener('touchend', endDrag);
     }
     
     setPosition(x, y) {
-        // Constrain to viewport bounds
-        const maxLeft = window.innerWidth - this.container.offsetWidth;
-        const maxTop = window.innerHeight - this.container.offsetHeight;
+        console.log('setPosition called with:', x, y);
         
-        x = Math.max(0, Math.min(x, maxLeft));
-        y = Math.max(0, Math.min(y, maxTop));
+        // Safety check for very large displays
+        if (!this.container || !this.container.offsetWidth) {
+            console.warn('Container not ready for positioning');
+            return;
+        }
+        
+        // Log current state before positioning
+        console.log('Container current state:', {
+            offsetWidth: this.container.offsetWidth,
+            offsetHeight: this.container.offsetHeight,
+            currentLeft: this.container.style.left,
+            currentTop: this.container.style.top
+        });
+        
+        // Constrain to viewport bounds with safety margins
+        const containerWidth = this.container.offsetWidth || 300; // Fallback width
+        const containerHeight = this.container.offsetHeight || 100; // Fallback height
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Add safety margins for very large displays
+        const rightMargin = Math.min(50, viewportWidth * 0.02); // Max 50px or 2% of viewport
+        const bottomMargin = Math.min(50, viewportHeight * 0.02); // Max 50px or 2% of viewport
+        
+        const maxLeft = viewportWidth - containerWidth - rightMargin;
+        const maxTop = viewportHeight - containerHeight - bottomMargin;
+        
+        // Ensure minimum positioning from edges
+        const minLeft = Math.max(0, rightMargin);
+        const minTop = Math.max(0, 20); // Minimum 20px from top
+        
+        const originalX = x;
+        const originalY = y;
+        
+        x = Math.max(minLeft, Math.min(x, maxLeft));
+        y = Math.max(minTop, Math.min(y, maxTop));
+        
+        // Debug logging for all displays to catch the issue
+        console.log('setPosition calculation:', {
+            viewport: `${viewportWidth}x${viewportHeight}`,
+            container: `${containerWidth}x${containerHeight}`,
+            requested: `${originalX},${originalY}`,
+            constrained: `${x},${y}`,
+            bounds: `minLeft:${minLeft}, maxLeft:${maxLeft}, minTop:${minTop}, maxTop:${maxTop}`,
+            margins: `right:${rightMargin}, bottom:${bottomMargin}`
+        });
         
         this.container.style.left = x + 'px';
         this.container.style.top = y + 'px';
         this.container.style.right = 'auto';
+        this.container.style.bottom = 'auto';
+        this.container.style.transform = '';
+        
+        console.log('Applied styles:', {
+            left: this.container.style.left,
+            top: this.container.style.top,
+            right: this.container.style.right,
+            bottom: this.container.style.bottom
+        });
         
         // Update internal position tracking
         this.savedPosition = { x, y };
@@ -752,6 +856,86 @@ class XalphericRadioPlayer {
             }
         } catch (error) {
             console.log('Error restoring position:', error);
+        }
+    }
+    
+    ensureOptimalPosition() {
+        // This method ensures the radio player is positioned optimally
+        console.log('ensureOptimalPosition called - viewport:', window.innerWidth, 'x', window.innerHeight);
+        
+        // Check if we're on desktop (where dragging is allowed)
+        const isDesktop = window.innerWidth >= 1025;
+        
+        if (!isDesktop) {
+            // On mobile/tablet, let CSS handle positioning completely
+            console.log('Mobile/tablet detected - using CSS positioning only');
+            if (this.container) {
+                // Clear any saved position that might override CSS
+                this.container.style.left = '';
+                this.container.style.top = '';
+                this.container.style.right = '';
+                this.container.style.bottom = '';
+                this.container.style.transform = '';
+            }
+            localStorage.removeItem('xalpheric-radio-position');
+            this.ensureVisibility();
+            return;
+        }
+        
+        // Desktop only: Handle saved positions for dragging
+        console.log('Desktop detected - allowing draggable positioning');
+        
+        const saved = localStorage.getItem('xalpheric-radio-position');
+        if (saved) {
+            try {
+                const position = JSON.parse(saved);
+                console.log('Found saved position:', position);
+                
+                // Validate saved position for current viewport
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+                
+                // If saved position is way outside current viewport, reset to CSS default
+                if (position.x > viewportWidth - 100 || position.y > viewportHeight - 100 ||
+                    position.x < -100 || position.y < -100) {
+                    console.log('Saved position outside viewport, using CSS default');
+                    localStorage.removeItem('xalpheric-radio-position');
+                } else {
+                    console.log('Applying saved position:', position.x, position.y);
+                    this.savedPosition = position;
+                    this.setPosition(position.x, position.y);
+                    this.ensureVisibility();
+                    return;
+                }
+            } catch (error) {
+                console.log('Error loading saved position:', error);
+                localStorage.removeItem('xalpheric-radio-position');
+            }
+        }
+        
+        // No valid saved position - use CSS default (top: 70px, right: 20px for desktop)
+        console.log('Using CSS default positioning for desktop');
+        if (this.container) {
+            this.container.style.left = '';
+            this.container.style.top = '';
+            this.container.style.right = '';
+            this.container.style.bottom = '';
+            this.container.style.transform = '';
+        }
+        
+        this.ensureVisibility();
+    }
+    
+    ensureVisibility() {
+        // Ensure the radio player is always visible, especially on mobile
+        if (this.container) {
+            this.container.style.opacity = '1';
+            this.container.style.visibility = 'visible';
+            this.container.style.display = 'block';
+            this.container.style.zIndex = '9998';
+            
+            // Force layout recalculation
+            this.container.offsetHeight;
         }
     }
 }

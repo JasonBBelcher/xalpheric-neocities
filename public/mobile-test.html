@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobile Radio Player Test</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            background: #111;
+            color: #fff;
+            font-family: 'Orbitron', monospace;
+        }
+        .test-info {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0ff;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+        }
+        .screen-info {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(255, 0, 255, 0.9);
+            color: #000;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 10000;
+        }
+        .content {
+            height: 200vh; /* Make page scrollable */
+            background: linear-gradient(45deg, #111, #222);
+        }
+    </style>
+</head>
+<body>
+    <div class="screen-info" id="screenInfo">
+        Screen: <span id="screenSize"></span><br>
+        Radio: <span id="radioStatus">Loading...</span>
+    </div>
+    
+    <h1>Mobile Radio Player Test</h1>
+    
+    <div class="test-info">
+        <h2>Testing Radio Player on Mobile Sizes</h2>
+        <p>The floating radio player should be <strong>freely draggable to any position</strong> on all screen sizes.</p>
+        <p><strong>Behavior:</strong> Player starts with a default position but can be moved anywhere on the screen.</p>
+        <p>Try resizing your browser, then drag the player around to test free positioning.</p>
+        <ul>
+            <li><strong>All screen sizes:</strong> Fully draggable to any position</li>
+            <li><strong>Default start:</strong> Bottom-right for mobile, top-right for desktop</li>
+            <li><strong>Position memory:</strong> Stays where you put it</li>
+            <li><strong>Fixed positioning:</strong> Content scrolls underneath</li>
+            <li><strong>Album cover:</strong> Photo prominently displayed when collapsed</li>
+        </ul>
+    </div>
+    
+    <div class="content">
+        <p>Scroll content to test positioning...</p>
+        <p>The radio player should stay fixed in position.</p>
+    </div>
+
+    <script src="js/utils.js"></script>
+    <script src="js/radio-player.js"></script>
+    <script>
+        function updateScreenInfo() {
+            const width = window.innerWidth;
+            const height = window.innerHeight;
+            document.getElementById('screenSize').textContent = `${width}x${height}`;
+            
+            // Check if radio player exists
+            const radioPlayer = document.querySelector('.xalpheric-radio-player');
+            const radioStatus = document.getElementById('radioStatus');
+            
+            if (radioPlayer) {
+                const styles = window.getComputedStyle(radioPlayer);
+                const rect = radioPlayer.getBoundingClientRect();
+                radioStatus.innerHTML = `
+                    Visible: ${styles.display}<br>
+                    Position: ${styles.position}<br>
+                    Left: ${styles.left}<br>
+                    Transform: ${styles.transform}<br>
+                    Bottom: ${styles.bottom}<br>
+                    Center X: ${Math.round(rect.left + rect.width/2)}px<br>
+                    Z-index: ${styles.zIndex}
+                `;
+            } else {
+                radioStatus.textContent = 'Not found';
+            }
+        }
+        
+        // Update screen info on load and resize
+        window.addEventListener('load', updateScreenInfo);
+        window.addEventListener('resize', updateScreenInfo);
+        
+        // Update every second to check radio player status
+        setInterval(updateScreenInfo, 1000);
+    </script>
+</body>
+</html>

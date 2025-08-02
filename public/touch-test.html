@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touch Drag Test - Xalpheric Radio Player</title>
+    <link rel="stylesheet" href="css/theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #111;
+            color: #0ff;
+            font-family: 'Orbitron', monospace;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        .test-info {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #0ff;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            max-width: calc(100vw - 40px);
+        }
+        .touch-debug {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.9);
+            color: #0ff;
+            padding: 8px;
+            font-size: 10px;
+            border: 1px solid #0ff;
+            border-radius: 5px;
+            z-index: 10000;
+            max-width: 200px;
+            word-wrap: break-word;
+        }
+        .test-instructions {
+            background: rgba(255, 165, 0, 0.1);
+            border: 1px solid orange;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: orange;
+        }
+        .chrome-instructions {
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid lime;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            color: lime;
+        }
+        .content-area {
+            min-height: 200vh;
+            background: linear-gradient(45deg, #001122, #112200);
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="touch-debug" id="touchDebug">
+        <strong>Touch Debug:</strong><br>
+        Device: <span id="deviceInfo">Detecting...</span><br>
+        Touch: <span id="touchSupport">Unknown</span><br>
+        Viewport: <span id="viewportInfo">-</span><br>
+        Last Event: <span id="lastTouch">None</span><br>
+        Drag Status: <span id="dragStatus">Ready</span>
+    </div>
+
+    <div class="chrome-instructions">
+        <h2>🌐 Chrome Mobile Testing</h2>
+        <ol>
+            <li><strong>Open Chrome DevTools:</strong> F12 or Ctrl+Shift+I</li>
+            <li><strong>Toggle Device Mode:</strong> Click device icon or Ctrl+Shift+M</li>
+            <li><strong>Select Device:</strong> iPhone 12 Pro, iPad, or "Responsive"</li>
+            <li><strong>Enable Touch:</strong> Make sure touch simulation is enabled</li>
+            <li><strong>Test:</strong> Use mouse as touch - click and drag the radio player</li>
+        </ol>
+        <p><strong>Expected:</strong> Radio player should move smoothly when dragged</p>
+    </div>
+
+    <div class="test-instructions">
+        <h2>📱 Touch Test Instructions</h2>
+        <p><strong>Mobile Device Testing:</strong></p>
+        <ul>
+            <li>Touch and hold the radio player's album cover or main area</li>
+            <li>Drag it around the screen</li>
+            <li>Release to drop it in the new position</li>
+            <li>Try scrolling the page - it should work independently</li>
+        </ul>
+        <p><strong>Troubleshooting:</strong></p>
+        <ul>
+            <li>Watch the debug info above for touch events</li>
+            <li>If page scrolls instead: Touch events may need adjustment</li>
+            <li>If nothing happens: Check if touch events are registering</li>
+        </ul>
+    </div>
+
+    <div class="test-info">
+        <h1>🎵 Radio Player Touch Test</h1>
+        <p>This page specifically tests touch dragging functionality for mobile devices.</p>
+        <p>The radio player should appear and be draggable on all screen sizes.</p>
+    </div>
+
+    <div class="content-area">
+        <h2>Scrollable Content Area</h2>
+        <p>This is a tall scrollable area to test that:</p>
+        <ul>
+            <li>The radio player stays fixed during page scrolling</li>
+            <li>Touch dragging works independently of scrolling</li>
+            <li>Page scrolling still works when not dragging the player</li>
+        </ul>
+        <p>Try scrolling this content, then try dragging the radio player separately.</p>
+        <div style="height: 100vh; background: rgba(0,255,255,0.05); margin: 20px 0; padding: 20px; border-radius: 10px;">
+            <h3>More test content...</h3>
+            <p>Keep scrolling to test the behavior...</p>
+        </div>
+        <div style="height: 100vh; background: rgba(255,255,0,0.05); margin: 20px 0; padding: 20px; border-radius: 10px;">
+            <h3>Even more content...</h3>
+            <p>This should scroll normally while the radio player stays fixed and draggable.</p>
+        </div>
+    </div>
+
+    <!-- Radio player will be inserted here by JavaScript -->
+
+    <script src="js/utils/path.js"></script>
+    <script src="js/utils/releases.js"></script>
+    <script src="js/radio-player.js"></script>
+    
+    <script>
+        // Touch debugging
+        function updateDebugInfo() {
+            const deviceInfo = document.getElementById('deviceInfo');
+            const touchSupport = document.getElementById('touchSupport');
+            const viewportInfo = document.getElementById('viewportInfo');
+            
+            // Detect device type
+            const userAgent = navigator.userAgent;
+            let device = 'Desktop';
+            if (/iPhone|iPad|iPod/.test(userAgent)) {
+                device = 'iOS Device';
+            } else if (/Android/.test(userAgent)) {
+                device = 'Android Device';
+            } else if (/Mobile/.test(userAgent)) {
+                device = 'Mobile Device';
+            }
+            
+            deviceInfo.textContent = device;
+            touchSupport.textContent = 'ontouchstart' in window ? 'Supported' : 'Not Supported';
+            viewportInfo.textContent = `${window.innerWidth}x${window.innerHeight}`;
+        }
+        
+        // Track touch events for debugging
+        let lastTouchType = '';
+        let touchStartTime = 0;
+        
+        document.addEventListener('touchstart', (e) => {
+            touchStartTime = Date.now();
+            lastTouchType = 'start';
+            document.getElementById('lastTouch').textContent = `Start: ${e.touches.length} touch(es)`;
+            document.getElementById('dragStatus').textContent = 'Touch Started';
+        });
+        
+        document.addEventListener('touchmove', (e) => {
+            if (lastTouchType !== 'move') {
+                lastTouchType = 'move';
+                document.getElementById('dragStatus').textContent = 'Touch Moving';
+            }
+            document.getElementById('lastTouch').textContent = `Move: ${e.touches.length} touch(es)`;
+        });
+        
+        document.addEventListener('touchend', (e) => {
+            const duration = Date.now() - touchStartTime;
+            lastTouchType = 'end';
+            document.getElementById('lastTouch').textContent = `End: ${e.changedTouches.length} touch(es) (${duration}ms)`;
+            document.getElementById('dragStatus').textContent = 'Touch Ended';
+            
+            // Reset status after a delay
+            setTimeout(() => {
+                document.getElementById('dragStatus').textContent = 'Ready';
+            }, 2000);
+        });
+        
+        // Update viewport info on resize
+        window.addEventListener('resize', updateDebugInfo);
+        
+        updateDebugInfo();
+        
+        // Initialize radio player
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('Initializing radio player for touch test...');
+            window.radioPlayer = new XalphericRadioPlayer();
+            
+            // Add additional debugging for radio player
+            setTimeout(() => {
+                if (window.radioPlayer && window.radioPlayer.container) {
+                    console.log('Radio player initialized successfully');
+                    document.getElementById('dragStatus').textContent = 'Player Ready';
+                } else {
+                    console.error('Radio player failed to initialize');
+                    document.getElementById('dragStatus').textContent = 'Player Error';
+                }
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
