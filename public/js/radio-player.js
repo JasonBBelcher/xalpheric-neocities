@@ -46,7 +46,8 @@ class XalphericRadioPlayer {
         
         // If on home page, find and sync with the main player
         if (this.isHomePage) {
-            this.setupHomePageSync();
+            // Wait for main.js to be ready before setting up sync
+            this.waitForMainPlayerReady();
         }
         
         // Set up global state management
@@ -85,6 +86,41 @@ class XalphericRadioPlayer {
                 this.ensureOptimalPosition();
             }, 250);
         });
+    }
+    
+    waitForMainPlayerReady() {
+        // Wait for main.js to set up the player and load initial track
+        const checkMainReady = () => {
+            const mainPlayer = document.querySelector('#player');
+            const mainInitialized = typeof window.releases !== 'undefined' && 
+                                  typeof window.current !== 'undefined' &&
+                                  window.releases && window.releases.length > 0;
+            
+            if (mainPlayer && mainInitialized) {
+                console.log('Main player ready, setting up sync...');
+                this.setupHomePageSync();
+                return true;
+            }
+            return false;
+        };
+        
+        // Try immediate check
+        if (!checkMainReady()) {
+            // Wait for main.js initialization
+            let retries = 0;
+            const maxRetries = 20; // 2 seconds max wait
+            
+            const retryInterval = setInterval(() => {
+                retries++;
+                if (checkMainReady() || retries >= maxRetries) {
+                    clearInterval(retryInterval);
+                    if (retries >= maxRetries) {
+                        console.warn('Main player not ready after 2 seconds, setting up sync anyway');
+                        this.setupHomePageSync();
+                    }
+                }
+            }, 100);
+        }
     }
     
     async loadReleasesConfig() {
@@ -246,6 +282,9 @@ class XalphericRadioPlayer {
         if (mainAudio) {
             this.homePlayer = mainAudio;
             
+            // Initial sync - wait for main player to be ready
+            this.performInitialSync();
+            
             // Sync with main player events
             this.homePlayer.addEventListener('play', () => this.onHomePlayerPlay());
             this.homePlayer.addEventListener('pause', () => this.onHomePlayerPause());
@@ -267,6 +306,42 @@ class XalphericRadioPlayer {
                 attributes: true, 
                 attributeFilter: ['src'] 
             });
+        }
+    }
+    
+    performInitialSync() {
+        // Perform initial synchronization when both players are ready
+        console.log('Performing initial radio-main player sync...');
+        
+        // Wait for main player to have a source
+        const checkMainPlayerReady = () => {
+            if (this.homePlayer && this.homePlayer.src) {
+                console.log('Main player has source:', this.homePlayer.src);
+                this.syncWithHomePlayer();
+                return true;
+            }
+            return false;
+        };
+        
+        // Try immediate sync
+        if (!checkMainPlayerReady()) {
+            // If main player not ready, wait a bit and try again
+            const retrySync = () => {
+                if (!checkMainPlayerReady()) {
+                    // Try syncing with main.js current index
+                    if (typeof window.current !== 'undefined' && this.playlist.length > 0) {
+                        console.log('Syncing radio player to main.js current index:', window.current);
+                        this.currentTrack = Math.min(window.current, this.playlist.length - 1);
+                        this.updateRadioUI();
+                        this.updatePlaylistSelection();
+                    }
+                }
+            };
+            
+            // Retry after main.js has had time to load
+            setTimeout(retrySync, 100);
+            setTimeout(retrySync, 500);
+            setTimeout(retrySync, 1000);
         }
     }
     
@@ -676,16 +751,53 @@ class XalphericRadioPlayer {
     syncWithHomePlayer() {
         if (!this.homePlayer) return;
         
+        console.log('Syncing radio player with home player...');
+        
         // Find which track is currently playing
         const currentSrc = this.homePlayer.src;
-        const trackIndex = this.playlist.findIndex(track => 
-            currentSrc.includes(track.audio)
+        console.log('Home player current src:', currentSrc);
+        
+        if (!currentSrc) {
+            // No source yet, try to sync with main.js current index
+            if (typeof window.current !== 'undefined' && this.playlist.length > 0) {
+                console.log('No home player source, using main.js current index:', window.current);
+                this.currentTrack = Math.min(window.current, this.playlist.length - 1);
+                this.updateRadioUI();
+                this.updatePlaylistSelection();
+            }
+            return;
+        }
+        
+        // Try multiple ways to match the track
+        let trackIndex = -1;
+        
+        // Method 1: Direct audio file match
+        trackIndex = this.playlist.findIndex(track => 
+            currentSrc.includes(track.audio) || track.audio.includes(currentSrc)
         );
         
-        if (trackIndex !== -1) {
+        // Method 2: Extract filename and match
+        if (trackIndex === -1) {
+            const srcFilename = currentSrc.split('/').pop().split('?')[0];
+            trackIndex = this.playlist.findIndex(track => {
+                const trackFilename = track.audio.split('/').pop().split('?')[0];
+                return srcFilename === trackFilename;
+            });
+        }
+        
+        // Method 3: Use main.js current index as fallback
+        if (trackIndex === -1 && typeof window.current !== 'undefined') {
+            trackIndex = Math.min(window.current, this.playlist.length - 1);
+            console.log('Using main.js current index as fallback:', trackIndex);
+        }
+        
+        if (trackIndex !== -1 && trackIndex !== this.currentTrack) {
+            console.log('Syncing radio player to track:', trackIndex, this.playlist[trackIndex]?.title);
             this.currentTrack = trackIndex;
             this.updateRadioUI();
             this.updatePlaylistSelection();
+        } else if (trackIndex === -1) {
+            console.warn('Could not sync radio player - no matching track found for:', currentSrc);
         }
     }
     

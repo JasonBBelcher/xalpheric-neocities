@@ -1,23 +1,19 @@
-# Xalpheric Neocities - Features Documentation
+# Features Documentation
 
-This directory contains comprehensive documentation for all system features and components.
+Detailed technical documentation for system components.
 
-## Core Systems
+## Available Documentation
 
 ### [Photo Processing System](photo-processing-system.md)
-Complete image processing workflow with dual-mode support for blog content and general assets.
-- Automatic image optimization and resizing
-- Obsidian-style syntax support
-- Seamless blog build integration
-- Batch processing capabilities
+Complete technical reference for the dual-mode image processing system:
+- Blog mode vs Assets mode workflows
+- ImageMagick integration details
+- Advanced configuration options
+- Troubleshooting guide
 
-### [Guestbook API System](guestbook-api-system.md) (Now Separate Project)
-**Note: The Guestbook API has been moved to its own repository: [xalpheric-guestbook-api](https://github.com/YourUsername/xalpheric-guestbook-api)**
+---
 
-Headless JSON API for secure guestbook functionality with admin approval workflow.
-- Spam protection with rate limiting
-- Email notifications via Gmail with one-click admin buttons
-- Admin approval system
+**Note**: For quick reference and common usage, see the main [README.md](../README.md) in the project root.
 - Secure API with validation and sanitization
 - Optimized for Render.com deployment
 

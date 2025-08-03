@@ -46,12 +46,21 @@ async function loadReleases() {
     releases = formatReleasesForMain(releasesData);
     showRelease(current);
     updateNavigationState();
+    
+    // Expose globally for radio player sync
+    window.releases = releases;
+    window.current = current;
+    
   } catch (error) {
     console.error('Failed to load releases:', error);
     // Use fallback releases
     releases = getFallbackReleasesForMain();
     showRelease(current);
     updateNavigationState();
+    
+    // Expose globally for radio player sync
+    window.releases = releases;
+    window.current = current;
   }
 }
 
@@ -77,6 +86,13 @@ function showRelease(index) {
   
   // Update track counter
   $("#track-counter").text(`${index + 1} / ${releases.length}`);
+  
+  // Notify radio player of track change if on home page
+  if (window.xalphericRadioInstance && window.xalphericRadioInstance.isHomePage) {
+    setTimeout(() => {
+      window.xalphericRadioInstance.syncWithHomePlayer();
+    }, 100);
+  }
 }
 
 // Release Lightbox functionality
@@ -135,19 +151,23 @@ function updateNavigationState() {
 }
 
 function navigateLeft() {
-  if (current > 0) {
-    current = (current - 1 + releases.length) % releases.length;
-    showRelease(current);
-    updateNavigationState();
-  }
+  if (releases.length === 0) return;
+  current = (current - 1 + releases.length) % releases.length;
+  showRelease(current);
+  updateNavigationState();
+  
+  // Expose current index globally for radio player sync
+  window.current = current;
 }
 
 function navigateRight() {
-  if (current < releases.length - 1) {
-    current = (current + 1) % releases.length;
-    showRelease(current);
-    updateNavigationState();
-  }
+  if (releases.length === 0) return;
+  current = (current + 1) % releases.length;
+  showRelease(current);
+  updateNavigationState();
+  
+  // Expose current index globally for radio player sync
+  window.current = current;
 }
 
 $(document).ready(() => {
