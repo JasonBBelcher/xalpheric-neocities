@@ -1,6 +1,42 @@
 {
   "releases": [
     {
+      "id": "crystalline",
+      "title": "Crystalline",
+      "cover": "assets/release13.png",
+      "audio": "music/xaphoid - crystaline.mp3",
+      "description": "A song about magical crystals stabbing the heart of the first men.  Thus the first White Walkers were created. ",
+      "year": 2017,
+      "duration": "6:04"
+    },
+    {
+      "id": "gentlenotion",
+      "title": "Gentle Notion Le Premier",
+      "cover": "assets/release11.png",
+      "audio": "music/zaphoid - gentle notion.ogg",
+      "description": "A melody of love.  No words but the music should speak it. Float away on a gentle sea of tranquility.",
+      "year": 2009,
+      "duration": "5:24"
+    },
+    {
+      "id": "gentlenotion2",
+      "title": "Gentle Notion Part Deux",
+      "cover": "assets/release10.png",
+      "audio": "music/xaphoid - gentle-notion-mp3.mp3",
+      "description": "A soothing blend of ambient sounds and gentle melodies, designed to evoke a sense of calm and introspection. Close your eyes, take a deep breath, and let the music carry you away to a place of peace and tranquility. Rising from this a crecendo of emotional intensity carries you away and assures you that all is well here. We have arrived at the apex of joy.",
+      "year": 2019,
+      "duration": "6:25"
+    },
+    {
+      "id": "driftwood",
+      "title": "Driftwood",
+      "cover": "assets/release9.png",
+      "audio": "music/xaphoid - driftwood-mixed.mp3",
+      "description": "I'm driftwood.  I'm not going to fight it.  Floating down that river without a care. Shaped by time and flow. A since of longing for the expanse.",
+      "year": 2019,
+      "duration": "4:27"
+    },
+    {
       "id": "descent",
       "title": "Descent",
       "cover": "assets/release7.png",
@@ -8,6 +44,15 @@
       "description": " Imagine decending into a dystopian megatropolis.  As you decend into the fog belowyou realize this is the home you didn't choose among the damned and the blessed. Lights of all the shades of heaven shine among this hellish city of mans own making.How many murders will there be tonight?  How many lovers will embrace.  Do you love this city or do you hate it?  Maybe it's both and maybe that is ok.",
       "year": 2019,
       "duration": "4:02"
+    },
+    {
+      "id": "madman",
+      "title": "The Mad Man",
+      "cover": "assets/release12.png",
+      "audio": "music/xaphoid - mind-of-a-mad-man.mp3",
+      "description": "The madman.  A tortured soul of ill repute.  Alone in a dark room.  The demons in his soul encroaching.  He struggles to keep them at bay but knows that eventually they will win.  Nods to Danny Elfman who happens to be my favorite composer",
+      "year": 2015,
+      "duration": "2:27"
     },
     {
       "id": "bluezen",
