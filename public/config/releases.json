@@ -1,6 +1,51 @@
 {
   "releases": [
     {
+      "id": "seaspray",
+      "title": "Sea Spray",
+      "cover": "assets/seaspray-coverart.png",
+      "audio": "music/xaphoid - sea-spray.mp3",
+      "description": "A happy DnB tune, who ever thought of such a thing? -- The seagulls glide on the winds as you feel the water tickle your feet.  Girls walk by in bikini's and children make sand castles.  In the distance you see the dolphins play.  You feel the sea spray on your face and raise a toast to the moment. ",
+      "year": 2017,
+      "duration": "7:24"
+    },
+    {
+      "id": "emotionaldebris",
+      "title": "Emotional Debris",
+      "cover": "assets/emotionaldebris-coverart.png",
+      "audio": "music/EmotionalDebris2.0.mp3",
+      "description": "Made almost entirely with buzz modular studio and NI Massive. Meant to invoke a sense of quiet contemplation with the universe and a profound sadness burdened by the limited scope of android lifetimes.",
+      "year": 2013,
+      "duration": "6:36"
+    },
+    {
+      "id": "deepshimmer",
+      "title": "Deep Shimmer",
+      "cover": "assets/deepshimmer-coverart.png",
+      "audio": "music/xaphoid - deepshimmer.mp3",
+      "description": "Cool Melodic Dream House. Nothing much else to say other than it has some nice vibes :)",
+      "year": 2013,
+      "duration": "8:19"
+    },
+    {
+      "id": "november_feelings",
+      "title": "November Feelings",
+      "cover": "assets/novemberfeelings-coverart.png",
+      "audio": "music/November Feeling (Extended).mp3",
+      "description": "An old buzz tune that has no bottom end as many of my older tracks did back then. I might re make this one, one day.  It was well liked back then.",
+      "year": 2004,
+      "duration": "6:51"
+    },
+    {
+      "id": "xalpheria",
+      "title": "Xalpheria",
+      "cover": "assets/xalpheria-coverart.jpg",
+      "audio": "music/Xalpheria.mp3",
+      "description": "One of my best trance tracks ever, back in the day when I was still into that genre. I learned Ableton for this one and then promptly forgot how to use Ableton and moved to Reaper.  The track employs the neapolitan chord resolution. I also created the album art myself using Gimp.  I really should do that more often but back then I had more time for that.",
+      "year": 2013,
+      "duration": "8:07"
+    },
+    {
       "id": "crystalline",
       "title": "Crystalline",
       "cover": "assets/release13.png",
@@ -8,6 +53,15 @@
       "description": "A song about magical crystals stabbing the heart of the first men.  Thus the first White Walkers were created. ",
       "year": 2017,
       "duration": "6:04"
+    },
+    {
+      "id": "im_the_blue_type",
+      "title": "I'm the Blue Type",
+      "cover": "assets/release14.png",
+      "audio": "music/xaphoid - im-the-blue-type.mp3",
+      "description": "Atmospheric DnB with lush pads and a driving beat.",
+      "year": 2017,
+      "duration": "4:27"
     },
     {
       "id": "gentlenotion",
