@@ -2,6 +2,15 @@
   "releases": [
     {
       "id": "seaspray",
+      "title": "Scenius",
+      "cover": "assets/Scenius.png",
+      "audio": "music/Scenius.mp3",
+      "description": "A collage of sound. A sound painting of media.  Chopped just right for your listening pleasure. Brian Eno monologue interlude tops the cake.",
+      "year": 2025,
+      "duration": "8:29"
+    },
+    {
+      "id": "seaspray",
       "title": "Sea Spray",
       "cover": "assets/seaspray-coverart.png",
       "audio": "music/xaphoid - sea-spray.mp3",
