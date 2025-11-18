@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 const FormData = require('form-data');
-const fetch = require('node-fetch');
+const https = require('https');
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -80,7 +80,10 @@ function loadReleasesConfig() {
 function getMusicFiles() {
   try {
     const files = fs.readdirSync(MUSIC_DIR);
-    return files.filter(file => path.extname(file).toLowerCase() === '.mp3');
+    return files.filter(file => {
+      const ext = path.extname(file).toLowerCase();
+      return ext === '.mp3' || ext === '.ogg';
+    });
   } catch (error) {
     log(`❌ Error reading music directory: ${error.message}`, 'red');
     return [];
@@ -89,80 +92,151 @@ function getMusicFiles() {
 
 // Get remote file list from Neocities
 async function getRemoteFiles() {
-  try {
-    const response = await fetch('https://neocities.org/api/list', {
+  return new Promise((resolve, reject) => {
+    const options = {
+      method: 'GET',
+      host: 'neocities.org',
+      path: '/api/list',
       headers: {
         'Authorization': `Bearer ${NEOCITIES_API_KEY}`
       }
+    };
+    
+    const req = https.request(options, res => {
+      let data = '';
+      
+      res.on('data', chunk => {
+        data += chunk;
+      });
+      
+      res.on('end', () => {
+        try {
+          const jsonData = JSON.parse(data);
+          
+          if (jsonData.result !== 'success') {
+            log(`❌ Error from Neocities API: ${jsonData.message}`, 'red');
+            resolve([]);
+            return;
+          }
+          
+          const musicFiles = jsonData.files.filter(file => 
+            file.path.startsWith('music/') && (file.path.endsWith('.mp3') || file.path.endsWith('.ogg'))
+          );
+          resolve(musicFiles);
+        } catch (error) {
+          log(`❌ Error parsing response: ${error.message}`, 'red');
+          resolve([]);
+        }
+      });
     });
     
-    const data = await response.json();
+    req.on('error', error => {
+      log(`❌ Error fetching remote files: ${error.message}`, 'red');
+      resolve([]);
+    });
     
-    if (!data.result === 'success') {
-      throw new Error(data.message || 'Failed to fetch remote files');
-    }
-    
-    return data.files.filter(file => 
-      file.path.startsWith('music/') && file.path.endsWith('.mp3')
-    );
-  } catch (error) {
-    log(`❌ Error fetching remote files: ${error.message}`, 'red');
-    return [];
-  }
+    req.end();
+  });
 }
 
 // Upload file to Neocities
 async function uploadFile(filePath, remotePath) {
-  try {
+  return new Promise((resolve) => {
     const formData = new FormData();
     formData.append(remotePath, fs.createReadStream(filePath));
     
-    const response = await fetch('https://neocities.org/api/upload', {
+    const options = {
       method: 'POST',
+      host: 'neocities.org',
+      path: '/api/upload',
       headers: {
+        ...formData.getHeaders(),
         'Authorization': `Bearer ${NEOCITIES_API_KEY}`
-      },
-      body: formData
+      }
+    };
+    
+    const req = https.request(options, res => {
+      let data = '';
+      
+      res.on('data', chunk => {
+        data += chunk;
+      });
+      
+      res.on('end', () => {
+        try {
+          const result = JSON.parse(data);
+          
+          if (result.result !== 'success') {
+            log(`❌ Upload failed: ${result.message || 'Unknown error'}`, 'red');
+            resolve(false);
+            return;
+          }
+          
+          resolve(true);
+        } catch (error) {
+          log(`❌ Error parsing upload response: ${error.message}`, 'red');
+          resolve(false);
+        }
+      });
     });
     
-    const result = await response.json();
+    req.on('error', error => {
+      log(`❌ Error uploading ${remotePath}: ${error.message}`, 'red');
+      resolve(false);
+    });
     
-    if (result.result !== 'success') {
-      throw new Error(result.message || 'Upload failed');
-    }
-    
-    return true;
-  } catch (error) {
-    log(`❌ Error uploading ${remotePath}: ${error.message}`, 'red');
-    return false;
-  }
+    formData.pipe(req);
+  });
 }
 
 // Delete file from Neocities
 async function deleteFile(remotePath) {
-  try {
+  return new Promise((resolve) => {
     const formData = new FormData();
     formData.append('filenames[]', remotePath);
     
-    const response = await fetch('https://neocities.org/api/delete', {
+    const options = {
       method: 'POST',
+      host: 'neocities.org',
+      path: '/api/delete',
       headers: {
+        ...formData.getHeaders(),
         'Authorization': `Bearer ${NEOCITIES_API_KEY}`
-      },
-      body: formData
+      }
+    };
+    
+    const req = https.request(options, res => {
+      let data = '';
+      
+      res.on('data', chunk => {
+        data += chunk;
+      });
+      
+      res.on('end', () => {
+        try {
+          const result = JSON.parse(data);
+          
+          if (result.result !== 'success') {
+            log(`❌ Delete failed: ${result.message || 'Unknown error'}`, 'red');
+            resolve(false);
+            return;
+          }
+          
+          resolve(true);
+        } catch (error) {
+          log(`❌ Error parsing delete response: ${error.message}`, 'red');
+          resolve(false);
+        }
+      });
     });
     
-    const result = await response.json();
+    req.on('error', error => {
+      log(`❌ Error deleting ${remotePath}: ${error.message}`, 'red');
+      resolve(false);
+    });
     
-    if (result.result !== 'success') {
-      throw new Error(result.message || 'Delete failed');
-    }
-    
-    return true;
-  } catch (error) {
-    log(`❌ Error deleting ${remotePath}: ${error.message}`, 'red');
-    return false;
-  }
+    formData.pipe(req);
+  });
 }
 
 // Main deployment function

@@ -1,6 +1,60 @@
 {
   "releases": [
     {
+      "id": "good_mood_geometry",
+      "title": "Good Mood Geometry",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Good-mood-geometry.mp3",
+      "description": "A Koala Sampler sketch consisting of playful rhythms and melodic shapes combine to create an uplifting sonic architecture.",
+      "year": 2025,
+      "duration": "2:32"
+    },
+    {
+      "id": "i_believe_in_music",
+      "title": "I Believe in Music",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/I-believe-in-music.mp3",
+      "description": "A heartfelt Koala Sampler composition celebrating the power of music. Simple but sincere, this sketch captures pure creative joy.",
+      "year": 2025,
+      "duration": "2:09"
+    },
+    {
+      "id": "josh_flute",
+      "title": "Josh Flute",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Josh-Flute.mp3",
+      "description": "An improvisational flute melody performed by Josh Davis aka GONE captured on the Koala Sampler. Organic, flowing, and meditative - a moment of musical spontaneity preserved.",
+      "year": 2025,
+      "duration": "2:27"
+    },
+    {
+      "id": "snake_taming_for_dummies",
+      "title": "Snake Taming for Dummies",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/snake-taming-for-dummies.mp3",
+      "description": "A hypnotic Koala Sampler groove that slithers and winds through shifting rhythms. Equal parts playful and mysterious - a sonic guide to the art of serpent charming.",
+      "year": 2025,
+      "duration": "4:32"
+    },
+    {
+      "id": "sunrise_over_alborz",
+      "title": "Sunrise over Alborz",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Sunrise-over-Alborz.mp3",
+      "description": "A techno piece inspired by the Alborz mountain range. Dawn breaks over ancient peaks in this ambient sketch captured on the Koala Sampler.  This is a collaboration between myself and Josh Davis aka GONE.",
+      "year": 2025,
+      "duration": "2:46"
+    },
+    {
+      "id": "who_let_the_funk_out",
+      "title": "Who Let the Funk Out",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Who-let-the-funk-out.mp3",
+      "description": "A funky Koala Sampler jam that refuses to be contained. Groovy, punchy, and impossible to resist - this one's going to make you move.",
+      "year": 2025,
+      "duration": "1:44"
+    },
+    {
       "id": "seaspray",
       "title": "Scenius",
       "cover": "assets/Scenius.png",

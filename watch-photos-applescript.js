@@ -8,7 +8,7 @@ const os = require('os');
 
 // Configuration
 const CONFIG = {
-  targetKeyword: 'xalpheric',
+  targetKeywords: ['xalpheric', 'midimob'],
   photosOutputDir: path.join(__dirname, 'process_photos'),
   videosOutputDir: path.join(__dirname, 'process_video'),
   watchInterval: 10000, // 10 seconds between checks
@@ -20,7 +20,7 @@ const CONFIG = {
 
 console.log('📸 Xalpheric Photos Watcher (AppleScript Method)');
 console.log('=================================================');
-console.log(`🏷️  Looking for keyword: "${CONFIG.targetKeyword}"`);
+console.log(`🏷️  Looking for keywords: "${CONFIG.targetKeywords.join('", "')}"`);
 console.log(`📁 Photos output: ${CONFIG.photosOutputDir}`);
 console.log(`🎥 Videos output: ${CONFIG.videosOutputDir}`);
 console.log('');
@@ -169,17 +169,17 @@ end tell`;
 
 // Query Photos app for media with specific keyword
 async function queryPhotosForKeyword() {
-  console.log(`🔍 Searching Photos app for keyword "${CONFIG.targetKeyword}"...`);
+  console.log(`🔍 Searching Photos app for keywords "${CONFIG.targetKeywords.join('", "')}\"...`);
   
   // For large libraries, try album method first since it's faster
   console.log('⚡ Trying album method first (faster for large libraries)...');
   try {
     const albumPhotos = await queryPhotosSimple();
     if (albumPhotos.length > 0) {
-      console.log(`✅ Found ${albumPhotos.length} photos in "${CONFIG.targetKeyword}" album`);
+      console.log(`✅ Found ${albumPhotos.length} photos in albums`);
       return albumPhotos;
     }
-    console.log(`ℹ️  No "${CONFIG.targetKeyword}" album found, trying keyword search...`);
+    console.log(`ℹ️  No matching albums found, trying keyword search...`);
   } catch (error) {
     console.log('⚠️  Album method failed, trying keyword search...');
   }
@@ -187,6 +187,7 @@ async function queryPhotosForKeyword() {
   // Fallback to keyword search
   // Create temporary AppleScript file
   const tempScriptPath = path.join(os.tmpdir(), 'xalpheric-photos-query.scpt');
+  const keywordConditions = CONFIG.targetKeywords.map(kw => `currentKeyword contains "${kw}"`).join(' or ');
   const appleScript = `tell application "Photos"
 	set foundPhotos to {}
 	set allPhotos to every media item
@@ -200,7 +201,7 @@ async function queryPhotosForKeyword() {
 			set photoName to name of currentPhoto
 			
 			repeat with currentKeyword in photoKeywords
-				if currentKeyword contains "${CONFIG.targetKeyword}" then
+				if ${keywordConditions} then
 					set photoInfo to photoId & "|" & photoFilename & "|" & photoName & "|unknown|" & (photoDate as string)
 					set end of foundPhotos to photoInfo
 					exit repeat
@@ -269,10 +270,13 @@ end tell`;
 
 // Simplified query for large libraries
 async function queryPhotosSimple() {
-  // Create temporary AppleScript file
-  const tempScriptPath = path.join(os.tmpdir(), 'xalpheric-photos-simple.scpt');
-  const appleScript = `tell application "Photos"
-	set albumName to "${CONFIG.targetKeyword}"
+  const allPhotos = [];
+  
+  // Try each keyword/album
+  for (const keyword of CONFIG.targetKeywords) {
+    const tempScriptPath = path.join(os.tmpdir(), `xalpheric-photos-simple-${keyword}.scpt`);
+    const appleScript = `tell application "Photos"
+	set albumName to "${keyword}"
 	try
 		set targetAlbum to album albumName
 		set albumPhotos to every media item in targetAlbum
@@ -299,57 +303,57 @@ async function queryPhotosSimple() {
 end tell`;
 
   try {
-    // Write script to temporary file
-    fs.writeFileSync(tempScriptPath, appleScript);
-    
-    const result = execSync(`osascript "${tempScriptPath}"`, { 
-      encoding: 'utf8',
-      timeout: 30000
-    });
-    
-    // Clean up temporary file
-    if (fs.existsSync(tempScriptPath)) {
-      fs.unlinkSync(tempScriptPath);
+      // Write script to temporary file
+      fs.writeFileSync(tempScriptPath, appleScript);
+      
+      const result = execSync(`osascript "${tempScriptPath}"`, { 
+        encoding: 'utf8',
+        timeout: 30000
+      });
+      
+      // Clean up temporary file
+      if (fs.existsSync(tempScriptPath)) {
+        fs.unlinkSync(tempScriptPath);
+      }
+      
+      if (result.trim()) {
+        const photos = result.trim().split(', ').map(item => {
+          const [id, filename, name, mediaType, dateStr] = item.split('|');
+          const fileExt = filename ? path.extname(filename.trim()).toLowerCase() : '';
+          return {
+            id: id?.trim(),
+            filename: filename?.trim(),
+            name: name?.trim(),
+            mediaType: mediaType?.trim(),
+            date: dateStr?.trim(),
+            isVideo: CONFIG.supportedVideoExtensions.includes(fileExt)
+          };
+        }).filter(photo => photo.id && photo.filename);
+        
+        allPhotos.push(...photos);
+      }
+      
+    } catch (error) {
+      // Clean up temporary file in case of error
+      if (fs.existsSync(tempScriptPath)) {
+        fs.unlinkSync(tempScriptPath);
+      }
+      
+      console.error(`❌ Failed to query album "${keyword}":`, error.message);
     }
-    
-    if (!result.trim()) {
-      return [];
-    }
-    
-    const photos = result.trim().split(', ').map(item => {
-      const [id, filename, name, mediaType, dateStr] = item.split('|');
-      const fileExt = filename ? path.extname(filename.trim()).toLowerCase() : '';
-      return {
-        id: id?.trim(),
-        filename: filename?.trim(),
-        name: name?.trim(),
-        mediaType: mediaType?.trim(),
-        date: dateStr?.trim(),
-        isVideo: CONFIG.supportedVideoExtensions.includes(fileExt)
-      };
-    }).filter(photo => photo.id && photo.filename);
-    
-    return photos;
-    
-  } catch (error) {
-    // Clean up temporary file in case of error
-    if (fs.existsSync(tempScriptPath)) {
-      fs.unlinkSync(tempScriptPath);
-    }
-    
-    console.error('❌ Simplified query also failed:', error.message);
-    return [];
   }
+  
+  return allPhotos;
 }
 
 // Process found media files
 async function processFoundMedia(mediaList, processedList) {
   if (mediaList.length === 0) {
-    console.log(`ℹ️  No media found with keyword "${CONFIG.targetKeyword}"`);
+    console.log(`ℹ️  No media found with keywords "${CONFIG.targetKeywords.join('", "')}"`);
     return processedList;
   }
   
-  console.log(`\n🎯 Found ${mediaList.length} media items with "${CONFIG.targetKeyword}":`);
+  console.log(`\n🎯 Found ${mediaList.length} media items with matching keywords:`);
   
   let newCount = 0;
   let copiedCount = 0;
@@ -474,11 +478,11 @@ async function performScan() {
       console.log('Method 1 - Keywords (Recommended):');
       console.log(`   1. Select photos/videos in Photos app`);
       console.log(`   2. Open Info panel (Cmd+I)`);
-      console.log(`   3. Add "${CONFIG.targetKeyword}" as a keyword`);
+      console.log(`   3. Add one of these keywords: "${CONFIG.targetKeywords.join('", "')}"`);
       console.log('');
-      console.log('Method 2 - Album:');
-      console.log(`   1. Create an album named "${CONFIG.targetKeyword}"`);
-      console.log(`   2. Add photos/videos to this album`);
+      console.log('Method 2 - Albums:');
+      console.log(`   1. Create an album named "${CONFIG.targetKeywords[0]}" or "${CONFIG.targetKeywords[1]}"`);
+      console.log(`   2. Add photos/videos to these albums`);
       console.log('');
       console.log('The script will automatically find and copy tagged media to:');
       console.log(`   📸 Photos: ${CONFIG.photosOutputDir}`);
