@@ -274,92 +274,12 @@
   <script src="js/utils.js"></script>
   <script src="js/main.js"></script>
   <script src="js/radio-player.js"></script>
+  <script src="js/lightbox.js"></script>
   
-  <!-- Lightbox for event photos -->
-  <div id="lightbox" class="lightbox">
-    <span class="lightbox-close">&times;</span>
-    <span class="lightbox-prev">&#10094;</span>
-    <span class="lightbox-next">&#10095;</span>
-    <img class="lightbox-content" id="lightbox-img">
-    <div class="lightbox-caption"></div>
-  </div>
-
   <script>
-    // Lightbox functionality
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightbox-img');
-    const lightboxCaption = document.querySelector('.lightbox-caption');
-    const closeBtn = document.querySelector('.lightbox-close');
-    const prevBtn = document.querySelector('.lightbox-prev');
-    const nextBtn = document.querySelector('.lightbox-next');
-    
-    let currentImageIndex = 0;
-    let images = [];
-    
-    // Get all event photos
+    // Initialize lightbox for event photo galleries
     document.addEventListener('DOMContentLoaded', () => {
-      const photoGrids = document.querySelectorAll('.photo-grid');
-      
-      photoGrids.forEach(grid => {
-        const gridImages = Array.from(grid.querySelectorAll('img'));
-        
-        gridImages.forEach((img, index) => {
-          img.style.cursor = 'pointer';
-          img.addEventListener('click', () => {
-            images = gridImages;
-            currentImageIndex = index;
-            openLightbox();
-          });
-        });
-      });
-    });
-    
-    function openLightbox() {
-      lightbox.style.display = 'flex';
-      updateLightboxImage();
-      document.body.style.overflow = 'hidden';
-    }
-    
-    function closeLightbox() {
-      lightbox.style.display = 'none';
-      document.body.style.overflow = 'auto';
-    }
-    
-    function updateLightboxImage() {
-      const img = images[currentImageIndex];
-      lightboxImg.src = img.src;
-      lightboxCaption.textContent = img.alt;
-    }
-    
-    function nextImage() {
-      currentImageIndex = (currentImageIndex + 1) % images.length;
-      updateLightboxImage();
-    }
-    
-    function prevImage() {
-      currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
-      updateLightboxImage();
-    }
-    
-    // Event listeners
-    closeBtn.addEventListener('click', closeLightbox);
-    nextBtn.addEventListener('click', nextImage);
-    prevBtn.addEventListener('click', prevImage);
-    
-    // Close on background click
-    lightbox.addEventListener('click', (e) => {
-      if (e.target === lightbox) {
-        closeLightbox();
-      }
-    });
-    
-    // Keyboard navigation
-    document.addEventListener('keydown', (e) => {
-      if (lightbox.style.display === 'flex') {
-        if (e.key === 'Escape') closeLightbox();
-        if (e.key === 'ArrowRight') nextImage();
-        if (e.key === 'ArrowLeft') prevImage();
-      }
+      imageLightbox.initGallery('.photo-grid');
     });
   </script>
 </body>
