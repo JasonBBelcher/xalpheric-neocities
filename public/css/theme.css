@@ -3030,6 +3030,19 @@ footer {
   padding: 2rem 0;
 }
 
+.intro {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(20, 20, 30, 0.6);
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+.intro p {
+  margin-bottom: 1rem;
+  color: #e0e0e0;
+}
+
 .projects-grid {
   margin: 3rem 0;
 }
