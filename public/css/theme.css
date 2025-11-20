@@ -105,12 +105,13 @@ body {
   font-family: 'Orbitron', sans-serif;
   font-weight: 500;
   font-size: 0.85rem;
-  padding: 0.3rem 0.8rem; /* Reduced padding for thinner nav links */
+  padding: 0.3rem 1.2rem; /* Increased horizontal padding for more width */
   border: 2px solid transparent;
   border-radius: 8px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
+  white-space: nowrap; /* Prevent text wrapping */
 }
 
 .nav-link:hover {
@@ -596,9 +597,10 @@ body {
     animation: none !important;
     transform: none !important;
     border-radius: 8px !important;
-    padding: 0.3rem 0.8rem !important; /* Reduced padding to match thinner links */
+    padding: 0.3rem 1.2rem !important; /* Increased horizontal padding for more width */
     border: 2px solid transparent !important;
     font-size: 0.85rem !important;
+    white-space: nowrap !important; /* Prevent text wrapping */
   }
 }
 
