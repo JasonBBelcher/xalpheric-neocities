@@ -3817,6 +3817,15 @@ footer {
   margin-bottom: 1rem;
 }
 
+.section-heading {
+  font-size: 2rem;
+  color: #0ff;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  margin: 3rem 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+}
+
 .partners-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
