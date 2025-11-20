@@ -3944,6 +3944,19 @@ footer {
   margin: 0;
 }
 
+/* SoundCloud Player Dark Styling */
+.soundcloud-player {
+  background: #1a1a1a;
+  border-radius: 10px;
+  padding: 1rem;
+  border: 2px solid #1e90ff;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.3), inset 0 0 30px rgba(30, 144, 255, 0.05);
+}
+
+.soundcloud-player iframe {
+  border-radius: 6px;
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .partners-grid {
