@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Drum Machine - Xalpheria</title>
+  
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Interactive drum sequencer built with Web Audio API. Create and save drum patterns with custom samples and pitch control.">
+  <meta name="keywords" content="drum machine, drum sequencer, Web Audio API, music production, beat maker, online drum machine">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/xalpheric_favicon.png">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/theme.css">
+  <link rel="stylesheet" href="css/drum-machine.css">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  
+  <!-- Scripts -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-content">
+      <!-- Hamburger Menu Button (Mobile Only) -->
+      <button class="hamburger-menu" aria-label="Toggle navigation menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+      
+      <nav class="top-nav">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="musings.html" class="nav-link">Thoughts & Musings</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="projects.html" class="nav-link">Project Files</a>
+        <a href="drum-machine.html" class="nav-link active">Drum Machine</a>
+        <a href="collective.html" class="nav-link">Collective</a>
+        <a href="links.html" class="nav-link">Essential Links</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="drum-machine-main">
+    <h1 class="page-title">
+      <span class="glow-text">Drum Machine</span>
+    </h1>
+
+    <section class="intro">
+      <p>An interactive drum sequencer built with the Web Audio API. Create beats, adjust pitch, load custom samples, and save your patterns.</p>
+      <p class="tech-info">🎛️ <strong>Features:</strong> Sample-accurate timing, custom sample loading, pitch control (±12 semitones), pattern saving, 8-track sequencer, per-track effects</p>
+      
+      <!-- Development Status Notice -->
+      <div class="status-notice" style="background: linear-gradient(135deg, #ff6b35 0%, #ff8c42 100%); border-left: 4px solid #ff4500; padding: 1rem; margin: 1.5rem 0; border-radius: 8px; box-shadow: 0 4px 12px rgba(255, 107, 53, 0.3);">
+        <p style="margin: 0 0 0.5rem 0; font-size: 1.1rem; font-weight: bold; color: #fff;">⚠️ Active Development Notice</p>
+        <p style="margin: 0; color: #fff;">This drum machine is currently under active construction with new features being added. Mobile/smartphone support is coming soon but not yet optimized. For the best experience, please use a desktop or laptop computer.</p>
+      </div>
+    </section>
+
+    <!-- Launch Button -->
+    <div class="launch-container">
+      <a href="js/drum-machine/index.html" class="launch-button">
+        🥁 Launch Drum Machine
+      </a>
+      <p class="launch-hint">Opens in full-screen mode for best experience · Desktop recommended</p>
+    </div>
+
+    <section class="instructions">
+      <h2>How to Use</h2>
+      <div class="instruction-grid">
+        <div class="instruction-item">
+          <h3>🎵 Basic Controls</h3>
+          <ul>
+            <li><strong>Click cells</strong> to add/remove drum hits</li>
+            <li><strong>Play/Stop</strong> to control playback</li>
+            <li><strong>BPM slider</strong> adjusts tempo (30-240 BPM)</li>
+            <li><strong>Sequence length</strong> from 4 to 64 steps</li>
+          </ul>
+        </div>
+        
+        <div class="instruction-item">
+          <h3>🎚️ Advanced Features</h3>
+          <ul>
+            <li><strong>Volume sliders</strong> per track</li>
+            <li><strong>Pitch control</strong> ±12 semitones per drum</li>
+            <li><strong>Fine tuning</strong> ±100 cents (1 semitone)</li>
+            <li><strong>Custom samples</strong> load your own sounds</li>
+          </ul>
+        </div>
+        
+        <div class="instruction-item">
+          <h3>💾 Pattern Management</h3>
+          <ul>
+            <li><strong>Name your beat</strong> in the text field</li>
+            <li><strong>Save</strong> stores pattern to browser</li>
+            <li><strong>Load</strong> from dropdown menu</li>
+            <li><strong>Delete</strong> removes saved patterns</li>
+          </ul>
+        </div>
+        
+        <div class="instruction-item">
+          <h3>🔧 Technical Details</h3>
+          <ul>
+            <li><strong>Web Audio API</strong> for sample-accurate timing</li>
+            <li><strong>MVC architecture</strong> clean separation</li>
+            <li><strong>No dependencies</strong> pure JavaScript</li>
+            <li><strong>Open source</strong> on <a href="https://github.com/JasonBBelcher/drum-machine" target="_blank" rel="noopener">GitHub</a></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-project">
+      <h2>About This Project</h2>
+      <p>This drum machine was built through a systematic development process with continuous improvements:</p>
+      <ul>
+        <li><strong>Phase 1:</strong> Implemented AudioScheduler with Web Audio API for &lt;2ms timing accuracy</li>
+        <li><strong>Phase 2:</strong> Refactored to MVC architecture, removed security vulnerabilities</li>
+        <li><strong>Phase 3:</strong> Native Web Audio API implementation, removed 180KB Howler.js dependency</li>
+        <li><strong>Phase 4:</strong> Added custom sample loading and pitch control capabilities</li>
+        <li><strong>Latest:</strong> Per-track effects (filter, delay, reverb) with full persistence - each drum can have independent audio processing!</li>
+      </ul>
+      <p>The result is a lightweight, performant drum sequencer with professional-grade timing, extensive customization options, and studio-quality effects processing.</p>
+      <p><strong>Coming Soon:</strong> Mobile optimization, MIDI support, and additional effect types.</p>
+      <p><a href="https://github.com/JasonBBelcher/drum-machine" target="_blank" rel="noopener" class="github-link">View source code on GitHub →</a></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; 2025 Xalpheric. Licensed under Creative Commons BY-SA 4.0</p>
+    <p><a href="https://github.com/JasonBBelcher" target="_blank" rel="noopener">GitHub</a> | Built with Web Audio API</p>
+  </footer>
+
+  <!-- Main Scripts -->
+  <script src="js/main.js"></script>
+</body>
+</html>

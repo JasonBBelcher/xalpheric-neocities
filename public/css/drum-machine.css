@@ -1,0 +1,332 @@
+/* Drum Machine Page Styles */
+/* Matches Xalpheric dark theme with green accents */
+
+.drum-machine-main {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.page-title {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+.glow-text {
+  color: #00ff41;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.8),
+               0 0 20px rgba(0, 255, 65, 0.6),
+               0 0 30px rgba(0, 255, 65, 0.4);
+  animation: textGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes textGlow {
+  from {
+    text-shadow: 0 0 10px rgba(0, 255, 65, 0.8),
+                 0 0 20px rgba(0, 255, 65, 0.6),
+                 0 0 30px rgba(0, 255, 65, 0.4);
+  }
+  to {
+    text-shadow: 0 0 15px rgba(0, 255, 65, 1),
+                 0 0 30px rgba(0, 255, 65, 0.8),
+                 0 0 45px rgba(0, 255, 65, 0.6);
+  }
+}
+
+.intro {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  padding: 1.5rem;
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 255, 65, 0.2);
+}
+
+.intro p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0.8rem 0;
+  color: #e0e0e0;
+}
+
+.tech-info {
+  font-size: 0.95rem !important;
+  color: #00ff41 !important;
+  border-top: 1px solid rgba(0, 255, 65, 0.2);
+  padding-top: 1rem;
+  margin-top: 1rem;
+}
+
+/* Launch Container */
+.launch-container {
+  text-align: center;
+  margin: 4rem auto;
+  padding: 3rem 2rem;
+  max-width: 600px;
+}
+
+.launch-button {
+  display: inline-block;
+  padding: 2rem 4rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #000;
+  background: linear-gradient(135deg, #00ff41 0%, #00cc33 100%);
+  text-decoration: none;
+  border: 3px solid #00ff41;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 255, 65, 0.4),
+              0 0 40px rgba(0, 255, 65, 0.3),
+              inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.launch-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.launch-button:hover::before {
+  left: 100%;
+}
+
+.launch-button:hover {
+  transform: translateY(-4px) scale(1.05);
+  box-shadow: 0 12px 48px rgba(0, 255, 65, 0.6),
+              0 0 60px rgba(0, 255, 65, 0.5),
+              inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, #00ff55 0%, #00dd44 100%);
+}
+
+.launch-button:active {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 6px 24px rgba(0, 255, 65, 0.5),
+              0 0 40px rgba(0, 255, 65, 0.4);
+}
+
+.launch-hint {
+  margin-top: 2rem;
+  font-size: 1.1rem;
+  color: #888;
+  font-style: italic;
+}
+
+/* Instructions Section */
+.instructions {
+  max-width: 1200px;
+  margin: 4rem auto 3rem;
+  padding: 2rem;
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 8px;
+}
+
+.instructions h2 {
+  color: #00ff41;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+}
+
+.instruction-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.instruction-item {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 1.5rem;
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.instruction-item:hover {
+  border-color: rgba(0, 255, 65, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 255, 65, 0.3);
+  transform: translateY(-2px);
+}
+
+.instruction-item h3 {
+  color: #00ff41;
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.4);
+}
+
+.instruction-item ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.instruction-item li {
+  margin: 0.8rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+  color: #e0e0e0;
+  line-height: 1.5;
+}
+
+.instruction-item li::before {
+  content: "▸";
+  position: absolute;
+  left: 0;
+  color: #00ff41;
+  font-weight: bold;
+}
+
+.instruction-item a {
+  color: #00ff41;
+  text-decoration: none;
+  border-bottom: 1px solid rgba(0, 255, 65, 0.3);
+  transition: all 0.2s ease;
+}
+
+.instruction-item a:hover {
+  border-bottom-color: #00ff41;
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+/* About Project Section */
+.about-project {
+  max-width: 900px;
+  margin: 3rem auto 4rem;
+  padding: 2rem;
+  background: rgba(10, 10, 10, 0.8);
+  border: 1px solid rgba(0, 255, 65, 0.3);
+  border-radius: 8px;
+}
+
+.about-project h2 {
+  color: #00ff41;
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 10px rgba(0, 255, 65, 0.6);
+}
+
+.about-project p {
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin: 1rem 0;
+  color: #e0e0e0;
+}
+
+.about-project ul {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0;
+}
+
+.about-project li {
+  margin: 0.8rem 0;
+  padding-left: 2rem;
+  position: relative;
+  color: #e0e0e0;
+  line-height: 1.6;
+}
+
+.about-project li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #00ff41;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.github-link {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background: rgba(0, 255, 65, 0.1);
+  color: #00ff41;
+  text-decoration: none;
+  border: 1px solid rgba(0, 255, 65, 0.4);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.github-link:hover {
+  background: rgba(0, 255, 65, 0.2);
+  border-color: #00ff41;
+  box-shadow: 0 4px 16px rgba(0, 255, 65, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.site-footer {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 1rem;
+  margin-top: 4rem;
+  background: rgba(17, 17, 17, 0.8);
+  border-top: 1px solid rgba(0, 255, 65, 0.3);
+  color: #888;
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: #00ff41;
+  text-decoration: none;
+  transition: text-shadow 0.2s ease;
+}
+
+.site-footer a:hover {
+  text-shadow: 0 0 8px rgba(0, 255, 65, 0.6);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
+  }
+  
+  #drum-machine-container {
+    padding: 1rem;
+  }
+  
+  .instruction-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .instructions,
+  .about-project {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+  
+  .intro {
+    padding: 1rem;
+  }
+  
+  .intro p {
+    font-size: 1rem;
+  }
+}

@@ -86,7 +86,7 @@ Options:
   --dry-run            Show what would happen without making changes
   --include-mp3s       Include MP3 files in the refresh (excluded by default)
   --include-assets     Include assets folder files in the refresh (excluded by default)
-  --rate-limit <sec>   Rate limit between requests in seconds (default: 5)
+  --rate-limit <sec>   Rate limit between requests in seconds (default: 10)
   --help, -h           Show this help message
 
 Examples:
@@ -128,7 +128,7 @@ function parseRateLimit() {
       process.exit(1);
     }
   }
-  return 5000; // Default 5 seconds
+  return 10000; // Default 10 seconds
 }
 
 // Configuration

@@ -1,0 +1,115 @@
+<!DOCTYPE html><html lang=en><script type=importmap>{"imports":{"04txH":"/js/drum-machine/StorageManager.0520776f.js","3jgYM":"/js/drum-machine/bd_909dwsd.879b2798.wav","4AGvE":"/js/drum-machine/prc_bongodrm.1cb49aca.wav","5h5do":"/js/drum-machine/snr_answer8bit.534fd92d.wav","anhZP":"/js/drum-machine/prc_harmony.158765fd.wav","fHb3D":"/js/drum-machine/clp_analogue.b75d9bb0.wav","frwss":"/js/drum-machine/hat_analog.ea0211b9.wav","i7sBo":"/js/drum-machine/shaker_quicky.5e04dc90.wav","kGlaE":"/js/drum-machine/prc_congaz.ee19f8af.wav"}}</script><meta charset=UTF-8><meta name=viewport content="width=device-width, initial-scale=1.0"><meta http-equiv=Cache-Control content="no-cache, no-store, must-revalidate"><meta http-equiv=X-UA-Compatible content="ie=edge"><link href="https://fonts.googleapis.com/css?family=Orbitron&amp;display=swap" rel=stylesheet><link rel=stylesheet href=https://xalpheric.neocities.org/css/theme.css><link rel=stylesheet href=/js/drum-machine/drum-machine.2a539de1.css><link rel=stylesheet href=/js/drum-machine/drum-machine.10e3c209.css><title>Drum Sequencer - Xalpheria</title><script src=https://code.jquery.com/jquery-3.7.1.min.js integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin=anonymous></script><body class="animated-body container-fluid">
+  <header class=site-header>
+    <div class=header-content>
+      
+      <button class=hamburger-menu aria-label="Toggle navigation menu">
+        <span class=hamburger-line></span>
+        <span class=hamburger-line></span>
+        <span class=hamburger-line></span>
+      </button>
+      
+      <nav class=top-nav>
+        <a href=https://xalpheric.neocities.org/index.html class=nav-link>Home</a>
+        <a href=https://xalpheric.neocities.org/musings.html class=nav-link>Thoughts &amp; Musings</a>
+        <a href=https://xalpheric.neocities.org/gallery.html class=nav-link>Gallery</a>
+        <a href=https://xalpheric.neocities.org/projects.html class=nav-link>Project Files</a>
+        <a href=https://xalpheric.neocities.org/drum-machine.html class="active nav-link">Drum Machine</a>
+        <a href=https://xalpheric.neocities.org/collective.html class=nav-link>Collective</a>
+        <a href=https://xalpheric.neocities.org/links.html class=nav-link>Essential Links</a>
+      </nav>
+    </div>
+  </header>
+  
+  <main style="padding:2rem 1rem">
+  <div class="mb-2 mt-5 row">
+    <div class="col-lg-3 col-md-2 col-md-offset-2 col-sm-12 col-xs-12">
+      <h1>
+        Drum Sequencer
+      </h1>
+
+    </div>
+
+
+    <div class="col-lg-3 col-lg-offset-1 col-md-3 col-sm-6 col-sm-offset-3 col-xs-1 col-xs-12">
+      <select class=saved-sequences>
+        <option value=keep>--pick a drum pattern</option>
+      </select>
+      <input id=input-save value placeholder="name that beat!">
+
+      <p class=sequence-instructions>
+        Setting the sequence length will reset the pattern.
+      </p>
+      <p class=sequence-instructions>
+        BPM is adjustable during playback.
+      </p>
+      <input class=seq-length-slider type=range name=seq-length value=16 step=1 min=4 max=64>
+      <div class=seq-length-output>16 steps</div>
+      <input class=seq-tempo-slider type=range name=seq-tempo value=120 step=1 min=30 max=240>
+      <div class=seq-tempo-output>120 BPM</div>
+    </div>
+    <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+      <button class=reset-btn id=reset>
+        <span>reset</span>
+      </button>
+      <button class=save-btn id=save>
+        <span>save</span>
+      </button>
+      <button class=delete-btn id=delete>
+        <span>delete</span>
+      </button>
+      <button class=play-stop-btn id=start>
+        <span>play</span>
+      </button>
+    </div>
+  </div>
+
+  <div class=dm-label-container>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=kick value=0.50 min=0 step=0.01 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=clap value=0.50 step=0.01 min=0 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=snare value=0.50 step=0.01 min=0 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=hat value=0.50 step=0.01 min=0 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=shaker value=0.50 step=0.01 min=0 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=bongo1 value=0.50 step=0.01 min=0 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=congaz value=0.50 step=0.01 min=0 max=1>
+    </div>
+    <div class=track-volume>
+      <input class=vol-slider type=range name=harmony value=0.50 step=0.01 min=0 max=1>
+    </div>
+  </div>
+  <div class="dm-label-container volume-output"></div>
+  <div class=dm></div>
+
+  
+  <div class="mt-2 row">
+    <div class=col-lg-12>
+      <h3>Sample Controls</h3>
+      <div class=sample-controls-container></div>
+    </div>
+  </div>
+
+  </main>
+
+  <footer class=site-footer>
+    <p>© 2025 Xalpheric. Licensed under Creative Commons BY-SA 4.0</p>
+    <p><a href=https://github.com/JasonBBelcher target=_blank rel=noopener>GitHub</a> | Built with Web Audio API</p>
+  </footer>
+
+  
+  <script src=https://xalpheric.neocities.org/js/main.js></script>
+
+
+<script type=module src=/js/drum-machine/drum-machine.737c1b80.js></script>
+
