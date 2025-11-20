@@ -598,6 +598,7 @@ body {
     border-radius: 8px !important;
     padding: 0.3rem 0.8rem !important; /* Reduced padding to match thinner links */
     border: 2px solid transparent !important;
+    font-size: 0.85rem !important;
   }
 }
 
