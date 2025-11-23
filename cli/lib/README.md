@@ -2,13 +2,22 @@
 
 This directory contains shared library modules used across all CLI commands.
 
+**📊 Test Coverage**: 92 tests | 98% API coverage | 100% utils coverage | All tests passing ✓
+
 ## Structure
 
 ```
 lib/
 ├── api/          # Neocities API interaction modules
+│   ├── client.js     # Core HTTP client
+│   ├── upload.js     # File upload with retry & concurrency
+│   ├── list.js       # List remote files
+│   └── delete.js     # Batch file deletion
 ├── utils/        # Utility functions
-└── builders/     # Content build pipelines
+│   ├── logger.js     # Colored console output
+│   ├── config.js     # Configuration & env vars
+│   └── files.js      # Local file operations
+└── builders/     # Content build pipelines (planned)
 ```
 
 ## API Modules
@@ -57,6 +66,137 @@ await makeAPICall({
   method: 'POST',
   path: '/api/upload'
 }, form);
+```
+
+---
+
+### `api/upload.js`
+
+File upload module with retry logic and concurrency control.
+
+#### Functions
+
+**`uploadFile(localPath, remotePath, apiKey)`**
+- Upload a single file to Neocities
+- Parameters:
+  - `localPath` (string): Local file path
+  - `remotePath` (string): Remote path on Neocities
+  - `apiKey` (string): API key
+- Returns: `Promise<Object>` - Upload response
+
+**`uploadWithRetry(localPath, remotePath, apiKey, options)`**
+- Upload with automatic retry on failure
+- Parameters:
+  - `options.maxRetries` (number): Max retry attempts (default: 3)
+  - `options.retryDelay` (number): Delay between retries in ms (default: 1000)
+- Returns: `Promise<Object>` - Upload response
+
+**`uploadFiles(files, apiKey, options)`**
+- Upload multiple files with concurrency control
+- Parameters:
+  - `files` (Array): Array of `{local, remote}` objects
+  - `options.concurrency` (number): Max concurrent uploads (default: 5)
+  - `options.onProgress` (Function): Progress callback
+  - `options.retry` (boolean): Enable retry (default: true)
+- Returns: `Promise<Array>` - Array of results
+
+#### Example Usage
+
+```javascript
+const { uploadFile, uploadFiles } = require('./lib/api/upload');
+
+// Single file
+await uploadFile('/local/index.html', 'index.html', 'API_KEY');
+
+// Batch upload with progress
+const files = [
+  { local: '/local/index.html', remote: 'index.html' },
+  { local: '/local/style.css', remote: 'style.css' }
+];
+
+const results = await uploadFiles(files, 'API_KEY', {
+  concurrency: 3,
+  onProgress: (status) => {
+    console.log(`${status.completed}/${status.total} files`);
+  }
+});
+```
+
+---
+
+### `api/list.js`
+
+List and filter remote files on Neocities.
+
+#### Functions
+
+**`listFiles(apiKey, options)`**
+- Fetch list of files from Neocities
+- Parameters:
+  - `options.path` (string): Directory path to list (optional)
+- Returns: `Promise<Array>` - Array of file objects
+
+**`filterRemoteFiles(files, options)`**
+- Filter file list based on criteria
+- Parameters:
+  - `files` (Array): Array of file objects
+  - `options.extensions` (Array): Filter by extensions (e.g., ['.html', '.css'])
+  - `options.pattern` (RegExp): Filter by regex pattern
+  - `options.filesOnly` (boolean): Exclude directories
+  - `options.minSize`, `options.maxSize` (number): Filter by size
+- Returns: `Array` - Filtered files
+
+#### Example Usage
+
+```javascript
+const { listFiles, filterRemoteFiles } = require('./lib/api/list');
+
+// List all files
+const files = await listFiles('API_KEY');
+
+// Filter HTML files only
+const htmlFiles = filterRemoteFiles(files, {
+  extensions: ['.html'],
+  filesOnly: true
+});
+```
+
+---
+
+### `api/delete.js`
+
+Delete files from Neocities in batches.
+
+#### Functions
+
+**`deleteFile(remotePath, apiKey)`**
+- Delete a single file
+- Parameters:
+  - `remotePath` (string): Remote file path
+  - `apiKey` (string): API key
+- Returns: `Promise<Object>` - Delete response
+
+**`deleteFiles(files, apiKey, options)`**
+- Delete multiple files in batches
+- Parameters:
+  - `files` (Array): Array of remote file paths
+  - `options.batchSize` (number): Files per batch (default: 100, max: 100)
+  - `options.onProgress` (Function): Progress callback
+- Returns: `Promise<Array>` - Array of batch results
+
+#### Example Usage
+
+```javascript
+const { deleteFiles } = require('./lib/api/delete');
+
+const filesToDelete = ['old-page.html', 'unused.css'];
+
+const results = await deleteFiles(filesToDelete, 'API_KEY', {
+  batchSize: 50,
+  onProgress: (status) => {
+    console.log(`Deleted ${status.filesProcessed}/${status.totalFiles}`);
+  }
+});
 ```
 
 ---
@@ -165,6 +305,66 @@ const releases = config.loadJsonConfig('public/config/releases.json');
 // Get full config
 const cfg = config.getConfig();
 console.log(cfg.isCI); // true/false
+```
+
+---
+
+### `utils/files.js`
+
+Local file system operations with filtering and recursive scanning.
+
+#### Functions
+
+**`normalizePath(filePath)`**
+- Normalize path to Unix-style (forward slashes)
+- Parameters:
+  - `filePath` (string): Path to normalize
+- Returns: `string` - Normalized path
+
+**`getRelativePath(base, file)`**
+- Get relative path from base directory to file
+- Parameters:
+  - `base` (string): Base directory path
+  - `file` (string): File path
+- Returns: `string` - Relative path
+
+**`shouldIgnoreFile(fileName)`**
+- Check if file should be ignored (.DS_Store, .git, node_modules, etc.)
+- Parameters:
+  - `fileName` (string): File or directory name
+- Returns: `boolean` - True if should ignore
+
+**`filterFiles(files, options)`**
+- Filter array of file paths
+- Parameters:
+  - `files` (Array): Array of file paths
+  - `options.extensions` (Array): Extensions to include (e.g., ['.html', '.css'])
+  - `options.pattern` (RegExp): Regex pattern to match
+- Returns: `Array` - Filtered file paths
+
+**`getLocalFiles(dir, options)`**
+- Recursively get all files in directory
+- Parameters:
+  - `dir` (string): Directory path to scan
+  - `options.maxDepth` (number): Maximum recursion depth
+- Returns: `Promise<Array>` - Array of absolute file paths
+- Automatically filters out ignored files
+
+#### Example Usage
+
+```javascript
+const { getLocalFiles, filterFiles, getRelativePath } = require('./lib/utils/files');
+
+// Get all files in directory
+const files = await getLocalFiles('public');
+
+// Filter to HTML/CSS only
+const webFiles = filterFiles(files, {
+  extensions: ['.html', '.css']
+});
+
+// Get relative paths
+const relativePaths = files.map(f => getRelativePath('public', f));
 ```
 
 ---
