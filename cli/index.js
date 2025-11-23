@@ -129,6 +129,90 @@ deployCommand
     }
   });
 
+deployCommand
+  .command('recent')
+  .description('Deploy recently changed files (requires Git)')
+  .option('--since <period>', 'Time period for changes', '24 hours ago')
+  .option('--commit <hash>', 'Deploy files changed since specific commit')
+  .option('--pattern <pattern>', 'File pattern to filter (e.g., "public/music/*")')
+  .option('--dry-run', 'Simulate deployment without uploading')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployRecent = require('./commands/deploy/recent');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployRecent(apiKey, {
+        since: options.since,
+        commit: options.commit,
+        pattern: options.pattern,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+deployCommand
+  .command('full')
+  .description('Deploy entire site (all files from public directory)')
+  .option('--public-dir <path>', 'Public directory path', 'public')
+  .option('-f, --force', 'Skip confirmation prompt')
+  .option('--dry-run', 'Simulate deployment without uploading')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployFull = require('./commands/deploy/full');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployFull(apiKey, {
+        publicDir: options.publicDir,
+        force: options.force,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+deployCommand
+  .command('all')
+  .description('Deploy all site components (config, music, musings, drum-machine)')
+  .option('--skip <commands...>', 'Commands to skip (e.g., "drum-machine")')
+  .option('--continue-on-error', 'Continue if a deployment fails', true)
+  .option('-f, --force', 'Force operations without confirmation')
+  .option('--delete-orphans', 'Delete orphaned files')
+  .option('--dry-run', 'Simulate deployment without uploading')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployAll = require('./commands/deploy/all');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployAll(apiKey, {
+        skip: options.skip || [],
+        continueOnError: options.continueOnError,
+        force: options.force,
+        deleteOrphans: options.deleteOrphans,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
 // Build command group
 const buildCommand = program
   .command('build')
