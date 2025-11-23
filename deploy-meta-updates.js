@@ -4,7 +4,6 @@ require('dotenv').config();
 
 const https = require('https');
 const fs = require('fs');
-const path = require('path');
 const FormData = require('form-data');
 
 const NEOCITIES_API_KEY = process.env.NEOCITIES_API_KEY;
@@ -17,14 +16,19 @@ if (!NEOCITIES_API_KEY) {
 // Files to upload
 const filesToUpload = [
   {
-    local: 'public/config/releases.json',
-    remote: 'config/releases.json',
-    description: 'Releases configuration'
+    local: 'public/index.html',
+    remote: 'index.html',
+    description: 'Homepage with updated meta tags'
   },
   {
-    local: 'public/assets/koala-album-art-default.jpg',
-    remote: 'assets/koala-album-art-default.jpg',
-    description: 'Koala album art'
+    local: 'public/collective.html',
+    remote: 'collective.html',
+    description: 'Collective page with updated meta tags'
+  },
+  {
+    local: 'public/gallery.html',
+    remote: 'gallery.html',
+    description: 'Gallery page with updated meta tags'
   }
 ];
 
@@ -59,25 +63,23 @@ async function uploadFile(localPath, remotePath, description) {
       
       res.on('end', () => {
         try {
-          const result = JSON.parse(data);
-          
-          if (result.result !== 'success') {
-            console.log(`❌ Failed to upload ${description}: ${result.message || 'Unknown error'}`);
+          const response = JSON.parse(data);
+          if (response.result === 'success') {
+            console.log(`✅ Uploaded ${description}`);
+            resolve(true);
+          } else {
+            console.error(`❌ Failed to upload ${description}: ${response.message}`);
             resolve(false);
-            return;
           }
-          
-          console.log(`✅ Uploaded ${description}`);
-          resolve(true);
         } catch (error) {
-          console.log(`❌ Error parsing response for ${description}: ${error.message}`);
+          console.error(`❌ Failed to upload ${description}: ${error.message}`);
           resolve(false);
         }
       });
     });
     
     req.on('error', error => {
-      console.log(`❌ Error uploading ${description}: ${error.message}`);
+      console.error(`❌ Failed to upload ${description}: ${error.message}`);
       resolve(false);
     });
     
@@ -86,42 +88,28 @@ async function uploadFile(localPath, remotePath, description) {
 }
 
 // Main deployment function
-async function deployConfig() {
-  console.log('📋 Deploying configuration and assets...\n');
+async function deploy() {
+  console.log('🚀 Deploying meta tag updates to Neocities...\n');
   
   let successCount = 0;
   let failCount = 0;
   
   for (const file of filesToUpload) {
-    console.log(`📤 Uploading ${file.description}...`);
     const success = await uploadFile(file.local, file.remote, file.description);
-    
     if (success) {
       successCount++;
     } else {
       failCount++;
     }
-    
-    // Rate limiting - wait 1 second between uploads
-    if (filesToUpload.indexOf(file) < filesToUpload.length - 1) {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-    }
   }
   
   console.log('\n📊 Deployment Summary:');
-  console.log(`✅ Successful uploads: ${successCount}`);
+  console.log(`   ✅ Successful: ${successCount}`);
+  console.log(`   ❌ Failed: ${failCount}`);
+  
   if (failCount > 0) {
-    console.log(`❌ Failed uploads: ${failCount}`);
-  }
-  console.log('\n🎉 Configuration deployment completed!');
-}
-
-// Run the deployment
-if (require.main === module) {
-  deployConfig().catch(error => {
-    console.error(`❌ Deployment failed: ${error.message}`);
     process.exit(1);
-  });
+  }
 }
 
-module.exports = { deployConfig };
+deploy();
