@@ -84,7 +84,7 @@ Usage: node deploy-full-refresh.js [options]
 
 Options:
   --dry-run            Show what would happen without making changes
-  --include-mp3s       Include MP3 files in the refresh (excluded by default)
+  --include-mp3s       Include music files in the refresh (excluded by default)
   --include-assets     Include assets folder files in the refresh (excluded by default)
   --rate-limit <sec>   Rate limit between requests in seconds (default: 10)
   --help, -h           Show this help message
@@ -103,13 +103,16 @@ Environment Variables:
 ⚠️  WARNING: This script will DELETE most files on your Neocities site
    and replace them with the contents of your public/ folder.
    
-🎵 MP3 files are PRESERVED by default - they will NOT be deleted unless
-   you explicitly use the --include-mp3s flag. This protects your audio files
-   while refreshing other content.
+🎵 MUSIC files are PRESERVED by default - all audio files (MP3, OGG, WAV, etc.)
+   will NOT be deleted unless you explicitly use the --include-mp3s flag.
+   This protects your audio files while refreshing other content.
 
 🖼️  ASSETS files are PRESERVED by default - they will NOT be deleted unless
    you explicitly use the --include-assets flag. This protects your images,
    icons, and other assets while refreshing other content.
+
+🗂️  BACKUP directories (js/drum-machine-backup-*) are always skipped to avoid
+   uploading unnecessary historical files.
    
    Always test with --dry-run first!
 `);
@@ -152,9 +155,9 @@ const PUBLIC_DIR = path.join(__dirname, '../../public');
 
 console.log("🚀 Neocities Full Site Refresh");
 console.log(`📁 Source: ${PUBLIC_DIR}`);
-console.log(`🎵 Include MP3s: ${CONFIG.includeMp3s ? 'YES' : 'NO (default)'}`);
-console.log(`�️  Include Assets: ${CONFIG.includeAssets ? 'YES' : 'NO (default)'}`);
-console.log(`�🔍 Dry Run: ${CONFIG.dryRun ? 'YES' : 'NO'}`);
+console.log(`🎵 Include Music: ${CONFIG.includeMp3s ? 'YES' : 'NO (default)'}`);
+console.log(`🖼️  Include Assets: ${CONFIG.includeAssets ? 'YES' : 'NO (default)'}`);
+console.log(`🔍 Dry Run: ${CONFIG.dryRun ? 'YES' : 'NO'}`);
 console.log("");
 
 // Utility functions
@@ -238,9 +241,17 @@ async function deleteRemoteFiles(filePaths) {
       return false;
     }
     
-    // Skip MP3 files if not explicitly including them
-    if (!CONFIG.includeMp3s && file.toLowerCase().endsWith('.mp3')) {
-      console.log(`🎵 Preserving MP3 file: ${file} (use --include-mp3s to replace)`);
+    // Skip drum machine backup files
+    if (file.match(/js\/drum-machine-backup/)) {
+      console.log(`🗂️  Preserving backup file: ${file}`);
+      return false;
+    }
+    
+    // Skip all audio files if not explicitly including them
+    const audioExtensions = ['.mp3', '.ogg', '.wav', '.flac', '.m4a', '.aac', '.wma'];
+    const fileExt = path.extname(file).toLowerCase();
+    if (!CONFIG.includeMp3s && audioExtensions.includes(fileExt)) {
+      console.log(`🎵 Preserving audio file: ${file} (use --include-mp3s to replace)`);
       return false;
     }
     
@@ -309,14 +320,31 @@ function getLocalFiles(dir, baseDir = dir) {
     const stat = fs.statSync(fullPath);
 
     if (stat.isDirectory()) {
+      const relativePath = path.relative(baseDir, fullPath);
+      const normalizedPath = relativePath.replace(/\\/g, '/');
+      
+      // Skip drum machine backup directories entirely
+      if (normalizedPath.match(/js\/drum-machine-backup/)) {
+        console.log(`🗂️  Skipping backup directory: ${normalizedPath}`);
+        continue;
+      }
+      
       files = files.concat(getLocalFiles(fullPath, baseDir));
     } else {
       const relativePath = path.relative(baseDir, fullPath);
       const normalizedPath = relativePath.replace(/\\/g, '/'); // Normalize for web
+      const ext = path.extname(fullPath).toLowerCase();
       
-      // Filter MP3s unless explicitly included
-      if (!CONFIG.includeMp3s && path.extname(fullPath).toLowerCase() === '.mp3') {
-        console.log(`🎵 Skipping MP3: ${normalizedPath}`);
+      // Skip macOS artifacts
+      if (path.basename(fullPath) === '.DS_Store') {
+        console.log(`🚫 Skipping macOS artifact: ${normalizedPath}`);
+        continue;
+      }
+      
+      // Filter all audio files unless explicitly included (mp3, ogg, wav, flac, m4a, etc.)
+      const audioExtensions = ['.mp3', '.ogg', '.wav', '.flac', '.m4a', '.aac', '.wma'];
+      if (!CONFIG.includeMp3s && audioExtensions.includes(ext)) {
+        console.log(`🎵 Skipping audio file: ${normalizedPath}`);
         continue;
       }
 
@@ -450,9 +478,9 @@ async function uploadLocalFiles(files) {
     console.log(`⏱️  Rate limit: ${CONFIG.delayBetweenRequests / 1000} seconds between requests`);
     
     if (CONFIG.includeMp3s) {
-      console.log("🎵 Including MP3 files in refresh");
+      console.log("🎵 Including music files in refresh");
     } else {
-      console.log("🎵 Excluding MP3 files (use --include-mp3s to include)");
+      console.log("🎵 Excluding music files (use --include-mp3s to include)");
     }
     
     if (CONFIG.includeAssets) {
@@ -460,6 +488,8 @@ async function uploadLocalFiles(files) {
     } else {
       console.log("🖼️  Excluding assets files (use --include-assets to include)");
     }
+    
+    console.log("🗂️  Excluding backup directories (always skipped)");
 
     // Safety check
     if (localFiles.length < 5) {
@@ -469,8 +499,9 @@ async function uploadLocalFiles(files) {
     // Get confirmation for destructive operation
     if (!CONFIG.dryRun) {
       console.log("\n⚠️  WARNING: This will DELETE most files on your Neocities site and replace with local files!");
-      console.log("🎵 MP3 files will be " + (CONFIG.includeMp3s ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
+      console.log("🎵 Music files will be " + (CONFIG.includeMp3s ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
       console.log("🖼️  Assets files will be " + (CONFIG.includeAssets ? "INCLUDED (replaced)" : "PRESERVED (not deleted)"));
+      console.log("🗂️  Backup directories are always skipped");
       console.log("\nPress Ctrl+C to cancel, or press Enter to continue...");
       
       // Wait for user input with proper cleanup
@@ -513,11 +544,12 @@ async function uploadLocalFiles(files) {
     } else {
       console.log("\n🎉 Full site refresh complete!");
       if (!CONFIG.includeMp3s) {
-        console.log("🎵 MP3 files were preserved - use --include-mp3s if you need to update them");
+        console.log("🎵 Music files were preserved - use --include-mp3s if you need to update them");
       }
       if (!CONFIG.includeAssets) {
         console.log("🖼️  Assets files were preserved - use --include-assets if you need to update them");
       }
+      console.log("🗂️  Backup directories were skipped");
     }
 
     process.exit(0);
