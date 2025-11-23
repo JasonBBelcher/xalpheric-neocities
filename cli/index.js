@@ -16,15 +16,35 @@ const deployCommand = program
   .command('deploy')
   .description('Deploy files to Neocities');
 
-// Placeholder deploy commands (will be implemented in Phase 2)
+// Deploy commands
 deployCommand
   .command('music')
-  .description('Deploy music files')
-  .option('--force', 'Deploy all files, not just changed')
-  .option('--skip-orphan-check', 'Skip orphan detection')
+  .description('Deploy music files based on releases.json')
+  .option('-f, --force', 'Force upload all files, even if they exist remotely')
+  .option('--delete-orphans', 'Delete orphaned remote files not in config')
+  .option('--dry-run', 'Simulate deployment without making changes')
   .option('-v, --verbose', 'Verbose output')
-  .action(() => {
-    console.log('⏳ Music deployment command - coming in Phase 2');
+  .option('--music-dir <path>', 'Music directory path', 'public/music')
+  .option('--config <path>', 'Path to releases.json', 'public/config/releases.json')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployMusic = require('./commands/deploy/music');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployMusic(apiKey, {
+        musicDir: options.musicDir,
+        configFile: options.config,
+        force: options.force,
+        deleteOrphans: options.deleteOrphans,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
 deployCommand
