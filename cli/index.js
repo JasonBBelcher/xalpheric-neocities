@@ -77,18 +77,56 @@ deployCommand
 
 deployCommand
   .command('config')
-  .description('Deploy configuration files')
-  .action(() => {
-    console.log('⏳ Config deployment command - coming in Phase 2');
+  .description('Deploy configuration files (releases.json, default album art)')
+  .option('--files <files...>', 'Specific files to deploy (uses defaults if not specified)')
+  .option('--dry-run', 'Simulate deployment without uploading')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployConfig = require('./commands/deploy/config');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployConfig(apiKey, {
+        files: options.files,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
 deployCommand
   .command('drum-machine')
-  .description('Deploy drum machine build artifacts')
+  .description('Deploy drum machine build artifacts (HTML, CSS, JS from dist)')
+  .option('--dist-dir <path>', 'Drum machine dist directory', '../drum-machine/dist')
+  .option('--html <path>', 'HTML file path', 'public/drum-machine.html')
+  .option('--css <path>', 'CSS file path', 'public/css/drum-machine.css')
+  .option('--include-maps', 'Include source map files')
   .option('--dry-run', 'Show what would be deployed without uploading')
   .option('-v, --verbose', 'Verbose output')
-  .action(() => {
-    console.log('⏳ Drum machine deployment command - coming in Phase 2');
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployDrumMachine = require('./commands/deploy/drum-machine');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployDrumMachine(apiKey, {
+        distDir: options.distDir,
+        htmlFile: options.html,
+        cssFile: options.css,
+        includeMaps: options.includeMaps,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
 // Build command group
