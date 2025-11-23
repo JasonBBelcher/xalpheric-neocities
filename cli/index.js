@@ -49,10 +49,30 @@ deployCommand
 
 deployCommand
   .command('musings')
-  .description('Deploy blog posts')
-  .option('--dry-run', 'Show what would be deployed without uploading')
-  .action(() => {
-    console.log('⏳ Musings deployment command - coming in Phase 2');
+  .description('Deploy blog posts (HTML files in musings directory)')
+  .option('-f, --force', 'Force upload all files, even if they exist remotely')
+  .option('--delete-orphans', 'Delete orphaned remote files not present locally')
+  .option('--dry-run', 'Simulate deployment without making changes')
+  .option('-v, --verbose', 'Verbose output')
+  .option('--musings-dir <path>', 'Musings directory path', 'public/musings')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const deployMusings = require('./commands/deploy/musings');
+      
+      const apiKey = getApiKey(true);
+      
+      await deployMusings(apiKey, {
+        musingsDir: options.musingsDir,
+        force: options.force,
+        deleteOrphans: options.deleteOrphans,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
 deployCommand
