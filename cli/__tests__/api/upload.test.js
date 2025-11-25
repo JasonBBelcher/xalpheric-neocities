@@ -7,6 +7,7 @@ const fs = require('fs');
 jest.mock('../../lib/api/client');
 jest.mock('../../lib/utils/logger');
 jest.mock('fs');
+jest.mock('form-data');
 
 describe('upload module', () => {
   let mockStream;
@@ -53,12 +54,13 @@ describe('upload module', () => {
 
       await uploadFile('/local/blog/post.html', 'blog/post.html', 'API_KEY');
 
-      expect(client.makeAPICall).toHaveBeenCalledWith(
-        expect.any(Object),
-        expect.objectContaining({
-          'blog/post.html': expect.any(Object)
-        })
-      );
+      // Verify makeAPICall was called with FormData object
+      expect(client.makeAPICall).toHaveBeenCalled();
+      const callArgs = client.makeAPICall.mock.calls[0];
+      const formData = callArgs[1];
+      
+      // Verify FormData.append was called with correct remote path
+      expect(formData.append).toHaveBeenCalledWith('blog/post.html', mockStream);
     });
 
     it('should throw error if file does not exist', async () => {

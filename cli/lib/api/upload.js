@@ -1,4 +1,5 @@
 const fs = require('fs');
+const FormData = require('form-data');
 const { makeAPICall, delay } = require('./client');
 const logger = require('../utils/logger');
 
@@ -13,15 +14,15 @@ async function uploadFile(localPath, remotePath, apiKey) {
   try {
     const fileStream = fs.createReadStream(localPath);
     
-    const formData = {
-      [remotePath]: fileStream
-    };
+    const formData = new FormData();
+    formData.append(remotePath, fileStream);
 
     const response = await makeAPICall(
       {
         method: 'POST',
         path: '/api/upload',
-        apiKey
+        apiKey,
+        headers: formData.getHeaders()
       },
       formData
     );

@@ -109,13 +109,12 @@ async function deployFull(apiKey, options = {}) {
 
   const results = await uploadFiles(filesToUpload, apiKey, {
     concurrency: 5,
-    onProgress: verbose ? (result, index, total) => {
-      const status = result.success ? '✓' : '✗';
-      logger.verbose(`   ${status} [${index}/${total}] ${result.file}`);
-    } : (result, index, total) => {
+    onProgress: verbose ? (progress) => {
+      logger.verbose(`   📤 [${progress.completed}/${progress.total}] ${progress.file}`);
+    } : (progress) => {
       // Show progress every 10 files in non-verbose mode
-      if (index % 10 === 0 || index === total) {
-        logger.info(`   Progress: ${index}/${total} files uploaded`);
+      if (progress.completed % 10 === 0 || progress.completed === progress.total) {
+        logger.info(`   Progress: ${progress.completed}/${progress.total} files uploaded`);
       }
     }
   });

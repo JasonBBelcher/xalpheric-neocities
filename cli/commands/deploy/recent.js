@@ -154,9 +154,8 @@ async function deployRecent(apiKey, options = {}) {
 
   const results = await uploadFiles(filesToUpload, apiKey, {
     concurrency: 5,
-    onProgress: verbose ? (result, index, total) => {
-      const status = result.success ? '✓' : '✗';
-      logger.verbose(`   ${status} [${index}/${total}] ${result.file}`);
+    onProgress: verbose ? (progress) => {
+      logger.verbose(`   📤 [${progress.completed}/${progress.total}] ${progress.file}`);
     } : undefined
   });
 
