@@ -7,11 +7,14 @@
     "neocities": "./cli/index.js"
   },
   "scripts": {
-    "build-musings": "node build-musings.js",
+    "build": "node cli/index.js build musings",
+    "build:all": "node cli/index.js build all",
+    "media:sync": "node cli/index.js media sync-images",
+    "build-musings": "echo '⚠️  DEPRECATED: Use npm run build' && node build-musings.js",
     "process-blog-photos": "./process-photos-enhanced.sh blog 512 jpg",
     "process-asset-photos": "./process-photos-enhanced.sh assets 512 jpg",
-    "sync-obsidian-images": "node sync-obsidian-images.js",
-    "obsidian-to-blog": "node obsidian-to-blog.js",
+    "sync-obsidian-images": "echo '⚠️  DEPRECATED: Use npm run media:sync' && node sync-obsidian-images.js",
+    "obsidian-to-blog": "echo '⚠️  DEPRECATED: Use npm run build:all' && node obsidian-to-blog.js",
     "deploy": "node cli/index.js deploy musings",
     "deploy-full": "node cli/index.js deploy full",
     "deploy-music": "node cli/index.js deploy music",

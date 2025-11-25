@@ -221,14 +221,72 @@ const buildCommand = program
 buildCommand
   .command('musings')
   .description('Build markdown blog posts to HTML')
-  .action(() => {
-    console.log('⏳ Build musings command - coming in Phase 4');
+  .option('--source <dir>', 'Source directory containing markdown files', 'thoughts-and-musings')
+  .option('--output <dir>', 'Output directory for HTML files', 'public/musings')
+  .option('--blog-images <dir>', 'Directory for blog images', 'public/assets/blog-images')
+  .option('--no-process-photos', 'Skip photo processing before build')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const buildMusings = require('./commands/build/musings');
+      
+      await buildMusings({
+        source: options.source,
+        output: options.output,
+        blogImagesDir: options.blogImages,
+        processPhotos: options.processPhotos,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+buildCommand
+  .command('all')
+  .description('Run complete blog build workflow (sync images + build musings)')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const buildAll = require('./commands/build/all');
+      
+      await buildAll({
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
 // Media command group
 const mediaCommand = program
   .command('media')
   .description('Process media files');
+
+mediaCommand
+  .command('sync-images')
+  .description('Sync Obsidian images to blog images directory')
+  .option('--source <dir>', 'Source directory containing markdown files', 'thoughts-and-musings')
+  .option('--dest <dir>', 'Destination directory for images', 'public/assets/blog-images')
+  .option('-f, --force', 'Force re-copy all images')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const syncImages = require('./commands/media/sync-images');
+      
+      await syncImages({
+        source: options.source,
+        dest: options.dest,
+        force: options.force,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
 
 mediaCommand
   .command('photos <size> <format>')
