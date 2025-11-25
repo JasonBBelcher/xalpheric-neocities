@@ -17,6 +17,47 @@ describe('deploy recent command', () => {
     fs.statSync = jest.fn();
   });
 
+  describe('isCommitReference detection', () => {
+    // We need to access the internal function for testing
+    // This would normally be in a separate utility module
+    const testCases = [
+      // Commit references that should be detected
+      { input: 'HEAD~1', isCommit: true, description: 'HEAD~1 reference' },
+      { input: 'HEAD~10', isCommit: true, description: 'HEAD~10 reference' },
+      { input: 'abc123', isCommit: true, description: 'short SHA' },
+      { input: 'a1b2c3d4e5f6', isCommit: true, description: 'long SHA' },
+      { input: 'deadbeef', isCommit: true, description: 'hex SHA' },
+      
+      // Time periods that should NOT be detected as commits
+      { input: '24 hours ago', isCommit: false, description: 'hours ago' },
+      { input: '2 days ago', isCommit: false, description: 'days ago' },
+      { input: '1 week ago', isCommit: false, description: 'week ago' },
+      { input: '3 months ago', isCommit: false, description: 'months ago' },
+    ];
+
+    testCases.forEach(({ input, isCommit, description }) => {
+      it(`should ${isCommit ? 'detect' : 'NOT detect'} "${input}" as commit reference (${description})`, async () => {
+        git.isGitRepository.mockReturnValue(true);
+        git.getChangedFiles.mockReturnValue(['public/test.html']);
+        fs.existsSync.mockReturnValue(true);
+        fs.statSync.mockReturnValue({ size: 1024 });
+        uploadFiles.mockResolvedValue([{ file: 'test.html', success: true }]);
+
+        await deployRecent('API_KEY', { since: input });
+
+        if (isCommit) {
+          expect(git.getChangedFiles).toHaveBeenCalledWith(
+            expect.objectContaining({ commit: input })
+          );
+        } else {
+          expect(git.getChangedFiles).toHaveBeenCalledWith(
+            expect.objectContaining({ since: input })
+          );
+        }
+      });
+    });
+  });
+
   describe('deployRecent', () => {
     it('should deploy files changed in last 24 hours by default', async () => {
       git.isGitRepository.mockReturnValue(true);
