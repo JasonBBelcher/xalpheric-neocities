@@ -290,27 +290,138 @@ mediaCommand
 
 mediaCommand
   .command('photos <size> <format>')
-  .description('Process photos')
+  .description('Process photos with ImageMagick')
   .argument('[pattern]', 'Naming pattern (e.g., photo{increment})')
-  .action(() => {
-    console.log('⏳ Media photos command - coming in Phase 4');
+  .option('--script <path>', 'Path to processing script', 'process_photos/run_me.sh')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (size, format, pattern, options) => {
+    try {
+      const processPhotos = require('./commands/media/photos');
+      
+      await processPhotos({
+        size,
+        format,
+        naming: pattern,
+        scriptPath: options.script,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
-// Utility commands
-program
+mediaCommand
+  .command('videos')
+  .description('Process videos with FFmpeg')
+  .option('-c, --conversions <json>', 'JSON array of conversion mappings')
+  .option('-p, --preset <name>', 'Preset name (web-mp4, extract-audio, web-ready, gif)')
+  .option('-i, --input <file>', 'Input file (required with preset)')
+  .option('--script <path>', 'Path to processing script', 'process_video/convert_videos.sh')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const processVideos = require('./commands/media/videos');
+      
+      await processVideos({
+        conversions: options.conversions,
+        preset: options.preset,
+        input: options.input,
+        scriptPath: options.script,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+mediaCommand
+  .command('list-video-presets')
+  .description('List available video processing presets')
+  .action(() => {
+    const { PRESETS } = require('./commands/media/videos');
+    
+    console.log('\n📋 Available video presets:\n');
+    Object.entries(PRESETS).forEach(([key, preset]) => {
+      console.log(`  ${key.padEnd(15)} - ${preset.description}`);
+    });
+    console.log();
+  });
+
+// Check command group
+const checkCommand = program
   .command('check')
-  .argument('<type>', 'Type to check (storage, deps)')
-  .description('Check storage usage or dependencies')
-  .action(() => {
-    console.log('⏳ Check command - coming in Phase 5');
+  .description('Check system dependencies and storage');
+
+checkCommand
+  .command('deps')
+  .description('Check system and Node.js dependencies')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const checkDeps = require('./commands/check/deps');
+      
+      const result = await checkDeps({
+        verbose: options.verbose
+      });
+      
+      process.exit(result.success ? 0 : 1);
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
+checkCommand
+  .command('storage')
+  .description('Check Neocities storage usage')
+  .option('-v, --verbose', 'Show top files by size')
+  .option('--json', 'Output as JSON')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const checkStorage = require('./commands/check/storage');
+      
+      const apiKey = getApiKey(true);
+      
+      await checkStorage(apiKey, {
+        verbose: options.verbose,
+        json: options.json
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+// Cleanup command
 program
   .command('cleanup')
   .description('Clean unwanted files from Neocities')
   .option('--dry-run', 'Show what would be deleted without deleting')
-  .action(() => {
-    console.log('⏳ Cleanup command - coming in Phase 5');
+  .option('-f, --force', 'Skip confirmation prompt')
+  .option('--include <categories...>', 'Only include specific categories (system, media, backup)')
+  .option('--exclude <categories...>', 'Exclude specific categories')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const { getApiKey } = require('./lib/utils/config');
+      const cleanup = require('./commands/cleanup');
+      
+      const apiKey = getApiKey(true);
+      
+      await cleanup(apiKey, {
+        dryRun: options.dryRun,
+        force: options.force,
+        include: options.include,
+        exclude: options.exclude,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
   });
 
 program.parse(process.argv);
