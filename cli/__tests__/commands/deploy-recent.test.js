@@ -196,7 +196,7 @@ describe('deploy recent command', () => {
       const result = await deployRecent('API_KEY', { pattern: 'public/**/*' });
 
       // Should only upload files matching pattern
-      const uploadedFiles = uploadFiles.mock.calls[0][1];
+      const uploadedFiles = uploadFiles.mock.calls[0][0];
       expect(uploadedFiles.every(f => f.local.startsWith('public/'))).toBe(true);
     });
 
@@ -256,7 +256,7 @@ describe('deploy recent command', () => {
 
       await deployRecent('API_KEY');
 
-      const uploadedFiles = uploadFiles.mock.calls[0][1];
+      const uploadedFiles = uploadFiles.mock.calls[0][0];
       expect(uploadedFiles[0].remote).toBe('music/song.mp3');
       expect(uploadedFiles[1].remote).toBe('assets/image.jpg');
       expect(uploadedFiles[2].remote).toBe('index.html');

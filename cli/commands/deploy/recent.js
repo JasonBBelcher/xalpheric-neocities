@@ -152,7 +152,7 @@ async function deployRecent(apiKey, options = {}) {
   // Upload files
   logger.info(`⬆️  Uploading ${filesToUpload.length} changed files...`);
 
-  const results = await uploadFiles(apiKey, filesToUpload, {
+  const results = await uploadFiles(filesToUpload, apiKey, {
     concurrency: 5,
     onProgress: verbose ? (result, index, total) => {
       const status = result.success ? '✓' : '✗';

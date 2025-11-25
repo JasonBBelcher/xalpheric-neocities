@@ -79,7 +79,7 @@ describe('deploy drum-machine command', () => {
         cssFile: 'public/css/drum-machine.css'
       });
 
-      const uploadedFiles = uploadFiles.mock.calls[0][1]; // Second arg is the files array
+      const uploadedFiles = uploadFiles.mock.calls[0][0]; // First arg is the files array
       expect(uploadedFiles.every(f => !f.remote.endsWith('.map'))).toBe(true);
       expect(result.uploaded).toBe(4);
     });
@@ -108,7 +108,7 @@ describe('deploy drum-machine command', () => {
         includeMaps: true
       });
 
-      const uploadedFiles = uploadFiles.mock.calls[0][1]; // Second arg is the files array
+      const uploadedFiles = uploadFiles.mock.calls[0][0]; // First arg is the files array
       expect(uploadedFiles.some(f => f.remote.endsWith('.map'))).toBe(true);
       expect(result.uploaded).toBe(4);
     });
