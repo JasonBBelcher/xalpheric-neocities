@@ -16,6 +16,18 @@ const path = require('path');
  * @param {boolean} [options.verbose=false] - Show detailed logging
  * @returns {Promise<Object>} Deployment results
  */
+/**
+ * Check if a string looks like a commit reference rather than a time period
+ * @param {string} str - String to check
+ * @returns {boolean} True if looks like a commit reference
+ */
+function isCommitReference(str) {
+  // Match patterns like: HEAD~1, HEAD~10, abc123, a1b2c3d4, etc.
+  // But not time periods like "24 hours ago", "2 days ago", "1 week ago"
+  return /^(HEAD~\d+|[0-9a-f]{6,40})$/i.test(str) || 
+         !/\s+(ago|hours?|days?|weeks?|months?|years?)\s*$/i.test(str);
+}
+
 async function deployRecent(apiKey, options = {}) {
   const {
     since = '24 hours ago',
@@ -27,12 +39,16 @@ async function deployRecent(apiKey, options = {}) {
 
   logger.setVerbose(verbose);
 
+  // Determine if 'since' is actually a commit reference
+  const actualCommit = commit || (isCommitReference(since) ? since : null);
+  const actualSince = !actualCommit && !commit ? since : null;
+
   if (verbose) {
     logger.info('🕐 Deploying recently changed files...');
-    if (commit) {
-      logger.info(`   From commit: ${commit}`);
+    if (actualCommit) {
+      logger.info(`   From commit: ${actualCommit}`);
     } else {
-      logger.info(`   Since: ${since}`);
+      logger.info(`   Since: ${actualSince}`);
     }
     if (pattern) {
       logger.info(`   Pattern filter: ${pattern}`);
@@ -46,7 +62,7 @@ async function deployRecent(apiKey, options = {}) {
   }
 
   // Get changed files from Git
-  const gitOptions = commit ? { commit } : { since };
+  const gitOptions = actualCommit ? { commit: actualCommit } : { since: actualSince };
   if (pattern) {
     gitOptions.pattern = pattern;
   }

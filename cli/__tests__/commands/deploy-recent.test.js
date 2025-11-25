@@ -241,5 +241,90 @@ describe('deploy recent command', () => {
 
       expect(result.totalSizeKB).toBeCloseTo(15, 1);
     });
+
+    it('should handle HEAD~1 commit reference correctly', async () => {
+      git.isGitRepository.mockReturnValue(true);
+      git.getChangedFiles.mockReturnValue(['public/slippery-dish.html']);
+      fs.existsSync.mockReturnValue(true);
+      fs.statSync.mockReturnValue({ size: 4096 });
+      
+      uploadFiles.mockResolvedValue([
+        { file: 'slippery-dish.html', success: true }
+      ]);
+
+      // When user specifies --since HEAD~1, it should be treated as a commit
+      await deployRecent('API_KEY', { since: 'HEAD~1' });
+
+      // Should use commit option, not since option
+      expect(git.getChangedFiles).toHaveBeenCalledWith(
+        expect.objectContaining({ commit: 'HEAD~1' })
+      );
+    });
+
+    it('should handle HEAD~N commit references', async () => {
+      git.isGitRepository.mockReturnValue(true);
+      git.getChangedFiles.mockReturnValue(['public/index.html']);
+      fs.existsSync.mockReturnValue(true);
+      fs.statSync.mockReturnValue({ size: 2048 });
+      
+      uploadFiles.mockResolvedValue([
+        { file: 'index.html', success: true }
+      ]);
+
+      await deployRecent('API_KEY', { since: 'HEAD~3' });
+
+      expect(git.getChangedFiles).toHaveBeenCalledWith(
+        expect.objectContaining({ commit: 'HEAD~3' })
+      );
+    });
+
+    it('should handle commit SHA references', async () => {
+      git.isGitRepository.mockReturnValue(true);
+      git.getChangedFiles.mockReturnValue(['public/gallery.html']);
+      fs.existsSync.mockReturnValue(true);
+      fs.statSync.mockReturnValue({ size: 3072 });
+      
+      uploadFiles.mockResolvedValue([
+        { file: 'gallery.html', success: true }
+      ]);
+
+      await deployRecent('API_KEY', { since: 'a1b2c3d' });
+
+      expect(git.getChangedFiles).toHaveBeenCalledWith(
+        expect.objectContaining({ commit: 'a1b2c3d' })
+      );
+    });
+
+    it('should distinguish between time periods and commit references', async () => {
+      git.isGitRepository.mockReturnValue(true);
+      git.getChangedFiles.mockReturnValue(['public/test.html']);
+      fs.existsSync.mockReturnValue(true);
+      fs.statSync.mockReturnValue({ size: 1024 });
+      
+      uploadFiles.mockResolvedValue([
+        { file: 'test.html', success: true }
+      ]);
+
+      // Time-based query should use 'since'
+      await deployRecent('API_KEY', { since: '2 days ago' });
+      expect(git.getChangedFiles).toHaveBeenCalledWith(
+        expect.objectContaining({ since: '2 days ago' })
+      );
+
+      jest.clearAllMocks();
+      git.isGitRepository.mockReturnValue(true);
+      git.getChangedFiles.mockReturnValue(['public/test.html']);
+      fs.existsSync.mockReturnValue(true);
+      fs.statSync.mockReturnValue({ size: 1024 });
+      uploadFiles.mockResolvedValue([
+        { file: 'test.html', success: true }
+      ]);
+
+      // Commit reference should use 'commit'
+      await deployRecent('API_KEY', { since: 'HEAD~1' });
+      expect(git.getChangedFiles).toHaveBeenCalledWith(
+        expect.objectContaining({ commit: 'HEAD~1' })
+      );
+    });
   });
 });
