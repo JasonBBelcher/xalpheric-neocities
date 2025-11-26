@@ -61,8 +61,11 @@ public/music/.DS_Store
 # Test files and temporary artifacts
 test-*.js
 quick-test.js
-.processed-photos.json
 *.tmp
 *.temp
+
+# Watch script runtime data
+cli/data/processed-photos.json
+cli/data/processed-videos.json
 
 

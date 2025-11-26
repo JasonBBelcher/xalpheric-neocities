@@ -7,12 +7,13 @@ const readline = require('readline');
 const os = require('os');
 
 // Configuration
+const PROJECT_ROOT = path.join(__dirname, '..', '..', '..');
 const CONFIG = {
   targetKeywords: ['xalpheric', 'midimob'],
-  photosOutputDir: path.join(__dirname, 'process_photos'),
-  videosOutputDir: path.join(__dirname, 'process_video'),
+  photosOutputDir: path.join(PROJECT_ROOT, 'process_photos'),
+  videosOutputDir: path.join(PROJECT_ROOT, 'process_video'),
   watchInterval: 10000, // 10 seconds between checks
-  processedListFile: path.join(__dirname, '.processed-photos.json'),
+  processedListFile: path.join(__dirname, '..', '..', 'data', 'processed-photos.json'),
   supportedImageExtensions: ['.jpg', '.jpeg', '.png', '.heic', '.tiff', '.gif'],
   supportedVideoExtensions: ['.mov', '.mp4', '.m4v', '.avi'],
   maxFileSize: 100 * 1024 * 1024, // 100MB limit

@@ -7,11 +7,12 @@ const readline = require('readline');
 const os = require('os');
 
 // Configuration
+const PROJECT_ROOT = path.join(__dirname, '..', '..', '..');
 const CONFIG = {
   targetKeywords: ['koala', 'midimob'],  // Tags for Koala sampler and MidiMob videos
-  videosOutputDir: path.join(__dirname, 'process_video'),
+  videosOutputDir: path.join(PROJECT_ROOT, 'process_video'),
   watchInterval: 10000, // 10 seconds between checks
-  processedListFile: path.join(__dirname, '.processed-videos.json'),
+  processedListFile: path.join(__dirname, '..', '..', 'data', 'processed-videos.json'),
   supportedVideoExtensions: ['.mov', '.mp4', '.m4v', '.avi'],
   maxFileSize: 500 * 1024 * 1024, // 500MB limit for videos
   recentDaysToSearch: 90, // Only search videos from last 90 days (3 months)

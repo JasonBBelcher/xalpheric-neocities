@@ -8,12 +8,14 @@ const chokidar = require('chokidar');
 const os = require('os');
 
 // Configuration
+const PROJECT_ROOT = path.join(__dirname, '..', '..', '..');
 const CONFIG = {
   targetCaption: '#xalpheric',
-  photosOutputDir: path.join(__dirname, 'process_photos'),
-  videosOutputDir: path.join(__dirname, 'process_video'),
+  photosOutputDir: path.join(PROJECT_ROOT, 'process_photos'),
+  videosOutputDir: path.join(PROJECT_ROOT, 'process_video'),
   photosLibraryPath: path.join(os.homedir(), 'Pictures/Photos Library.photoslibrary'),
   watchInterval: 5000, // 5 seconds between database checks
+  processedListFile: path.join(__dirname, '..', '..', 'data', 'processed-photos.json'),
   supportedImageExtensions: ['.jpg', '.jpeg', '.png', '.heic', '.tiff', '.gif'],
   supportedVideoExtensions: ['.mov', '.mp4', '.m4v', '.avi'],
   maxFileSize: 100 * 1024 * 1024, // 100MB limit
