@@ -1,0 +1,363 @@
+/* ===================================================
+   VINTAGE/NOSTALGIC HAZE THEME
+   Warm, Film Photography, Golden Hour Aesthetic
+   =================================================== */
+
+/* ==================
+   CSS CUSTOM PROPERTIES
+   ================== */
+
+[data-theme="vintage-light"] {
+  /* Primary Colors */
+  --vintage-amber-light: #FFE4C4;
+  --vintage-amber: #DEB887;
+  --vintage-amber-dark: #CD853F;
+  --vintage-sepia: #8B7355;
+  --vintage-cream: #FFF8DC;
+  --vintage-peach: #FFDAB9;
+  --vintage-gold: #DAA520;
+  --vintage-rust: #B7410E;
+  
+  /* Semantic Tokens */
+  --theme-primary: var(--vintage-gold);
+  --theme-secondary: var(--vintage-sepia);
+  --theme-bg: var(--vintage-cream);
+  --theme-surface: #F5EDE0;
+  --theme-surface-2: #E8DCC8;
+  --theme-text: #3E2723;
+  --theme-text-secondary: #5D4037;
+  --theme-text-tertiary: #795548;
+  
+  /* Effects */
+  --theme-glow: rgba(218, 165, 32, 0.3);
+  --theme-shadow: 0 4px 12px rgba(139, 115, 85, 0.15);
+  --theme-border: 2px solid var(--vintage-amber-dark);
+  
+  /* Typography */
+  --theme-font-primary: Georgia, 'Times New Roman', serif;
+  --theme-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+[data-theme="vintage-dark"] {
+  /* Primary Colors */
+  --vintage-amber-light: #DEB887;
+  --vintage-amber: #CD853F;
+  --vintage-amber-dark: #8B7355;
+  --vintage-sepia: #B7410E;
+  
+  /* Semantic Tokens */
+  --theme-primary: var(--vintage-amber);
+  --theme-secondary: #A0826D;
+  --theme-bg: #2B2520;
+  --theme-surface: #3D342E;
+  --theme-surface-2: #4F453C;
+  --theme-text: #EFEBE9;
+  --theme-text-secondary: #D7CCC8;
+  --theme-text-tertiary: #BCAAA4;
+  
+  /* Effects */
+  --theme-glow: rgba(222, 184, 135, 0.3);
+  --theme-shadow: 0 4px 12px rgba(43, 37, 32, 0.4);
+  --theme-border: 2px solid var(--vintage-amber-dark);
+  
+  /* Typography */
+  --theme-font-primary: Georgia, 'Times New Roman', serif;
+  --theme-font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+/* ==================
+   BODY & BACKGROUND
+   ================== */
+
+[data-theme^="vintage"] body {
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+  font-family: var(--theme-font-body);
+  background-image: 
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(139, 115, 85, 0.03) 2px,
+      rgba(139, 115, 85, 0.03) 4px
+    );
+}
+
+/* Film Grain Overlay */
+[data-theme^="vintage"] body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: 
+    repeating-linear-gradient(0deg, transparent, transparent 1px, rgba(0,0,0,.03) 1px, rgba(0,0,0,.03) 2px),
+    repeating-linear-gradient(90deg, transparent, transparent 1px, rgba(0,0,0,.03) 1px, rgba(0,0,0,.03) 2px);
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: overlay;
+}
+
+/* ==================
+   HEADER & NAVIGATION
+   ================== */
+
+[data-theme^="vintage"] .site-header {
+  background: rgba(251, 247, 240, 0.85);
+  backdrop-filter: blur(12px) saturate(180%);
+  border-bottom: 1px solid var(--vintage-amber);
+  box-shadow: 0 2px 8px rgba(139, 115, 85, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="vintage-dark"] .site-header {
+  background: rgba(43, 37, 32, 0.9);
+  border-bottom-color: var(--vintage-sepia);
+}
+
+[data-theme^="vintage"] .header-peek-indicator {
+  background: linear-gradient(90deg, var(--vintage-gold), var(--vintage-rust));
+  box-shadow: 0 2px 10px rgba(218, 165, 32, 0.3);
+}
+
+[data-theme^="vintage"] .header-peek-indicator:hover {
+  box-shadow: 0 4px 20px rgba(218, 165, 32, 0.6);
+  background: linear-gradient(90deg, var(--vintage-amber), var(--vintage-gold), var(--vintage-rust));
+}
+
+[data-theme^="vintage"] .nav-link {
+  color: var(--theme-text-secondary);
+  font-family: var(--theme-font-primary);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+[data-theme^="vintage"] .nav-link:hover {
+  color: var(--vintage-gold);
+  border-color: var(--vintage-gold);
+  box-shadow: 0 0 15px rgba(218, 165, 32, 0.3);
+  text-shadow: 0 0 12px rgba(218, 165, 32, 0.3);
+}
+
+[data-theme^="vintage"] .nav-link.active {
+  color: var(--vintage-rust);
+  border-color: var(--vintage-rust);
+  background: rgba(183, 65, 14, 0.1);
+}
+
+[data-theme^="vintage"] .nav-link::before {
+  background: linear-gradient(90deg, transparent, rgba(218, 165, 32, 0.2), transparent);
+}
+
+/* ==================
+   TYPOGRAPHY
+   ================== */
+
+[data-theme^="vintage"] h1 {
+  color: var(--theme-text);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5), 0 0 20px rgba(218, 165, 32, 0.1);
+  font-family: var(--theme-font-primary);
+}
+
+[data-theme^="vintage"] .xalpheria-title {
+  color: var(--theme-text);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5), 0 0 20px rgba(218, 165, 32, 0.1);
+  font-family: var(--theme-font-primary);
+}
+
+[data-theme^="vintage"] .xalpheria-title .char {
+  color: var(--theme-text);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+  /* Vintage theme uses subtle static styling instead of cyberpunk animations */
+}
+
+[data-theme^="vintage"] p {
+  color: var(--theme-text-secondary);
+}
+
+/* ==================
+   COMPONENTS
+   ================== */
+
+[data-theme^="vintage"] .logo {
+  filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
+}
+
+[data-theme^="vintage"] .cover-art {
+  box-shadow: 
+    var(--theme-shadow),
+    0 8px 24px rgba(139, 115, 85, 0.2);
+  border: 2px solid var(--vintage-amber-light);
+}
+
+[data-theme^="vintage"] .cover-art:hover {
+  box-shadow: 
+    0 8px 32px rgba(139, 115, 85, 0.3),
+    0 0 40px rgba(218, 165, 32, 0.2);
+}
+
+/* ==================
+   BUTTONS & LINKS
+   ================== */
+
+[data-theme^="vintage"] .nav {
+  background: linear-gradient(180deg, var(--vintage-amber-light) 0%, var(--vintage-amber-dark) 100%);
+  color: var(--vintage-sepia);
+  font-family: var(--theme-font-primary);
+  box-shadow: 
+    0 4px 12px rgba(139, 115, 85, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -2px 4px rgba(139, 115, 85, 0.2);
+}
+
+[data-theme^="vintage"] .nav:hover {
+  background: linear-gradient(180deg, var(--vintage-gold) 0%, var(--vintage-amber) 100%);
+  box-shadow: 
+    0 6px 20px rgba(139, 115, 85, 0.4),
+    0 0 30px rgba(218, 165, 32, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+[data-theme^="vintage"] .download {
+  background: linear-gradient(180deg, var(--vintage-amber-light) 0%, var(--vintage-amber-dark) 100%);
+  color: var(--vintage-sepia);
+  box-shadow: 
+    0 4px 12px rgba(139, 115, 85, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+[data-theme^="vintage"] .download:hover {
+  background: linear-gradient(180deg, var(--vintage-gold) 0%, var(--vintage-amber) 100%);
+}
+
+/* ==================
+   FOOTER
+   ================== */
+
+[data-theme^="vintage"] footer {
+  color: var(--theme-text-tertiary);
+  background: linear-gradient(180deg, var(--theme-bg) 0%, var(--theme-surface-2) 100%);
+  border-top: 2px solid var(--vintage-amber-dark);
+}
+
+[data-theme^="vintage"] .coffee-icon,
+[data-theme^="vintage"] .email-icon {
+  filter: drop-shadow(0 0 10px rgba(218, 165, 32, 0.3));
+}
+
+[data-theme^="vintage"] .coffee-icon:hover,
+[data-theme^="vintage"] .email-icon:hover {
+  filter: drop-shadow(0 0 15px rgba(183, 65, 14, 0.4));
+}
+
+[data-theme^="vintage"] .coffee-text,
+[data-theme^="vintage"] .email-text {
+  color: var(--theme-text);
+  font-family: var(--theme-font-body);
+}
+
+[data-theme^="vintage"] .coffee-link:hover .coffee-text,
+[data-theme^="vintage"] .email-link:hover .email-text {
+  color: var(--vintage-gold);
+}
+
+/* ==================
+   CONTAINERS
+   ================== */
+
+[data-theme^="vintage"] .release-viewer {
+  background: var(--theme-surface);
+  box-shadow: var(--theme-shadow);
+  border: 2px solid var(--vintage-amber);
+}
+
+[data-theme^="vintage"] .musings-container,
+[data-theme^="vintage"] .notes-container {
+  background: var(--theme-surface);
+  box-shadow: var(--theme-shadow);
+  border: 2px solid var(--vintage-amber);
+}
+
+[data-theme^="vintage"] .links-container {
+  background: var(--theme-surface);
+  box-shadow: var(--theme-shadow);
+  border: 2px solid var(--vintage-amber);
+}
+
+[data-theme^="vintage"] .links-container h2 {
+  color: var(--theme-text);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.5);
+  border-bottom: 2px solid var(--vintage-gold);
+}
+
+[data-theme^="vintage"] .link-card {
+  background: var(--theme-surface-2);
+  border-left: 4px solid var(--vintage-gold);
+}
+
+[data-theme^="vintage"] .link-card:hover {
+  box-shadow: 0 8px 25px rgba(218, 165, 32, 0.3);
+  border-left-color: var(--vintage-rust);
+}
+
+[data-theme^="vintage"] .link-card::before {
+  background: linear-gradient(90deg, var(--vintage-gold), var(--vintage-rust), var(--vintage-gold));
+}
+
+[data-theme^="vintage"] .link-card h3 {
+  color: var(--theme-text);
+  text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+[data-theme^="vintage"] .link-card p {
+  color: var(--theme-text-secondary);
+}
+
+[data-theme^="vintage"] .link-card a {
+  color: var(--vintage-gold);
+}
+
+[data-theme^="vintage"] .link-card a:hover {
+  color: var(--vintage-rust);
+  text-shadow: 0 0 5px rgba(183, 65, 14, 0.3);
+}
+
+[data-theme^="vintage"] .site-icon:hover {
+  filter: brightness(1.2) drop-shadow(0 0 10px rgba(218, 165, 32, 0.4));
+}
+
+[data-theme^="vintage"] .link-url {
+  color: var(--theme-text-tertiary);
+}
+
+[data-theme^="vintage"] .social-link {
+  color: var(--vintage-gold) !important;
+  background: rgba(218, 165, 32, 0.1);
+  border: 1px solid rgba(218, 165, 32, 0.3);
+}
+
+[data-theme^="vintage"] .social-link:hover {
+  background: rgba(218, 165, 32, 0.2);
+  border-color: var(--vintage-gold);
+  color: var(--theme-text) !important;
+  text-shadow: 0 0 8px rgba(218, 165, 32, 0.3);
+}
+
+/* ==================
+   GALLERY
+   ================== */
+
+[data-theme^="vintage"] .gallery-item {
+  border: 2px solid rgba(218, 165, 32, 0.3);
+  background: rgba(245, 237, 224, 0.8);
+}
+
+[data-theme="vintage-dark"] .gallery-item {
+  background: rgba(61, 52, 46, 0.8);
+}
+
+[data-theme^="vintage"] .gallery-item:hover {
+  border-color: var(--vintage-gold);
+  box-shadow: 0 8px 25px rgba(218, 165, 32, 0.4);
+}
+
+/* This file will be extended with additional component styles as needed */

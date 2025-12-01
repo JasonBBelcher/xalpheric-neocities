@@ -4,7 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Radio Player Sync Debug</title>
-    <link rel="stylesheet" href="css/theme.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/theme-cyberpunk.css">
+    <link rel="stylesheet" href="css/theme-vintage.css">
+    
+    <!-- Theme Initialization (prevent FOUC) -->
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'cyberpunk';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+    
     <style>
         body {
             margin: 0;

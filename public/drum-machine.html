@@ -13,9 +13,17 @@
   <link rel="icon" type="image/png" href="assets/xalpheric_favicon.png">
   
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/theme.css?v=20251120">
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/theme-cyberpunk.css">
+  <link rel="stylesheet" href="css/theme-vintage.css">
   <link rel="stylesheet" href="css/drum-machine.css">
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+  
+  <!-- Theme Initialization (prevent FOUC) -->
+  <script>
+    const savedTheme = localStorage.getItem('theme') || 'cyberpunk';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+  </script>
   
   <!-- Scripts -->
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
