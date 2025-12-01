@@ -105,6 +105,18 @@
   background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.2), transparent);
 }
 
+/* Theme Toggle Button */
+[data-theme="cyberpunk"] .theme-toggle {
+  color: var(--neon-cyan);
+  border-color: var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .theme-toggle:hover {
+  border-color: var(--neon-magenta);
+  box-shadow: 0 0 15px var(--theme-glow-cyan);
+  background: rgba(0, 255, 255, 0.1);
+}
+
 /* ==================
    HAMBURGER MENU - CHROME EFFECTS
    ================== */
