@@ -657,4 +657,206 @@
   box-shadow: 0 8px 25px rgba(0, 255, 255, 0.4);
 }
 
+/* ==================
+   RADIO PLAYER
+   ================== */
+
+[data-theme="cyberpunk"] .xalpheric-radio-player {
+  background: rgba(17, 17, 17, 0.95);
+  border: 2px solid var(--neon-cyan);
+  backdrop-filter: blur(15px);
+  font-family: var(--theme-font-primary);
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.4);
+}
+
+[data-theme="cyberpunk"] .xalpheric-radio-player:hover {
+  box-shadow: 0 6px 25px rgba(0, 255, 255, 0.6);
+}
+
+[data-theme="cyberpunk"] .xalpheric-radio-player.dragging {
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.8);
+  transform: scale(1.02);
+}
+
+[data-theme="cyberpunk"] .xalpheric-radio-player.collapsed:hover {
+  box-shadow: 0 8px 30px rgba(0, 255, 255, 0.7);
+}
+
+[data-theme="cyberpunk"] .radio-drag-handle {
+  background: rgba(0, 255, 255, 0.2);
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  color: var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .radio-drag-handle:hover {
+  background: rgba(0, 255, 255, 0.4);
+  border-color: var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .radio-drag-handle:active {
+  background: rgba(0, 255, 255, 0.6);
+}
+
+[data-theme="cyberpunk"] .radio-toggle-btn {
+  border: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .radio-toggle-btn:hover {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.4);
+}
+
+[data-theme="cyberpunk"] .xalpheric-radio-player.collapsed .radio-toggle-btn {
+  border-width: 3px;
+}
+
+[data-theme="cyberpunk"] .radio-track-title {
+  color: #fff;
+}
+
+[data-theme="cyberpunk"] .radio-track-artist {
+  color: var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .progress-mini-bar {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="cyberpunk"] .progress-mini-fill {
+  background: linear-gradient(90deg, var(--neon-cyan) 0%, var(--neon-magenta) 100%);
+}
+
+[data-theme="cyberpunk"] .radio-prev-btn,
+[data-theme="cyberpunk"] .radio-play-pause-btn,
+[data-theme="cyberpunk"] .radio-next-btn {
+  background: rgba(0, 255, 255, 0.2);
+  color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .radio-prev-btn:hover,
+[data-theme="cyberpunk"] .radio-play-pause-btn:hover,
+[data-theme="cyberpunk"] .radio-next-btn:hover {
+  background: var(--neon-cyan);
+  color: #000;
+}
+
+[data-theme="cyberpunk"] .radio-playlist-toggle {
+  background: rgba(255, 0, 255, 0.2);
+  color: var(--neon-magenta);
+  border: 1px solid var(--neon-magenta);
+}
+
+[data-theme="cyberpunk"] .radio-playlist-toggle:hover {
+  background: var(--neon-magenta);
+  color: #000;
+}
+
+[data-theme="cyberpunk"] .radio-playlist {
+  border-top: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .playlist-header h3 {
+  color: #fff;
+  text-shadow: 0 0 5px var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .playlist-close {
+  background: rgba(255, 0, 255, 0.2);
+  color: var(--neon-magenta);
+  border: 1px solid var(--neon-magenta);
+}
+
+[data-theme="cyberpunk"] .playlist-close:hover {
+  background: var(--neon-magenta);
+  color: #000;
+}
+
+[data-theme="cyberpunk"] .playlist-item {
+  background: rgba(34, 34, 34, 0.8);
+}
+
+[data-theme="cyberpunk"] .playlist-item:hover {
+  background: rgba(0, 255, 255, 0.1);
+  border-color: rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .playlist-item.active {
+  background: rgba(0, 255, 255, 0.2);
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .playlist-cover {
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .playlist-title {
+  color: #fff;
+}
+
+[data-theme="cyberpunk"] .playlist-artist {
+  color: var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .playlist-play-btn {
+  background: rgba(0, 255, 255, 0.2);
+  color: var(--neon-cyan);
+  border: 1px solid var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .playlist-play-btn:hover {
+  background: var(--neon-cyan);
+  color: #000;
+}
+
+/* ==================
+   LIGHTBOX/MODAL
+   ================== */
+
+[data-theme="cyberpunk"] .lightbox {
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(10px);
+}
+
+[data-theme="cyberpunk"] .lightbox-close {
+  color: var(--neon-cyan);
+}
+
+[data-theme="cyberpunk"] .lightbox-close:hover {
+  color: #fff;
+}
+
+[data-theme="cyberpunk"] #lightbox-image {
+  border: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .lightbox-caption {
+  color: var(--theme-text);
+  font-family: var(--theme-font-primary);
+}
+
+[data-theme="cyberpunk"] .lightbox-description {
+  color: #b0b0b0;
+  font-family: var(--theme-font-primary);
+}
+
+[data-theme="cyberpunk"] .lightbox-prev, 
+[data-theme="cyberpunk"] .lightbox-next {
+  background: rgba(0, 255, 255, 0.2);
+  border: 2px solid var(--neon-cyan);
+  color: var(--theme-text);
+  font-family: var(--theme-font-primary);
+}
+
+[data-theme="cyberpunk"] .lightbox-prev:hover, 
+[data-theme="cyberpunk"] .lightbox-next:hover {
+  background: rgba(0, 255, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+[data-theme="cyberpunk"] .no-images {
+  color: #888;
+}
+
 /* This file will be extended with additional component styles as needed */

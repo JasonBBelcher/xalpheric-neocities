@@ -455,6 +455,342 @@ footer {
 }
 
 /* ============================================
+   RADIO PLAYER STRUCTURE
+   ============================================ */
+
+.xalpheric-radio-player {
+  position: fixed;
+  top: 70px;
+  right: 20px;
+  width: 300px;
+  max-width: calc(100vw - 40px);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  z-index: 9998;
+  user-select: none;
+}
+
+.xalpheric-radio-player.collapsed {
+  width: 70px;
+  overflow: hidden;
+}
+
+.radio-drag-handle {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 20px;
+  height: 30px;
+  border-radius: 3px;
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  user-select: none;
+  touch-action: none;
+  z-index: 10;
+  transition: all 0.2s ease;
+}
+
+.radio-drag-handle:active {
+  cursor: grabbing;
+}
+
+.xalpheric-radio-player.collapsed .radio-drag-handle {
+  top: 2px;
+  right: 2px;
+  width: 15px;
+  height: 20px;
+  font-size: 10px;
+}
+
+.radio-controls {
+  padding: 8px;
+}
+
+.radio-main {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+}
+
+.radio-toggle-btn {
+  background: transparent;
+  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  padding: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.xalpheric-radio-player.collapsed .radio-toggle-btn {
+  width: 60px;
+  height: 60px;
+}
+
+.radio-album-cover {
+  width: 100%;
+  height: 100%;
+  border-radius: 6px;
+  object-fit: cover;
+  display: block;
+  transition: all 0.3s ease;
+}
+
+.xalpheric-radio-player.collapsed .radio-album-cover {
+  border-radius: 8px;
+}
+
+.radio-info {
+  flex: 1;
+  min-width: 0;
+  margin-right: 8px;
+}
+
+.radio-track-title {
+  font-size: 12px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.radio-track-artist {
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.radio-progress-mini {
+  margin-top: 2px;
+}
+
+.progress-mini-bar {
+  height: 2px;
+  border-radius: 1px;
+  overflow: hidden;
+}
+
+.progress-mini-fill {
+  height: 100%;
+  border-radius: 1px;
+  width: 0%;
+  transition: width 0.1s ease;
+}
+
+.radio-playback {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.radio-prev-btn,
+.radio-play-pause-btn,
+.radio-next-btn {
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.radio-playlist-toggle {
+  border-radius: 6px;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+.radio-playlist {
+  margin-top: 8px;
+  padding-top: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.playlist-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.playlist-header h3 {
+  font-size: 12px;
+  margin: 0;
+}
+
+.playlist-close {
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.playlist-items {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.playlist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s;
+  border: 1px solid transparent;
+}
+
+.playlist-cover {
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.playlist-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.playlist-title {
+  font-size: 11px;
+  font-weight: bold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.playlist-artist {
+  font-size: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.playlist-play-btn {
+  border-radius: 4px;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  flex-shrink: 0;
+}
+
+/* ============================================
+   LIGHTBOX/MODAL STRUCTURE
+   ============================================ */
+
+.lightbox {
+  display: none;
+  position: fixed;
+  z-index: 9999;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.lightbox-content {
+  position: relative;
+  margin: auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 900px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.lightbox-close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+#lightbox-image {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.lightbox-caption {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.lightbox-description {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  text-align: center;
+  font-style: italic;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lightbox-nav {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.lightbox-prev, 
+.lightbox-next {
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.no-images {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-style: italic;
+  padding: 2rem;
+}
+
+/* ============================================
    GRID SYSTEMS
    ============================================ */
 
@@ -593,6 +929,39 @@ footer {
    RESPONSIVE BREAKPOINTS
    ============================================ */
 
+/* Desktop: Radio player draggable in header area */
+@media (min-width: 1025px) {
+  .xalpheric-radio-player {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    width: 300px;
+    max-width: 300px;
+  }
+  
+  .xalpheric-radio-player.collapsed {
+    width: 70px;
+    max-width: 70px;
+  }
+}
+
+/* Tablet: Fixed bottom positioning */
+@media (max-width: 1024px) {
+  .xalpheric-radio-player {
+    position: fixed !important;
+    top: auto !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    left: auto !important;
+    width: 250px;
+    max-width: calc(100vw - 40px);
+  }
+  
+  .xalpheric-radio-player.collapsed {
+    width: 60px;
+  }
+}
+
 @media (max-width: 768px) {
   .release-viewer {
     max-width: 350px;
@@ -624,6 +993,22 @@ footer {
   
   .gallery-image {
     height: 250px;
+  }
+  
+  /* Lightbox responsive */
+  .lightbox-content {
+    width: 95%;
+    padding: 15px;
+    max-width: calc(100vw - 20px);
+  }
+  
+  .lightbox-close {
+    right: 20px;
+    font-size: 30px;
+  }
+  
+  .lightbox-nav {
+    gap: 1rem;
   }
 }
 
@@ -659,6 +1044,21 @@ footer {
   
   .gallery-image {
     height: 200px;
+  }
+  
+  /* Radio player mobile adjustments */
+  .xalpheric-radio-player {
+    width: 200px !important;
+    max-width: calc(100vw - 40px) !important;
+  }
+  
+  .xalpheric-radio-player.collapsed {
+    width: 55px !important;
+  }
+  
+  .xalpheric-radio-player.collapsed .radio-toggle-btn {
+    width: 45px !important;
+    height: 45px !important;
   }
 }
 
