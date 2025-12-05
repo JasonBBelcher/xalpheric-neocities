@@ -1155,6 +1155,480 @@ footer {
 }
 
 /* ============================================
+   RELEASE LIGHTBOX STRUCTURE
+   ============================================ */
+
+.release-lightbox {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.release-lightbox-content {
+  position: relative;
+  margin: auto;
+  padding: 20px;
+  width: 90%;
+  max-width: 600px;
+  top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  box-sizing: border-box;
+  border-radius: 16px;
+}
+
+.release-lightbox-close {
+  position: absolute;
+  top: 15px;
+  right: 25px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 10001;
+}
+
+.release-lightbox-album {
+  max-width: 100%;
+  max-height: 400px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.release-lightbox-meta {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.9rem;
+}
+
+.release-lightbox-meta span {
+  padding: 0.3rem 0.8rem;
+  border-radius: 6px;
+}
+
+.release-lightbox-description {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  font-style: italic;
+}
+
+/* ============================================
+   BLOG MEDIA STRUCTURE
+   ============================================ */
+
+.blog-image-container {
+  margin: 2rem 0;
+  text-align: center;
+}
+
+.blog-image {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.blog-image-caption {
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  font-style: italic;
+}
+
+.blog-video-container {
+  margin: 2rem 0;
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.blog-youtube-embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 10px;
+}
+
+.note-content h1,
+.note-content h2,
+.note-content h3,
+.note-content h4,
+.note-content h5,
+.note-content h6 {
+  margin: 2rem 0 1rem 0;
+}
+
+.note-content h1 {
+  font-size: 2.2rem;
+  padding-bottom: 0.5rem;
+}
+
+.note-content h2 {
+  font-size: 1.8rem;
+}
+
+.note-content h3 {
+  font-size: 1.4rem;
+}
+
+.note-content blockquote {
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+}
+
+.note-content code {
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+}
+
+.note-content pre {
+  border-radius: 8px;
+  padding: 1rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.note-content pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+/* ============================================
+   PROJECTS PAGE STRUCTURE
+   ============================================ */
+
+.projects-main {
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.intro {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  border-radius: 8px;
+  line-height: 1.8;
+}
+
+.projects-grid {
+  margin: 3rem 0;
+}
+
+.project-category {
+  margin-bottom: 4rem;
+}
+
+.category-title {
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.category-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+}
+
+.project-card {
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.project-header {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.project-thumbnail {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.project-info {
+  flex: 1;
+  text-align: left;
+}
+
+.project-title {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+}
+
+.project-meta {
+  font-size: 0.9rem;
+  margin: 0.3rem 0;
+  font-family: 'Courier New', monospace;
+}
+
+.project-description {
+  line-height: 1.6;
+  margin: 0.5rem 0 0 0;
+}
+
+.project-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 1rem;
+}
+
+.download-btn {
+  padding: 0.7rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.download-icon {
+  font-size: 1.2rem;
+}
+
+.file-size {
+  font-size: 0.85rem;
+  font-family: 'Courier New', monospace;
+}
+
+.coming-soon {
+  border-radius: 12px;
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+/* ============================================
+   COLLECTIVE PAGE STRUCTURE
+   ============================================ */
+
+.collective-section {
+  margin-bottom: 4rem;
+}
+
+.collective-section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+}
+
+.releases-grid,
+.video-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.release-card,
+.video-card {
+  border-radius: 8px;
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.release-artwork {
+  margin-bottom: 1rem;
+}
+
+.placeholder-artwork {
+  aspect-ratio: 1;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.release-info h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.release-meta,
+.video-meta {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+.events-timeline {
+  margin-top: 2rem;
+}
+
+.event-entry {
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+}
+
+.event-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.event-header h3 {
+  font-size: 1.8rem;
+  margin: 0;
+}
+
+.event-date {
+  font-size: 1rem;
+}
+
+.photo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.photo-grid img {
+  width: 100%;
+  height: auto;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.photo-placeholder {
+  aspect-ratio: 4/3;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  transition: all 0.3s ease;
+}
+
+.event-description {
+  margin-top: 1.5rem;
+  line-height: 1.6;
+}
+
+.video-placeholder {
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.video-info {
+  padding: 1.5rem;
+}
+
+.video-info h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.video-description {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.member-card {
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+  transition: all 0.3s ease;
+}
+
+.member-avatar {
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.member-video {
+  margin: 0 auto 1rem;
+  max-width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  background: transparent;
+}
+
+.member-video iframe {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16/9;
+}
+
+.member-video img {
+  display: block;
+  width: 100%;
+  height: auto;
+  background: transparent;
+}
+
+.member-info h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+}
+
+.member-role {
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+}
+
+.member-bio {
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+/* ============================================
    RESPONSIVE BREAKPOINTS
    ============================================ */
 
@@ -1265,6 +1739,92 @@ footer {
     padding: 0.7rem 1.5rem;
     font-size: 0.8rem;
   }
+  
+  /* Release lightbox responsive */
+  .release-lightbox-content {
+    width: 95%;
+    padding: 15px;
+    max-width: calc(100vw - 20px);
+  }
+  
+  .release-lightbox-close {
+    right: 15px;
+    font-size: 24px;
+  }
+  
+  .release-lightbox-album {
+    max-height: 300px;
+  }
+  
+  .release-lightbox-info h3 {
+    font-size: 1.4rem;
+  }
+  
+  .release-lightbox-meta {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: center;
+  }
+  
+  /* Blog media responsive */
+  .blog-image-container,
+  .blog-video-container {
+    margin: 1.5rem 0;
+  }
+  
+  .note-content h1 {
+    font-size: 1.8rem;
+  }
+  
+  .note-content h2 {
+    font-size: 1.5rem;
+  }
+  
+  /* Projects responsive */
+  .project-header {
+    flex-direction: column;
+  }
+  
+  .project-thumbnail {
+    width: 100%;
+    height: auto;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+  
+  .project-info {
+    text-align: center;
+  }
+  
+  .project-actions {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  
+  .download-btn {
+    justify-content: center;
+  }
+  
+  /* Collective page responsive */
+  .collective-section h2 {
+    font-size: 1.6rem;
+  }
+  
+  .releases-grid,
+  .video-grid,
+  .members-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .photo-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .event-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 }
 
 @media (max-width: 480px) {
@@ -1299,6 +1859,34 @@ footer {
   
   .gallery-image {
     height: 200px;
+  }
+  
+  /* Release lightbox mobile */
+  .release-lightbox-content {
+    width: 98%;
+    padding: 10px;
+  }
+  
+  .release-lightbox-album {
+    max-height: 250px;
+  }
+  
+  .release-lightbox-info h3 {
+    font-size: 1.2rem;
+  }
+  
+  .release-lightbox-description {
+    font-size: 0.9rem;
+  }
+  
+  /* Blog media mobile */
+  .blog-image-container,
+  .blog-video-container {
+    margin: 1rem 0;
+  }
+  
+  .note-content h1 {
+    font-size: 1.6rem;
   }
   
   /* Radio player mobile adjustments */
