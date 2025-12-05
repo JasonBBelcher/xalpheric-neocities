@@ -623,6 +623,7 @@
 }
 
 [data-theme="cyberpunk"] .site-icon:hover {
+  transform: scale(1.1);
   filter: brightness(1.2) drop-shadow(0 0 10px rgb(100, 150, 255));
 }
 
@@ -1267,6 +1268,172 @@
 
 [data-theme="cyberpunk"] .coming-soon .hint {
   color: #aaa;
+}
+
+[data-theme="cyberpunk"] .license-info {
+  background: rgba(255, 0, 255, 0.1);
+  border-left: 4px solid #f0f;
+  color: #e0e0e0;
+}
+
+[data-theme="cyberpunk"] .collection-info {
+  background: rgba(0, 255, 255, 0.1);
+  border-left: 4px solid #0ff;
+  color: #e0e0e0;
+}
+
+[data-theme="cyberpunk"] .collection-info a {
+  color: #0ff;
+  border-bottom: 1px dotted #0ff;
+}
+
+[data-theme="cyberpunk"] .collection-info a:hover {
+  color: #fff;
+  border-bottom-color: #fff;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.8);
+}
+
+[data-theme="cyberpunk"] .usage-guide {
+  background: rgba(20, 20, 30, 0.8);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .usage-guide h2 {
+  color: #0ff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+[data-theme="cyberpunk"] .guide-card {
+  background: rgba(40, 20, 60, 0.5);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+[data-theme="cyberpunk"] .guide-card h3 {
+  color: #f0f;
+  text-shadow: 0 0 8px rgba(255, 0, 255, 0.6);
+}
+
+[data-theme="cyberpunk"] .guide-card ol,
+[data-theme="cyberpunk"] .guide-card ul {
+  color: #e0e0e0;
+}
+
+[data-theme="cyberpunk"] .guide-card code {
+  background: rgba(0, 255, 255, 0.1);
+  color: #0ff;
+}
+
+[data-theme="cyberpunk"] .faq h2 {
+  color: #0ff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+}
+
+[data-theme="cyberpunk"] .faq-item {
+  background: rgba(20, 20, 30, 0.8);
+  border-left: 4px solid rgba(0, 255, 255, 0.5);
+}
+
+[data-theme="cyberpunk"] .faq-item h3 {
+  color: #0ff;
+}
+
+[data-theme="cyberpunk"] .faq-item p {
+  color: #e0e0e0;
+}
+
+/* ============================================
+   WHO WE BACK PAGE - CYBERPUNK THEME
+   ============================================ */
+
+[data-theme="cyberpunk"] .who-we-back {
+  background: rgba(0, 20, 30, 0.6);
+  border: 2px solid rgba(0, 255, 255, 0.4);
+}
+
+[data-theme="cyberpunk"] .who-we-back h2 {
+  color: #0ff;
+  text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+}
+
+[data-theme="cyberpunk"] .section-heading {
+  color: #0ff;
+  text-shadow: 0 0 15px rgba(0, 255, 255, 0.6);
+  border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .soundcloud-player {
+  background: #1a1a1a;
+  border: 2px solid #1e90ff;
+  box-shadow: 0 0 20px rgba(30, 144, 255, 0.3), inset 0 0 30px rgba(30, 144, 255, 0.05);
+}
+
+[data-theme="cyberpunk"] .partners-grid {
+  /* Grid structure defined in base.css */
+}
+
+[data-theme="cyberpunk"] .partner-card {
+  background: rgba(17, 17, 17, 0.8);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .partner-card:hover {
+  border-color: rgba(0, 255, 255, 0.6);
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.3);
+  transform: translateY(-5px);
+}
+
+[data-theme="cyberpunk"] .partner-card.featured {
+  border: 2px solid rgba(0, 255, 255, 0.6);
+  background: linear-gradient(135deg, rgba(0, 50, 100, 0.3), rgba(17, 17, 17, 0.8));
+}
+
+[data-theme="cyberpunk"] .partner-card.featured:hover {
+  border-color: rgba(0, 255, 255, 0.9);
+  box-shadow: 0 6px 30px rgba(0, 255, 255, 0.5);
+}
+
+[data-theme="cyberpunk"] .partner-header h3 {
+  color: #0ff;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.6);
+}
+
+[data-theme="cyberpunk"] .partner-type {
+  color: #f0f;
+  background: rgba(255, 0, 255, 0.2);
+  border: 1px solid rgba(255, 0, 255, 0.4);
+}
+
+[data-theme="cyberpunk"] .partner-description {
+  color: #e0e0e0;
+}
+
+[data-theme="cyberpunk"] .venue-details,
+[data-theme="cyberpunk"] .services {
+  color: #0ff;
+  background: rgba(0, 255, 255, 0.05);
+  border-left-color: rgba(0, 255, 255, 0.5);
+}
+
+[data-theme="cyberpunk"] .partner-links {
+  border-top: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+[data-theme="cyberpunk"] .partner-links a {
+  color: #0ff;
+}
+
+[data-theme="cyberpunk"] .partner-links a:hover {
+  color: #f0f;
+  text-shadow: 0 0 10px rgba(255, 0, 255, 0.8);
+}
+
+[data-theme="cyberpunk"] .who-we-back-footer {
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] .who-we-back-footer p {
+  color: #0ff;
 }
 
 /* ============================================
