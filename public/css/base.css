@@ -926,6 +926,235 @@ footer {
 }
 
 /* ============================================
+   FORMS & INPUTS STRUCTURE
+   ============================================ */
+
+/* Form Inputs */
+.cyber-input,
+.cyber-textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  position: relative;
+}
+
+.cyber-textarea {
+  min-height: 120px;
+  resize: vertical;
+  font-family: inherit;
+}
+
+/* Character Counter */
+.character-count {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Buttons */
+.cyber-btn {
+  padding: 0.8rem 2rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.cyber-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cyber-btn.loading {
+  pointer-events: none;
+}
+
+.cyber-btn.small {
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+}
+
+/* Status Messages */
+.status-message {
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.status-icon {
+  font-size: 1.5rem;
+  min-width: 1.5rem;
+}
+
+.status-content h3 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.status-content p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.status-meta {
+  font-size: 0.8rem;
+  opacity: 0.8;
+  font-family: monospace;
+}
+
+.status-details {
+  font-size: 0.9rem;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+/* Guestbook Structure */
+.guestbook-archive {
+  border-radius: 12px;
+  padding: 2rem;
+}
+
+.archive-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+}
+
+.archive-title {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0;
+}
+
+.entries-info {
+  font-size: 0.9rem;
+}
+
+.guestbook-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.guestbook-entry {
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.entry-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.entry-identity {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.entry-name {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.entry-name.website-link {
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.entry-email {
+  font-size: 0.8rem;
+  font-family: monospace;
+}
+
+.entry-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.entry-content {
+  line-height: 1.6;
+}
+
+.entry-comment {
+  margin: 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.load-more-btn {
+  margin: 2rem auto 0;
+  display: block;
+}
+
+/* Loading States */
+.loading-container,
+.error-container,
+.no-entries-container {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.cyber-loader {
+  display: inline-block;
+  position: relative;
+  width: 64px;
+  height: 64px;
+  margin-bottom: 1rem;
+}
+
+.loader-ring {
+  display: block;
+  position: absolute;
+  width: 50px;
+  height: 50px;
+  margin: 6px;
+  border-radius: 50%;
+}
+
+.loading-text {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.error-icon,
+.no-entries-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+/* ============================================
    RESPONSIVE BREAKPOINTS
    ============================================ */
 
@@ -1009,6 +1238,32 @@ footer {
   
   .lightbox-nav {
     gap: 1rem;
+  }
+  
+  /* Forms responsive */
+  .guestbook-container {
+    padding: 1rem;
+  }
+  
+  .guestbook-form,
+  .guestbook-archive {
+    padding: 1.5rem;
+  }
+  
+  .archive-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  
+  .entry-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .cyber-btn {
+    padding: 0.7rem 1.5rem;
+    font-size: 0.8rem;
   }
 }
 

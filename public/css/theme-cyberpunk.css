@@ -859,4 +859,215 @@
   color: #888;
 }
 
+/* ============================================
+   FORMS & INPUTS - CYBERPUNK THEME
+   ============================================ */
+
+/* Form Inputs Colors */
+[data-theme="cyberpunk"] .cyber-input,
+[data-theme="cyberpunk"] .cyber-textarea {
+  background: rgba(0, 0, 0, 0.7);
+  border: 2px solid rgba(0, 255, 255, 0.3);
+  color: #e0e0e0;
+  font-family: 'Orbitron', monospace;
+}
+
+[data-theme="cyberpunk"] .cyber-input:focus,
+[data-theme="cyberpunk"] .cyber-textarea:focus {
+  outline: none;
+  border-color: #00ffff;
+  box-shadow: 
+    0 0 10px rgba(0, 255, 255, 0.3),
+    inset 0 0 10px rgba(0, 255, 255, 0.1);
+  color: #ffffff;
+}
+
+[data-theme="cyberpunk"] .cyber-input::placeholder,
+[data-theme="cyberpunk"] .cyber-textarea::placeholder {
+  color: rgba(224, 224, 224, 0.5);
+  font-style: italic;
+}
+
+[data-theme="cyberpunk"] .form-group.focused .cyber-input,
+[data-theme="cyberpunk"] .form-group.focused .cyber-textarea {
+  background: rgba(0, 20, 20, 0.8);
+}
+
+[data-theme="cyberpunk"] .form-group.has-content label {
+  color: #ff00ff;
+}
+
+[data-theme="cyberpunk"] .form-group label {
+  color: #00ffff;
+  font-weight: 600;
+}
+
+/* Character Counter Colors */
+[data-theme="cyberpunk"] .character-count {
+  color: rgba(224, 224, 224, 0.6);
+}
+
+[data-theme="cyberpunk"] .character-count.warning {
+  color: #ffaa00;
+}
+
+[data-theme="cyberpunk"] .character-count.danger {
+  color: #ff4444;
+}
+
+/* Button Colors */
+[data-theme="cyberpunk"] .cyber-btn {
+  background: linear-gradient(45deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+  border: 2px solid #00ffff;
+  color: #00ffff;
+  font-family: 'Orbitron', sans-serif;
+}
+
+[data-theme="cyberpunk"] .cyber-btn:hover:not(:disabled) {
+  background: linear-gradient(45deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
+  box-shadow: 
+    0 4px 15px rgba(0, 255, 255, 0.4),
+    inset 0 0 20px rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+[data-theme="cyberpunk"] .cyber-btn:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+[data-theme="cyberpunk"] .cyber-btn:disabled {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+[data-theme="cyberpunk"] .btn-glow {
+  background: linear-gradient(45deg, #00ffff, #ff00ff);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+[data-theme="cyberpunk"] .cyber-btn:hover .btn-glow {
+  opacity: 0.3;
+}
+
+/* Status Messages Colors */
+[data-theme="cyberpunk"] .status-message.success {
+  background: rgba(0, 255, 100, 0.1);
+  border: 2px solid rgba(0, 255, 100, 0.3);
+  box-shadow: 0 4px 15px rgba(0, 255, 100, 0.2);
+}
+
+[data-theme="cyberpunk"] .status-message.error {
+  background: rgba(255, 50, 50, 0.1);
+  border: 2px solid rgba(255, 50, 50, 0.3);
+  box-shadow: 0 4px 15px rgba(255, 50, 50, 0.2);
+}
+
+/* Guestbook Colors */
+[data-theme="cyberpunk"] .guestbook-archive {
+  background: rgba(17, 17, 17, 0.6);
+  border: 2px solid rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(5px);
+}
+
+[data-theme="cyberpunk"] .archive-header {
+  border-bottom: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+[data-theme="cyberpunk"] .archive-title {
+  color: #00ffff;
+}
+
+[data-theme="cyberpunk"] .entries-info {
+  color: rgba(224, 224, 224, 0.7);
+}
+
+[data-theme="cyberpunk"] .entries-info .entries-count {
+  color: #ff00ff;
+  font-weight: 600;
+}
+
+[data-theme="cyberpunk"] .guestbook-entry {
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(0, 255, 255, 0.2);
+}
+
+[data-theme="cyberpunk"] .guestbook-entry:hover {
+  border-color: rgba(0, 255, 255, 0.4);
+  box-shadow: 0 4px 20px rgba(0, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+[data-theme="cyberpunk"] .entry-name {
+  color: #00ffff;
+}
+
+[data-theme="cyberpunk"] .entry-name.website-link:hover {
+  color: #ff00ff;
+}
+
+[data-theme="cyberpunk"] .entry-email {
+  color: rgba(224, 224, 224, 0.6);
+}
+
+[data-theme="cyberpunk"] .entry-meta {
+  color: rgba(224, 224, 224, 0.5);
+}
+
+[data-theme="cyberpunk"] .website-indicator {
+  color: #ff00ff;
+}
+
+[data-theme="cyberpunk"] .entry-comment {
+  color: #e0e0e0;
+}
+
+/* Loading States Colors */
+[data-theme="cyberpunk"] .loading-container,
+[data-theme="cyberpunk"] .error-container,
+[data-theme="cyberpunk"] .no-entries-container {
+  color: rgba(224, 224, 224, 0.7);
+}
+
+[data-theme="cyberpunk"] .loader-ring {
+  border: 6px solid #00ffff;
+  border-color: #00ffff transparent transparent transparent;
+  animation: spin 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+[data-theme="cyberpunk"] .loading-text {
+  color: #00ffff;
+}
+
+[data-theme="cyberpunk"] .error-container h3,
+[data-theme="cyberpunk"] .no-entries-container h3 {
+  color: #ff00ff;
+}
+
+/* Guestbook Animations */
+@keyframes borderGlow {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 /* This file will be extended with additional component styles as needed */
