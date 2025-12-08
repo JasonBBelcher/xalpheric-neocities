@@ -168,6 +168,58 @@
   mix-blend-mode: screen;
 }
 
+/* ==================
+   LINK STYLES
+   ================== */
+
+[data-theme="vintage-light"] a {
+  color: #c2410c;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(194, 65, 12, 0.3);
+}
+
+[data-theme="vintage-light"] a:hover {
+  color: #9a3412;
+  border-bottom-color: #9a3412;
+  background: rgba(194, 65, 12, 0.08);
+}
+
+[data-theme="vintage-light"] a:visited {
+  color: #92400e;
+  border-bottom-color: rgba(146, 64, 14, 0.3);
+}
+
+[data-theme="vintage-light"] a:active {
+  color: #7c2d12;
+  background: rgba(194, 65, 12, 0.15);
+}
+
+[data-theme="vintage-dark"] a {
+  color: #fb923c;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  border-bottom: 1px solid rgba(251, 146, 60, 0.4);
+}
+
+[data-theme="vintage-dark"] a:hover {
+  color: #fcd34d;
+  border-bottom-color: #fcd34d;
+  background: rgba(251, 146, 60, 0.12);
+  text-shadow: 0 0 8px rgba(251, 146, 60, 0.3);
+}
+
+[data-theme="vintage-dark"] a:visited {
+  color: #f59e0b;
+  border-bottom-color: rgba(245, 158, 11, 0.4);
+}
+
+[data-theme="vintage-dark"] a:active {
+  color: #fbbf24;
+  background: rgba(251, 146, 60, 0.2);
+  text-shadow: 0 0 12px rgba(251, 146, 60, 0.4);
+}
+
 /* Keyframe Animations */
 @keyframes goldenDrift {
   0%, 100% { 

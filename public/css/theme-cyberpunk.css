@@ -46,6 +46,33 @@
   font-family: var(--theme-font-primary);
 }
 
+/* ==================
+   LINK STYLES
+   ================== */
+
+[data-theme="cyberpunk"] a {
+  color: var(--neon-cyan);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.3);
+}
+
+[data-theme="cyberpunk"] a:hover {
+  color: var(--neon-magenta);
+  text-shadow: 0 0 12px rgba(255, 0, 255, 0.5);
+  text-decoration: underline;
+}
+
+[data-theme="cyberpunk"] a:visited {
+  color: #00cccc;
+  text-shadow: 0 0 6px rgba(0, 204, 204, 0.3);
+}
+
+[data-theme="cyberpunk"] a:active {
+  color: var(--neon-yellow);
+  text-shadow: 0 0 15px rgba(255, 255, 0, 0.6);
+}
+
 @keyframes glitchScroll {
   0% { background-position: 0 0; }
   100% { background-position: 0 -100px; }
