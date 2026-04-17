@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Koala Source Files — Xalpheric</title>
+  <meta name="description" content="Download Xalpheric&#39;s Koala sampler project files — open-source beats, sketches, and works-in-progress. Free to use and learn from.">
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  <nav class="site-nav">
+  <div class="container">
+    <div class="site-nav__inner">
+      <div class="site-nav__brand">
+        <div class="site-nav__brand-text">XALPHERIC</div>
+        <div class="site-nav__brand-sub" style="font-family: var(--font-data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.25rem;">MIDI MOB</div>
+      </div>
+
+      <button class="site-nav__hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="site-nav__mobile">
+        <ul class="site-nav__links">
+          <li><a href="/index.html" class="site-nav__link" >Home</a></li>
+          <li><a href="/gallery.html" class="site-nav__link" >Gallery</a></li>
+          <li><a href="/collective.html" class="site-nav__link" >Collective</a></li>
+          <li><a href="/musings.html" class="site-nav__link" >Musings</a></li>
+          <li><a href="/drum-machine.html" class="site-nav__link" >Drum Machine</a></li>
+          <li><a href="/koala-songs.html" class="site-nav__link site-nav__link--active" aria-current="page">Koala Songs</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+(function(){
+  var btn = document.querySelector('.site-nav__hamburger');
+  var mob = document.querySelector('.site-nav__mobile');
+  if (!btn || !mob) return;
+  btn.addEventListener('click', function() {
+    var open = mob.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mob.classList.contains('is-open')) {
+      mob.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+
+  
+<section class="section" style="background: var(--bg-base); padding-top: calc(var(--space-section) + 1rem);">
+  <div class="starmap-bg" aria-hidden="true">
+    <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <!-- Stars scattered like a waveform peak pattern -->
+      <circle cx="30" cy="140" r="0.8" fill="#e4d9bc"/>
+      <circle cx="80" cy="90" r="1.2" fill="#c47a2a" class="star-pulse"/>
+      <circle cx="140" cy="50" r="0.6" fill="#e4d9bc"/>
+      <circle cx="195" cy="110" r="0.9" fill="#2a8a9c" class="star-pulse-slow"/>
+      <circle cx="255" cy="65" r="0.5" fill="#e4d9bc"/>
+      <circle cx="310" cy="30" r="1.1" fill="#c47a2a"/>
+      <circle cx="370" cy="85" r="0.7" fill="#e4d9bc"/>
+      <circle cx="430" cy="45" r="0.9" fill="#2a8a9c" class="star-pulse-offset"/>
+      <circle cx="490" cy="100" r="0.6" fill="#e4d9bc"/>
+      <circle cx="545" cy="55" r="1.3" fill="#c47a2a" class="star-pulse"/>
+      <circle cx="605" cy="90" r="0.5" fill="#e4d9bc"/>
+      <circle cx="660" cy="35" r="0.8" fill="#2a8a9c"/>
+      <circle cx="720" cy="75" r="1.0" fill="#c47a2a" class="star-pulse-slow"/>
+      <circle cx="775" cy="120" r="0.6" fill="#e4d9bc"/>
+      <!-- Mid band -->
+      <circle cx="60" cy="190" r="0.7" fill="#2a8a9c"/>
+      <circle cx="160" cy="170" r="1.0" fill="#e4d9bc" class="star-pulse-offset"/>
+      <circle cx="270" cy="200" r="0.5" fill="#c47a2a"/>
+      <circle cx="395" cy="165" r="0.9" fill="#e4d9bc"/>
+      <circle cx="510" cy="195" r="0.6" fill="#2a8a9c" class="star-pulse"/>
+      <circle cx="625" cy="175" r="1.1" fill="#c47a2a"/>
+      <circle cx="745" cy="210" r="0.7" fill="#e4d9bc"/>
+      <!-- Waveform-style connecting lines — audio/music theme -->
+      <polyline points="80,90 140,50 195,110 255,65 310,30 370,85 430,45 490,100 545,55 605,90 660,35 720,75"
+        fill="none" stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
+      <polyline points="30,140 80,90 195,110 370,85 490,100 605,90 720,75 775,120"
+        fill="none" stroke="#2a8a9c" stroke-width="0.3" opacity="0.3"/>
+      <!-- Beat marker verticals -->
+      <line x1="200" y1="0" x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
+      <line x1="400" y1="0" x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
+      <line x1="600" y1="0" x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
+      <line x1="0" y1="140" x2="800" y2="140" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
+    </svg>
+  </div>
+  <div class="container">
+    <p class="section__eyebrow">OPEN SOURCE · KOALA SAMPLER</p>
+    <h1 class="section__title">Koala Source Files</h1>
+    <p class="section__body">
+      Every project file from my Koala sampler — beats, sketches, collabs, works-in-progress, and finished tracks. Free to download, learn from, and chop up. Each <code>.koala</code> file opens directly in the <a href="https://www.koalasampler.com/" target="_blank" rel="noopener" style="color: var(--accent-primary);">Koala Sampler</a> iOS app.
+    </p>
+    <p class="section__body" style="font-family: var(--font-data); font-size: var(--type-caption); color: var(--text-secondary); margin-top: 0.5rem;">
+      71 files · source: <a href="https://github.com/JasonBBelcher/koala-songs" target="_blank" rel="noopener" style="color: var(--accent-cold);">github.com/JasonBBelcher/koala-songs</a>
+    </p>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="koala-grid">
+      
+      <div class="koala-card">
+        <div class="koala-card__index">01</div>
+        <div class="koala-card__title">Antifacist</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Antifacist.koala" download="Antifacist.koala" target="_blank" rel="noopener" aria-label="Download Antifacist">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">02</div>
+        <div class="koala-card__title">Blastfamous</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Blastfamous.koala" download="Blastfamous.koala" target="_blank" rel="noopener" aria-label="Download Blastfamous">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">03</div>
+        <div class="koala-card__title">Break the silence with magic chill out mix</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Break%20the%20silence%20with%20magic%20chill%20out%20mix.koala" download="Break the silence with magic chill out mix.koala" target="_blank" rel="noopener" aria-label="Download Break the silence with magic chill out mix">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">04</div>
+        <div class="koala-card__title">Cello funky jazz - gone</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Cello%20funky%20jazz%20-%20gone.koala" download="Cello funky jazz - gone.koala" target="_blank" rel="noopener" aria-label="Download Cello funky jazz - gone">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">05</div>
+        <div class="koala-card__title">Dissolving ego 96.5 bpm</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dissolving%20ego%2096.5%20bpm.koala" download="Dissolving ego 96.5 bpm.koala" target="_blank" rel="noopener" aria-label="Download Dissolving ego 96.5 bpm">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">06</div>
+        <div class="koala-card__title">Dissolving ego</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dissolving%20ego.koala" download="Dissolving ego.koala" target="_blank" rel="noopener" aria-label="Download Dissolving ego">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">07</div>
+        <div class="koala-card__title">Dogs in the street</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dogs%20in%20the%20street.koala" download="Dogs in the street.koala" target="_blank" rel="noopener" aria-label="Download Dogs in the street">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">08</div>
+        <div class="koala-card__title">Dogs on the street 98bpm</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dogs%20on%20the%20street%2098bpm.koala" download="Dogs on the street 98bpm.koala" target="_blank" rel="noopener" aria-label="Download Dogs on the street 98bpm">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">09</div>
+        <div class="koala-card__title">Dogs on the street2 98bpm</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dogs%20on%20the%20street2%2098bpm.koala" download="Dogs on the street2 98bpm.koala" target="_blank" rel="noopener" aria-label="Download Dogs on the street2 98bpm">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">10</div>
+        <div class="koala-card__title">Down to the moon 2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Down%20to%20the%20moon%202.koala" download="Down to the moon 2.koala" target="_blank" rel="noopener" aria-label="Download Down to the moon 2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">11</div>
+        <div class="koala-card__title">Down to the moon 3</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Down%20to%20the%20moon%203.koala" download="Down to the moon 3.koala" target="_blank" rel="noopener" aria-label="Download Down to the moon 3">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">12</div>
+        <div class="koala-card__title">Down to the moon</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Down%20to%20the%20moon.koala" download="Down to the moon.koala" target="_blank" rel="noopener" aria-label="Download Down to the moon">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">13</div>
+        <div class="koala-card__title">Dreamcatcher 2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dreamcatcher%202.koala" download="Dreamcatcher 2.koala" target="_blank" rel="noopener" aria-label="Download Dreamcatcher 2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">14</div>
+        <div class="koala-card__title">Dreamcatcher 3</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dreamcatcher%203.koala" download="Dreamcatcher 3.koala" target="_blank" rel="noopener" aria-label="Download Dreamcatcher 3">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">15</div>
+        <div class="koala-card__title">Dreamcatcher</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Dreamcatcher.koala" download="Dreamcatcher.koala" target="_blank" rel="noopener" aria-label="Download Dreamcatcher">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">16</div>
+        <div class="koala-card__title">Face the shadow-1</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Face%20the%20shadow-1.koala" download="Face the shadow-1.koala" target="_blank" rel="noopener" aria-label="Download Face the shadow-1">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">17</div>
+        <div class="koala-card__title">Face the shadow-2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Face%20the%20shadow-2.koala" download="Face the shadow-2.koala" target="_blank" rel="noopener" aria-label="Download Face the shadow-2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">18</div>
+        <div class="koala-card__title">Face the shadow-3</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Face%20the%20shadow-3.koala" download="Face the shadow-3.koala" target="_blank" rel="noopener" aria-label="Download Face the shadow-3">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">19</div>
+        <div class="koala-card__title">Face the shadow-5</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Face%20the%20shadow-5.koala" download="Face the shadow-5.koala" target="_blank" rel="noopener" aria-label="Download Face the shadow-5">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">20</div>
+        <div class="koala-card__title">Face the shadow</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Face%20the%20shadow.koala" download="Face the shadow.koala" target="_blank" rel="noopener" aria-label="Download Face the shadow">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">21</div>
+        <div class="koala-card__title">Fantasia</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Fantasia.koala" download="Fantasia.koala" target="_blank" rel="noopener" aria-label="Download Fantasia">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">22</div>
+        <div class="koala-card__title">Fractaldreams</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Fractaldreams.koala" download="Fractaldreams.koala" target="_blank" rel="noopener" aria-label="Download Fractaldreams">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">23</div>
+        <div class="koala-card__title">Funky1</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Funky1.koala" download="Funky1.koala" target="_blank" rel="noopener" aria-label="Download Funky1">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">24</div>
+        <div class="koala-card__title">Funky2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Funky2.koala" download="Funky2.koala" target="_blank" rel="noopener" aria-label="Download Funky2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">25</div>
+        <div class="koala-card__title">Hanging on the suspense</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Hanging%20on%20the%20suspense%20.koala" download="Hanging on the suspense .koala" target="_blank" rel="noopener" aria-label="Download Hanging on the suspense">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">26</div>
+        <div class="koala-card__title">Harmonic majik</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Harmonic%20majik%20.koala" download="Harmonic majik .koala" target="_blank" rel="noopener" aria-label="Download Harmonic majik">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">27</div>
+        <div class="koala-card__title">Harmonik majic 78bpm</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Harmonik%20majic%2078bpm.koala" download="Harmonik majic 78bpm.koala" target="_blank" rel="noopener" aria-label="Download Harmonik majic 78bpm">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">28</div>
+        <div class="koala-card__title">Hitchcock</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Hitchcock.koala" download="Hitchcock.koala" target="_blank" rel="noopener" aria-label="Download Hitchcock">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">29</div>
+        <div class="koala-card__title">Hitchcock2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Hitchcock2.koala" download="Hitchcock2.koala" target="_blank" rel="noopener" aria-label="Download Hitchcock2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">30</div>
+        <div class="koala-card__title">I found this here funk Bmaj 2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/I%20found%20this%20here%20funk%20Bmaj%202.koala" download="I found this here funk Bmaj 2.koala" target="_blank" rel="noopener" aria-label="Download I found this here funk Bmaj 2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">31</div>
+        <div class="koala-card__title">I found this here funk Bmaj</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/I%20found%20this%20here%20funk%20Bmaj.koala" download="I found this here funk Bmaj.koala" target="_blank" rel="noopener" aria-label="Download I found this here funk Bmaj">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">32</div>
+        <div class="koala-card__title">Italiachops</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Italiachops.koala" download="Italiachops.koala" target="_blank" rel="noopener" aria-label="Download Italiachops">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">33</div>
+        <div class="koala-card__title">Jazz piano</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Jazz%20piano%20.koala" download="Jazz piano .koala" target="_blank" rel="noopener" aria-label="Download Jazz piano">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">34</div>
+        <div class="koala-card__title">Live loop</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Live%20loop%20.koala" download="Live loop .koala" target="_blank" rel="noopener" aria-label="Download Live loop">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">35</div>
+        <div class="koala-card__title">Lofi1</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Lofi1.koala" download="Lofi1.koala" target="_blank" rel="noopener" aria-label="Download Lofi1">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">36</div>
+        <div class="koala-card__title">Love fills me</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Love%20fills%20me.koala" download="Love fills me.koala" target="_blank" rel="noopener" aria-label="Download Love fills me">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">37</div>
+        <div class="koala-card__title">Meditate on this</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Meditate%20on%20this%20.koala" download="Meditate on this .koala" target="_blank" rel="noopener" aria-label="Download Meditate on this">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">38</div>
+        <div class="koala-card__title">Moonlight lust</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Moonlight%20lust.koala" download="Moonlight lust.koala" target="_blank" rel="noopener" aria-label="Download Moonlight lust">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">39</div>
+        <div class="koala-card__title">Moonlit circuitry</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Moonlit%20circuitry%20.koala" download="Moonlit circuitry .koala" target="_blank" rel="noopener" aria-label="Download Moonlit circuitry">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">40</div>
+        <div class="koala-card__title">Moonlit circuitry- bounced</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Moonlit%20circuitry-%20bounced.koala" download="Moonlit circuitry- bounced.koala" target="_blank" rel="noopener" aria-label="Download Moonlit circuitry- bounced">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">41</div>
+        <div class="koala-card__title">Never look back</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Never%20look%20back.koala" download="Never look back.koala" target="_blank" rel="noopener" aria-label="Download Never look back">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">42</div>
+        <div class="koala-card__title">Newcook1</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Newcook1.koala" download="Newcook1.koala" target="_blank" rel="noopener" aria-label="Download Newcook1">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">43</div>
+        <div class="koala-card__title">Newsketch1</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Newsketch1.koala" download="Newsketch1.koala" target="_blank" rel="noopener" aria-label="Download Newsketch1">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">44</div>
+        <div class="koala-card__title">Old haunts</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Old%20haunts.koala" download="Old haunts.koala" target="_blank" rel="noopener" aria-label="Download Old haunts">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">45</div>
+        <div class="koala-card__title">Printer</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Printer.koala" download="Printer.koala" target="_blank" rel="noopener" aria-label="Download Printer">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">46</div>
+        <div class="koala-card__title">Printer2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Printer2.koala" download="Printer2.koala" target="_blank" rel="noopener" aria-label="Download Printer2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">47</div>
+        <div class="koala-card__title">Scenius</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Scenius.koala" download="Scenius.koala" target="_blank" rel="noopener" aria-label="Download Scenius">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">48</div>
+        <div class="koala-card__title">Sly Mingus</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Sly%20Mingus%20.koala" download="Sly Mingus .koala" target="_blank" rel="noopener" aria-label="Download Sly Mingus">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">49</div>
+        <div class="koala-card__title">Sly diana</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Sly%20diana.koala" download="Sly diana.koala" target="_blank" rel="noopener" aria-label="Download Sly diana">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">50</div>
+        <div class="koala-card__title">Spaniards wildest dreams</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Spaniards%20wildest%20dreams%20.koala" download="Spaniards wildest dreams .koala" target="_blank" rel="noopener" aria-label="Download Spaniards wildest dreams">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">51</div>
+        <div class="koala-card__title">Spaniards wildest dreams 2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Spaniards%20wildest%20dreams%202.koala" download="Spaniards wildest dreams 2.koala" target="_blank" rel="noopener" aria-label="Download Spaniards wildest dreams 2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">52</div>
+        <div class="koala-card__title">Spaniards wildest dreams 4</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Spaniards%20wildest%20dreams%204.koala" download="Spaniards wildest dreams 4.koala" target="_blank" rel="noopener" aria-label="Download Spaniards wildest dreams 4">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">53</div>
+        <div class="koala-card__title">Street side daydream</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Street%20side%20daydream.koala" download="Street side daydream.koala" target="_blank" rel="noopener" aria-label="Download Street side daydream">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">54</div>
+        <div class="koala-card__title">Streets of a sleeping moon</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Streets%20of%20a%20sleeping%20moon%20.koala" download="Streets of a sleeping moon .koala" target="_blank" rel="noopener" aria-label="Download Streets of a sleeping moon">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">55</div>
+        <div class="koala-card__title">Toppled by greed 78 bpm</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Toppled%20by%20greed%2078%20bpm.koala" download="Toppled by greed 78 bpm.koala" target="_blank" rel="noopener" aria-label="Download Toppled by greed 78 bpm">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">56</div>
+        <div class="koala-card__title">Toppled by greed 78bpm</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Toppled%20by%20greed%2078bpm.koala" download="Toppled by greed 78bpm.koala" target="_blank" rel="noopener" aria-label="Download Toppled by greed 78bpm">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">57</div>
+        <div class="koala-card__title">Trip hop</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Trip%20hop%20.koala" download="Trip hop .koala" target="_blank" rel="noopener" aria-label="Download Trip hop">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">58</div>
+        <div class="koala-card__title">Velvet Static</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Velvet%20Static.koala" download="Velvet Static.koala" target="_blank" rel="noopener" aria-label="Download Velvet Static">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">59</div>
+        <div class="koala-card__title">Vessel of dreams-1</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vessel%20of%20dreams-1.koala" download="Vessel of dreams-1.koala" target="_blank" rel="noopener" aria-label="Download Vessel of dreams-1">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">60</div>
+        <div class="koala-card__title">Vessel of dreams</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vessel%20of%20dreams.koala" download="Vessel of dreams.koala" target="_blank" rel="noopener" aria-label="Download Vessel of dreams">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">61</div>
+        <div class="koala-card__title">Vinyl String Theory</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vinyl%20String%20Theory%20.koala" download="Vinyl String Theory .koala" target="_blank" rel="noopener" aria-label="Download Vinyl String Theory">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">62</div>
+        <div class="koala-card__title">Vinyl String Theory 2</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vinyl%20String%20Theory%202.koala" download="Vinyl String Theory 2.koala" target="_blank" rel="noopener" aria-label="Download Vinyl String Theory 2">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">63</div>
+        <div class="koala-card__title">Vinyl String Theory 3</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vinyl%20String%20Theory%203.koala" download="Vinyl String Theory 3.koala" target="_blank" rel="noopener" aria-label="Download Vinyl String Theory 3">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">64</div>
+        <div class="koala-card__title">Vinyl String Theory 4</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vinyl%20String%20Theory%204.koala" download="Vinyl String Theory 4.koala" target="_blank" rel="noopener" aria-label="Download Vinyl String Theory 4">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">65</div>
+        <div class="koala-card__title">Vinyl String Theory 5</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vinyl%20String%20Theory%205.koala" download="Vinyl String Theory 5.koala" target="_blank" rel="noopener" aria-label="Download Vinyl String Theory 5">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">66</div>
+        <div class="koala-card__title">Vinyl String Theory 6</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Vinyl%20String%20Theory%206.koala" download="Vinyl String Theory 6.koala" target="_blank" rel="noopener" aria-label="Download Vinyl String Theory 6">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">67</div>
+        <div class="koala-card__title">Witchlight pulse</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Witchlight%20pulse.koala" download="Witchlight pulse.koala" target="_blank" rel="noopener" aria-label="Download Witchlight pulse">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">68</div>
+        <div class="koala-card__title">Xalpheric 002</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Xalpheric%20002.koala" download="Xalpheric 002.koala" target="_blank" rel="noopener" aria-label="Download Xalpheric 002">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">69</div>
+        <div class="koala-card__title">Xalpheric001</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Xalpheric001.koala" download="Xalpheric001.koala" target="_blank" rel="noopener" aria-label="Download Xalpheric001">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">70</div>
+        <div class="koala-card__title">Xalpheric1phone edits</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Xalpheric1phone%20edits.koala" download="Xalpheric1phone edits.koala" target="_blank" rel="noopener" aria-label="Download Xalpheric1phone edits">
+          &#8595; Download
+        </a>
+      </div>
+      
+      <div class="koala-card">
+        <div class="koala-card__index">71</div>
+        <div class="koala-card__title">Xalpheric3</div>
+        <a class="koala-card__dl download" href="https://github.com/JasonBBelcher/koala-songs/raw/main/songs/Xalpheric3.koala" download="Xalpheric3.koala" target="_blank" rel="noopener" aria-label="Download Xalpheric3">
+          &#8595; Download
+        </a>
+      </div>
+      
+    </div>
+    <p style="font-family: var(--font-data); font-size: var(--type-caption); color: var(--text-secondary); margin-top: 2.5rem; text-align: center;">
+      Files served via Git LFS on GitHub. Downloads may be large — some projects include samples.
+    </p>
+  </div>
+</section>
+
+  <footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand">XALPHERIC · <strong>MIDI MOB COLLECTIVE</strong> · BIRMINGHAM AL</p>
+      <nav aria-label="Footer navigation">
+        <ul class="site-footer__links">
+          <li><a href="mailto:xalpheric@proton.me" class="site-footer__link">xalpheric@proton.me</a></li>
+          <li><a href="https://buymeacoffee.com/xalpheric" target="_blank" rel="noopener" class="site-footer__link">Buy Me a Coffee</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__copy">Design System v2.0 · Xalpheric © 2026</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/guestbook-wakeup.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/radio-player.js"></script>
+</body>
+</html>
