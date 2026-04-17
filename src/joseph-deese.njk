@@ -1,68 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joseph Deese / Hamrock Records — Xalpheric</title>
-  <meta name="description" content="Joseph Deese / Hamrock Records — Mental Health Music. 955+ instrumental tracks for listening and mental wellness. Birmingham, AL.">
-  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/css/main.css">
-</head>
-<body>
-  <nav class="site-nav">
-  <div class="container">
-    <div class="site-nav__inner">
-      <div class="site-nav__brand">
-        <div class="site-nav__brand-text">XALPHERIC</div>
-        <div class="site-nav__brand-sub" style="font-family: var(--font-data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.25rem;">MIDI MOB</div>
-      </div>
+---
+layout: layouts/base.njk
+title: Joseph Deese / Hamrock Records
+description: Joseph Deese / Hamrock Records — Mental Health Music. 955+ instrumental tracks for listening and mental wellness. Birmingham, AL.
+permalink: /joseph-deese.html
+---
 
-      <button class="site-nav__hamburger" aria-label="Toggle navigation" aria-expanded="false">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-
-      <div class="site-nav__mobile">
-        <ul class="site-nav__links">
-          <li><a href="/index.html" class="site-nav__link" >Home</a></li>
-          <li><a href="/gallery.html" class="site-nav__link" >Gallery</a></li>
-          <li><a href="/collective.html" class="site-nav__link" >Collective</a></li>
-          <li><a href="/musings.html" class="site-nav__link" >Musings</a></li>
-          <li><a href="/drum-machine.html" class="site-nav__link" >Drum Machine</a></li>
-          <li><a href="/koala-songs.html" class="site-nav__link" >Koala Songs</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<script>
-(function(){
-  var btn = document.querySelector('.site-nav__hamburger');
-  var mob = document.querySelector('.site-nav__mobile');
-  if (!btn || !mob) return;
-  btn.addEventListener('click', function() {
-    var open = mob.classList.toggle('is-open');
-    btn.classList.toggle('is-open', open);
-    btn.setAttribute('aria-expanded', open);
-    document.body.style.overflow = open ? 'hidden' : '';
-  });
-  document.addEventListener('keydown', function(e) {
-    if (e.key === 'Escape' && mob.classList.contains('is-open')) {
-      mob.classList.remove('is-open');
-      btn.classList.remove('is-open');
-      btn.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    }
-  });
-})();
-</script>
-
-  
 <section class="section" style="background: var(--bg-base); padding-top: calc(var(--space-section) + 1rem);">
   <div class="starmap-bg" aria-hidden="true">
     <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
@@ -219,28 +161,3 @@
     <p class="section__body">For inquiries or support, contact <a href="mailto:hamrockrecords@gmail.com" style="color: var(--accent-cold);">hamrockrecords@gmail.com</a></p>
   </div>
 </section>
-
-  <footer class="site-footer">
-  <div class="container">
-    <div class="site-footer__inner">
-      <p class="site-footer__brand">XALPHERIC · <strong>MIDI MOB COLLECTIVE</strong> · BIRMINGHAM AL</p>
-      <nav aria-label="Footer navigation">
-        <ul class="site-footer__links">
-          <li><a href="mailto:xalpheric@proton.me" class="site-footer__link">xalpheric@proton.me</a></li>
-          <li><a href="https://buymeacoffee.com/xalpheric" target="_blank" rel="noopener" class="site-footer__link">Buy Me a Coffee</a></li>
-        </ul>
-      </nav>
-      <p class="site-footer__copy">Design System v2.0 · Xalpheric © 2026</p>
-    </div>
-  </div>
-</footer>
-
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="/js/utils.js"></script>
-  <script src="/js/guestbook-wakeup.js"></script>
-  <script src="/js/main.js"></script>
-  <script src="/js/gallery.js"></script>
-  <script src="/js/lightbox.js"></script>
-  <script src="/js/radio-player.js"></script>
-</body>
-</html>
