@@ -1,0 +1,508 @@
+---
+layout: layouts/base.njk
+title: Drum Machine
+description: 16-step drum sequencer built with Web Audio API. Load custom samples, dial in BPM and swing, save patterns.
+navDrumMachine: true
+permalink: /drum-machine.html
+---
+
+<link rel="stylesheet" href="/js/drum-machine/drum-machine.2a539de1.css">
+<link rel="stylesheet" href="/js/drum-machine/drum-machine.10e3c209.css">
+
+<section class="section" style="background:var(--bg-mid);padding-top:calc(var(--space-section) + 1rem);padding-bottom:1.5rem;">
+  <div class="container">
+    <p class="section__eyebrow">INTERACTIVE · DRUM MACHINE</p>
+    <h1 class="section__title">Step Sequencer</h1>
+    <p class="section__body" style="max-width:52ch;">Load your own samples, set tempo and swing, save patterns. 8 tracks · 16–64 steps · Web Audio API.</p>
+  </div>
+</section>
+
+<main class="dm-page-main">
+  <div class="dm-page-inner">
+
+    <div class="row mb-2 mt-5">
+      <div class="col-lg-3 col-md-2 col-md-offset-2 col-sm-12 col-xs-12">
+        <h2 class="dm-heading">Drum Sequencer</h2>
+      </div>
+
+      <div class="col-lg-3 col-md-3 col-lg-offset-1 col-sm-offset-3 col-xs-1 col-sm-6 col-xs-12">
+        <select class="saved-sequences">
+          <option value="keep">— load pattern —</option>
+        </select>
+        <input id="input-save" type="text" value="" placeholder="name that beat!" />
+
+        <p class="sequence-instructions">Setting the sequence length will reset the pattern.</p>
+        <p class="sequence-instructions">BPM is adjustable during playback.</p>
+
+        <label class="dm-slider-label">STEPS</label>
+        <input class="seq-length-slider" type="range" name="seq-length" value="16" step="1" min="4" max="64" />
+        <div class="seq-length-output">16 steps</div>
+
+        <label class="dm-slider-label">TEMPO</label>
+        <input class="seq-tempo-slider" type="range" name="seq-tempo" value="90" step="1" min="30" max="240" />
+        <div class="seq-tempo-output">90 BPM</div>
+
+        <label class="dm-slider-label">SWING</label>
+        <input class="seq-swing-slider" type="range" name="seq-swing" value="0" step="1" min="0" max="75" />
+        <div class="seq-swing-output">0% swing</div>
+      </div>
+
+      <div class="col-lg-3 col-md-2 col-sm-12 col-xs-12">
+        <button class="reset-btn" id="reset"><span>reset</span></button>
+        <button class="save-btn" id="save"><span>save</span></button>
+        <button class="delete-btn" id="delete"><span>delete</span></button>
+        <button class="play-stop-btn" id="start"><span>play</span></button>
+      </div>
+    </div>
+
+    <div class="dm-label-container">
+      <div class="track-volume"><input class="vol-slider" type="range" name="kick"    value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="clap"    value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="snare"   value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="hat"     value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="shaker"  value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="bongo1"  value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="congaz"  value="0.50" min="0" step="0.01" max="1" /></div>
+      <div class="track-volume"><input class="vol-slider" type="range" name="harmony" value="0.50" min="0" step="0.01" max="1" /></div>
+    </div>
+    <div class="dm-label-container volume-output"></div>
+
+    <div class="dm"></div>
+
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        <div class="effects-container"></div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        <div class="drum-effects-container-wrapper"></div>
+      </div>
+    </div>
+
+    <div class="row mt-2">
+      <div class="col-lg-12">
+        <p class="dm-section-label">SAMPLE CONTROLS</p>
+        <div class="sample-controls-container"></div>
+      </div>
+    </div>
+
+  </div>{# /.dm-page-inner #}
+</main>
+
+<script type="importmap">{"imports":{"04txH":"/js/drum-machine/StorageManager.0520776f.js","3jgYM":"/js/drum-machine/bd_909dwsd.879b2798.wav","4AGvE":"/js/drum-machine/prc_bongodrm.1cb49aca.wav","5h5do":"/js/drum-machine/snr_answer8bit.534fd92d.wav","anhZP":"/js/drum-machine/prc_harmony.158765fd.wav","fHb3D":"/js/drum-machine/clp_analogue.b75d9bb0.wav","frwss":"/js/drum-machine/hat_analog.ea0211b9.wav","i7sBo":"/js/drum-machine/shaker_quicky.5e04dc90.wav","kGlaE":"/js/drum-machine/prc_congaz.ee19f8af.wav"}}</script>
+<script type="module" src="/js/drum-machine/drum-machine.737c1b80.js"></script>
+
+<style>
+/* ─── Xalpheric reskin — overrides for compiled drum machine CSS ─── */
+
+/* Page layout */
+.dm-page-main {
+  background: var(--bg-base);
+  padding: 0 0 var(--space-section);
+}
+.dm-page-inner {
+  padding: 1.5rem 2rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Typography */
+.dm-heading {
+  font-family: var(--font-display);
+  font-size: var(--type-h2);
+  font-weight: 300;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+.dm-slider-label {
+  display: block;
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  color: var(--text-faint);
+  letter-spacing: 0.12em;
+  margin: 0.75rem 0 0.2rem;
+}
+.dm-section-label {
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  color: var(--text-faint);
+  letter-spacing: 0.14em;
+  margin-bottom: 0.75rem;
+}
+
+/* Remove old body gradient — background is handled by .dm-page-main */
+body.animated-body {
+  background: var(--bg-base) !important;
+  animation: none !important;
+}
+
+/* Sequencer grid rows */
+.seq-container {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 1px !important;
+  margin-bottom: 4px !important;
+  height: 28px !important;
+  padding: 4px 8px !important;
+}
+
+/* Step buttons */
+.seq-btn {
+  background: #3a2c14 !important;
+  border: 1px solid rgba(196,122,42,0.22) !important;
+  border-radius: 1px !important;
+  transition: background 0.08s ease !important;
+}
+.seq-btn:hover {
+  background: #4a3818 !important;
+  border-color: rgba(196,122,42,0.55) !important;
+}
+
+/* Quarter-beat markers: slightly warmer tint every 4 steps */
+.seq-btn-quarter-beat {
+  background: #3e3010 !important;
+  border: 1px solid rgba(196,122,42,0.38) !important;
+  border-radius: 1px !important;
+}
+
+/* Active step */
+.btn-on {
+  background: var(--accent-primary) !important;
+  border: 1px solid var(--accent-primary) !important;
+  box-shadow: 0 0 6px rgba(196,122,42,0.55) !important;
+}
+
+/* Playhead (current step while playing) */
+.seq-playhead {
+  background: var(--accent-cold) !important;
+  box-shadow: 0 0 8px rgba(42,138,156,0.6) !important;
+}
+.btn-on.seq-playhead {
+  background: #e4d9bc !important;
+  border-color: var(--accent-cold) !important;
+}
+
+/* Controls bar */
+.saved-sequences {
+  background: var(--bg-card);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  letter-spacing: 0.08em;
+  padding: 0.4rem 0.6rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  outline: none;
+}
+.saved-sequences:focus {
+  border-color: var(--accent-primary);
+}
+
+#input-save {
+  background: var(--bg-card);
+  color: var(--text-primary);
+  border: 1px solid var(--border-subtle);
+  font-family: var(--font-body);
+  font-size: var(--type-caption);
+  padding: 0.4rem 0.6rem;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  outline: none;
+}
+#input-save::placeholder { color: var(--text-faint); }
+#input-save:focus { border-color: var(--accent-primary); }
+
+.sequence-instructions {
+  font-family: var(--font-data);
+  font-size: 0.65rem;
+  color: var(--text-faint);
+  letter-spacing: 0.06em;
+  margin: 0.2rem 0;
+}
+
+/* Sliders */
+.seq-length-slider,
+.seq-tempo-slider,
+.seq-swing-slider,
+.vol-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 3px;
+  background: var(--border-subtle) !important;
+  outline: none;
+  border-radius: 0 !important;
+  opacity: 1 !important;
+  margin: 0.2rem 0 0.1rem;
+  cursor: pointer;
+}
+.seq-length-slider::-webkit-slider-thumb,
+.seq-tempo-slider::-webkit-slider-thumb,
+.seq-swing-slider::-webkit-slider-thumb,
+.vol-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 10px;
+  height: 16px;
+  background: var(--accent-primary);
+  cursor: pointer;
+  border-radius: 0;
+}
+
+.seq-length-output,
+.seq-tempo-output,
+.seq-swing-output {
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  color: var(--accent-primary);
+  text-shadow: 0 0 8px rgba(196,122,42,0.35);
+  letter-spacing: 0.08em;
+  margin: 0.1rem 0 0.4rem;
+  text-align: left !important;
+}
+
+/* Buttons */
+.reset-btn,
+.save-btn,
+.delete-btn,
+.play-stop-btn {
+  width: 100%;
+  margin: 3px 0;
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  height: 34px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 0;
+  cursor: pointer;
+  transition: var(--transition-glide);
+}
+
+.play-stop-btn {
+  background: var(--accent-primary) !important;
+  color: var(--bg-dark);
+  border-color: var(--accent-primary) !important;
+}
+.play-stop-btn:hover { background: #d98c3a !important; }
+.play-stop-btn-red {
+  background: #8a2218 !important;
+  border-color: #8a2218 !important;
+  color: var(--text-primary) !important;
+}
+
+.reset-btn {
+  background: transparent !important;
+  color: var(--text-secondary);
+}
+.reset-btn:hover { border-color: var(--accent-primary); color: var(--accent-primary); }
+.reset-btn-flash-yellow { background: rgba(196,122,42,0.2) !important; }
+
+.save-btn {
+  background: transparent !important;
+  color: var(--text-secondary);
+}
+.save-btn:hover { border-color: var(--accent-cold); color: var(--accent-cold); }
+.save-btn-flash-yellow { background: rgba(42,138,156,0.2) !important; }
+
+.delete-btn {
+  background: transparent !important;
+  color: var(--text-faint);
+}
+.delete-btn:hover { border-color: var(--accent-red); color: var(--accent-red); }
+.delete-btn-flash-yellow { background: rgba(184,50,40,0.2) !important; }
+
+/* Volume track container */
+.dm-label-container {
+  background: transparent;
+}
+.track-volume-output {
+  border-color: var(--border-subtle) !important;
+  color: var(--text-faint);
+  font-family: var(--font-data);
+  font-size: 0.55rem;
+}
+
+/* Sample controls */
+.sample-controls-container {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle);
+  border-radius: 1px !important;
+}
+.drum-sample-control {
+  background: transparent !important;
+  border-bottom: 1px solid var(--border-subtle) !important;
+}
+.drum-sample-control:last-child { border-bottom: none !important; }
+.drum-label {
+  color: var(--text-secondary) !important;
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  letter-spacing: 0.1em;
+}
+.load-sample-btn {
+  background: transparent !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  letter-spacing: 0.08em;
+  transition: var(--transition-glide);
+}
+.load-sample-btn:hover {
+  border-color: var(--accent-primary) !important;
+  color: var(--accent-primary) !important;
+  background: transparent !important;
+}
+.load-sample-btn.loaded {
+  border-color: var(--accent-cold) !important;
+  color: var(--accent-cold) !important;
+}
+
+.pitch-slider,
+.detune-slider {
+  height: 3px !important;
+  background: var(--border-subtle) !important;
+  border-radius: 0 !important;
+}
+.pitch-slider::-webkit-slider-thumb,
+.detune-slider::-webkit-slider-thumb {
+  background: var(--text-secondary) !important;
+  border-radius: 0 !important;
+  width: 10px !important;
+  height: 16px !important;
+}
+.pitch-output, .detune-output {
+  color: var(--text-secondary) !important;
+  font-family: var(--font-data);
+}
+.reset-pitch-btn {
+  background: transparent !important;
+  color: var(--text-faint) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+  transition: var(--transition-glide);
+}
+.reset-pitch-btn:hover {
+  border-color: var(--accent-primary) !important;
+  color: var(--accent-primary) !important;
+}
+
+/* Effects panels */
+.effects-panel {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-warm) !important;
+  border-radius: 1px !important;
+}
+.effects-header { border-bottom-color: var(--border-subtle) !important; }
+.effects-header h3 {
+  font-family: var(--font-data) !important;
+  font-size: var(--type-caption) !important;
+  letter-spacing: 0.14em !important;
+  color: var(--text-secondary) !important;
+  font-size: 0.75rem !important;
+}
+.effects-toggle { color: var(--text-secondary) !important; }
+.effects-control-group label { color: var(--text-secondary) !important; font-family: var(--font-data); font-size: 0.7rem !important; letter-spacing: 0.06em; }
+.effects-select {
+  background: var(--bg-dark) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-data);
+  font-size: 0.75rem !important;
+}
+.effects-slider {
+  height: 3px !important;
+  background: var(--border-subtle) !important;
+  border-radius: 0 !important;
+}
+.effects-slider::-webkit-slider-thumb {
+  background: var(--accent-primary) !important;
+  border-radius: 0 !important;
+  width: 10px !important;
+  height: 16px !important;
+}
+.effects-slider::-moz-range-thumb {
+  background: var(--accent-primary) !important;
+  border-radius: 0 !important;
+}
+.master-volume { border-top-color: var(--border-subtle) !important; }
+
+.drum-effects-container {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--border-subtle);
+}
+.drum-effects-header h3 {
+  font-family: var(--font-data) !important;
+  font-size: var(--type-caption) !important;
+  letter-spacing: 0.14em !important;
+  color: var(--text-secondary) !important;
+}
+.drum-effect-panel {
+  background: transparent !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+}
+.drum-effect-header { background: transparent !important; }
+.drum-name {
+  color: var(--text-secondary) !important;
+  font-family: var(--font-data) !important;
+  font-size: var(--type-caption) !important;
+  letter-spacing: 0.1em !important;
+}
+.fx-indicator { color: var(--accent-cold) !important; }
+.drum-fx-toggle {
+  background: transparent !important;
+  color: var(--text-faint) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-data);
+  font-size: 0.65rem !important;
+  letter-spacing: 0.08em;
+}
+.drum-fx-toggle:hover {
+  border-color: var(--accent-cold) !important;
+  color: var(--accent-cold) !important;
+  background: transparent !important;
+}
+.drum-effects-content { border-top-color: var(--border-subtle) !important; }
+.drum-effect-section { border-bottom-color: var(--border-subtle) !important; }
+.drum-effect-section-header h4 {
+  color: var(--text-faint) !important;
+  font-family: var(--font-data) !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+}
+.drum-effect-toggle { color: var(--text-faint) !important; font-family: var(--font-data); font-size: 0.65rem !important; }
+.drum-control-group label { color: var(--text-faint) !important; font-family: var(--font-data) !important; font-size: 0.65rem !important; }
+.drum-control-group select {
+  background: var(--bg-dark) !important;
+  color: var(--text-secondary) !important;
+  border: 1px solid var(--border-subtle) !important;
+  border-radius: 0 !important;
+  font-family: var(--font-data);
+  font-size: 0.7rem !important;
+}
+.drum-control-group input[type="range"] {
+  height: 3px !important;
+  background: var(--border-subtle) !important;
+  border-radius: 0 !important;
+}
+.drum-control-group input[type="range"]::-webkit-slider-thumb {
+  background: var(--text-faint) !important;
+  border-radius: 0 !important;
+  width: 8px !important;
+  height: 14px !important;
+}
+.drum-control-group input[type="range"]::-moz-range-thumb {
+  background: var(--text-faint) !important;
+  border-radius: 0 !important;
+}
+</style>
