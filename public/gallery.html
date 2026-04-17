@@ -3,88 +3,119 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Gallery - Xalpheria</title>
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Visual gallery from Xalpheric - Birmingham-based electronic producer creating downtempo psyhop, hip-hop, chillhop, ambient, and jazz-blues influenced soundscapes.">
-  <meta name="keywords" content="Xalpheric, Birmingham electronic music, downtempo, psyhop, chillhop, hip hop, ambient music, jazz electronic, blues electronic, visual art, music photography, electronic producer, gallery">
-  <meta name="author" content="Xalpheric">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/xalpheric_favicon.png">
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://unpkg.com/open-props" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme-cyberpunk.css">
-  <link rel="stylesheet" href="css/theme-vintage.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  
-  <!-- Theme Initialization (prevent FOUC) -->
-  <script>
-    const savedTheme = localStorage.getItem('theme') || 'cyberpunk';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  </script>
-  
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="js/theme-switcher.js"></script>
-  <script src="js/guestbook-wakeup.js"></script>
+  <title>Gallery — Xalpheric</title>
+  <meta name="description" content="Visual gallery from Xalpheric — Birmingham-based electronic producer. Studio sessions, live events, and MIDI Mob Collective moments.">
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-content">
-      <!-- Hamburger Menu Button (Mobile Only) -->
-      <button class="hamburger-menu" aria-label="Toggle navigation menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+  <nav class="site-nav">
+  <div class="container">
+    <div class="site-nav__inner">
+      <div class="site-nav__brand">
+        <div class="site-nav__brand-text">XALPHERIC</div>
+        <div class="site-nav__brand-sub" style="font-family: var(--font-data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.25rem;">MIDI MOB</div>
+      </div>
+
+      <button class="site-nav__hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
-      
-      <nav class="top-nav">
-        <a href="index.html" class="nav-link">Xalpheria</a>
-        <a href="musings.html" class="nav-link">Thoughts & Musings</a>
-        <a href="gallery.html" class="nav-link active">Gallery</a>
-        <a href="projects.html" class="nav-link">Project Files</a>
-        <a href="drum-machine.html" class="nav-link">Drum Machine</a>
-        <a href="collective.html" class="nav-link">Collective</a>
-        <a href="who-we-back.html" class="nav-link">Who We Back</a>
-        <a href="links.html" class="nav-link">Essential Links</a>
-        <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle theme">🎨</button>
-      </nav>
+
+      <div class="site-nav__mobile">
+        <ul class="site-nav__links">
+          <li><a href="/index.html" class="site-nav__link" >Home</a></li>
+          <li><a href="/gallery.html" class="site-nav__link site-nav__link--active" aria-current="page">Gallery</a></li>
+          <li><a href="/collective.html" class="site-nav__link" >Collective</a></li>
+          <li><a href="/musings.html" class="site-nav__link" >Musings</a></li>
+          <li><a href="/drum-machine.html" class="site-nav__link" >Drum Machine</a></li>
+        </ul>
+      </div>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <h1>Gallery</h1>
+<script>
+(function(){
+  var btn = document.querySelector('.site-nav__hamburger');
+  var mob = document.querySelector('.site-nav__mobile');
+  if (!btn || !mob) return;
+  btn.addEventListener('click', function() {
+    var open = mob.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mob.classList.contains('is-open')) {
+      mob.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
 
-  <section class="intro">
-    <p>A visual collection capturing moments from the studio and creative process.</p>
-  </section>
+  
+<section class="section" style="background: var(--bg-base); padding-top: calc(var(--space-section) + 1rem);">
+  <div class="container">
+    <p class="section__eyebrow">01 · VISUAL ARCHIVE</p>
+    <h1 class="section__title">Gallery</h1>
+    <p class="section__body" id="gallery-description">
+      Studio sessions, live events, and moments from MIDI Mob Collective — Birmingham AL.
+    </p>
+  </div>
+</section>
 
-  <section class="gallery-container">
+<section class="section section--alt">
+  <div class="container">
     <div class="gallery-grid" id="gallery-grid">
-      <!-- Gallery images will be populated by JavaScript -->
+      <!-- Populated by gallery.js from config/gallery.json -->
     </div>
-  </section>
+  </div>
+</section>
 
-  <footer>
-    <div class="footer-links">
-      <a href="mailto:xalpheric@proton.me" class="email-link">
-        <img src="assets/email_me_128x64.png" alt="Email me" class="email-icon" />
-        <p class="email-text">xalpheric@proton.me</p>
-      </a>
-      <a href="https://buymeacoffee.com/xalpheric" target="_blank" class="coffee-link">
-        <img src="assets/coffee_icon_128x128.png" alt="Buy me a coffee" class="coffee-icon" />
-        <p class="coffee-text">Buy me a coffee</p>
-      </a>
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+  <button class="lightbox__close" aria-label="Close lightbox">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous image">&#8249;</button>
+  <button class="lightbox__nav lightbox__nav--next" aria-label="Next image">&#8250;</button>
+  <div class="lightbox__content">
+    <img id="lightbox-img" src="" alt="" class="lightbox__image">
+    <div class="lightbox__meta">
+      <p id="lightbox-title" class="lightbox__title"></p>
+      <p id="lightbox-desc" class="lightbox__desc"></p>
+      <p id="lightbox-counter" class="lightbox__counter"></p>
     </div>
-  </footer>
+  </div>
+</div>
 
-  <script src="js/utils.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/gallery.js"></script>
-  <script src="js/radio-player.js"></script>
+  <footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand">XALPHERIC · <strong>MIDI MOB COLLECTIVE</strong> · BIRMINGHAM AL</p>
+      <nav aria-label="Footer navigation">
+        <ul class="site-footer__links">
+          <li><a href="mailto:xalpheric@proton.me" class="site-footer__link">xalpheric@proton.me</a></li>
+          <li><a href="https://buymeacoffee.com/xalpheric" target="_blank" rel="noopener" class="site-footer__link">Buy Me a Coffee</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__copy">Design System v2.0 · Xalpheric © 2026</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/guestbook-wakeup.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/radio-player.js"></script>
 </body>
 </html>

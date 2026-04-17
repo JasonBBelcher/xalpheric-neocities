@@ -3,211 +3,425 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Collective - Xalpheria</title>
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="MidiMob Collective - Birmingham's collaborative music collective featuring Xalpheric, live modular synthesis events, and community performances spanning downtempo, psyhop, and experimental electronic music.">
-  <meta name="keywords" content="MidiMob Collective, Birmingham music collective, electronic music collective, modular synthesis, live electronic, downtempo, psyhop, Xalpheric, electronic producer, collaborative music">
-  <meta name="author" content="Xalpheric">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/xalpheric_favicon.png">
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://unpkg.com/open-props" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme-cyberpunk.css">
-  <link rel="stylesheet" href="css/theme-vintage.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  
-  <!-- Theme Initialization (prevent FOUC) -->
-  <script>
-    const savedTheme = localStorage.getItem('theme') || 'cyberpunk';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  </script>
-  
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="js/theme-switcher.js"></script>
-  <script src="js/guestbook-wakeup.js"></script>
+  <title>MIDI Mob Collective — Xalpheric</title>
+  <meta name="description" content="MIDI Mob Collective — Birmingham&#39;s collaborative music community. Producers, musicians, and sonic experimenters spanning psytrance to folk, ambient to experimental rock.">
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-content">
-      <!-- Hamburger Menu Button (Mobile Only) -->
-      <button class="hamburger-menu" aria-label="Toggle navigation menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
+  <nav class="site-nav">
+  <div class="container">
+    <div class="site-nav__inner">
+      <div class="site-nav__brand">
+        <div class="site-nav__brand-text">XALPHERIC</div>
+        <div class="site-nav__brand-sub" style="font-family: var(--font-data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.25rem;">MIDI MOB</div>
+      </div>
+
+      <button class="site-nav__hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
       </button>
-      
-      <nav class="top-nav">
-        <a href="index.html" class="nav-link">Xalpheria</a>
-        <a href="musings.html" class="nav-link">Thoughts & Musings</a>
-        <a href="gallery.html" class="nav-link">Gallery</a>
-        <a href="projects.html" class="nav-link">Project Files</a>
-        <a href="drum-machine.html" class="nav-link">Drum Machine</a>
-        <a href="collective.html" class="nav-link active">Collective</a>
-        <a href="who-we-back.html" class="nav-link">Who We Back</a>
-        <a href="links.html" class="nav-link">Essential Links</a>
-        <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle theme">🎨</button>
-      </nav>
+
+      <div class="site-nav__mobile">
+        <ul class="site-nav__links">
+          <li><a href="/index.html" class="site-nav__link" >Home</a></li>
+          <li><a href="/gallery.html" class="site-nav__link" >Gallery</a></li>
+          <li><a href="/collective.html" class="site-nav__link site-nav__link--active" aria-current="page">Collective</a></li>
+          <li><a href="/musings.html" class="site-nav__link" >Musings</a></li>
+          <li><a href="/drum-machine.html" class="site-nav__link" >Drum Machine</a></li>
+        </ul>
+      </div>
     </div>
-  </header>
+  </div>
+</nav>
 
-  <h1>MidiMob Collective</h1>
+<script>
+(function(){
+  var btn = document.querySelector('.site-nav__hamburger');
+  var mob = document.querySelector('.site-nav__mobile');
+  if (!btn || !mob) return;
+  btn.addEventListener('click', function() {
+    var open = mob.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mob.classList.contains('is-open')) {
+      mob.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
 
-  <section class="intro">
-    <p>A collaborative music project bringing together artists, producers, and performers to create experimental electronic sounds and unforgettable live experiences.</p>
-    <p>We explore the intersection of technology and creativity, building community through shared sonic adventures.</p>
-  </section>
-
-  <main>
-
-    <!-- Event Gallery Section -->
-    <section class="collective-section">
-      <h2>Event Gallery</h2>
-      <div class="collection-info">
-        <p>Moments captured from our live events, jam sessions, and collective gatherings.</p>
-      </div>
-
-      <div class="events-timeline">
-        <div class="event-entry">
-          <div class="event-header">
-            <h3>Day of the Dead Vape Loft Street Jam</h3>
-            <span class="event-date">November 1st, 2025</span>
-          </div>
-          <div class="event-photos">
-            <div class="photo-grid">
-              <img src="assets/midimob1.jpg" alt="Day of the Dead event - outdoor setup">
-              <img src="assets/midimob2.jpg" alt="Day of the Dead event - Prophet synth performance">
-              <img src="assets/midimob3.jpg" alt="Day of the Dead event - gear table">
-              <img src="assets/midimob4.jpg" alt="Day of the Dead event - street performance">
-              <img src="assets/midimob5.jpg" alt="Day of the Dead event - synth setup">
-              <img src="assets/midimob6.jpg" alt="Day of the Dead event - modular setup">
-              <img src="assets/midimob7.jpg" alt="Day of the Dead event - indoor setup">
-              <img src="assets/midimob8.jpg" alt="Day of the Dead event - sign-in sheet">
-              <img src="assets/midimob9.jpg" alt="Day of the Dead event - duo performance">
-              <img src="assets/midimob10.jpg" alt="Day of the Dead event - outdoor tent day">
-              <img src="assets/midimob11.jpg" alt="Day of the Dead event - jamming outside">
-              <img src="assets/midimob12.jpg" alt="Day of the Dead event - tent setup night">
-              <img src="assets/midimob13.jpg" alt="Day of the Dead event - LED lights">
-              <img src="assets/midimob14.jpg" alt="Day of the Dead event - night performance">
-              <img src="assets/midimob15.jpg" alt="Day of the Dead event - tent interior night">
-              <img src="assets/midimob16.jpg" alt="Day of the Dead event - modular patching">
-              <img src="assets/midimob17.jpg" alt="Day of the Dead event - evening jam">
-              <img src="assets/midimob18.jpg" alt="Day of the Dead event - Vape Loft storefront">
-              <img src="assets/midimob19.jpg" alt="Day of the Dead event - gear overview">
-              <img src="assets/midimob20.jpg" alt="Day of the Dead event - three performers">
-              <img src="assets/midimob21.jpg" alt="Day of the Dead event - full setup day">
-              <img src="assets/midimob22.jpg" alt="Day of the Dead event - outdoor tent full">
-              <img src="assets/midimob23.jpg" alt="Day of the Dead event - tent LED night">
-            </div>
-          </div>
-          <div class="event-description">
-            <p>A full day and night of modular synthesis, live electronic improvisation, and collaborative jamming at Vape Loft in Lakeview. Artists including Will, Whoopsie, Xalpheric, So So, Noah Richardson, and more brought their hardware to the street for an unforgettable Day of the Dead celebration. Featuring Prophet synths, modular rigs, drum machines, and endless patch cables under colorful LED-lit tents.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Members Section -->
-    <section class="collective-section">
-      <h2>Collective Members</h2>
-      <div class="collection-info">
-        <p>The artists and collaborators making it all happen.</p>
-      </div>
-
-      <div class="members-grid">
-        <div class="member-card">
-          <div class="member-video">
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/QmhxgTx6cmA" title="Gone - Folktronic Ambient" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-          <div class="member-info">
-            <h3>Gone</h3>
-            <p class="member-role">Folktronic Ambient</p>
-            <p class="member-bio">Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.</p>
-          </div>
-        </div>
-
-        <div class="member-card">
-          <div class="member-video">
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/McpFOjksrKI" title="Future Primitives - Black Iron Prison" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-          <div class="member-info">
-            <h3>Future Primitives</h3>
-            <p class="member-role">Experimental Rock</p>
-            <p class="member-bio">Live performance ensemble delivering raw, visceral sonic experiences. Featured performing "Black Iron Prison" on Little Room In Florida.</p>
-          </div>
-        </div>
-
-        <div class="member-card" style="border: 2px solid #0ff; background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 200, 255, 0.05));">
-          <div class="member-video">
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/isAV7UeCaRI" title="Lower Hybrid - Small Town" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-          <div class="member-info">
-            <h3>Lower Hybrid</h3>
-            <p class="member-role">Synth Pop • Electro Punk • Post Rock</p>
-            <p class="member-bio">Shane and Kaleb Wynn - Synth pop, electro punk and post rock through a lo-fi DIY lens. Analog hardware synths and drum machines create a grimy, yet psychedelic garage aesthetic. Minimalist, yet paradoxically expansive. From Birmingham, Alabama. <strong style="color: #0ff;">34 videos available!</strong></p>
-            <p style="margin-top: 1rem;"><a href="lower-hybrid.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #0ff, #00bfff); color: #000; text-decoration: none; border-radius: 5px; font-weight: bold; transition: all 0.3s ease;">🎬 View Full Collection →</a></p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;"><a href="https://lowerhybrid.bandcamp.com/" target="_blank" rel="noopener" style="color: #0ff;">Bandcamp</a> | <a href="https://www.youtube.com/@lowerhybrid" target="_blank" rel="noopener" style="color: #0ff;">YouTube</a></p>
-          </div>
-        </div>
-
-        <div class="member-card" style="border: 2px solid #0ff; background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 200, 255, 0.05));">
-          <div class="member-video">
-            <iframe width="100%" height="315" src="https://www.youtube.com/embed/ifO4oQLr-2U" title="CARBILICON LIVE AT THE NICK ROCKS" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-          </div>
-          <div class="member-info">
-            <h3>Carbilicon</h3>
-            <p class="member-role">Psytrance • Techno • Goa Trance</p>
-            <p class="member-bio">Noah Richardson - Korg hardware enthusiast and vinyl DJ specializing in classic Goa trance. Noah doesn't really consider the music he makes to be psychedelic techno-trance, but it is. What we might call psychedelic techno-trance is just 'strange and wonderful' electronic music to him. Known for hypnotic live performances and deep hardware explorations. <strong style="color: #0ff;">170+ videos available!</strong></p>
-            <p style="margin-top: 1rem;"><a href="carbilicon.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #0ff, #00bfff); color: #000; text-decoration: none; border-radius: 5px; font-weight: bold; transition: all 0.3s ease;">🎬 View Full Collection →</a></p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;"><a href="https://www.youtube.com/@carbilicon" target="_blank" rel="noopener" style="color: #0ff;">YouTube</a> | <a href="https://soundcloud.com/carbilicon" target="_blank" rel="noopener" style="color: #0ff;">SoundCloud (Carbilicon)</a> | <a href="https://soundcloud.com/NoahRichardson" target="_blank" rel="noopener" style="color: #0ff;">SoundCloud (Noah)</a></p>
-          </div>
-        </div>
-
-        <div class="member-card" style="border: 2px solid #0ff; background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(0, 200, 255, 0.05));">
-          <div class="member-video soundcloud-player">
-            <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/joseph-stephen-deese/a-mothers-love&color=%231e90ff&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>
-          </div>
-          <div class="member-info">
-            <h3>Joseph Deese / Hamrock Records</h3>
-            <p class="member-role">Mental Health Music • Instrumental</p>
-            <p class="member-bio">Joseph Deese - Birmingham producer creating instrumental music focused on mental wellness and relaxation. Prolific creator with a digital recording studio and a mission to support mental health through sound. <strong style="color: #0ff;">955+ tracks available!</strong></p>
-            <p style="margin-top: 1rem;"><a href="joseph-deese.html" style="display: inline-block; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #0ff, #00bfff); color: #000; text-decoration: none; border-radius: 5px; font-weight: bold; transition: all 0.3s ease;">🎵 View Full Collection →</a></p>
-            <p style="margin-top: 0.5rem; font-size: 0.9rem;"><a href="https://soundcloud.com/joseph-stephen-deese" target="_blank" rel="noopener" style="color: #0ff;">SoundCloud</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="footer-links">
-      <a href="mailto:xalpheric@proton.me" class="email-link">
-        <img src="assets/email_me_128x64.png" alt="Email me" class="email-icon" />
-        <p class="email-text">xalpheric@proton.me</p>
-      </a>
-      <a href="https://buymeacoffee.com/xalpheric" target="_blank" class="coffee-link">
-        <img src="assets/coffee_icon_128x128.png" alt="Buy me a coffee" class="coffee-icon" />
-        <p class="coffee-text">Buy me a coffee</p>
-      </a>
-    </div>
-  </footer>
-
-  <script src="js/utils.js"></script>
-  <script src="js/main.js"></script>
-  <script src="js/radio-player.js"></script>
-  <script src="js/lightbox.js"></script>
   
-  <script>
-    // Initialize lightbox for event photo galleries
-    document.addEventListener('DOMContentLoaded', () => {
-      imageLightbox.initGallery('.photo-grid');
-    });
-  </script>
+<!-- 01 HERO / INTRO -->
+<section class="section" style="background: var(--bg-dark); padding-top: calc(var(--space-section) + 1rem);">
+  <div class="container">
+    <p class="section__eyebrow" style="color: var(--accent-cold);">01 · COLLECTIVE</p>
+    <h1 class="section__title section__title--cold">MIDI Mob</h1>
+    <p class="section__body">
+      MIDI Mob Collective is a Birmingham-based music community bringing together producers,
+      musicians, and sonic experimenters. Spanning genres from psytrance to folk, ambient to
+      experimental rock, the collective is united by a love of hardware, vinyl, and the creative process.
+    </p>
+    <div class="coordinates" style="margin-top: var(--space-block);">
+      <div class="coord"><span class="coord__label">LOCATION</span><span class="coord__value">BIRMINGHAM AL</span></div>
+      <div class="coord"><span class="coord__label">FOUNDED</span><span class="coord__value">1999</span></div>
+      <div class="coord"><span class="coord__label">SIGNAL</span><span class="coord__value">MIDI MOB</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 MEMBERS -->
+<section class="section section--alt">
+  <div class="container">
+    <p class="section__eyebrow">02 · MEMBERS</p>
+    <h2 class="section__title">The Artists</h2>
+    <p class="section__body">The producers, musicians, and collaborators making it happen.</p>
+    <div class="members-grid" style="margin-top: var(--space-block);">
+      
+        <div class="member-card">
+  
+  <div class="member-card__media">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/QmhxgTx6cmA" title="Gone" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  
+  <div class="member-card__info">
+    <h3 class="member-card__name">Gone</h3>
+    <p class="member-card__role">Folktronic Ambient</p>
+    <p class="member-card__bio">Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.</p>
+    
+  </div>
+</div>
+
+      
+        <div class="member-card">
+  
+  <div class="member-card__media">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/McpFOjksrKI" title="Future Primitives" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  
+  <div class="member-card__info">
+    <h3 class="member-card__name">Future Primitives</h3>
+    <p class="member-card__role">Experimental Rock</p>
+    <p class="member-card__bio">Live performance ensemble delivering raw, visceral sonic experiences. Featured performing &quot;Black Iron Prison&quot; on Little Room In Florida.</p>
+    
+  </div>
+</div>
+
+      
+        <div class="member-card">
+  
+  <div class="member-card__media">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/isAV7UeCaRI" title="Lower Hybrid" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  
+  <div class="member-card__info">
+    <h3 class="member-card__name">Lower Hybrid</h3>
+    <p class="member-card__role">Synth Pop · Electro Punk · Post Rock</p>
+    <p class="member-card__bio">Shane and Kaleb Wynn — synth pop, electro punk and post rock through a lo-fi DIY lens. Analog hardware synths and drum machines create a grimy, yet psychedelic garage aesthetic. From Birmingham, Alabama.</p>
+    
+    <div class="member-card__links">
+      
+      <a href="https://lowerhybrid.bandcamp.com/" target="_blank" rel="noopener" class="member-card__link">Bandcamp</a>
+      
+      <a href="https://www.youtube.com/@lowerhybrid" target="_blank" rel="noopener" class="member-card__link">YouTube</a>
+      
+      <a href="lower-hybrid.html"  class="member-card__link">Full Collection</a>
+      
+    </div>
+    
+  </div>
+</div>
+
+      
+        <div class="member-card">
+  
+  <div class="member-card__media">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/ifO4oQLr-2U" title="Carbilicon" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  
+  <div class="member-card__info">
+    <h3 class="member-card__name">Carbilicon</h3>
+    <p class="member-card__role">Psytrance · Techno · Goa Trance</p>
+    <p class="member-card__bio">Noah Richardson — Korg hardware enthusiast and vinyl DJ specializing in classic Goa trance. Known for hypnotic live performances and deep hardware explorations.</p>
+    
+    <div class="member-card__links">
+      
+      <a href="https://www.youtube.com/@carbilicon" target="_blank" rel="noopener" class="member-card__link">YouTube</a>
+      
+      <a href="https://soundcloud.com/carbilicon" target="_blank" rel="noopener" class="member-card__link">SoundCloud</a>
+      
+      <a href="carbilicon.html"  class="member-card__link">Full Collection</a>
+      
+    </div>
+    
+  </div>
+</div>
+
+      
+        <div class="member-card">
+  
+  <div class="member-card__media member-card__media--soundcloud">
+    <iframe width="100%" height="166" scrolling="no" frameborder="no" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/joseph-stephen-deese/a-mothers-love&amp;color=%23c47a2a&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true" loading="lazy"></iframe>
+  </div>
+  
+  <div class="member-card__info">
+    <h3 class="member-card__name">Joseph Deese / Hamrock Records</h3>
+    <p class="member-card__role">Mental Health Music · Instrumental</p>
+    <p class="member-card__bio">Birmingham producer creating instrumental music focused on mental wellness and relaxation. Prolific creator with a digital recording studio and a mission to support mental health through sound.</p>
+    
+    <div class="member-card__links">
+      
+      <a href="https://soundcloud.com/joseph-stephen-deese" target="_blank" rel="noopener" class="member-card__link">SoundCloud</a>
+      
+      <a href="joseph-deese.html"  class="member-card__link">Full Collection</a>
+      
+    </div>
+    
+  </div>
+</div>
+
+      
+    </div>
+  </div>
+</section>
+
+<!-- 03 EVENTS -->
+<section class="section section--dark">
+  <div class="container">
+    <p class="section__eyebrow" style="color: var(--accent-cold);">03 · EVENTS</p>
+    <h2 class="section__title section__title--cold">Live Gatherings</h2>
+    <p class="section__body">
+      Moments from our live events, jam sessions, and collective gatherings across Birmingham.
+    </p>
+
+    <div style="margin-top: var(--space-block);">
+      <div style="border-left: 2px solid var(--accent-primary); padding-left: 1.5rem; margin-bottom: var(--space-block);">
+        <p class="section__eyebrow" style="margin-bottom: 0.5rem;">NOVEMBER 1ST, 2025</p>
+        <h3 style="font-family: var(--font-display); font-size: var(--type-h2); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 1rem;">
+          Day of the Dead Vape Loft Street Jam
+        </h3>
+        <p class="section__body">
+          A full day and night of modular synthesis, live electronic improvisation, and collaborative
+          jamming at Vape Loft in Lakeview. Artists including Will, Whoopsie, Xalpheric, So So,
+          Noah Richardson, and more brought their hardware to the street — Prophet synths, modular
+          rigs, drum machines, and endless patch cables under colorful LED-lit tents.
+        </p>
+        <div class="photo-grid" style="margin-top: var(--space-block); display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem;">
+          
+          <img
+            src="/assets/midimob1.jpg"
+            alt="Day of the Dead event — MIDI Mob 1"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob2.jpg"
+            alt="Day of the Dead event — MIDI Mob 2"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob3.jpg"
+            alt="Day of the Dead event — MIDI Mob 3"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob4.jpg"
+            alt="Day of the Dead event — MIDI Mob 4"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob5.jpg"
+            alt="Day of the Dead event — MIDI Mob 5"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob6.jpg"
+            alt="Day of the Dead event — MIDI Mob 6"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob7.jpg"
+            alt="Day of the Dead event — MIDI Mob 7"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob8.jpg"
+            alt="Day of the Dead event — MIDI Mob 8"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob9.jpg"
+            alt="Day of the Dead event — MIDI Mob 9"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob10.jpg"
+            alt="Day of the Dead event — MIDI Mob 10"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob11.jpg"
+            alt="Day of the Dead event — MIDI Mob 11"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob12.jpg"
+            alt="Day of the Dead event — MIDI Mob 12"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob13.jpg"
+            alt="Day of the Dead event — MIDI Mob 13"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob14.jpg"
+            alt="Day of the Dead event — MIDI Mob 14"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob15.jpg"
+            alt="Day of the Dead event — MIDI Mob 15"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob16.jpg"
+            alt="Day of the Dead event — MIDI Mob 16"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob17.jpg"
+            alt="Day of the Dead event — MIDI Mob 17"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob18.jpg"
+            alt="Day of the Dead event — MIDI Mob 18"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob19.jpg"
+            alt="Day of the Dead event — MIDI Mob 19"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob20.jpg"
+            alt="Day of the Dead event — MIDI Mob 20"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob21.jpg"
+            alt="Day of the Dead event — MIDI Mob 21"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob22.jpg"
+            alt="Day of the Dead event — MIDI Mob 22"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+          <img
+            src="/assets/midimob23.jpg"
+            alt="Day of the Dead event — MIDI Mob 23"
+            loading="lazy"
+            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+          >
+          
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 CONTACT -->
+<section class="section section--alt">
+  <div class="container">
+    <p class="section__eyebrow">04 · CONNECT</p>
+    <h2 class="section__title">Get Involved</h2>
+    <p class="section__body">
+      MIDI Mob Collective is always open to new collaborators and sonic adventurers.
+      Reach out to connect with the community.
+    </p>
+    <div style="margin-top: var(--space-block); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+      <a href="mailto:xalpheric@proton.me" class="glide-btn">Contact Xalpheric</a>
+      <a href="/index.html" class="glide-btn glide-btn--cold">Back to Home</a>
+    </div>
+  </div>
+</section>
+
+  <footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand">XALPHERIC · <strong>MIDI MOB COLLECTIVE</strong> · BIRMINGHAM AL</p>
+      <nav aria-label="Footer navigation">
+        <ul class="site-footer__links">
+          <li><a href="mailto:xalpheric@proton.me" class="site-footer__link">xalpheric@proton.me</a></li>
+          <li><a href="https://buymeacoffee.com/xalpheric" target="_blank" rel="noopener" class="site-footer__link">Buy Me a Coffee</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__copy">Design System v2.0 · Xalpheric © 2026</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/guestbook-wakeup.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/radio-player.js"></script>
 </body>
 </html>

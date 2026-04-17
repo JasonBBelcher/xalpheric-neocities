@@ -4,55 +4,47 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xalpheric - Love affair with a sampler</title>
-  
-  <!-- SEO Meta Tags -->
   <meta name="description" content="Thoughts and musings from Xalpheric - Love affair with a sampler">
-  <meta name="keywords" content="electronic music thoughts, triphop, psychedelic hiphop, dub music, trance music, progressive house, electronica, synthpop, blues electronic, folktronica, drum and bass, chillout music, synthwave, jazz house, jazzhop, atmospheric music, blissful soundscapes, existential electronic, music creation, technology musings, creative process, downtempo philosophy, ambient composition, IDM thoughts, breakbeat culture, bass music theory, experimental hip hop, consciousness music, transcendental beats, meditative soundscapes, Xalpheric">
   <meta name="author" content="Xalpheric">
   <meta name="robots" content="index, follow">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="../assets/xalpheric_favicon.png">
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://unpkg.com/open-props" />
-  <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css" />
-  <link rel="stylesheet" href="../css/base.css">
-  <link rel="stylesheet" href="../css/theme-cyberpunk.css">
-  <link rel="stylesheet" href="../css/theme-vintage.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  
-  <!-- Theme initialization (prevent FOUC) -->
-  <script>
-    (function() {
-      const theme = localStorage.getItem('theme') || 'cyberpunk';
-      document.documentElement.setAttribute('data-theme', theme);
-    })();
-  </script>
-  
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-content">
-      <nav class="top-nav">
-        <a href="../index.html" class="nav-link">Home</a>
-        <a href="../musings.html" class="nav-link active">Thoughts & Musings</a>
-        <a href="../gallery.html" class="nav-link">Gallery</a>
-        <a href="../links.html" class="nav-link">Essential Links</a>
-        <a href="../guestbook.html" class="nav-link">Guest book</a>
-      </nav>
+  <nav class="site-nav">
+    <div class="container">
+      <div class="site-nav__inner">
+        <div class="site-nav__brand">
+          <div class="site-nav__brand-text">XALPHERIC</div>
+          <div class="site-nav__brand-sub" style="font-family:var(--font-data);font-size:0.65rem;letter-spacing:0.08em;color:var(--text-secondary);margin-top:0.25rem;">MIDI MOB</div>
+        </div>
+        <div class="site-nav__mobile">
+          <ul class="site-nav__links">
+            <li><a href="/index.html" class="site-nav__link">Home</a></li>
+            <li><a href="/gallery.html" class="site-nav__link">Gallery</a></li>
+            <li><a href="/collective.html" class="site-nav__link">Collective</a></li>
+            <li><a href="/musings.html" class="site-nav__link site-nav__link--active" aria-current="page">Musings</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </header>
-
-  <nav class="back-nav">
-    <a href="../musings.html" class="download">Back to Musings</a>
   </nav>
-  
-  <section class="musings-container">
-    <div class="note-content">
-      <p>For about a year now I’ve been in love with a iOS sampler called <a href="https://www.koalasampler.com/">KoalaSampler</a>  I’ve never been this in love with a musical workflow.  The simplicity and immediacy of it is incredible.  In a lot of ways it works like the Roland SP404 or so I’ve heard.  I’ve never owned one.</p>
+
+  <section class="section" style="background:var(--bg-mid);padding-top:calc(var(--space-section) + 1rem);">
+    <div class="container">
+      <p class="section__eyebrow">MUSINGS</p>
+      <h1 class="section__title">Love affair with a sampler</h1>
+      <a href="/musings.html" class="glide-btn glide-btn--cold" style="margin-top:var(--space-block);display:inline-flex;">← Back to Musings</a>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--bg-base);">
+    <div class="container">
+      <div class="post-content">
+        <p>For about a year now I’ve been in love with a iOS sampler called <a href="https://www.koalasampler.com/">KoalaSampler</a>  I’ve never been this in love with a musical workflow.  The simplicity and immediacy of it is incredible.  In a lot of ways it works like the Roland SP404 or so I’ve heard.  I’ve never owned one.</p>
 <p>Limited as it is, somehow that’s exactly what keeps my creative juices flowing.  Once you know how it works you get to the business of creating music. From idea to action it gets out of your way.</p>
 <p>I even bought a <a href="https://www.perfectcircuit.com/akai-mpd218.html">mpd218 akai midi controller</a>for a more tactile experience.  Over the course of this past couple years or so of using it daily, I’ve noticed a marked improvement in my ability to finger drum and by accident improved my timing on guitar.</p>
 <p>My traditional go to was to start a blank project in reaper.  Since there are no limits, my productions were layered nuanced but too clinical at times. Almost too perfect and on the grid.</p>
@@ -61,10 +53,12 @@
 <p>Koala is an instrument un to itself.  I find myself endlessly crate digging, building my crate  from old vinyl I find at antique stores or straight from YouTube using <a href="https://samplette.io/">samplette</a> It makes me feel closer to culture and history.  It gives me a great excuse to listen to music I’d never listen to otherwise.  It scratches an itch in my brain.</p>
 <p>That entire process from discovering the sample to creating chops, slicing if you will, and placing it perfectly in a new context is sacred to me.  It’s love for sure.</p>
 
+      </div>
     </div>
   </section>
 
-  <script src="../js/main.js"></script>
-  <script src="../js/radio-player.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/radio-player.js"></script>
 </body>
 </html>

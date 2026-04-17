@@ -1,127 +1,546 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Xalpheria - Experimental Electronic Music & Immersive Soundscapes</title>
-  
-  <!-- SEO Meta Tags -->
-  <meta name="description" content="Xalpheric - Downtempo psyhop, hip-hop, chillhop, ambient, and jazz-blues influenced electronic music. 25 years of crafting introspective soundscapes and genre-blending beats from Birmingham, Alabama.">
-  <meta name="keywords" content="downtempo, psyhop, psychedelic hip hop, chillhop, hip hop beats, ambient music, jazz influenced electronic, blues electronic, instrumental hip hop, trip hop, jazzhop, lo-fi hip hop, abstract hip hop, experimental hip hop, atmospheric beats, meditative music, Birmingham electronic music, Xalpheric, electronic producer, beat maker, MidiMob Collective">
-  <meta name="author" content="Xalpheric">
-  <meta name="robots" content="index, follow">
-  
-  <!-- Open Graph Meta Tags for Social Sharing -->
-  <meta property="og:title" content="Xalpheric - Downtempo Psyhop & Jazz-Blues Electronic">
-  <meta property="og:description" content="Downtempo psyhop, hip-hop, chillhop, ambient, and jazz-blues influenced electronic music. 25 years of introspective soundscapes and genre-blending beats from Birmingham, Alabama.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://xalpheric.neocities.org">
-  <meta property="og:image" content="https://xalpheric.neocities.org/assets/xalpheric_logo.jpeg">
-  <meta property="og:site_name" content="Xalpheria">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="assets/xalpheric_favicon.png">
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="https://unpkg.com/open-props" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://unpkg.com/open-props/normalize.min.css" crossorigin="anonymous">
-  <link rel="stylesheet" href="css/base.css">
-  <link rel="stylesheet" href="css/theme-cyberpunk.css">
-  <link rel="stylesheet" href="css/theme-vintage.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  
-  <!-- Theme Initialization (prevent FOUC) -->
-  <script>
-    // Set default theme before CSS loads
-    const savedTheme = localStorage.getItem('theme') || 'cyberpunk';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-  </script>
-  
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-  <script src="js/theme-switcher.js"></script>
-  <script src="js/guestbook-wakeup.js"></script>
+  <title>Xalpheric — Xalpheric</title>
+  <meta name="description" content="Birmingham-based electronic music producer. Downtempo · Psyhop · Chillhop · Ambient. Co-founder of MIDI Mob Collective.">
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-content">
-      <!-- Hamburger Menu Button (Mobile Only) -->
-      <button class="hamburger-menu" aria-label="Toggle navigation menu">
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-        <span class="hamburger-line"></span>
-      </button>
-      
-      <nav class="top-nav">
-        <a href="index.html" class="nav-link active">Xalpheria</a>
-        <a href="musings.html" class="nav-link">Thoughts & Musings</a>
-        <a href="gallery.html" class="nav-link">Gallery</a>
-        <a href="projects.html" class="nav-link">Project Files</a>
-        <a href="drum-machine.html" class="nav-link">Drum Machine</a>
-        <a href="collective.html" class="nav-link">Collective</a>
-        <a href="who-we-back.html" class="nav-link">Who We Back</a>
-        <a href="links.html" class="nav-link">Essential Links</a>
-        <button id="theme-toggle-btn" class="theme-toggle" aria-label="Toggle theme">🎨</button>
-      </nav>
-    </div>
-  </header>
-
-  <h1 class="xalpheria-title">
-    <span class="char" data-char="W">W</span>
-    <span class="char" data-char="e">e</span>
-    <span class="char" data-char="l">l</span>
-    <span class="char" data-char="c">c</span>
-    <span class="char" data-char="o">o</span>
-    <span class="char" data-char="m">m</span>
-    <span class="char" data-char="e">e</span>
-    <span class="char space"> </span>
-    <span class="char" data-char="t">t</span>
-    <span class="char" data-char="o">o</span>
-    <span class="char space"> </span>
-    <span class="char" data-char="X">X</span>
-    <span class="char" data-char="a">a</span>
-    <span class="char" data-char="l">l</span>
-    <span class="char" data-char="p">p</span>
-    <span class="char" data-char="h">h</span>
-    <span class="char" data-char="e">e</span>
-    <span class="char" data-char="r">r</span>
-    <span class="char" data-char="i">i</span>
-    <span class="char" data-char="a">a</span>
-  </h1>
-
-   <section class="intro">
-    <p>Xalpheric is a Birmingham-based electronic music producer and co-founder of MidiMob Collective, bringing over 25 years of experience crafting downtempo psyhop, hip-hop, chillhop, and ambient soundscapes. His music blends jazz and blues influences with introspective beats, creating immersive sonic experiences that bridge genres and moods.</p>
-    <p>As a producer, composer, and netlabel artist, Xalpheric has built a rich catalog of work exploring the intersection of hip-hop production, psychedelic textures, and atmospheric electronic music. His deep, reflective approach to sound — shaped by decades of exploration — helps anchor MidiMob's collective vision, inspiring both collaboration and genre-defying sonic experiments.</p>
-  </section>
-
-  <section class="release-carousel">
-    <div class="release-viewer">
-      <img id="cover" src="" class="cover-art" />
-      <h2 id="title"></h2>
-      <div class="carousel-nav">
-        <button class="nav left">PREV</button>
-        <button class="nav right">NEXT</button>
+  <nav class="site-nav">
+  <div class="container">
+    <div class="site-nav__inner">
+      <div class="site-nav__brand">
+        <div class="site-nav__brand-text">XALPHERIC</div>
+        <div class="site-nav__brand-sub" style="font-family: var(--font-data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.25rem;">MIDI MOB</div>
       </div>
-      <audio id="player" controls></audio>
-      <a id="download" href="#" download class="download">Download</a>
-    </div>
-  </section>
 
-  <footer>
-    <div class="footer-links">
-      <a href="mailto:xalpheric@proton.me" class="email-link">
-        <img src="assets/email_me_128x64.png" alt="Email me" class="email-icon" />
-        <p class="email-text">xalpheric@proton.me</p>
-      </a>
-      <a href="https://buymeacoffee.com/xalpheric" target="_blank" class="coffee-link">
-        <img src="assets/coffee_icon_128x128.png" alt="Buy me a coffee" class="coffee-icon" />
-        <p class="coffee-text">Buy me a coffee</p>
-      </a>
-    </div>
-  </footer>
+      <button class="site-nav__hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
 
-    <script src="js/utils.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/gallery.js"></script>
-    <script src="js/radio-player.js"></script>
+      <div class="site-nav__mobile">
+        <ul class="site-nav__links">
+          <li><a href="/index.html" class="site-nav__link site-nav__link--active" aria-current="page">Home</a></li>
+          <li><a href="/gallery.html" class="site-nav__link" >Gallery</a></li>
+          <li><a href="/collective.html" class="site-nav__link" >Collective</a></li>
+          <li><a href="/musings.html" class="site-nav__link" >Musings</a></li>
+          <li><a href="/drum-machine.html" class="site-nav__link" >Drum Machine</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+(function(){
+  var btn = document.querySelector('.site-nav__hamburger');
+  var mob = document.querySelector('.site-nav__mobile');
+  if (!btn || !mob) return;
+  btn.addEventListener('click', function() {
+    var open = mob.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mob.classList.contains('is-open')) {
+      mob.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>
+
+  
+<!-- 01 HERO SECTION -->
+<section class="hero">
+  <div class="hero__starmap" aria-hidden="true">
+    <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Star field -->
+      <circle cx="42" cy="28" r="1" fill="#c47a2a"/>
+      <circle cx="120" cy="67" r="0.7" fill="#e4d9bc"/>
+      <circle cx="200" cy="22" r="1.2" fill="#e4d9bc"/>
+      <circle cx="310" cy="89" r="0.5" fill="#2a8a9c"/>
+      <circle cx="380" cy="34" r="1" fill="#e4d9bc"/>
+      <circle cx="450" cy="78" r="0.7" fill="#c47a2a"/>
+      <circle cx="520" cy="15" r="1.2" fill="#e4d9bc"/>
+      <circle cx="600" cy="56" r="0.5" fill="#e4d9bc"/>
+      <circle cx="680" cy="33" r="1" fill="#2a8a9c"/>
+      <circle cx="740" cy="88" r="0.7" fill="#e4d9bc"/>
+      <circle cx="78" cy="140" r="0.5" fill="#e4d9bc"/>
+      <circle cx="160" cy="180" r="1" fill="#c47a2a"/>
+      <circle cx="240" cy="155" r="0.7" fill="#e4d9bc"/>
+      <circle cx="340" cy="200" r="1.5" fill="#c47a2a"/>
+      <circle cx="420" cy="145" r="0.5" fill="#e4d9bc"/>
+      <circle cx="490" cy="190" r="1" fill="#e4d9bc"/>
+      <circle cx="570" cy="130" r="0.7" fill="#2a8a9c"/>
+      <circle cx="650" cy="175" r="0.5" fill="#e4d9bc"/>
+      <circle cx="720" cy="210" r="1.2" fill="#c47a2a"/>
+      <circle cx="100" cy="280" r="0.8" fill="#e4d9bc"/>
+      <circle cx="280" cy="310" r="1" fill="#c47a2a"/>
+      <circle cx="500" cy="290" r="0.6" fill="#e4d9bc"/>
+      <circle cx="660" cy="330" r="1.1" fill="#2a8a9c"/>
+      <!-- Constellation lines -->
+      <line x1="42" y1="28" x2="120" y2="67" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+      <line x1="120" y1="67" x2="200" y2="22" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+      <line x1="380" y1="34" x2="450" y2="78" stroke="#2a8a9c" stroke-width="0.4" opacity="0.6"/>
+      <line x1="450" y1="78" x2="520" y2="15" stroke="#2a8a9c" stroke-width="0.4" opacity="0.6"/>
+      <line x1="160" y1="180" x2="240" y2="155" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+      <line x1="240" y1="155" x2="340" y2="200" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+      <!-- Coordinate grid -->
+      <line x1="0" y1="133" x2="800" y2="133" stroke="#2a8a9c" stroke-width="0.3" opacity="0.3"/>
+      <line x1="0" y1="266" x2="800" y2="266" stroke="#2a8a9c" stroke-width="0.3" opacity="0.3"/>
+      <line x1="200" y1="0" x2="200" y2="400" stroke="#2a8a9c" stroke-width="0.3" opacity="0.3"/>
+      <line x1="400" y1="0" x2="400" y2="400" stroke="#2a8a9c" stroke-width="0.3" opacity="0.3"/>
+      <line x1="600" y1="0" x2="600" y2="400" stroke="#2a8a9c" stroke-width="0.3" opacity="0.3"/>
+      <!-- Target reticle -->
+      <circle cx="340" cy="200" r="12" stroke="#c47a2a" stroke-width="0.5" fill="none"/>
+      <circle cx="340" cy="200" r="20" stroke="#c47a2a" stroke-width="0.3" fill="none" stroke-dasharray="3 3"/>
+      <line x1="328" y1="200" x2="316" y2="200" stroke="#c47a2a" stroke-width="0.5"/>
+      <line x1="352" y1="200" x2="364" y2="200" stroke="#c47a2a" stroke-width="0.5"/>
+      <line x1="340" y1="188" x2="340" y2="176" stroke="#c47a2a" stroke-width="0.5"/>
+      <line x1="340" y1="212" x2="340" y2="224" stroke="#c47a2a" stroke-width="0.5"/>
+    </svg>
+  </div>
+
+  <svg class="hero__vinyl" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="200" cy="200" r="198" stroke="#c47a2a" stroke-width="1"/>
+    <circle cx="200" cy="200" r="180" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="160" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="140" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="120" stroke="#c47a2a" stroke-width="1"/>
+    <circle cx="200" cy="200" r="100" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="80" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="60" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="40" stroke="#c47a2a" stroke-width="1"/>
+    <circle cx="200" cy="200" r="20" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="8" fill="#c47a2a"/>
+    <circle cx="200" cy="200" r="170" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="150" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="130" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+  </svg>
+
+  <div class="container">
+    <div class="hero__content">
+      <p class="hero__eyebrow">MIDI MOB COLLECTIVE · BIRMINGHAM AL · EST. 1999</p>
+      <h1 class="hero__title">XALPHERIC<strong>Electronic Music</strong></h1>
+      <p class="hero__sub">Downtempo · Psyhop · Chillhop · Ambient · Jazz-Blues</p>
+      <div class="tags" style="margin-top: 2rem;">
+        <span class="tag tag--active">Downtempo</span>
+        <span class="tag tag--active">Psyhop</span>
+        <span class="tag">Chillhop</span>
+        <span class="tag">Ambient</span>
+        <span class="tag">Jazz-Blues</span>
+      </div>
+      <div class="coordinates" style="margin-top: 2rem;">
+        <div class="coord"><span class="coord__label">LOCATION</span><span class="coord__value">BIRMINGHAM AL</span></div>
+        <div class="coord"><span class="coord__label">EST.</span><span class="coord__value">1999</span></div>
+        <div class="coord"><span class="coord__label">SIGNAL</span><span class="coord__value">XALPHERIC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 IDENTITY SECTION -->
+<section class="section section--alt" id="identity">
+  <div class="container">
+    <p class="section__eyebrow">02 · IDENTITY</p>
+    <h2 class="section__title">Birmingham Producer</h2>
+    <p class="section__body">
+      Xalpheric is a Birmingham-based electronic music producer and co-founder of MidiMob Collective,
+      bringing over 25 years of experience crafting downtempo psyhop, hip-hop, chillhop, and ambient
+      soundscapes. His music blends jazz and blues influences with introspective beats, creating
+      immersive sonic experiences that bridge genres and moods.
+    </p>
+    <p class="section__body" style="margin-top: 1.5rem;">
+      Live rig: Roland SP-404 sampler, iPad with Koala Sampler, Yamaha MG10XU mixer, guitar.
+      Vinyl sampling is central — dusty crate-digger identity alongside electronic dancefloor energy.
+    </p>
+    <div class="tape-block" style="margin-top: var(--space-block); max-width: 480px;">
+      <svg class="tape-reel" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="24" cy="24" r="22" stroke="#c47a2a" stroke-width="1"/>
+        <circle cx="24" cy="24" r="16" stroke="#c47a2a" stroke-width="0.5"/>
+        <circle cx="24" cy="24" r="10" stroke="#c47a2a" stroke-width="1"/>
+        <circle cx="24" cy="24" r="4" fill="#c47a2a"/>
+        <line x1="24" y1="2" x2="24" y2="14" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="24" y1="34" x2="24" y2="46" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="2" y1="24" x2="14" y2="24" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="34" y1="24" x2="46" y2="24" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="6.7" y1="6.7" x2="15.5" y2="15.5" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="32.5" y1="32.5" x2="41.3" y2="41.3" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="41.3" y1="6.7" x2="32.5" y2="15.5" stroke="#c47a2a" stroke-width="0.5"/>
+        <line x1="15.5" y1="32.5" x2="6.7" y2="41.3" stroke="#c47a2a" stroke-width="0.5"/>
+      </svg>
+      <div>
+        <p class="tape-block__label">Currently Tracking</p>
+        <p class="tape-block__title">Koala Sampler Sessions · 2025</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 RELEASES SECTION -->
+<section class="section" id="releases" style="background: var(--bg-base);">
+  <div class="container">
+    <p class="section__eyebrow">03 · RELEASES</p>
+    <h2 class="section__title">Catalog</h2>
+
+    <!-- Release strips from data -->
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·001</span>
+      <div>
+        <div class="release-strip__title">Good Mood Geometry</div>
+        <div class="release-strip__meta">2:32 · 2025</div>
+      </div>
+      <a href="music/Good-mood-geometry.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·002</span>
+      <div>
+        <div class="release-strip__title">I Believe in Music</div>
+        <div class="release-strip__meta">2:09 · 2025</div>
+      </div>
+      <a href="music/I-believe-in-music.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·003</span>
+      <div>
+        <div class="release-strip__title">Josh Flute</div>
+        <div class="release-strip__meta">2:27 · 2025</div>
+      </div>
+      <a href="music/Josh-Flute.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·004</span>
+      <div>
+        <div class="release-strip__title">Snake Taming for Dummies</div>
+        <div class="release-strip__meta">4:32 · 2025</div>
+      </div>
+      <a href="music/snake-taming-for-dummies.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·005</span>
+      <div>
+        <div class="release-strip__title">Sunrise over Alborz</div>
+        <div class="release-strip__meta">2:46 · 2025</div>
+      </div>
+      <a href="music/Sunrise-over-Alborz.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·006</span>
+      <div>
+        <div class="release-strip__title">Who Let the Funk Out</div>
+        <div class="release-strip__meta">1:44 · 2025</div>
+      </div>
+      <a href="music/Who-let-the-funk-out.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·007</span>
+      <div>
+        <div class="release-strip__title">Scenius</div>
+        <div class="release-strip__meta">8:29 · 2025</div>
+      </div>
+      <a href="music/Scenius.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·008</span>
+      <div>
+        <div class="release-strip__title">Sea Spray</div>
+        <div class="release-strip__meta">7:24 · 2017</div>
+      </div>
+      <a href="music/xaphoid - sea-spray.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·009</span>
+      <div>
+        <div class="release-strip__title">Emotional Debris</div>
+        <div class="release-strip__meta">6:36 · 2013</div>
+      </div>
+      <a href="music/EmotionalDebris2.0.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·010</span>
+      <div>
+        <div class="release-strip__title">Deep Shimmer</div>
+        <div class="release-strip__meta">8:19 · 2013</div>
+      </div>
+      <a href="music/xaphoid - deepshimmer.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·011</span>
+      <div>
+        <div class="release-strip__title">November Feelings</div>
+        <div class="release-strip__meta">6:51 · 2004</div>
+      </div>
+      <a href="music/November Feeling (Extended).mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·012</span>
+      <div>
+        <div class="release-strip__title">Xalpheria</div>
+        <div class="release-strip__meta">8:07 · 2013</div>
+      </div>
+      <a href="music/Xalpheria.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·013</span>
+      <div>
+        <div class="release-strip__title">Crystalline</div>
+        <div class="release-strip__meta">6:04 · 2017</div>
+      </div>
+      <a href="music/xaphoid - crystaline.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·014</span>
+      <div>
+        <div class="release-strip__title">I&#39;m the Blue Type</div>
+        <div class="release-strip__meta">4:27 · 2017</div>
+      </div>
+      <a href="music/xaphoid - im-the-blue-type.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·015</span>
+      <div>
+        <div class="release-strip__title">Gentle Notion Le Premier</div>
+        <div class="release-strip__meta">5:24 · 2009</div>
+      </div>
+      <a href="music/zaphoid - gentle notion.ogg" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·016</span>
+      <div>
+        <div class="release-strip__title">Gentle Notion Part Deux</div>
+        <div class="release-strip__meta">6:25 · 2019</div>
+      </div>
+      <a href="music/xaphoid - gentle-notion-mp3.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·017</span>
+      <div>
+        <div class="release-strip__title">Driftwood</div>
+        <div class="release-strip__meta">4:27 · 2019</div>
+      </div>
+      <a href="music/xaphoid - driftwood-mixed.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·018</span>
+      <div>
+        <div class="release-strip__title">Descent</div>
+        <div class="release-strip__meta">4:02 · 2019</div>
+      </div>
+      <a href="music/xaphoid - descencion.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·019</span>
+      <div>
+        <div class="release-strip__title">The Mad Man</div>
+        <div class="release-strip__meta">2:27 · 2015</div>
+      </div>
+      <a href="music/xaphoid - mind-of-a-mad-man.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·020</span>
+      <div>
+        <div class="release-strip__title">Blue Zen</div>
+        <div class="release-strip__meta">3:33 · 2022</div>
+      </div>
+      <a href="music/xaphoid - bluezen.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·021</span>
+      <div>
+        <div class="release-strip__title">Quasar</div>
+        <div class="release-strip__meta">6:07 · 2014</div>
+      </div>
+      <a href="music/xaphoid - quasar-total-remake.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·022</span>
+      <div>
+        <div class="release-strip__title">Arrival on Ganymede</div>
+        <div class="release-strip__meta">6:43 · 2019</div>
+      </div>
+      <a href="music/Arrival_on_Ganymede.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·023</span>
+      <div>
+        <div class="release-strip__title">Face The Shadow</div>
+        <div class="release-strip__meta">8:51 · 2025</div>
+      </div>
+      <a href="music/face_the_shadow.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·024</span>
+      <div>
+        <div class="release-strip__title">Contemplate</div>
+        <div class="release-strip__meta">4:25 · 2020</div>
+      </div>
+      <a href="music/contemplate.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·025</span>
+      <div>
+        <div class="release-strip__title">Hitch Crack Pot</div>
+        <div class="release-strip__meta">5:32 · 2025</div>
+      </div>
+      <a href="music/hitchcrackpot.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+    <div class="release-strip">
+      <span class="release-strip__num">XAL·026</span>
+      <div>
+        <div class="release-strip__title">Dogs in the Street</div>
+        <div class="release-strip__meta">7:35 · 2025</div>
+      </div>
+      <a href="music/dogs_in_the_street.mp3" class="release-strip__action" download>Download</a>
+    </div>
+    
+
+    <!-- Player carousel -->
+    <div style="margin-top: var(--space-block);">
+      <p class="section__eyebrow" style="margin-bottom: 1rem;">PLAYER</p>
+      <section class="release-carousel">
+        <div class="release-viewer">
+          <img id="cover" src="" class="cover-art" alt="Album cover" />
+          <div id="title" style="font-family: var(--font-display); font-size: var(--type-h3); font-weight: 400; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-primary); margin: 0.5rem 0;"></div>
+          <div id="description" style="font-family: var(--font-body); font-size: var(--type-caption); color: var(--text-secondary); font-style: italic; max-width: 36ch; text-align: center; line-height: 1.6;"></div>
+          <div style="font-family: var(--font-data); font-size: var(--type-caption); color: var(--text-faint); letter-spacing: 0.1em; margin: 0.25rem 0; display: flex; gap: 1rem; justify-content: center;">
+            <span id="year"></span>
+            <span id="duration"></span>
+            <span id="track-counter"></span>
+          </div>
+          <audio id="player" controls></audio>
+          <a id="download" href="#" download class="download">Download</a>
+          <span id="loading" style="display:none; font-family: var(--font-data); font-size: var(--type-caption); color: var(--text-secondary);">Loading...</span>
+          <span id="error-message" style="display:none; color: var(--accent-red); font-family: var(--font-data); font-size: var(--type-caption);"></span>
+        </div>
+        <div class="carousel-nav">
+          <button class="nav left">PREV</button>
+          <button class="nav right">NEXT</button>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+
+<!-- 04 COLLECTIVE SECTION -->
+<section class="section section--dark" id="collective">
+  <div class="container">
+    <p class="section__eyebrow" style="color: var(--accent-cold);">04 · COLLECTIVE</p>
+    <h2 class="section__title section__title--cold">MIDI Mob</h2>
+    <p class="section__body">
+      MIDI Mob Collective is a Birmingham-based music community bringing together producers,
+      musicians, and sonic experimenters. Spanning genres from psytrance to folk, ambient to
+      experimental rock, the collective is united by a love of hardware, vinyl, and the creative process.
+    </p>
+    <div class="members-grid" style="margin-top: var(--space-block);">
+      <!-- Member card 1: Gone -->
+      <div class="member-card">
+        <div class="member-card__media">
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/QmhxgTx6cmA" title="Gone - Folktronic Ambient" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="member-card__info">
+          <h3 class="member-card__name">Gone</h3>
+          <p class="member-card__role">Folktronic Ambient</p>
+          <p class="member-card__bio">Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.</p>
+        </div>
+      </div>
+      <!-- Member card 2: Future Primitives -->
+      <div class="member-card">
+        <div class="member-card__media">
+          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/McpFOjksrKI" title="Future Primitives" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+        </div>
+        <div class="member-card__info">
+          <h3 class="member-card__name">Future Primitives</h3>
+          <p class="member-card__role">Experimental Rock</p>
+          <p class="member-card__bio">Live performance ensemble delivering raw, visceral sonic experiences.</p>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: var(--space-block);">
+      <a href="/collective.html" class="glide-btn glide-btn--cold">View Full Collective</a>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CONTACT SECTION -->
+<section class="section section--alt" id="contact">
+  <div class="container">
+    <p class="section__eyebrow">05 · CONTACT</p>
+    <h2 class="section__title">Get in Touch</h2>
+    <p class="section__body">
+      For bookings, collaborations, or just to say hello — reach out directly.
+      MIDI Mob Collective is always open to new musical connections.
+    </p>
+    <div style="margin-top: var(--space-block); display: flex; flex-direction: column; gap: 1rem; align-items: flex-start;">
+      <a href="mailto:xalpheric@proton.me" class="glide-btn">Email Xalpheric</a>
+      <a href="https://buymeacoffee.com/xalpheric" target="_blank" rel="noopener" class="glide-btn glide-btn--cold">Support the Music</a>
+    </div>
+    <div class="coordinates" style="margin-top: var(--space-block);">
+      <div class="coord"><span class="coord__label">EMAIL</span><span class="coord__value">xalpheric@proton.me</span></div>
+      <div class="coord"><span class="coord__label">LOCATION</span><span class="coord__value">BIRMINGHAM AL</span></div>
+      <div class="coord"><span class="coord__label">COLLECTIVE</span><span class="coord__value">MIDI MOB</span></div>
+    </div>
+  </div>
+</section>
+
+  <footer class="site-footer">
+  <div class="container">
+    <div class="site-footer__inner">
+      <p class="site-footer__brand">XALPHERIC · <strong>MIDI MOB COLLECTIVE</strong> · BIRMINGHAM AL</p>
+      <nav aria-label="Footer navigation">
+        <ul class="site-footer__links">
+          <li><a href="mailto:xalpheric@proton.me" class="site-footer__link">xalpheric@proton.me</a></li>
+          <li><a href="https://buymeacoffee.com/xalpheric" target="_blank" rel="noopener" class="site-footer__link">Buy Me a Coffee</a></li>
+        </ul>
+      </nav>
+      <p class="site-footer__copy">Design System v2.0 · Xalpheric © 2026</p>
+    </div>
+  </div>
+</footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/guestbook-wakeup.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/radio-player.js"></script>
 </body>
 </html>
