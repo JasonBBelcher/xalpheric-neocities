@@ -1,0 +1,40 @@
+---
+layout: layouts/base.njk
+title: Gallery
+description: Visual gallery from Xalpheric — Birmingham-based electronic producer. Studio sessions, live events, and MIDI Mob Collective moments.
+navGallery: true
+permalink: /gallery.html
+---
+
+<section class="section" style="background: var(--bg-base); padding-top: calc(var(--space-section) + 1rem);">
+  <div class="container">
+    <p class="section__eyebrow">01 · VISUAL ARCHIVE</p>
+    <h1 class="section__title">Gallery</h1>
+    <p class="section__body" id="gallery-description">
+      Studio sessions, live events, and moments from MIDI Mob Collective — Birmingham AL.
+    </p>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <div class="gallery-grid" id="gallery-grid">
+      <!-- Populated by gallery.js from config/gallery.json -->
+    </div>
+  </div>
+</section>
+
+<!-- Lightbox -->
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-label="Image lightbox">
+  <button class="lightbox__close" aria-label="Close lightbox">&times;</button>
+  <button class="lightbox__nav lightbox__nav--prev" aria-label="Previous image">&#8249;</button>
+  <button class="lightbox__nav lightbox__nav--next" aria-label="Next image">&#8250;</button>
+  <div class="lightbox__content">
+    <img id="lightbox-img" src="" alt="" class="lightbox__image">
+    <div class="lightbox__meta">
+      <p id="lightbox-title" class="lightbox__title"></p>
+      <p id="lightbox-desc" class="lightbox__desc"></p>
+      <p id="lightbox-counter" class="lightbox__counter"></p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+---
+layout: layouts/base.njk
+title: Thoughts & Musings
+description: Insights into music production, technology, and the creative process from Xalpheric — Birmingham-based electronic producer.
+navMusings: true
+permalink: /musings.html
+---
+
+<section class="section" style="background: var(--bg-mid); padding-top: calc(var(--space-section) + 1rem);">
+  <div class="container">
+    <p class="section__eyebrow">01 · MUSINGS</p>
+    <h1 class="section__title">Thoughts & Musings</h1>
+    <p class="section__body">
+      Reflections on music production, technology, culture, and the creative process.
+      Downtempo thoughts for restless minds.
+    </p>
+  </div>
+</section>
+
+<section class="section" style="background: var(--bg-base);">
+  <div class="container">
+    <div id="musings-list" style="display: grid; gap: 1.5rem;">
+      <!-- Posts loaded via jQuery from musings/index.html -->
+      <p style="font-family: var(--font-data); font-size: var(--type-caption); color: var(--text-faint); letter-spacing: 0.1em;">
+        LOADING...
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  fetch('/musings/index.html')
+    .then(function(r) { return r.ok ? r.text() : Promise.reject(); })
+    .then(function(html) { document.getElementById('musings-list').innerHTML = html; })
+    .catch(function() {
+      document.getElementById('musings-list').innerHTML =
+        '<p style="font-family: var(--font-body); color: var(--text-secondary);">No musings available yet. Check back soon.</p>';
+    });
+});
+</script>
