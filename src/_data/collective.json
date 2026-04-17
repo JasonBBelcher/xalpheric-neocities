@@ -1,6 +1,16 @@
 {
   "members": [
     {
+      "name": "Xalpheric",
+      "role": "Electronic · Koala Sampler · Birmingham AL",
+      "bio": "Jason Belcher — Birmingham-based electronic producer and co-founder of MIDI Mob Collective. Koala sampler, hardware drum machines, and groove-driven electronic music spanning lofi, jazz-hop, ambient, and experimental.",
+      "youtubeId": "5mMxfpYarM4",
+      "links": [
+        { "label": "YouTube", "url": "https://www.youtube.com/@TheRealXalpheric" },
+        { "label": "Full Collection", "url": "xalpheric-videos.html" }
+      ]
+    },
+    {
       "name": "Gone",
       "role": "Folktronic Ambient",
       "bio": "Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.",
