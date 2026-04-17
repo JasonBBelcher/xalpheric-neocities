@@ -42,6 +42,7 @@
   "author": "Jason Belcher",
   "license": "MIT",
   "dependencies": {
+    "@11ty/eleventy-utils": "^2.0.7",
     "chokidar": "^4.0.3",
     "commander": "^14.0.2",
     "dotenv": "^17.2.0",
