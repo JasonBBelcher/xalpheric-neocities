@@ -1,5 +1,5 @@
 ---
-layout: layouts/base.hbs
+layout: layouts/base.njk
 title: Xalpheric
 description: Birmingham-based electronic music producer. Downtempo · Psyhop · Chillhop · Ambient. Co-founder of MIDI Mob Collective.
 navHome: true
@@ -79,11 +79,11 @@ navHome: true
       <h1 class="hero__title">XALPHERIC<strong>Electronic Music</strong></h1>
       <p class="hero__sub">Downtempo · Psyhop · Chillhop · Ambient · Jazz-Blues</p>
       <div class="tags" style="margin-top: 2rem;">
-        {{> partials/tag label="Downtempo" modifier="active"}}
-        {{> partials/tag label="Psyhop" modifier="active"}}
-        {{> partials/tag label="Chillhop"}}
-        {{> partials/tag label="Ambient"}}
-        {{> partials/tag label="Jazz-Blues"}}
+        <span class="tag tag--active">Downtempo</span>
+        <span class="tag tag--active">Psyhop</span>
+        <span class="tag">Chillhop</span>
+        <span class="tag">Ambient</span>
+        <span class="tag">Jazz-Blues</span>
       </div>
       <div class="coordinates" style="margin-top: 2rem;">
         <div class="coord"><span class="coord__label">LOCATION</span><span class="coord__value">BIRMINGHAM AL</span></div>
@@ -139,16 +139,16 @@ navHome: true
     <h2 class="section__title">Catalog</h2>
 
     <!-- Release strips from data -->
-    {{#each releases}}
+    {% for release in releases %}
     <div class="release-strip">
-      <span class="release-strip__num">XAL·{{zeroPad @index}}</span>
+      <span class="release-strip__num">XAL·{{ loop.index0 | zeroPad }}</span>
       <div>
-        <div class="release-strip__title">{{this.title}}</div>
-        <div class="release-strip__meta">{{this.duration}} · {{this.year}}</div>
+        <div class="release-strip__title">{{ release.title }}</div>
+        <div class="release-strip__meta">{{ release.duration }} · {{ release.year }}</div>
       </div>
-      <a href="{{this.audio}}" class="release-strip__action" download>Download</a>
+      <a href="{{ release.audio }}" class="release-strip__action" download>Download</a>
     </div>
-    {{/each}}
+    {% endfor %}
 
     <!-- Player carousel -->
     <div style="margin-top: var(--space-block);">

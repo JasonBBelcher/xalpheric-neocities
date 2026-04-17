@@ -1,0 +1,50 @@
+{
+  "members": [
+    {
+      "name": "Gone",
+      "role": "Folktronic Ambient",
+      "bio": "Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.",
+      "youtubeId": "QmhxgTx6cmA",
+      "links": []
+    },
+    {
+      "name": "Future Primitives",
+      "role": "Experimental Rock",
+      "bio": "Live performance ensemble delivering raw, visceral sonic experiences. Featured performing \"Black Iron Prison\" on Little Room In Florida.",
+      "youtubeId": "McpFOjksrKI",
+      "links": []
+    },
+    {
+      "name": "Lower Hybrid",
+      "role": "Synth Pop · Electro Punk · Post Rock",
+      "bio": "Shane and Kaleb Wynn — synth pop, electro punk and post rock through a lo-fi DIY lens. Analog hardware synths and drum machines create a grimy, yet psychedelic garage aesthetic. From Birmingham, Alabama.",
+      "youtubeId": "isAV7UeCaRI",
+      "links": [
+        { "label": "Bandcamp", "url": "https://lowerhybrid.bandcamp.com/" },
+        { "label": "YouTube", "url": "https://www.youtube.com/@lowerhybrid" },
+        { "label": "Full Collection", "url": "lower-hybrid.html" }
+      ]
+    },
+    {
+      "name": "Carbilicon",
+      "role": "Psytrance · Techno · Goa Trance",
+      "bio": "Noah Richardson — Korg hardware enthusiast and vinyl DJ specializing in classic Goa trance. Known for hypnotic live performances and deep hardware explorations.",
+      "youtubeId": "ifO4oQLr-2U",
+      "links": [
+        { "label": "YouTube", "url": "https://www.youtube.com/@carbilicon" },
+        { "label": "SoundCloud", "url": "https://soundcloud.com/carbilicon" },
+        { "label": "Full Collection", "url": "carbilicon.html" }
+      ]
+    },
+    {
+      "name": "Joseph Deese / Hamrock Records",
+      "role": "Mental Health Music · Instrumental",
+      "bio": "Birmingham producer creating instrumental music focused on mental wellness and relaxation. Prolific creator with a digital recording studio and a mission to support mental health through sound.",
+      "soundcloudUrl": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/joseph-stephen-deese/a-mothers-love&color=%23c47a2a&auto_play=false&hide_related=false&show_comments=true&show_user=true",
+      "links": [
+        { "label": "SoundCloud", "url": "https://soundcloud.com/joseph-stephen-deese" },
+        { "label": "Full Collection", "url": "joseph-deese.html" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XALPHERIC · Design System Run 2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Josefin+Sans:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Backgrounds — warm brown dominant */
+    --bg-base:        #1a1208;   /* Deep warm brown — page base */
+    --bg-mid:         #231a0a;   /* Mid warm brown — section alternate */
+    --bg-card:        #2e2210;   /* Card / panel background */
+    --bg-dark:        #0e0c08;   /* Near-black warm — footers, deep panels */
+
+    /* Accents */
+    --accent-primary: #c47a2a;   /* Amber / burnt orange — the warm signal */
+    --accent-cold:    #2a8a9c;   /* Cyan / teal — the one cold accent, electricity */
+    --accent-red:     #b83228;   /* Signal red — danger, emphasis only */
+
+    /* Text */
+    --text-primary:   #e4d9bc;   /* Warm cream */
+    --text-secondary: #8a7d62;   /* Muted warm grey */
+    --text-faint:     #4a4030;   /* Very faint — dividers, ghost text */
+
+    /* Borders */
+    --border-warm:    rgba(196,122,42,0.2);
+    --border-cold:    rgba(42,138,156,0.2);
+    --border-subtle:  rgba(228,217,188,0.07);
+
+    /* Fonts */
+    --font-display: 'Josefin Sans', 'Futura', sans-serif;
+    --font-body:    'Courier Prime', 'Courier New', monospace;
+    --font-data:    'Share Tech Mono', 'Courier New', monospace;
+
+    /* Type scale */
+    --type-hero:    clamp(42px, 7vw, 88px);
+    --type-h1:      clamp(28px, 4vw, 48px);
+    --type-h2:      clamp(20px, 2.5vw, 30px);
+    --type-h3:      16px;
+    --type-body:    15px;
+    --type-label:   11px;
+    --type-caption: 9px;
+
+    /* Spacing — sparse */
+    --space-section: clamp(5rem, 10vw, 9rem);
+    --space-block:   clamp(2rem, 4vw, 3.5rem);
+  }
+
+  /* Glide transition */
+  @keyframes glide-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg-base);
+    color: var(--text-primary);
+    font-family: var(--font-body);
+    font-size: var(--type-body);
+    line-height: 1.7;
+    position: relative;
+  }
+
+  /* Grain — single texture layer */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.4'/%3E%3C/svg%3E");
+    mix-blend-mode: overlay;
+    opacity: 0.055;
+  }
+
+  .container {
+    width: min(920px, 88vw);
+    margin: 0 auto;
+  }
+
+  /* ── STAR MAP SVG BG ── */
+  .starmap-bg {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .starmap-bg svg {
+    width: 100%;
+    height: 100%;
+    opacity: 0.18;
+  }
+
+  /* ── HEADER ── */
+  .ds-header {
+    padding: var(--space-section) 0 calc(var(--space-section) * 0.8);
+    position: relative;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .ds-header .container {
+    position: relative;
+    z-index: 1;
+  }
+
+  .ds-header__eyebrow {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--accent-cold);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ds-header__eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 24px;
+    height: 1px;
+    background: var(--accent-cold);
+    flex-shrink: 0;
+  }
+
+  .ds-header__title {
+    font-family: var(--font-display);
+    font-size: var(--type-hero);
+    font-weight: 300;
+    color: var(--text-primary);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    line-height: 1.05;
+    margin-bottom: 0.5rem;
+  }
+
+  .ds-header__title strong {
+    font-weight: 700;
+    color: var(--accent-primary);
+    display: block;
+  }
+
+  .ds-header__sub {
+    font-family: var(--font-data);
+    font-size: var(--type-label);
+    color: var(--text-secondary);
+    letter-spacing: 0.12em;
+    margin-top: 1.5rem;
+  }
+
+  /* ── VINYL CIRCLE ── */
+  .vinyl {
+    position: absolute;
+    right: -80px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: clamp(240px, 35vw, 420px);
+    aspect-ratio: 1;
+    opacity: 0.12;
+  }
+
+  @media (max-width: 640px) {
+    .vinyl { display: none; }
+  }
+
+  /* ── SECTION ── */
+  .ds-section {
+    padding: var(--space-section) 0;
+    border-bottom: 1px solid var(--border-subtle);
+    position: relative;
+  }
+
+  .ds-section--alt {
+    background: var(--bg-mid);
+  }
+
+  .ds-section--dark {
+    background: var(--bg-dark);
+  }
+
+  .ds-section__eyebrow {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--accent-primary);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .ds-section__eyebrow::before {
+    content: '';
+    display: inline-block;
+    width: 16px;
+    height: 1px;
+    background: var(--accent-primary);
+  }
+
+  .ds-section__title {
+    font-family: var(--font-display);
+    font-size: var(--type-h1);
+    font-weight: 300;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: var(--space-block);
+  }
+
+  /* ── PALETTE ── */
+  .palette-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1px;
+    margin-bottom: var(--space-block);
+    background: var(--border-subtle);
+  }
+
+  .swatch {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .swatch__color {
+    height: 100px;
+  }
+
+  .swatch__info {
+    padding: 0.75rem 1rem;
+    background: var(--bg-card);
+  }
+
+  .swatch__name {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    display: block;
+    margin-bottom: 3px;
+  }
+
+  .swatch__hex {
+    font-family: var(--font-data);
+    font-size: var(--type-label);
+    color: var(--text-primary);
+    display: block;
+  }
+
+  .swatch__role {
+    font-family: var(--font-body);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    display: block;
+    margin-top: 4px;
+    font-style: italic;
+  }
+
+  /* ── TYPE SPECIMENS ── */
+  .type-block {
+    margin-bottom: var(--space-block);
+    padding-bottom: var(--space-block);
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .type-block:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .type-block__meta {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+
+  .specimen-display {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 64px);
+    font-weight: 300;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    line-height: 1.1;
+  }
+
+  .specimen-display strong {
+    font-weight: 700;
+    color: var(--accent-primary);
+  }
+
+  .specimen-body {
+    font-family: var(--font-body);
+    font-size: var(--type-body);
+    color: var(--text-primary);
+    max-width: 58ch;
+    line-height: 1.75;
+  }
+
+  .specimen-data {
+    font-family: var(--font-data);
+    font-size: var(--type-label);
+    color: var(--accent-cold);
+    letter-spacing: 0.12em;
+  }
+
+  /* ── STAR MAP MOTIF ── */
+  .starmap-demo {
+    position: relative;
+    padding: 3rem 2rem;
+    border: 1px solid var(--border-warm);
+    overflow: hidden;
+    background: var(--bg-dark);
+  }
+
+  .starmap-demo__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .starmap-demo .starmap-bg svg {
+    opacity: 0.35;
+  }
+
+  /* ── COMPONENTS ── */
+  .component-label {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .component-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-subtle);
+  }
+
+  .component-group {
+    margin-bottom: var(--space-block);
+  }
+
+  /* Release strip — sparse, breathing */
+  .release-strip {
+    display: grid;
+    grid-template-columns: 64px 1fr auto;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .release-strip:first-of-type {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .release-strip:hover {
+    padding-left: 0.5rem;
+  }
+
+  .release-strip:hover .release-strip__num {
+    color: var(--accent-primary);
+  }
+
+  .release-strip:hover .release-strip__action {
+    color: var(--accent-primary);
+    letter-spacing: 0.12em;
+  }
+
+  .release-strip__num {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-faint);
+    letter-spacing: 0.1em;
+    transition: color 0.4s ease;
+    text-align: right;
+  }
+
+  .release-strip__title {
+    font-family: var(--font-display);
+    font-size: var(--type-h3);
+    font-weight: 400;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    margin-bottom: 2px;
+  }
+
+  .release-strip__meta {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.08em;
+  }
+
+  .release-strip__action {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    white-space: nowrap;
+  }
+
+  /* Tags */
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    border: 1px solid var(--border-subtle);
+    padding: 4px 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.4s ease;
+  }
+
+  .tag:hover {
+    border-color: var(--border-warm);
+    color: var(--accent-primary);
+  }
+
+  .tag--active {
+    border-color: var(--border-warm);
+    color: var(--accent-primary);
+  }
+
+  .tag--cold {
+    border-color: var(--border-cold);
+    color: var(--accent-cold);
+  }
+
+  /* Red emphasis — used sparingly */
+  .tag--alert {
+    border-color: rgba(184,50,40,0.3);
+    color: var(--accent-red);
+  }
+
+  /* Coordinate readout */
+  .coordinates {
+    font-family: var(--font-data);
+    font-size: var(--type-label);
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .coord {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .coord__label {
+    font-size: var(--type-caption);
+    color: var(--text-faint);
+    letter-spacing: 0.15em;
+  }
+
+  .coord__value {
+    color: var(--accent-cold);
+  }
+
+  /* Tape reel motif component */
+  .tape-block {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--bg-card);
+    border-left: 2px solid var(--accent-primary);
+  }
+
+  .tape-reel {
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .tape-block__label {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .tape-block__title {
+    font-family: var(--font-display);
+    font-size: var(--type-h3);
+    font-weight: 400;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-primary);
+  }
+
+  /* Glide button */
+  .glide-btn {
+    font-family: var(--font-data);
+    font-size: var(--type-label);
+    color: var(--accent-primary);
+    background: transparent;
+    border: 1px solid var(--border-warm);
+    padding: 0.7rem 2rem;
+    letter-spacing: 0.15em;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .glide-btn::after {
+    content: '→';
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .glide-btn:hover {
+    background: var(--accent-primary);
+    color: var(--bg-dark);
+    border-color: var(--accent-primary);
+  }
+
+  .glide-btn:hover::after {
+    transform: translateX(4px);
+  }
+
+  .glide-btn--cold {
+    color: var(--accent-cold);
+    border-color: var(--border-cold);
+  }
+
+  .glide-btn--cold:hover {
+    background: var(--accent-cold);
+    color: var(--bg-dark);
+    border-color: var(--accent-cold);
+  }
+
+  .glide-btn--alert {
+    color: var(--accent-red);
+    border-color: rgba(184,50,40,0.3);
+    font-size: var(--type-caption);
+    padding: 0.4rem 1rem;
+  }
+
+  .glide-btn--alert:hover {
+    background: var(--accent-red);
+    color: var(--bg-dark);
+    border-color: var(--accent-red);
+  }
+
+  /* Section map */
+  .section-map {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border-subtle);
+  }
+
+  .section-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1rem 1.25rem;
+  }
+
+  .section-bar__num {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-faint);
+    min-width: 32px;
+    letter-spacing: 0.1em;
+  }
+
+  .section-bar__name {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-secondary);
+    letter-spacing: 0.12em;
+    min-width: 100px;
+    text-transform: uppercase;
+  }
+
+  .section-bar__headline {
+    font-family: var(--font-display);
+    font-size: var(--type-h3);
+    font-weight: 300;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: var(--border-subtle);
+    margin: var(--space-block) 0;
+  }
+
+  /* Footer */
+  .ds-footer {
+    padding: 4rem 0;
+    background: var(--bg-dark);
+    text-align: center;
+  }
+
+  .ds-footer p {
+    font-family: var(--font-data);
+    font-size: var(--type-caption);
+    color: var(--text-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .ds-footer p span { color: var(--accent-primary); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="ds-header">
+
+  <!-- Vinyl circle motif -->
+  <svg class="vinyl" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <circle cx="200" cy="200" r="198" stroke="#c47a2a" stroke-width="1"/>
+    <circle cx="200" cy="200" r="180" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="160" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="140" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="120" stroke="#c47a2a" stroke-width="1"/>
+    <circle cx="200" cy="200" r="100" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="80" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="60" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="40" stroke="#c47a2a" stroke-width="1"/>
+    <circle cx="200" cy="200" r="20" stroke="#c47a2a" stroke-width="0.5"/>
+    <circle cx="200" cy="200" r="8" fill="#c47a2a"/>
+    <!-- Grooves -->
+    <circle cx="200" cy="200" r="170" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="150" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="130" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="110" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="90" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+    <circle cx="200" cy="200" r="70" stroke="#c47a2a" stroke-width="0.3" stroke-dasharray="2 3"/>
+  </svg>
+
+  <div class="container">
+    <p class="ds-header__eyebrow">MIDI MOB COLLECTIVE · BIRMINGHAM AL · RUN 2</p>
+    <h1 class="ds-header__title">
+      XALPHERIC
+      <strong>DESIGN SYSTEM</strong>
+    </h1>
+    <p class="ds-header__sub">WARM BROWN DOMINANT · AMBER PRIMARY · ARTIST IDENTITY IS HERO · SPARSE</p>
+  </div>
+</header>
+
+<!-- 01 PALETTE -->
+<section class="ds-section">
+  <div class="container">
+    <p class="ds-section__eyebrow">01</p>
+    <h2 class="ds-section__title">Color Palette</h2>
+
+    <div class="palette-row">
+      <div class="swatch">
+        <div class="swatch__color" style="background:#1a1208;"></div>
+        <div class="swatch__info">
+          <span class="swatch__name">--bg-base</span>
+          <span class="swatch__hex">#1a1208</span>
+          <span class="swatch__role">Page base</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#0e0c08;"></div>
+        <div class="swatch__info">
+          <span class="swatch__name">--bg-dark</span>
+          <span class="swatch__hex">#0e0c08</span>
+          <span class="swatch__role">Deep panels</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#c47a2a;"></div>
+        <div class="swatch__info">
+          <span class="swatch__name">--accent-primary</span>
+          <span class="swatch__hex">#c47a2a</span>
+          <span class="swatch__role">Amber — the warm signal</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#2a8a9c;"></div>
+        <div class="swatch__info">
+          <span class="swatch__name">--accent-cold</span>
+          <span class="swatch__hex">#2a8a9c</span>
+          <span class="swatch__role">Cyan — one cold accent</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#b83228;"></div>
+        <div class="swatch__info">
+          <span class="swatch__name">--accent-red</span>
+          <span class="swatch__hex">#b83228</span>
+          <span class="swatch__role">Signal red — sparingly</span>
+        </div>
+      </div>
+      <div class="swatch">
+        <div class="swatch__color" style="background:#e4d9bc;"></div>
+        <div class="swatch__info">
+          <span class="swatch__name">--text-primary</span>
+          <span class="swatch__hex">#e4d9bc</span>
+          <span class="swatch__role">Warm cream</span>
+        </div>
+      </div>
+    </div>
+
+    <p class="component-label">Section color map — single scroll page</p>
+    <div class="section-map">
+      <div class="section-bar" style="background:#1a1208;">
+        <span class="section-bar__num">01</span>
+        <span class="section-bar__name">HERO</span>
+        <span class="section-bar__headline" style="color:#e4d9bc;">XALPHERIC</span>
+      </div>
+      <div class="section-bar" style="background:#231a0a;">
+        <span class="section-bar__num">02</span>
+        <span class="section-bar__name">IDENTITY</span>
+        <span class="section-bar__headline" style="color:#c47a2a;">25 YEARS · BIRMINGHAM</span>
+      </div>
+      <div class="section-bar" style="background:#1a1208;">
+        <span class="section-bar__num">03</span>
+        <span class="section-bar__name">RELEASES</span>
+        <span class="section-bar__headline" style="color:#c47a2a;">SCENIUS · XAL-001</span>
+      </div>
+      <div class="section-bar" style="background:#0e0c08;">
+        <span class="section-bar__num">04</span>
+        <span class="section-bar__name">COLLECTIVE</span>
+        <span class="section-bar__headline" style="color:#2a8a9c;">MIDI MOB</span>
+      </div>
+      <div class="section-bar" style="background:#231a0a;">
+        <span class="section-bar__num">05</span>
+        <span class="section-bar__name">CONTACT</span>
+        <span class="section-bar__headline" style="color:#c47a2a;">xalpheric@proton.me</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 02 TYPOGRAPHY -->
+<section class="ds-section ds-section--alt">
+  <div class="container">
+    <p class="ds-section__eyebrow">02</p>
+    <h2 class="ds-section__title">Typography</h2>
+
+    <div class="type-block">
+      <p class="type-block__meta">Display · Josefin Sans · Stencil / military weight · Headlines, hero, nav</p>
+      <p class="specimen-display">Downtempo <strong>Psyhop</strong><br>Chillhop Ambient</p>
+    </div>
+
+    <div class="type-block">
+      <p class="type-block__meta">Editorial · Courier Prime · Body copy, bio, descriptions · Max 58ch · Left-aligned</p>
+      <p class="specimen-body">Xalpheric is a Birmingham-based electronic music producer and co-founder of MidiMob Collective, bringing over 25 years of experience crafting downtempo psyhop, hip-hop, chillhop, and ambient soundscapes. His music blends jazz and blues influences with introspective beats, creating immersive sonic experiences that bridge genres and moods.</p>
+    </div>
+
+    <div class="type-block">
+      <p class="type-block__meta">Data · Share Tech Mono · Tags, nav, coordinates, metadata</p>
+      <p class="specimen-data">XAL-001 · BPM 087 · 08:29 · 33⅓ RPM · RA: 14h 29m · DEC: +13° 47'</p>
+    </div>
+  </div>
+</section>
+
+<!-- 03 STAR MAP MOTIF -->
+<section class="ds-section ds-section--dark">
+  <div class="container">
+    <p class="ds-section__eyebrow">03</p>
+    <h2 class="ds-section__title">Motif · Star Maps</h2>
+
+    <div class="starmap-demo">
+      <div class="starmap-bg" aria-hidden="true">
+        <svg viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg">
+          <!-- Star field -->
+          <circle cx="42" cy="28" r="1" fill="#c47a2a"/>
+          <circle cx="120" cy="67" r="0.7" fill="#e4d9bc"/>
+          <circle cx="200" cy="22" r="1.2" fill="#e4d9bc"/>
+          <circle cx="310" cy="89" r="0.5" fill="#2a8a9c"/>
+          <circle cx="380" cy="34" r="1" fill="#e4d9bc"/>
+          <circle cx="450" cy="78" r="0.7" fill="#c47a2a"/>
+          <circle cx="520" cy="15" r="1.2" fill="#e4d9bc"/>
+          <circle cx="600" cy="56" r="0.5" fill="#e4d9bc"/>
+          <circle cx="680" cy="33" r="1" fill="#2a8a9c"/>
+          <circle cx="740" cy="88" r="0.7" fill="#e4d9bc"/>
+          <circle cx="78" cy="140" r="0.5" fill="#e4d9bc"/>
+          <circle cx="160" cy="180" r="1" fill="#c47a2a"/>
+          <circle cx="240" cy="155" r="0.7" fill="#e4d9bc"/>
+          <circle cx="340" cy="200" r="1.5" fill="#c47a2a"/>
+          <circle cx="420" cy="145" r="0.5" fill="#e4d9bc"/>
+          <circle cx="490" cy="190" r="1" fill="#e4d9bc"/>
+          <circle cx="570" cy="130" r="0.7" fill="#2a8a9c"/>
+          <circle cx="650" cy="175" r="0.5" fill="#e4d9bc"/>
+          <circle cx="720" cy="210" r="1.2" fill="#c47a2a"/>
+          <!-- Constellation lines -->
+          <line x1="42" y1="28" x2="120" y2="67" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+          <line x1="120" y1="67" x2="200" y2="22" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+          <line x1="380" y1="34" x2="450" y2="78" stroke="#2a8a9c" stroke-width="0.4" opacity="0.6"/>
+          <line x1="450" y1="78" x2="520" y2="15" stroke="#2a8a9c" stroke-width="0.4" opacity="0.6"/>
+          <line x1="160" y1="180" x2="240" y2="155" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+          <line x1="240" y1="155" x2="340" y2="200" stroke="#c47a2a" stroke-width="0.4" opacity="0.6"/>
+          <!-- Coordinate grid lines -->
+          <line x1="0" y1="100" x2="800" y2="100" stroke="#2a8a9c" stroke-width="0.3" opacity="0.4"/>
+          <line x1="0" y1="200" x2="800" y2="200" stroke="#2a8a9c" stroke-width="0.3" opacity="0.4"/>
+          <line x1="200" y1="0" x2="200" y2="300" stroke="#2a8a9c" stroke-width="0.3" opacity="0.4"/>
+          <line x1="400" y1="0" x2="400" y2="300" stroke="#2a8a9c" stroke-width="0.3" opacity="0.4"/>
+          <line x1="600" y1="0" x2="600" y2="300" stroke="#2a8a9c" stroke-width="0.3" opacity="0.4"/>
+          <!-- Target reticle -->
+          <circle cx="340" cy="200" r="12" stroke="#c47a2a" stroke-width="0.5" fill="none"/>
+          <circle cx="340" cy="200" r="20" stroke="#c47a2a" stroke-width="0.3" fill="none" stroke-dasharray="3 3"/>
+          <line x1="328" y1="200" x2="316" y2="200" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="352" y1="200" x2="364" y2="200" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="340" y1="188" x2="340" y2="176" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="340" y1="212" x2="340" y2="224" stroke="#c47a2a" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="starmap-demo__content">
+        <p style="font-family:var(--font-display);font-size:var(--type-h2);color:var(--accent-primary);letter-spacing:0.14em;text-transform:uppercase;margin-bottom:1rem;">Star Map · Used Sparingly</p>
+        <div class="coordinates">
+          <div class="coord">
+            <span class="coord__label">RA</span>
+            <span class="coord__value">14h 29m 43s</span>
+          </div>
+          <div class="coord">
+            <span class="coord__label">DEC</span>
+            <span class="coord__value">+13° 47' 32"</span>
+          </div>
+          <div class="coord">
+            <span class="coord__label">LOCATION</span>
+            <span class="coord__value">BIRMINGHAM AL</span>
+          </div>
+          <div class="coord">
+            <span class="coord__label">SIGNAL</span>
+            <span class="coord__value" style="color:var(--accent-primary);">XALPHERIC</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-family:var(--font-data);font-size:var(--type-caption);color:var(--text-secondary);letter-spacing:0.1em;margin-top:1rem;">Star map appears as hero background and section accent — never repeated, never cluttered.</p>
+  </div>
+</section>
+
+<!-- 04 COMPONENTS -->
+<section class="ds-section">
+  <div class="container">
+    <p class="ds-section__eyebrow">04</p>
+    <h2 class="ds-section__title">Components</h2>
+
+    <div class="component-group">
+      <p class="component-label">Release strips — hover to glide</p>
+      <div class="release-strip">
+        <span class="release-strip__num">XAL·001</span>
+        <div>
+          <div class="release-strip__title">Scenius</div>
+          <div class="release-strip__meta">08:29 · Downtempo · 2024</div>
+        </div>
+        <a href="#" class="release-strip__action">Stream / Download</a>
+      </div>
+      <div class="release-strip">
+        <span class="release-strip__num">XAL·002</span>
+        <div>
+          <div class="release-strip__title">Project Files</div>
+          <div class="release-strip__meta">06:14 · Chillhop · 2024</div>
+        </div>
+        <a href="#" class="release-strip__action">Stream / Download</a>
+      </div>
+      <div class="release-strip">
+        <span class="release-strip__num">XAL·003</span>
+        <div>
+          <div class="release-strip__title">Drum Machine</div>
+          <div class="release-strip__meta">07:42 · Ambient · 2024</div>
+        </div>
+        <a href="#" class="release-strip__action">Stream / Download</a>
+      </div>
+    </div>
+
+    <div class="component-group">
+      <p class="component-label">Genre tags</p>
+      <div class="tags">
+        <span class="tag tag--active">Downtempo</span>
+        <span class="tag tag--active">Psyhop</span>
+        <span class="tag">Chillhop</span>
+        <span class="tag">Ambient</span>
+        <span class="tag tag--cold">DnB</span>
+        <span class="tag tag--cold">Trance</span>
+        <span class="tag tag--alert">Live</span>
+      </div>
+    </div>
+
+    <div class="component-group">
+      <p class="component-label">Cassette / reel tape motif</p>
+      <div class="tape-block">
+        <svg class="tape-reel" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="24" cy="24" r="22" stroke="#c47a2a" stroke-width="1"/>
+          <circle cx="24" cy="24" r="16" stroke="#c47a2a" stroke-width="0.5"/>
+          <circle cx="24" cy="24" r="10" stroke="#c47a2a" stroke-width="1"/>
+          <circle cx="24" cy="24" r="4" fill="#c47a2a"/>
+          <line x1="24" y1="2" x2="24" y2="14" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="24" y1="34" x2="24" y2="46" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="2" y1="24" x2="14" y2="24" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="34" y1="24" x2="46" y2="24" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="6.7" y1="6.7" x2="15.5" y2="15.5" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="32.5" y1="32.5" x2="41.3" y2="41.3" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="41.3" y1="6.7" x2="32.5" y2="15.5" stroke="#c47a2a" stroke-width="0.5"/>
+          <line x1="15.5" y1="32.5" x2="6.7" y2="41.3" stroke="#c47a2a" stroke-width="0.5"/>
+        </svg>
+        <div>
+          <p class="tape-block__label">Side A · 46 min</p>
+          <p class="tape-block__title">Xalpheric — Scenius Sessions</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="component-group">
+      <p class="component-label">Buttons — glide transition · hover slowly</p>
+      <div style="display:flex;gap:1rem;flex-wrap:wrap;align-items:center;">
+        <button class="glide-btn">Stream Release</button>
+        <button class="glide-btn glide-btn--cold">Visit Collective</button>
+        <button class="glide-btn glide-btn--alert">Live Show</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="ds-footer">
+  <div class="container">
+    <p>XALPHERIC DESIGN SYSTEM · <span>RUN 2</span> · WARM BROWN · AMBER · STAR MAPS · SPARSE · GLIDE · MIDI MOB COLLECTIVE</p>
+  </div>
+</footer>
+
+</body>
+</html>

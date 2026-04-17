@@ -1,38 +1,40 @@
 module.exports = function(eleventyConfig) {
-  // Copy static assets
-  eleventyConfig.addPassthroughCopy('public/assets');
-  eleventyConfig.addPassthroughCopy('public/js');
-  eleventyConfig.addPassthroughCopy('public/css');
-  eleventyConfig.addPassthroughCopy('public/music');
-  eleventyConfig.addPassthroughCopy('src/assets');
-
-  // Register Handlebars helpers
-  eleventyConfig.addNunjucksFilter('zeroPad', function(index) {
-    return String(index + 1).padStart(3, '0');
+  // Nunjucks filters (built-in to Eleventy 3.x)
+  eleventyConfig.addFilter("zeroPad", function(index) {
+    return String(Number(index) + 1).padStart(3, "0");
   });
 
-  eleventyConfig.addHandlebarsHelper('zeroPad', function(index) {
-    return String(index + 1).padStart(3, '0');
-  });
-
-  eleventyConfig.addHandlebarsHelper('currentYear', function() {
+  eleventyConfig.addFilter("currentYear", function() {
     return new Date().getFullYear();
   });
 
-  eleventyConfig.addHandlebarsHelper('eq', function(a, b) {
-    return a === b;
+  eleventyConfig.addFilter("formatDuration", function(seconds) {
+    if (!seconds) return "";
+    const m = Math.floor(seconds / 60);
+    const s = seconds % 60;
+    return `${m}:${String(s).padStart(2, "0")}`;
   });
 
-  // Set template formats and directory structure
+  // Shortcode for currentYear (used in footer with {% currentYear %})
+  eleventyConfig.addShortcode("currentYear", function() {
+    return new Date().getFullYear();
+  });
+
+  // Copy src/assets → public/assets (CSS, fonts, etc.)
+  eleventyConfig.addPassthroughCopy("src/assets");
+
+  // Watch CSS for rebuilds
+  eleventyConfig.addWatchTarget("src/assets/css/");
+
   return {
     dir: {
-      input: 'src',
-      output: 'public',
-      includes: '_includes',
-      data: '_data'
+      input: "src",
+      output: "public",
+      includes: "_includes",
+      data: "_data"
     },
-    templateFormats: ['hbs', 'md', 'html'],
-    htmlTemplateEngine: 'hbs',
-    markdownTemplateEngine: 'hbs'
+    templateFormats: ["njk", "md", "html"],
+    htmlTemplateEngine: "njk",
+    markdownTemplateEngine: "njk"
   };
 };

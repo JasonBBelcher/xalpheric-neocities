@@ -14,10 +14,10 @@
 
       <div class="site-nav__mobile">
         <ul class="site-nav__links">
-          <li><a href="/index.html" class="site-nav__link{{#if navHome}} site-nav__link--active{{/if}}" {{#if navHome}}aria-current="page"{{/if}}>Home</a></li>
-          <li><a href="/gallery.html" class="site-nav__link{{#if navGallery}} site-nav__link--active{{/if}}" {{#if navGallery}}aria-current="page"{{/if}}>Gallery</a></li>
-          <li><a href="/collective.html" class="site-nav__link{{#if navCollective}} site-nav__link--active{{/if}}" {{#if navCollective}}aria-current="page"{{/if}}>Collective</a></li>
-          <li><a href="/musings.html" class="site-nav__link{{#if navMusings}} site-nav__link--active{{/if}}" {{#if navMusings}}aria-current="page"{{/if}}>Musings</a></li>
+          <li><a href="/index.html" class="site-nav__link{% if navHome %} site-nav__link--active{% endif %}" {% if navHome %}aria-current="page"{% endif %}>Home</a></li>
+          <li><a href="/gallery.html" class="site-nav__link{% if navGallery %} site-nav__link--active{% endif %}" {% if navGallery %}aria-current="page"{% endif %}>Gallery</a></li>
+          <li><a href="/collective.html" class="site-nav__link{% if navCollective %} site-nav__link--active{% endif %}" {% if navCollective %}aria-current="page"{% endif %}>Collective</a></li>
+          <li><a href="/musings.html" class="site-nav__link{% if navMusings %} site-nav__link--active{% endif %}" {% if navMusings %}aria-current="page"{% endif %}>Musings</a></li>
         </ul>
       </div>
     </div>

@@ -28,6 +28,11 @@
     "check:deps": "node cli/index.js check deps",
     "check:storage": "node cli/index.js check storage",
     "cleanup": "node cli/index.js cleanup",
+    "eleventy": "eleventy",
+    "eleventy:watch": "eleventy --watch",
+    "eleventy:serve": "eleventy --serve --port 8080",
+    "build:site": "eleventy",
+    "build:full": "eleventy && node cli/index.js build musings",
     "serve": "http-server public -p 8080",
     "test": "jest",
     "test:watch": "jest --watch",
@@ -46,6 +51,7 @@
     "node-fetch": "^3.3.2"
   },
   "devDependencies": {
+    "@11ty/eleventy": "^3.1.5",
     "@types/jest": "^30.0.0",
     "http-server": "^14.1.1",
     "jest": "^30.2.0"
