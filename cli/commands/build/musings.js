@@ -372,48 +372,54 @@ function wrapInTemplate(title, content) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Xalpheric - ${title}</title>
-  
-  <!-- SEO Meta Tags -->
   <meta name="description" content="Thoughts and musings from Xalpheric - ${title}">
-  <meta name="keywords" content="electronic music thoughts, triphop, psychedelic hiphop, dub music, trance music, progressive house, electronica, synthpop, blues electronic, folktronica, drum and bass, chillout music, synthwave, jazz house, jazzhop, atmospheric music, blissful soundscapes, existential electronic, music creation, technology musings, creative process, downtempo philosophy, ambient composition, IDM thoughts, breakbeat culture, bass music theory, experimental hip hop, consciousness music, transcendental beats, meditative soundscapes, Xalpheric">
   <meta name="author" content="Xalpheric">
   <meta name="robots" content="index, follow">
-  
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="../assets/xalpheric_favicon.png">
-  
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="../css/theme.css">
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
-  
-  <!-- Scripts -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
 </head>
 <body>
-  <header class="site-header">
-    <div class="header-content">
-      <nav class="top-nav">
-        <a href="../index.html" class="nav-link">Home</a>
-        <a href="../musings.html" class="nav-link active">Thoughts & Musings</a>
-        <a href="../gallery.html" class="nav-link">Gallery</a>
-        <a href="../links.html" class="nav-link">Essential Links</a>
-        <a href="../guestbook.html" class="nav-link">Guest book</a>
-      </nav>
+  <nav class="site-nav">
+    <div class="container">
+      <div class="site-nav__inner">
+        <div class="site-nav__brand">
+          <div class="site-nav__brand-text">XALPHERIC</div>
+          <div class="site-nav__brand-sub" style="font-family:var(--font-data);font-size:0.65rem;letter-spacing:0.08em;color:var(--text-secondary);margin-top:0.25rem;">MIDI MOB</div>
+        </div>
+        <div class="site-nav__mobile">
+          <ul class="site-nav__links">
+            <li><a href="/index.html" class="site-nav__link">Home</a></li>
+            <li><a href="/gallery.html" class="site-nav__link">Gallery</a></li>
+            <li><a href="/collective.html" class="site-nav__link">Collective</a></li>
+            <li><a href="/musings.html" class="site-nav__link site-nav__link--active" aria-current="page">Musings</a></li>
+          </ul>
+        </div>
+      </div>
     </div>
-  </header>
-
-  <nav class="back-nav">
-    <a href="../musings.html" class="download">Back to Musings</a>
   </nav>
-  
-  <section class="musings-container">
-    <div class="note-content">
-      ${content}
+
+  <section class="section" style="background:var(--bg-mid);padding-top:calc(var(--space-section) + 1rem);">
+    <div class="container">
+      <p class="section__eyebrow">MUSINGS</p>
+      <h1 class="section__title">${title}</h1>
+      <a href="/musings.html" class="glide-btn glide-btn--cold" style="margin-top:var(--space-block);display:inline-flex;">← Back to Musings</a>
     </div>
   </section>
 
-  <script src="../js/main.js"></script>
-  <script src="../js/radio-player.js"></script>
+  <section class="section" style="background:var(--bg-base);">
+    <div class="container">
+      <div class="post-content">
+        ${content}
+      </div>
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/radio-player.js"></script>
 </body>
 </html>`;
 }
@@ -422,13 +428,16 @@ function wrapInTemplate(title, content) {
  * Generate index HTML file
  */
 async function generateIndex(entries, indexFile) {
-  let indexHtml = `<ul>\n`;
+  let indexHtml = '';
 
   for (const { name, sanitizedName } of entries) {
-    indexHtml += `<li><a href='musings/${sanitizedName}.html'>${name}</a></li>\n`;
+    const displayName = name.replace(/-/g, ' ');
+    indexHtml += `<a href="/musings/${sanitizedName}.html" class="release-strip" style="display:flex;align-items:center;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--border-subtle);text-decoration:none;transition:var(--transition-glide);">
+  <span style="font-family:var(--font-data);font-size:var(--type-caption);color:var(--text-faint);letter-spacing:0.1em;min-width:3rem;">${String(entries.indexOf(entries.find(e => e.sanitizedName === sanitizedName)) + 1).padStart(3, '0')}</span>
+  <span style="font-family:var(--font-display);font-size:var(--type-h3);font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">${displayName}</span>
+</a>\n`;
   }
 
-  indexHtml += `</ul>`;
   await fs.writeFile(indexFile, indexHtml, 'utf-8');
 
   logger.verbose(`📋 Generated index: ${indexFile}`);
