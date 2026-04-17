@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}} — Xalpheric</title>
+  <meta name="description" content="{{description}}">
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  {{> partials/nav navHome=navHome navGallery=navGallery navCollective=navCollective navMusings=navMusings}}
+  {{{content}}}
+  {{> partials/footer}}
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/guestbook-wakeup.js"></script>
+  <script src="/js/main.js"></script>
+  <script src="/js/gallery.js"></script>
+  <script src="/js/lightbox.js"></script>
+  <script src="/js/radio-player.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<nav class="site-nav">
+  <div class="container">
+    <div class="site-nav__inner">
+      <div class="site-nav__brand">
+        <div class="site-nav__brand-text">XALPHERIC</div>
+        <div class="site-nav__brand-sub" style="font-family: var(--font-data); font-size: 0.65rem; letter-spacing: 0.08em; color: var(--text-secondary); margin-top: 0.25rem;">MIDI MOB</div>
+      </div>
+
+      <button class="site-nav__hamburger" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <div class="site-nav__mobile">
+        <ul class="site-nav__links">
+          <li><a href="/index.html" class="site-nav__link{{#if navHome}} site-nav__link--active{{/if}}" {{#if navHome}}aria-current="page"{{/if}}>Home</a></li>
+          <li><a href="/gallery.html" class="site-nav__link{{#if navGallery}} site-nav__link--active{{/if}}" {{#if navGallery}}aria-current="page"{{/if}}>Gallery</a></li>
+          <li><a href="/collective.html" class="site-nav__link{{#if navCollective}} site-nav__link--active{{/if}}" {{#if navCollective}}aria-current="page"{{/if}}>Collective</a></li>
+          <li><a href="/musings.html" class="site-nav__link{{#if navMusings}} site-nav__link--active{{/if}}" {{#if navMusings}}aria-current="page"{{/if}}>Musings</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+(function(){
+  var btn = document.querySelector('.site-nav__hamburger');
+  var mob = document.querySelector('.site-nav__mobile');
+  if (!btn || !mob) return;
+  btn.addEventListener('click', function() {
+    var open = mob.classList.toggle('is-open');
+    btn.classList.toggle('is-open', open);
+    btn.setAttribute('aria-expanded', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && mob.classList.contains('is-open')) {
+      mob.classList.remove('is-open');
+      btn.classList.remove('is-open');
+      btn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+  });
+})();
+</script>

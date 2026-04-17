@@ -1,0 +1,19 @@
+<div class="member-card">
+  {{#if youtubeId}}
+  <div class="member-card__media">
+    <iframe width="100%" height="100%" src="https://www.youtube.com/embed/{{youtubeId}}" title="{{name}}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  {{/if}}
+  <div class="member-card__info">
+    <h3 class="member-card__name">{{name}}</h3>
+    <p class="member-card__role">{{role}}</p>
+    <p class="member-card__bio">{{bio}}</p>
+    {{#if links}}
+    <div class="member-card__links">
+      {{#each links}}
+      <a href="{{this.url}}" target="_blank" rel="noopener" class="member-card__link">{{this.label}}</a>
+      {{/each}}
+    </div>
+    {{/if}}
+  </div>
+</div>
