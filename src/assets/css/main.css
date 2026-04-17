@@ -358,8 +358,19 @@ body::before {
 .starmap-bg svg {
   width: 100%;
   height: 100%;
-  opacity: 0.18;
+  opacity: 0.22;
 }
+
+@keyframes star-twinkle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.star-pulse { animation: star-twinkle 4s ease-in-out infinite; }
+
+.star-pulse-slow { animation: star-twinkle 7s ease-in-out 1.5s infinite; }
+
+.star-pulse-offset { animation: star-twinkle 5s ease-in-out 3s infinite; }
 
 .starmap-panel {
   position: relative;
