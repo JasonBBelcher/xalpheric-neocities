@@ -2074,3 +2074,44 @@ audio {
     grid-template-columns: 1fr;
   }
 }
+
+/* ============================================================================
+   SECTION 24: LINKS PAGE
+   ============================================================================ */
+
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 0.75rem;
+}
+
+.link-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1rem 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  text-decoration: none;
+  transition: var(--transition-glide);
+}
+
+.link-card:hover {
+  border-color: var(--accent-primary);
+  background: rgba(196, 122, 42, 0.05);
+}
+
+.link-card__label {
+  font-family: var(--font-display);
+  font-size: var(--type-body);
+  color: var(--text-primary);
+  letter-spacing: 0.06em;
+}
+
+.link-card__url {
+  font-family: var(--font-data);
+  font-size: var(--type-caption);
+  color: var(--accent-cold);
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
