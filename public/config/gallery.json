@@ -137,12 +137,203 @@
         "description": "Midi Mob Live at Saturn Birmingham - Oscillations 2025",
         "category": "live",
         "year": 2025
+      },
+      {
+        "id": "midimob-1",
+        "filename": "midimob-1.jpg",
+        "path": "assets/midimob-1.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-2",
+        "filename": "midimob-2.jpg",
+        "path": "assets/midimob-2.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-3",
+        "filename": "midimob-3.jpg",
+        "path": "assets/midimob-3.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-4",
+        "filename": "midimob-4.png",
+        "path": "assets/midimob-4.png",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-5",
+        "filename": "midimob-5.jpeg",
+        "path": "assets/midimob-5.jpeg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-7",
+        "filename": "midimob-7.jpg",
+        "path": "assets/midimob-7.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-8",
+        "filename": "midimob-8.jpg",
+        "path": "assets/midimob-8.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-9",
+        "filename": "midimob-9.jpg",
+        "path": "assets/midimob-9.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "midimob-10",
+        "filename": "midimob-10.jpg",
+        "path": "assets/midimob-10.jpg",
+        "title": "MIDI Mob",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "midimob",
+        "year": 2025
+      },
+      {
+        "id": "gif-3653",
+        "filename": "gifs/IMG_3653.gif",
+        "path": "assets/gifs/IMG_3653.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-3654",
+        "filename": "gifs/IMG_3654.gif",
+        "path": "assets/gifs/IMG_3654.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-3655",
+        "filename": "gifs/IMG_3655.gif",
+        "path": "assets/gifs/IMG_3655.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-3656",
+        "filename": "gifs/IMG_3656.gif",
+        "path": "assets/gifs/IMG_3656.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-3657",
+        "filename": "gifs/IMG_3657.gif",
+        "path": "assets/gifs/IMG_3657.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-3658",
+        "filename": "gifs/IMG_3658.gif",
+        "path": "assets/gifs/IMG_3658.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-3659",
+        "filename": "gifs/IMG_3659.gif",
+        "path": "assets/gifs/IMG_3659.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-4756",
+        "filename": "gifs/IMG_4756.gif",
+        "path": "assets/gifs/IMG_4756.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-4758",
+        "filename": "gifs/IMG_4758.gif",
+        "path": "assets/gifs/IMG_4758.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-4760",
+        "filename": "gifs/IMG_4760.gif",
+        "path": "assets/gifs/IMG_4760.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-4777",
+        "filename": "gifs/IMG_4777.gif",
+        "path": "assets/gifs/IMG_4777.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
+      },
+      {
+        "id": "gif-4782",
+        "filename": "gifs/IMG_4782.gif",
+        "path": "assets/gifs/IMG_4782.gif",
+        "title": "MIDI Mob Session",
+        "description": "MIDI Mob Collective — Birmingham AL",
+        "category": "gifs",
+        "year": 2025
       }
     ],
     "categories": {
       "studio": "Studio Environment",
-      "equipment": "Hardware & Equipment", 
-      "live": "Live Performances"
+      "equipment": "Hardware & Equipment",
+      "live": "Live Performances",
+      "midimob": "MIDI Mob Collective",
+      "gifs": "Animated GIFs"
     }
   }
 }

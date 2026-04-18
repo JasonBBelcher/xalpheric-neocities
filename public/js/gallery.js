@@ -241,7 +241,10 @@ $(document).ready(function() {
 
   // Global functions for lightbox
   window.openLightbox = function(imageSrc, caption, description = '') {
-    const imageName = imageSrc.split('/').pop();
+    // Strip leading "assets/" to match the filename stored in gallery config
+    // e.g. "assets/gifs/IMG_3654.gif" → "gifs/IMG_3654.gif"
+    //      "assets/studio1.jpg"        → "studio1.jpg"
+    const imageName = imageSrc.replace(/^assets\//, '');
     // Find the index by comparing filenames
     currentImageIndex = galleryImages.findIndex(img => img.filename === imageName);
     
