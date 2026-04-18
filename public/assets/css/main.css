@@ -246,10 +246,14 @@ body::before {
   position: absolute;
   right: -80px;
   top: 50%;
-  transform: translateY(-50%);
   width: clamp(240px, 35vw, 420px);
-  opacity: 0.12;
+  opacity: 0.5;
   pointer-events: none;
+  animation: vinyl-spin 90s linear infinite;
+}
+@keyframes vinyl-spin {
+  from { transform: translateY(-50%) rotate(0deg); }
+  to   { transform: translateY(-50%) rotate(360deg); }
 }
 
 .hero__eyebrow {
