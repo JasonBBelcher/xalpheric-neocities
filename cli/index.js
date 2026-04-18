@@ -337,6 +337,38 @@ mediaCommand
   });
 
 mediaCommand
+  .command('gif')
+  .description('Create an animated GIF from a video file')
+  .requiredOption('-i, --input <file>', 'Input video file')
+  .option('-o, --output <name>', 'Output filename (default: input basename + .gif)')
+  .option('-d, --output-dir <path>', 'Output directory', 'public/assets/')
+  .option('-s, --start <time>', 'Start time (seconds or HH:MM:SS)', '0')
+  .option('-t, --duration <seconds>', 'Duration in seconds')
+  .option('--fps <number>', 'Frames per second', '12')
+  .option('-w, --width <pixels>', 'Output width in pixels', '480')
+  .option('--loop <count>', 'Loop count (0=infinite, -1=no loop)', '0')
+  .option('-v, --verbose', 'Show ffmpeg output')
+  .action(async (options) => {
+    try {
+      const createGif = require('./commands/media/gif');
+      await createGif({
+        input: options.input,
+        output: options.output,
+        outputDir: options.outputDir,
+        start: options.start,
+        duration: options.duration,
+        fps: options.fps,
+        width: options.width,
+        loop: options.loop,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
+mediaCommand
   .command('list-video-presets')
   .description('List available video processing presets')
   .action(() => {
