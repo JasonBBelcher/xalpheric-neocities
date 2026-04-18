@@ -312,8 +312,26 @@ class XalphericRadioPlayer {
     performInitialSync() {
         // Perform initial synchronization when both players are ready
         console.log('Performing initial radio-main player sync...');
-        
-        // Wait for main player to have a source
+
+        // Fastest path: main.js sets window.xalphericSyncTarget as soon as it
+        // picks its random track.  Use that immediately so the art is never wrong.
+        const applySyncTarget = () => {
+            if (typeof window.xalphericSyncTarget !== 'undefined' && this.playlist.length > 0) {
+                const idx = Math.min(window.xalphericSyncTarget, this.playlist.length - 1);
+                if (idx !== this.currentTrack) {
+                    console.log('Applying xalphericSyncTarget:', idx);
+                    this.currentTrack = idx;
+                    this.updateRadioUI();
+                    this.updatePlaylistSelection();
+                }
+                return true;
+            }
+            return false;
+        };
+
+        if (applySyncTarget()) return;
+
+        // Fallback: match by audio src from the <audio#player> element
         const checkMainPlayerReady = () => {
             if (this.homePlayer && this.homePlayer.src) {
                 console.log('Main player has source:', this.homePlayer.src);
@@ -322,13 +340,13 @@ class XalphericRadioPlayer {
             }
             return false;
         };
-        
-        // Try immediate sync
+
+        // Try immediate src-based sync
         if (!checkMainPlayerReady()) {
-            // If main player not ready, wait a bit and try again
+            // Retry — by this point main.js will have set xalphericSyncTarget
             const retrySync = () => {
-                if (!checkMainPlayerReady()) {
-                    // Try syncing with main.js current index
+                if (!applySyncTarget() && !checkMainPlayerReady()) {
+                    // Last resort: use window.current index
                     if (typeof window.current !== 'undefined' && this.playlist.length > 0) {
                         console.log('Syncing radio player to main.js current index:', window.current);
                         this.currentTrack = Math.min(window.current, this.playlist.length - 1);
@@ -337,8 +355,7 @@ class XalphericRadioPlayer {
                     }
                 }
             };
-            
-            // Retry after main.js has had time to load
+
             setTimeout(retrySync, 100);
             setTimeout(retrySync, 500);
             setTimeout(retrySync, 1000);
@@ -885,10 +902,15 @@ class XalphericRadioPlayer {
         if (saved) {
             try {
                 const state = JSON.parse(saved);
-                this.currentTrack = state.currentTrack || 0;
+                // On the home page the main player is the source of truth for which
+                // track is shown — syncWithHomePlayer() will set currentTrack correctly.
+                // Restoring it from localStorage here would cause the stale-art bug.
+                if (!this.isHomePage) {
+                    this.currentTrack = state.currentTrack || 0;
+                }
                 this.isCollapsed = state.isCollapsed !== false; // Default to collapsed
                 this.audio.volume = state.volume || 1;
-                
+
                 this.updateRadioUI();
                 this.updateVisibility();
                 this.updatePlaylistSelection();

@@ -34,6 +34,20 @@ function formatReleasesForMain(releasesData) {
   }));
 }
 
+// Pick a random starting track, avoiding repeating the same one twice in a row
+// across page loads by storing the last index in sessionStorage.
+function pickRandomStart(total) {
+  if (total <= 1) return 0;
+  const lastKey = 'xalpheric_last_track';
+  const last = parseInt(sessionStorage.getItem(lastKey) ?? '-1', 10);
+  let idx;
+  do {
+    idx = Math.floor(Math.random() * total);
+  } while (idx === last);
+  sessionStorage.setItem(lastKey, idx);
+  return idx;
+}
+
 // Load releases configuration from JSON
 // Use shared releases loading utility
 async function loadReleases() {
@@ -44,23 +58,34 @@ async function loadReleases() {
     }
     const releasesData = await loadReleasesConfig();
     releases = formatReleasesForMain(releasesData);
+    current = pickRandomStart(releases.length);
     showRelease(current);
     updateNavigationState();
-    
+
     // Expose globally for radio player sync
     window.releases = releases;
     window.current = current;
-    
+    // Explicit sync target so the radio widget always shows the same track as the main player
+    window.xalphericSyncTarget = current;
+    if (window.xalphericRadioInstance) {
+      window.xalphericRadioInstance.syncWithHomePlayer();
+    }
+
   } catch (error) {
     console.error('Failed to load releases:', error);
     // Use fallback releases
     releases = getFallbackReleasesForMain();
+    current = pickRandomStart(releases.length);
     showRelease(current);
     updateNavigationState();
-    
+
     // Expose globally for radio player sync
     window.releases = releases;
     window.current = current;
+    window.xalphericSyncTarget = current;
+    if (window.xalphericRadioInstance) {
+      window.xalphericRadioInstance.syncWithHomePlayer();
+    }
   }
 }
 
