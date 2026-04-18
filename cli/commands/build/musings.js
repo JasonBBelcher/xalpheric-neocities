@@ -393,26 +393,26 @@ const HERO_ANIMATIONS = [
     <circle cx="370" cy="245" r="0.7" fill="#c47a2a" class="star-pulse-slow"/>
     <circle cx="570" cy="255" r="1.2" fill="#e4d9bc"/>
     <circle cx="720" cy="240" r="0.9" fill="#2a8a9c"/>
-    <line x1="60"  y1="35"  x2="155" y2="70"  stroke="#c47a2a" stroke-width="0.4"  opacity="0.75"/>
-    <line x1="155" y1="70"  x2="245" y2="30"  stroke="#c47a2a" stroke-width="0.4"  opacity="0.75"/>
-    <line x1="245" y1="30"  x2="340" y2="80"  stroke="#c47a2a" stroke-width="0.35" opacity="0.65"/>
-    <line x1="340" y1="80"  x2="430" y2="25"  stroke="#c47a2a" stroke-width="0.35" opacity="0.65"/>
-    <line x1="430" y1="25"  x2="520" y2="75"  stroke="#c47a2a" stroke-width="0.3"  opacity="0.55"/>
-    <line x1="520" y1="75"  x2="620" y2="20"  stroke="#c47a2a" stroke-width="0.3"  opacity="0.55"/>
-    <line x1="620" y1="20"  x2="740" y2="60"  stroke="#c47a2a" stroke-width="0.25" opacity="0.5"/>
-    <line x1="90"  y1="155" x2="200" y2="175" stroke="#2a8a9c" stroke-width="0.4"  opacity="0.75"/>
-    <line x1="200" y1="175" x2="310" y2="140" stroke="#2a8a9c" stroke-width="0.4"  opacity="0.75"/>
-    <line x1="310" y1="140" x2="420" y2="170" stroke="#2a8a9c" stroke-width="0.35" opacity="0.65"/>
-    <line x1="420" y1="170" x2="535" y2="145" stroke="#2a8a9c" stroke-width="0.35" opacity="0.65"/>
-    <line x1="535" y1="145" x2="660" y2="180" stroke="#2a8a9c" stroke-width="0.3"  opacity="0.55"/>
-    <line x1="660" y1="180" x2="760" y2="150" stroke="#2a8a9c" stroke-width="0.3"  opacity="0.55"/>
-    <line x1="245" y1="30"  x2="310" y2="140" stroke="#e4d9bc" stroke-width="0.2"  opacity="0.38"/>
-    <line x1="520" y1="75"  x2="535" y2="145" stroke="#e4d9bc" stroke-width="0.2"  opacity="0.38"/>
-    <line x1="0"   y1="93"  x2="800" y2="93"  stroke="#2a8a9c" stroke-width="0.2"  opacity="0.28"/>
-    <line x1="0"   y1="186" x2="800" y2="186" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.28"/>
-    <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.22"/>
-    <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.22"/>
-    <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.22"/>
+    <line x1="60"  y1="35"  x2="155" y2="70"  stroke="#c47a2a" stroke-width="0.65"  opacity="0.75"/>
+    <line x1="155" y1="70"  x2="245" y2="30"  stroke="#c47a2a" stroke-width="0.65"  opacity="0.75"/>
+    <line x1="245" y1="30"  x2="340" y2="80"  stroke="#c47a2a" stroke-width="0.55" opacity="0.65"/>
+    <line x1="340" y1="80"  x2="430" y2="25"  stroke="#c47a2a" stroke-width="0.55" opacity="0.65"/>
+    <line x1="430" y1="25"  x2="520" y2="75"  stroke="#c47a2a" stroke-width="0.5"  opacity="0.55"/>
+    <line x1="520" y1="75"  x2="620" y2="20"  stroke="#c47a2a" stroke-width="0.5"  opacity="0.55"/>
+    <line x1="620" y1="20"  x2="740" y2="60"  stroke="#c47a2a" stroke-width="0.4" opacity="0.5"/>
+    <line x1="90"  y1="155" x2="200" y2="175" stroke="#2a8a9c" stroke-width="0.65"  opacity="0.75"/>
+    <line x1="200" y1="175" x2="310" y2="140" stroke="#2a8a9c" stroke-width="0.65"  opacity="0.75"/>
+    <line x1="310" y1="140" x2="420" y2="170" stroke="#2a8a9c" stroke-width="0.55" opacity="0.65"/>
+    <line x1="420" y1="170" x2="535" y2="145" stroke="#2a8a9c" stroke-width="0.55" opacity="0.65"/>
+    <line x1="535" y1="145" x2="660" y2="180" stroke="#2a8a9c" stroke-width="0.5"  opacity="0.55"/>
+    <line x1="660" y1="180" x2="760" y2="150" stroke="#2a8a9c" stroke-width="0.5"  opacity="0.55"/>
+    <line x1="245" y1="30"  x2="310" y2="140" stroke="#e4d9bc" stroke-width="0.35"  opacity="0.38"/>
+    <line x1="520" y1="75"  x2="535" y2="145" stroke="#e4d9bc" stroke-width="0.35"  opacity="0.38"/>
+    <line x1="0"   y1="93"  x2="800" y2="93"  stroke="#2a8a9c" stroke-width="0.35"  opacity="0.28"/>
+    <line x1="0"   y1="186" x2="800" y2="186" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.28"/>
+    <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.22"/>
+    <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.22"/>
+    <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.22"/>
   </svg>`,
 
   // 1 — BLINKING STARS
@@ -473,18 +473,18 @@ const HERO_ANIMATIONS = [
       .mc-nd{animation:mc-nd 2.2s ease-in-out infinite}
     </style></defs>
     <g class="mc-tl">
-      <line x1="400" y1="140" x2="400" y2="10"  stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
-      <line x1="400" y1="140" x2="400" y2="270" stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
-      <line x1="400" y1="140" x2="527" y2="33"  stroke="#e4d9bc" stroke-width="0.3" opacity="0.35"/>
-      <line x1="400" y1="140" x2="273" y2="247" stroke="#e4d9bc" stroke-width="0.3" opacity="0.35"/>
-      <line x1="400" y1="140" x2="527" y2="247" stroke="#2a8a9c" stroke-width="0.3" opacity="0.35"/>
-      <line x1="400" y1="140" x2="273" y2="33"  stroke="#2a8a9c" stroke-width="0.3" opacity="0.35"/>
+      <line x1="400" y1="140" x2="400" y2="10"  stroke="#c47a2a" stroke-width="0.65" opacity="0.45"/>
+      <line x1="400" y1="140" x2="400" y2="270" stroke="#c47a2a" stroke-width="0.65" opacity="0.45"/>
+      <line x1="400" y1="140" x2="527" y2="33"  stroke="#e4d9bc" stroke-width="0.5" opacity="0.35"/>
+      <line x1="400" y1="140" x2="273" y2="247" stroke="#e4d9bc" stroke-width="0.5" opacity="0.35"/>
+      <line x1="400" y1="140" x2="527" y2="247" stroke="#2a8a9c" stroke-width="0.5" opacity="0.35"/>
+      <line x1="400" y1="140" x2="273" y2="33"  stroke="#2a8a9c" stroke-width="0.5" opacity="0.35"/>
     </g>
-    <circle class="mc-r1" cx="400" cy="140" r="28"  fill="none" stroke="#c47a2a" stroke-width="1.2" opacity="0.9"  stroke-dasharray="8 4"/>
-    <circle class="mc-r2" cx="400" cy="140" r="52"  fill="none" stroke="#2a8a9c" stroke-width="0.8" opacity="0.75" stroke-dasharray="14 6"/>
-    <circle class="mc-r3" cx="400" cy="140" r="78"  fill="none" stroke="#e4d9bc" stroke-width="0.6" opacity="0.62" stroke-dasharray="20 9 4 9"/>
-    <circle class="mc-r4" cx="400" cy="140" r="98"  fill="none" stroke="#c47a2a" stroke-width="0.5" opacity="0.52" stroke-dasharray="6 6"/>
-    <circle class="mc-r5" cx="400" cy="140" r="122" fill="none" stroke="#2a8a9c" stroke-width="0.4" opacity="0.42" stroke-dasharray="28 14 4 14"/>
+    <circle class="mc-r1" cx="400" cy="140" r="28"  fill="none" stroke="#c47a2a" stroke-width="1.8" opacity="0.9"  stroke-dasharray="8 4"/>
+    <circle class="mc-r2" cx="400" cy="140" r="52"  fill="none" stroke="#2a8a9c" stroke-width="1.2" opacity="0.75" stroke-dasharray="14 6"/>
+    <circle class="mc-r3" cx="400" cy="140" r="78"  fill="none" stroke="#e4d9bc" stroke-width="0.9" opacity="0.62" stroke-dasharray="20 9 4 9"/>
+    <circle class="mc-r4" cx="400" cy="140" r="98"  fill="none" stroke="#c47a2a" stroke-width="0.8" opacity="0.52" stroke-dasharray="6 6"/>
+    <circle class="mc-r5" cx="400" cy="140" r="122" fill="none" stroke="#2a8a9c" stroke-width="0.65" opacity="0.42" stroke-dasharray="28 14 4 14"/>
     <g class="mc-r1">
       <circle cx="400" cy="112" r="2.5" fill="#c47a2a" class="mc-nd"/>
       <circle cx="428" cy="140" r="2"   fill="#e4d9bc" class="mc-nd" style="animation-delay:.55s"/>
@@ -506,7 +506,7 @@ const HERO_ANIMATIONS = [
     <circle cx="175" cy="28"  r="0.8" fill="#2a8a9c" opacity="0.65"/>
     <circle cx="625" cy="258" r="0.8" fill="#c47a2a" opacity="0.65" class="star-pulse-offset"/>
     <circle cx="400" cy="140" r="5"   fill="#c47a2a" class="mc-nd"/>
-    <circle cx="400" cy="140" r="9"   fill="none" stroke="#c47a2a" stroke-width="0.6" opacity="0.6" class="mc-nd"/>
+    <circle cx="400" cy="140" r="9"   fill="none" stroke="#c47a2a" stroke-width="0.9" opacity="0.6" class="mc-nd"/>
   </svg>`,
 
   // 3 — CIRCUITRY
@@ -522,20 +522,20 @@ const HERO_ANIMATIONS = [
       .mp-p5{stroke-dasharray:600;animation:mp-draw  6s ease-in-out infinite 2.2s}
       .mp-cn{animation:mp-node 3s ease-in-out infinite}
     </style></defs>
-    <line x1="0"   y1="140" x2="800" y2="140" stroke="#2a8a9c" stroke-width="0.25" opacity="0.28"/>
-    <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.22"/>
-    <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.22"/>
-    <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.2"  opacity="0.22"/>
+    <line x1="0"   y1="140" x2="800" y2="140" stroke="#2a8a9c" stroke-width="0.4" opacity="0.28"/>
+    <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.22"/>
+    <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.22"/>
+    <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.35"  opacity="0.22"/>
     <polyline class="mp-p1" points="20,25 140,25 140,65 300,65 300,42 470,42 470,25 600,25"
-      fill="none" stroke="#c47a2a" stroke-width="0.8" opacity="0.75"/>
+      fill="none" stroke="#c47a2a" stroke-width="1.2" opacity="0.75"/>
     <polyline class="mp-p2" points="780,255 640,255 640,218 480,218 480,240 300,240 300,258 150,258"
-      fill="none" stroke="#2a8a9c" stroke-width="0.8" opacity="0.75"/>
+      fill="none" stroke="#2a8a9c" stroke-width="1.2" opacity="0.75"/>
     <polyline class="mp-p3" points="0,160 80,160 80,182 230,182 230,158 400,158 400,190 565,190 565,162 710,162 710,180 800,180"
-      fill="none" stroke="#e4d9bc" stroke-width="0.5" opacity="0.55"/>
+      fill="none" stroke="#e4d9bc" stroke-width="0.8" opacity="0.55"/>
     <polyline class="mp-p4" points="800,50 665,50 665,88 520,88 520,62 355,62 355,82 215,82 215,55 90,55"
-      fill="none" stroke="#2a8a9c" stroke-width="0.6" opacity="0.65"/>
+      fill="none" stroke="#2a8a9c" stroke-width="0.9" opacity="0.65"/>
     <polyline class="mp-p5" points="0,210 120,210 120,195 260,195 260,215 430,215 430,200 590,200 590,218 720,218 720,200 800,200"
-      fill="none" stroke="#c47a2a" stroke-width="0.5" opacity="0.6"/>
+      fill="none" stroke="#c47a2a" stroke-width="0.8" opacity="0.6"/>
     <circle cx="140" cy="65"  r="2.5" fill="#c47a2a" class="mp-cn" style="animation-delay:.8s"/>
     <circle cx="300" cy="42"  r="2"   fill="#e4d9bc" class="mp-cn" style="animation-delay:1.6s"/>
     <circle cx="480" cy="218" r="2.5" fill="#2a8a9c" class="mp-cn" style="animation-delay:2.2s"/>
@@ -586,11 +586,11 @@ const HERO_ANIMATIONS = [
     <circle cx="355" cy="25"  r="0.7" fill="#e4d9bc" opacity="0.5"/>
     <circle cx="505" cy="165" r="0.5" fill="#2a8a9c" opacity="0.5"/>
     <circle cx="725" cy="175" r="0.6" fill="#e4d9bc" opacity="0.5"/>
-    <line x1="0"   y1="93"  x2="800" y2="93"  stroke="#2a8a9c" stroke-width="0.2" opacity="0.28"/>
-    <line x1="0"   y1="186" x2="800" y2="186" stroke="#2a8a9c" stroke-width="0.2" opacity="0.28"/>
-    <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.2" opacity="0.22"/>
-    <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.2" opacity="0.22"/>
-    <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.2" opacity="0.22"/>
+    <line x1="0"   y1="93"  x2="800" y2="93"  stroke="#2a8a9c" stroke-width="0.35" opacity="0.28"/>
+    <line x1="0"   y1="186" x2="800" y2="186" stroke="#2a8a9c" stroke-width="0.35" opacity="0.28"/>
+    <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.35" opacity="0.22"/>
+    <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.35" opacity="0.22"/>
+    <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.35" opacity="0.22"/>
   </svg>`
 ];
 
