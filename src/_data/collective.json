@@ -11,18 +11,15 @@
       ]
     },
     {
-      "name": "Gone",
-      "role": "Folktronic Ambient",
-      "bio": "Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.",
-      "youtubeId": "QmhxgTx6cmA",
-      "links": []
-    },
-    {
-      "name": "Future Primitives",
-      "role": "Experimental Rock",
-      "bio": "Live performance ensemble delivering raw, visceral sonic experiences. Featured performing \"Black Iron Prison\" on Little Room In Florida.",
-      "youtubeId": "McpFOjksrKI",
-      "links": []
+      "name": "Carbilicon",
+      "role": "Psytrance · Techno · Goa Trance",
+      "bio": "Noah Richardson — Korg hardware enthusiast and vinyl DJ specializing in classic Goa trance. Known for hypnotic live performances and deep hardware explorations.",
+      "youtubeId": "ifO4oQLr-2U",
+      "links": [
+        { "label": "YouTube", "url": "https://www.youtube.com/@carbilicon" },
+        { "label": "SoundCloud", "url": "https://soundcloud.com/carbilicon" },
+        { "label": "Full Collection", "url": "carbilicon.html" }
+      ]
     },
     {
       "name": "Lower Hybrid",
@@ -36,15 +33,18 @@
       ]
     },
     {
-      "name": "Carbilicon",
-      "role": "Psytrance · Techno · Goa Trance",
-      "bio": "Noah Richardson — Korg hardware enthusiast and vinyl DJ specializing in classic Goa trance. Known for hypnotic live performances and deep hardware explorations.",
-      "youtubeId": "ifO4oQLr-2U",
-      "links": [
-        { "label": "YouTube", "url": "https://www.youtube.com/@carbilicon" },
-        { "label": "SoundCloud", "url": "https://soundcloud.com/carbilicon" },
-        { "label": "Full Collection", "url": "carbilicon.html" }
-      ]
+      "name": "Gone",
+      "role": "Folktronic Ambient",
+      "bio": "Josh Davis creates immersive soundscapes blending folk sensibilities with electronic textures and ambient atmospheres.",
+      "youtubeId": "QmhxgTx6cmA",
+      "links": []
+    },
+    {
+      "name": "Future Primitives",
+      "role": "Experimental Rock",
+      "bio": "Live performance ensemble delivering raw, visceral sonic experiences. Featured performing \"Black Iron Prison\" on Little Room In Florida.",
+      "youtubeId": "McpFOjksrKI",
+      "links": []
     },
     {
       "name": "Joseph Deese / Hamrock Records",
