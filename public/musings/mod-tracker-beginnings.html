@@ -34,6 +34,57 @@
   </nav>
 
   <section class="section" style="background:var(--bg-mid);padding-top:calc(var(--space-section) + 1rem);">
+    <div class="starmap-bg" aria-hidden="true">
+      <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><style>
+      @keyframes mc-cw  { from{transform:rotate(0deg)}   to{transform:rotate(360deg)}  }
+      @keyframes mc-ccw { from{transform:rotate(0deg)}   to{transform:rotate(-360deg)} }
+      @keyframes mc-nd  { 0%,100%{opacity:.65} 50%{opacity:1} }
+      .mc-r1{transform-origin:400px 140px;animation:mc-cw  20s linear infinite}
+      .mc-r2{transform-origin:400px 140px;animation:mc-ccw 30s linear infinite}
+      .mc-r3{transform-origin:400px 140px;animation:mc-cw  45s linear infinite}
+      .mc-r4{transform-origin:400px 140px;animation:mc-ccw 14s linear infinite}
+      .mc-r5{transform-origin:400px 140px;animation:mc-cw  65s linear infinite}
+      .mc-tl{transform-origin:400px 140px;animation:mc-cw 100s linear infinite}
+      .mc-nd{animation:mc-nd 2.2s ease-in-out infinite}
+    </style></defs>
+    <g class="mc-tl">
+      <line x1="400" y1="140" x2="400" y2="10"  stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
+      <line x1="400" y1="140" x2="400" y2="270" stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
+      <line x1="400" y1="140" x2="527" y2="33"  stroke="#e4d9bc" stroke-width="0.3" opacity="0.35"/>
+      <line x1="400" y1="140" x2="273" y2="247" stroke="#e4d9bc" stroke-width="0.3" opacity="0.35"/>
+      <line x1="400" y1="140" x2="527" y2="247" stroke="#2a8a9c" stroke-width="0.3" opacity="0.35"/>
+      <line x1="400" y1="140" x2="273" y2="33"  stroke="#2a8a9c" stroke-width="0.3" opacity="0.35"/>
+    </g>
+    <circle class="mc-r1" cx="400" cy="140" r="28"  fill="none" stroke="#c47a2a" stroke-width="1.2" opacity="0.9"  stroke-dasharray="8 4"/>
+    <circle class="mc-r2" cx="400" cy="140" r="52"  fill="none" stroke="#2a8a9c" stroke-width="0.8" opacity="0.75" stroke-dasharray="14 6"/>
+    <circle class="mc-r3" cx="400" cy="140" r="78"  fill="none" stroke="#e4d9bc" stroke-width="0.6" opacity="0.62" stroke-dasharray="20 9 4 9"/>
+    <circle class="mc-r4" cx="400" cy="140" r="98"  fill="none" stroke="#c47a2a" stroke-width="0.5" opacity="0.52" stroke-dasharray="6 6"/>
+    <circle class="mc-r5" cx="400" cy="140" r="122" fill="none" stroke="#2a8a9c" stroke-width="0.4" opacity="0.42" stroke-dasharray="28 14 4 14"/>
+    <g class="mc-r1">
+      <circle cx="400" cy="112" r="2.5" fill="#c47a2a" class="mc-nd"/>
+      <circle cx="428" cy="140" r="2"   fill="#e4d9bc" class="mc-nd" style="animation-delay:.55s"/>
+      <circle cx="400" cy="168" r="2.5" fill="#c47a2a" class="mc-nd" style="animation-delay:1.1s"/>
+      <circle cx="372" cy="140" r="2"   fill="#e4d9bc" class="mc-nd" style="animation-delay:1.65s"/>
+    </g>
+    <g class="mc-r2">
+      <circle cx="400" cy="88"  r="2"   fill="#2a8a9c" class="mc-nd"/>
+      <circle cx="452" cy="114" r="1.5" fill="#e4d9bc" class="mc-nd" style="animation-delay:.8s"/>
+      <circle cx="452" cy="166" r="2"   fill="#2a8a9c" class="mc-nd" style="animation-delay:1.6s"/>
+      <circle cx="400" cy="192" r="1.5" fill="#e4d9bc" class="mc-nd" style="animation-delay:2.4s"/>
+      <circle cx="348" cy="166" r="2"   fill="#2a8a9c" class="mc-nd" style="animation-delay:.4s"/>
+      <circle cx="348" cy="114" r="1.5" fill="#e4d9bc" class="mc-nd" style="animation-delay:1.2s"/>
+    </g>
+    <circle cx="80"  cy="38"  r="1.1" fill="#e4d9bc" opacity="0.8" class="star-pulse"/>
+    <circle cx="720" cy="52"  r="0.9" fill="#c47a2a" opacity="0.75"/>
+    <circle cx="100" cy="225" r="1.0" fill="#2a8a9c" opacity="0.7"  class="star-pulse-slow"/>
+    <circle cx="700" cy="232" r="1.1" fill="#e4d9bc" opacity="0.8"/>
+    <circle cx="175" cy="28"  r="0.8" fill="#2a8a9c" opacity="0.65"/>
+    <circle cx="625" cy="258" r="0.8" fill="#c47a2a" opacity="0.65" class="star-pulse-offset"/>
+    <circle cx="400" cy="140" r="5"   fill="#c47a2a" class="mc-nd"/>
+    <circle cx="400" cy="140" r="9"   fill="none" stroke="#c47a2a" stroke-width="0.6" opacity="0.6" class="mc-nd"/>
+  </svg>
+    </div>
     <div class="container">
       <p class="section__eyebrow">MUSINGS</p>
       <h1 class="section__title">mod-tracker-beginnings</h1>
