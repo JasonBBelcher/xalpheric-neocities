@@ -9,6 +9,16 @@ navHome: true
 <section class="hero">
   <div class="hero__starmap" aria-hidden="true">
     <svg viewBox="0 0 800 400" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <style>
+          @keyframes ix-blink { 0%,100% { opacity:0.2; } 55% { opacity:0.85; } }
+          @keyframes ix-spin  { to { transform: rotate(360deg); } }
+          @keyframes ix-pulse { 0%,100% { opacity:0.5; transform: scale(1); } 50% { opacity:1; transform: scale(1.08); } }
+          .ix-con  { animation: ix-blink 4s ease-in-out infinite; }
+          .ix-spin { animation: ix-spin  25s linear infinite; transform-box: fill-box; transform-origin: center; }
+          .ix-pls  { animation: ix-pulse 3s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+        </style>
+      </defs>
       <!-- Star field -->
       <circle cx="42" cy="28" r="1" fill="#c47a2a"/>
       <circle cx="120" cy="67" r="0.7" fill="#e4d9bc"/>
@@ -34,12 +44,12 @@ navHome: true
       <circle cx="500" cy="290" r="0.6" fill="#e4d9bc"/>
       <circle cx="660" cy="330" r="1.1" fill="#2a8a9c"/>
       <!-- Constellation lines -->
-      <line x1="42" y1="28" x2="120" y2="67" stroke="#c47a2a" stroke-width="0.65" opacity="0.6"/>
-      <line x1="120" y1="67" x2="200" y2="22" stroke="#c47a2a" stroke-width="0.65" opacity="0.6"/>
-      <line x1="380" y1="34" x2="450" y2="78" stroke="#2a8a9c" stroke-width="0.65" opacity="0.6"/>
-      <line x1="450" y1="78" x2="520" y2="15" stroke="#2a8a9c" stroke-width="0.65" opacity="0.6"/>
-      <line x1="160" y1="180" x2="240" y2="155" stroke="#c47a2a" stroke-width="0.65" opacity="0.6"/>
-      <line x1="240" y1="155" x2="340" y2="200" stroke="#c47a2a" stroke-width="0.65" opacity="0.6"/>
+      <line class="ix-con" style="animation-delay:0s"    x1="42"  y1="28"  x2="120" y2="67"  stroke="#c47a2a" stroke-width="1.0" opacity="0.75"/>
+      <line class="ix-con" style="animation-delay:0.5s"  x1="120" y1="67"  x2="200" y2="22"  stroke="#c47a2a" stroke-width="1.0" opacity="0.75"/>
+      <line class="ix-con" style="animation-delay:0.3s"  x1="380" y1="34"  x2="450" y2="78"  stroke="#2a8a9c" stroke-width="1.0" opacity="0.75"/>
+      <line class="ix-con" style="animation-delay:0.8s"  x1="450" y1="78"  x2="520" y2="15"  stroke="#2a8a9c" stroke-width="1.0" opacity="0.75"/>
+      <line class="ix-con" style="animation-delay:1.2s"  x1="160" y1="180" x2="240" y2="155" stroke="#c47a2a" stroke-width="1.0" opacity="0.75"/>
+      <line class="ix-con" style="animation-delay:0.7s"  x1="240" y1="155" x2="340" y2="200" stroke="#c47a2a" stroke-width="1.0" opacity="0.75"/>
       <!-- Coordinate grid -->
       <line x1="0" y1="133" x2="800" y2="133" stroke="#2a8a9c" stroke-width="0.5" opacity="0.3"/>
       <line x1="0" y1="266" x2="800" y2="266" stroke="#2a8a9c" stroke-width="0.5" opacity="0.3"/>
@@ -47,12 +57,12 @@ navHome: true
       <line x1="400" y1="0" x2="400" y2="400" stroke="#2a8a9c" stroke-width="0.5" opacity="0.3"/>
       <line x1="600" y1="0" x2="600" y2="400" stroke="#2a8a9c" stroke-width="0.5" opacity="0.3"/>
       <!-- Target reticle -->
-      <circle cx="340" cy="200" r="12" stroke="#c47a2a" stroke-width="0.8" fill="none"/>
-      <circle cx="340" cy="200" r="20" stroke="#c47a2a" stroke-width="0.5" fill="none" stroke-dasharray="3 3"/>
-      <line x1="328" y1="200" x2="316" y2="200" stroke="#c47a2a" stroke-width="0.8"/>
-      <line x1="352" y1="200" x2="364" y2="200" stroke="#c47a2a" stroke-width="0.8"/>
-      <line x1="340" y1="188" x2="340" y2="176" stroke="#c47a2a" stroke-width="0.8"/>
-      <line x1="340" y1="212" x2="340" y2="224" stroke="#c47a2a" stroke-width="0.8"/>
+      <circle class="ix-pls" cx="340" cy="200" r="12" stroke="#c47a2a" stroke-width="1.2" fill="none"/>
+      <circle class="ix-spin" cx="340" cy="200" r="20" stroke="#c47a2a" stroke-width="0.8" fill="none" stroke-dasharray="3 3"/>
+      <line class="ix-con" style="animation-delay:0.2s" x1="328" y1="200" x2="316" y2="200" stroke="#c47a2a" stroke-width="1.2"/>
+      <line class="ix-con" style="animation-delay:0.2s" x1="352" y1="200" x2="364" y2="200" stroke="#c47a2a" stroke-width="1.2"/>
+      <line class="ix-con" style="animation-delay:0.2s" x1="340" y1="188" x2="340" y2="176" stroke="#c47a2a" stroke-width="1.2"/>
+      <line class="ix-con" style="animation-delay:0.2s" x1="340" y1="212" x2="340" y2="224" stroke="#c47a2a" stroke-width="1.2"/>
     </svg>
   </div>
 
@@ -98,6 +108,15 @@ navHome: true
 <section class="section section--alt" id="identity">
   <div class="starmap-bg" aria-hidden="true">
     <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <style>
+          @keyframes id-blink { 0%,100% { opacity:0.2; } 55% { opacity:0.8; } }
+          @keyframes id-spin  { to { transform: rotate(-360deg); } }
+          @keyframes id-pls   { 0%,100% { opacity:0.4; r:10; } 50% { opacity:0.85; r:12; } }
+          .id-con  { animation: id-blink 5s ease-in-out infinite; }
+          .id-spin { animation: id-spin  30s linear infinite; transform-box: fill-box; transform-origin: center; }
+        </style>
+      </defs>
       <circle cx="680" cy="35" r="1.3" fill="#c47a2a" class="star-pulse"/>
       <circle cx="730" cy="80" r="0.7" fill="#e4d9bc"/>
       <circle cx="760" cy="30" r="0.5" fill="#2a8a9c"/>
@@ -112,15 +131,15 @@ navHome: true
       <circle cx="680" cy="260" r="1.0" fill="#c47a2a" class="star-pulse-slow"/>
       <circle cx="750" cy="245" r="0.6" fill="#e4d9bc"/>
       <!-- Right-side personal constellation — identity marker -->
-      <line x1="680" y1="35" x2="730" y2="80" stroke="#c47a2a" stroke-width="0.65" opacity="0.5"/>
-      <line x1="730" y1="80" x2="700" y2="140" stroke="#c47a2a" stroke-width="0.65" opacity="0.5"/>
-      <line x1="700" y1="140" x2="640" y2="185" stroke="#c47a2a" stroke-width="0.55" opacity="0.45"/>
-      <line x1="640" y1="185" x2="680" y2="260" stroke="#c47a2a" stroke-width="0.5" opacity="0.4"/>
-      <line x1="590" y1="120" x2="700" y2="140" stroke="#2a8a9c" stroke-width="0.5" opacity="0.35"/>
-      <line x1="770" y1="110" x2="760" y2="165" stroke="#2a8a9c" stroke-width="0.5" opacity="0.35"/>
+      <line class="id-con" style="animation-delay:0s"   x1="680" y1="35"  x2="730" y2="80"  stroke="#c47a2a" stroke-width="1.0" opacity="0.7"/>
+      <line class="id-con" style="animation-delay:0.6s" x1="730" y1="80"  x2="700" y2="140" stroke="#c47a2a" stroke-width="1.0" opacity="0.7"/>
+      <line class="id-con" style="animation-delay:1.2s" x1="700" y1="140" x2="640" y2="185" stroke="#c47a2a" stroke-width="0.9" opacity="0.6"/>
+      <line class="id-con" style="animation-delay:1.8s" x1="640" y1="185" x2="680" y2="260" stroke="#c47a2a" stroke-width="0.9" opacity="0.6"/>
+      <line class="id-con" style="animation-delay:0.4s" x1="590" y1="120" x2="700" y2="140" stroke="#2a8a9c" stroke-width="0.9" opacity="0.6"/>
+      <line class="id-con" style="animation-delay:1.0s" x1="770" y1="110" x2="760" y2="165" stroke="#2a8a9c" stroke-width="0.9" opacity="0.6"/>
       <!-- Target reticle on the constellation midpoint -->
-      <circle cx="700" cy="140" r="10" stroke="#c47a2a" stroke-width="0.65" fill="none" opacity="0.35"/>
-      <circle cx="700" cy="140" r="17" stroke="#c47a2a" stroke-width="0.4" fill="none" stroke-dasharray="3 3" opacity="0.25"/>
+      <circle cx="700" cy="140" r="10" stroke="#c47a2a" stroke-width="1.0" fill="none" opacity="0.6"/>
+      <circle class="id-spin" cx="700" cy="140" r="17" stroke="#c47a2a" stroke-width="0.7" fill="none" stroke-dasharray="3 3" opacity="0.5"/>
       <!-- Subtle grid -->
       <line x1="0" y1="93" x2="800" y2="93" stroke="#2a8a9c" stroke-width="0.4" opacity="0.15"/>
       <line x1="0" y1="186" x2="800" y2="186" stroke="#2a8a9c" stroke-width="0.4" opacity="0.15"/>

@@ -70,6 +70,14 @@
 <section class="section" style="background:var(--bg-mid);padding-top:calc(var(--space-section) + 1rem);padding-bottom:1.5rem;">
   <div class="starmap-bg" aria-hidden="true">
     <svg viewBox="0 0 800 220" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <style>
+          @keyframes dm-seq  { 0%,100% { opacity:0.18; } 50% { opacity:0.9; } }
+          @keyframes dm-drop { 0%,100% { opacity:0.12; } 50% { opacity:0.75; } }
+          .dm-h { animation: dm-seq  2s   ease-in-out infinite; }
+          .dm-v { animation: dm-drop 3.5s ease-in-out infinite; }
+        </style>
+      </defs>
       <!-- Rhythmic grid of stars — sequencer/drum machine theme -->
       <circle cx="50" cy="40" r="1.0" fill="#c47a2a" class="star-pulse"/>
       <circle cx="150" cy="40" r="0.6" fill="#e4d9bc"/>
@@ -91,26 +99,26 @@
       <circle cx="450" cy="180" r="0.8" fill="#e4d9bc"/>
       <circle cx="650" cy="180" r="0.8" fill="#c47a2a" class="star-pulse-offset"/>
       <!-- Sequencer-style connecting lines — horizontal rhythm -->
-      <line x1="50" y1="40" x2="150" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="150" y1="40" x2="250" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="250" y1="40" x2="350" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="350" y1="40" x2="450" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="450" y1="40" x2="550" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="550" y1="40" x2="650" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="650" y1="40" x2="750" y2="40" stroke="#c47a2a" stroke-width="1.6" opacity="0.7"/>
-      <line x1="100" y1="110" x2="200" y2="110" stroke="#2a8a9c" stroke-width="1.6" opacity="0.7"/>
-      <line x1="200" y1="110" x2="300" y2="110" stroke="#2a8a9c" stroke-width="1.6" opacity="0.7"/>
-      <line x1="300" y1="110" x2="400" y2="110" stroke="#2a8a9c" stroke-width="1.6" opacity="0.7"/>
-      <line x1="400" y1="110" x2="500" y2="110" stroke="#2a8a9c" stroke-width="1.6" opacity="0.7"/>
-      <line x1="500" y1="110" x2="600" y2="110" stroke="#2a8a9c" stroke-width="1.6" opacity="0.7"/>
-      <line x1="600" y1="110" x2="700" y2="110" stroke="#2a8a9c" stroke-width="1.6" opacity="0.7"/>
+      <line class="dm-h" style="animation-delay:0s"    x1="50"  y1="40"  x2="150" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.14s" x1="150" y1="40"  x2="250" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.28s" x1="250" y1="40"  x2="350" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.43s" x1="350" y1="40"  x2="450" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.57s" x1="450" y1="40"  x2="550" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.71s" x1="550" y1="40"  x2="650" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.86s" x1="650" y1="40"  x2="750" y2="40"  stroke="#c47a2a" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:1.0s"  x1="100" y1="110" x2="200" y2="110" stroke="#2a8a9c" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.86s" x1="200" y1="110" x2="300" y2="110" stroke="#2a8a9c" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.71s" x1="300" y1="110" x2="400" y2="110" stroke="#2a8a9c" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.57s" x1="400" y1="110" x2="500" y2="110" stroke="#2a8a9c" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.43s" x1="500" y1="110" x2="600" y2="110" stroke="#2a8a9c" stroke-width="2.0" opacity="0.85"/>
+      <line class="dm-h" style="animation-delay:0.28s" x1="600" y1="110" x2="700" y2="110" stroke="#2a8a9c" stroke-width="2.0" opacity="0.85"/>
       <!-- Vertical drop lines — beats falling -->
-      <line x1="200" y1="40" x2="200" y2="110" stroke="#e4d9bc" stroke-width="1.2" opacity="0.6"/>
-      <line x1="400" y1="40" x2="400" y2="110" stroke="#e4d9bc" stroke-width="1.2" opacity="0.6"/>
-      <line x1="600" y1="40" x2="600" y2="110" stroke="#e4d9bc" stroke-width="1.2" opacity="0.6"/>
-      <line x1="250" y1="110" x2="250" y2="180" stroke="#e4d9bc" stroke-width="1.2" opacity="0.6"/>
-      <line x1="450" y1="110" x2="450" y2="180" stroke="#e4d9bc" stroke-width="1.2" opacity="0.6"/>
-      <line x1="650" y1="110" x2="650" y2="180" stroke="#e4d9bc" stroke-width="1.2" opacity="0.6"/>
+      <line class="dm-v" style="animation-delay:0s"    x1="200" y1="40"  x2="200" y2="110" stroke="#e4d9bc" stroke-width="1.5" opacity="0.7"/>
+      <line class="dm-v" style="animation-delay:0.3s"  x1="400" y1="40"  x2="400" y2="110" stroke="#e4d9bc" stroke-width="1.5" opacity="0.7"/>
+      <line class="dm-v" style="animation-delay:0.6s"  x1="600" y1="40"  x2="600" y2="110" stroke="#e4d9bc" stroke-width="1.5" opacity="0.7"/>
+      <line class="dm-v" style="animation-delay:0.15s" x1="250" y1="110" x2="250" y2="180" stroke="#e4d9bc" stroke-width="1.5" opacity="0.7"/>
+      <line class="dm-v" style="animation-delay:0.45s" x1="450" y1="110" x2="450" y2="180" stroke="#e4d9bc" stroke-width="1.5" opacity="0.7"/>
+      <line class="dm-v" style="animation-delay:0.75s" x1="650" y1="110" x2="650" y2="180" stroke="#e4d9bc" stroke-width="1.5" opacity="0.7"/>
       <!-- Grid -->
       <line x1="0" y1="73" x2="800" y2="73" stroke="#2a8a9c" stroke-width="0.5" opacity="0.28"/>
       <line x1="0" y1="146" x2="800" y2="146" stroke="#2a8a9c" stroke-width="0.5" opacity="0.28"/>
