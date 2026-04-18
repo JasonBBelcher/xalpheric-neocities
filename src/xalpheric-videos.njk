@@ -8,48 +8,145 @@ permalink: /xalpheric-videos.html
 <section class="section" style="background: var(--bg-base); padding-top: calc(var(--space-section) + 1rem);">
   <div class="starmap-bg" aria-hidden="true">
     <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-      <!-- Dense central cluster — identity / signal source -->
-      <circle cx="380" cy="130" r="1.8" fill="#c47a2a" class="star-pulse"/>
-      <circle cx="410" cy="105" r="1.0" fill="#c47a2a" class="star-pulse-slow"/>
-      <circle cx="355" cy="150" r="0.9" fill="#c47a2a" class="star-pulse-offset"/>
-      <circle cx="430" cy="145" r="0.7" fill="#2a8a9c"/>
-      <circle cx="360" cy="110" r="0.6" fill="#e4d9bc"/>
-      <!-- Radiating outward -->
-      <circle cx="280" cy="70" r="0.8" fill="#e4d9bc"/>
-      <circle cx="190" cy="45" r="1.1" fill="#c47a2a" class="star-pulse"/>
-      <circle cx="100" cy="90" r="0.6" fill="#e4d9bc"/>
-      <circle cx="50" cy="60" r="0.9" fill="#2a8a9c"/>
-      <circle cx="500" cy="60" r="0.7" fill="#e4d9bc"/>
-      <circle cx="600" cy="40" r="1.0" fill="#c47a2a" class="star-pulse-slow"/>
-      <circle cx="700" cy="80" r="0.6" fill="#e4d9bc"/>
-      <circle cx="760" cy="50" r="0.8" fill="#2a8a9c"/>
-      <!-- Lower band -->
-      <circle cx="120" cy="200" r="0.7" fill="#2a8a9c" class="star-pulse-offset"/>
-      <circle cx="250" cy="220" r="1.0" fill="#e4d9bc"/>
-      <circle cx="460" cy="210" r="0.6" fill="#c47a2a"/>
-      <circle cx="590" cy="195" r="1.1" fill="#2a8a9c" class="star-pulse"/>
-      <circle cx="720" cy="230" r="0.7" fill="#e4d9bc"/>
-      <!-- Lines radiating from center cluster outward -->
-      <line x1="380" y1="130" x2="280" y2="70" stroke="#c47a2a" stroke-width="0.5" opacity="0.5"/>
-      <line x1="280" y1="70" x2="190" y2="45" stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
-      <line x1="190" y1="45" x2="100" y2="90" stroke="#c47a2a" stroke-width="0.35" opacity="0.35"/>
-      <line x1="380" y1="130" x2="500" y2="60" stroke="#2a8a9c" stroke-width="0.5" opacity="0.5"/>
-      <line x1="500" y1="60" x2="600" y2="40" stroke="#2a8a9c" stroke-width="0.4" opacity="0.45"/>
-      <line x1="600" y1="40" x2="700" y2="80" stroke="#2a8a9c" stroke-width="0.35" opacity="0.35"/>
-      <line x1="380" y1="130" x2="250" y2="220" stroke="#e4d9bc" stroke-width="0.3" opacity="0.3"/>
-      <line x1="380" y1="130" x2="590" y2="195" stroke="#e4d9bc" stroke-width="0.3" opacity="0.3"/>
-      <!-- Target reticle on center star -->
-      <circle cx="380" cy="130" r="12" fill="none" stroke="#c47a2a" stroke-width="0.5" opacity="0.35"/>
-      <circle cx="380" cy="130" r="22" fill="none" stroke="#c47a2a" stroke-width="0.3" opacity="0.2"/>
-      <line x1="368" y1="130" x2="358" y2="130" stroke="#c47a2a" stroke-width="0.5" opacity="0.4"/>
-      <line x1="392" y1="130" x2="402" y2="130" stroke="#c47a2a" stroke-width="0.5" opacity="0.4"/>
-      <line x1="380" y1="118" x2="380" y2="108" stroke="#c47a2a" stroke-width="0.5" opacity="0.4"/>
-      <line x1="380" y1="142" x2="380" y2="152" stroke="#c47a2a" stroke-width="0.5" opacity="0.4"/>
-      <!-- Grid -->
-      <line x1="0" y1="140" x2="800" y2="140" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
-      <line x1="200" y1="0" x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
-      <line x1="400" y1="0" x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
-      <line x1="600" y1="0" x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.25" opacity="0.15"/>
+      <defs>
+        <linearGradient id="xv-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" style="stop-color:#080c1e;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#121228;stop-opacity:1" />
+        </linearGradient>
+        <style>
+          /* Sequencer step streams — translate across full 1600px span */
+          @keyframes xv-stream { from { transform: translateX(-800px); } to { transform: translateX(800px); } }
+          /* Circuitry draw-on: stroke-dashoffset animates from full length to 0 */
+          @keyframes xv-draw   { from { stroke-dashoffset: 600; } to { stroke-dashoffset: 0; } }
+          @keyframes xv-draw-rev { from { stroke-dashoffset: -600; } to { stroke-dashoffset: 0; } }
+          @keyframes xv-node-on { 0%,40%,100% { opacity:0; } 50%,90% { opacity:1; } }
+
+          .xv-s1 { animation: xv-stream 9s  linear infinite; }
+          .xv-s2 { animation: xv-stream 13s linear infinite 2s; }
+          .xv-s3 { animation: xv-stream 7s  linear infinite 1s; }
+          .xv-s4 { animation: xv-stream 16s linear infinite 4s; }
+          .xv-s5 { animation: xv-stream 11s linear infinite 0.5s; }
+
+          .xv-c1 { stroke-dasharray:600; animation: xv-draw     5s ease-in-out infinite 0s; }
+          .xv-c2 { stroke-dasharray:600; animation: xv-draw-rev 7s ease-in-out infinite 1.5s; }
+          .xv-c3 { stroke-dasharray:600; animation: xv-draw     9s ease-in-out infinite 3s; }
+          .xv-c4 { stroke-dasharray:600; animation: xv-draw-rev 6s ease-in-out infinite 0.8s; }
+          .xv-cn { animation: xv-node-on 3s ease-in-out infinite; }
+        </style>
+      </defs>
+      <rect width="800" height="280" fill="url(#xv-bg)"/>
+
+      <!-- Faint grid -->
+      <line x1="0" y1="140" x2="800" y2="140" stroke="#2a8a9c" stroke-width="0.25" opacity="0.28"/>
+      <line x1="200" y1="0"  x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.2" opacity="0.22"/>
+      <line x1="400" y1="0"  x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.2" opacity="0.22"/>
+      <line x1="600" y1="0"  x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.2" opacity="0.22"/>
+
+      <!-- CIRCUITRY PATHS — draw across the screen -->
+      <!-- Path 1: L-route top-left area -->
+      <polyline class="xv-c1" points="30,30 150,30 150,70 310,70 310,45 480,45"
+        fill="none" stroke="#c47a2a" stroke-width="0.8" opacity="0.75"/>
+      <!-- Path 2: bottom-right L-route -->
+      <polyline class="xv-c2" points="770,250 620,250 620,210 460,210 460,235 280,235"
+        fill="none" stroke="#2a8a9c" stroke-width="0.8" opacity="0.75"/>
+      <!-- Path 3: mid crossing route -->
+      <polyline class="xv-c3" points="0,155 90,155 90,175 230,175 230,155 400,155 400,185 560,185 560,160 700,160 700,175 800,175"
+        fill="none" stroke="#e4d9bc" stroke-width="0.5" opacity="0.55"/>
+      <!-- Path 4: upper right staircase -->
+      <polyline class="xv-c4" points="800,55 680,55 680,90 530,90 530,65 360,65 360,85 220,85 220,60 100,60"
+        fill="none" stroke="#2a8a9c" stroke-width="0.6" opacity="0.65"/>
+
+      <!-- Junction nodes on circuit paths -->
+      <circle cx="150" cy="70"  r="2.5" fill="#c47a2a" class="xv-cn" style="animation-delay:0.8s"/>
+      <circle cx="310" cy="45"  r="2"   fill="#e4d9bc" class="xv-cn" style="animation-delay:1.6s"/>
+      <circle cx="460" cy="210" r="2.5" fill="#2a8a9c" class="xv-cn" style="animation-delay:2.2s"/>
+      <circle cx="230" cy="155" r="2"   fill="#e4d9bc" class="xv-cn" style="animation-delay:1.0s"/>
+      <circle cx="400" cy="185" r="2.5" fill="#c47a2a" class="xv-cn" style="animation-delay:3.0s"/>
+      <circle cx="560" cy="160" r="2"   fill="#2a8a9c" class="xv-cn" style="animation-delay:0.4s"/>
+      <circle cx="530" cy="65"  r="2"   fill="#c47a2a" class="xv-cn" style="animation-delay:2.8s"/>
+      <circle cx="680" cy="90"  r="2.5" fill="#2a8a9c" class="xv-cn" style="animation-delay:1.4s"/>
+
+      <!-- SEQUENCER STREAMS — 5 rows of step particles -->
+      <!-- Row 1: y=35, fast -->
+      <g class="xv-s1">
+        <rect x="0"   y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="50"  y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="80"  y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="140" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.4"/>
+        <rect x="170" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="260" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.6"/>
+        <rect x="310" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="360" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="430" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="520" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.4"/>
+        <rect x="600" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="680" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.6"/>
+        <rect x="750" y="32" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+      </g>
+
+      <!-- Row 2: y=95, slow, cyan -->
+      <g class="xv-s2">
+        <rect x="20"  y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.7"/>
+        <rect x="90"  y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.4"/>
+        <rect x="150" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.7"/>
+        <rect x="200" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.7"/>
+        <rect x="320" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.4"/>
+        <rect x="420" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.7"/>
+        <rect x="500" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.7"/>
+        <rect x="570" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.4"/>
+        <rect x="670" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.7"/>
+        <rect x="740" y="93" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.5"/>
+      </g>
+
+      <!-- Row 3: y=140, medium, cream — dense steps -->
+      <g class="xv-s3">
+        <rect x="10"  y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="30"  y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.3"/>
+        <rect x="50"  y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="70"  y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="110" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.3"/>
+        <rect x="150" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="190" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="240" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.3"/>
+        <rect x="300" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="360" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="420" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.3"/>
+        <rect x="470" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="510" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="560" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.3"/>
+        <rect x="630" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="700" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.6"/>
+        <rect x="760" y="138" width="5" height="3" rx="1" fill="#e4d9bc" opacity="0.3"/>
+      </g>
+
+      <!-- Row 4: y=195, slowest, warm amber -->
+      <g class="xv-s4">
+        <rect x="0"   y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="60"  y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="130" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="220" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="290" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="400" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="490" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="590" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+        <rect x="680" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.5"/>
+        <rect x="760" y="193" width="4" height="4" rx="1" fill="#c47a2a" opacity="0.8"/>
+      </g>
+
+      <!-- Row 5: y=250, medium-fast, cyan -->
+      <g class="xv-s5">
+        <rect x="10"  y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="70"  y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="100" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.3"/>
+        <rect x="180" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="250" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="340" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.3"/>
+        <rect x="430" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="530" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="610" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.3"/>
+        <rect x="690" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+        <rect x="760" y="248" width="3" height="3" rx="1" fill="#2a8a9c" opacity="0.6"/>
+      </g>
     </svg>
   </div>
   <div class="container">

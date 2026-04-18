@@ -9,64 +9,95 @@ permalink: /carbilicon.html
   <div class="starmap-bg" aria-hidden="true">
     <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
       <defs>
-        <style>
-          @keyframes star-pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-          }
-          @keyframes star-pulse-slow {
-            0%, 100% { opacity: 0.2; }
-            50% { opacity: 0.8; }
-          }
-          @keyframes star-pulse-offset {
-            0%, 100% { opacity: 0.4; }
-            50% { opacity: 0.9; }
-          }
-          .star-pulse { animation: star-pulse 2s ease-in-out infinite; }
-          .star-pulse-slow { animation: star-pulse-slow 3.5s ease-in-out infinite; }
-          .star-pulse-offset { animation: star-pulse-offset 2.8s ease-in-out infinite 0.5s; }
-        </style>
-      </defs>
-      <!-- Background gradient -->
-      <rect width="800" height="280" fill="url(#bgGradient)"/>
-      <defs>
-        <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+        <linearGradient id="carbi-bg" x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" style="stop-color:#0a0e27;stop-opacity:1" />
           <stop offset="100%" style="stop-color:#1a1a2e;stop-opacity:1" />
         </linearGradient>
+        <style>
+          @keyframes carbi-spin-cw  { from { transform: rotate(0deg);   } to { transform: rotate(360deg);  } }
+          @keyframes carbi-spin-ccw { from { transform: rotate(0deg);   } to { transform: rotate(-360deg); } }
+          @keyframes carbi-spin-slow{ from { transform: rotate(0deg);   } to { transform: rotate(360deg);  } }
+          @keyframes carbi-node-pulse { 0%,100% { opacity:0.6; r:2; } 50% { opacity:1; r:3; } }
+          @keyframes carbi-center-pulse { 0%,100% { opacity:0.75; } 50% { opacity:1; } }
+          @keyframes carbi-spoke-fade { 0%,100% { opacity:0.35; } 50% { opacity:0.7; } }
+
+          .carbi-ring1 { transform-origin:400px 140px; animation: carbi-spin-cw   18s linear infinite; }
+          .carbi-ring2 { transform-origin:400px 140px; animation: carbi-spin-ccw  26s linear infinite; }
+          .carbi-ring3 { transform-origin:400px 140px; animation: carbi-spin-cw   38s linear infinite; }
+          .carbi-ring4 { transform-origin:400px 140px; animation: carbi-spin-ccw  12s linear infinite; }
+          .carbi-ring5 { transform-origin:400px 140px; animation: carbi-spin-slow 55s linear infinite; }
+          .carbi-tramline { transform-origin:400px 140px; animation: carbi-spin-cw 90s linear infinite; }
+          .carbi-node { animation: carbi-node-pulse 2.4s ease-in-out infinite; }
+          .carbi-center { animation: carbi-center-pulse 1.8s ease-in-out infinite; }
+          .carbi-spoke { animation: carbi-spoke-fade 3s ease-in-out infinite; }
+        </style>
       </defs>
+      <rect width="800" height="280" fill="url(#carbi-bg)"/>
 
-      <!-- Central cluster: bright stage lights -->
-      <circle cx="400" cy="140" r="3.5" fill="#c47a2a" class="star-pulse"/>
-      <circle cx="380" cy="125" r="2.5" fill="#2a8a9c" class="star-pulse-slow"/>
-      <circle cx="420" cy="125" r="2.5" fill="#2a8a9c" class="star-pulse-slow"/>
-      <circle cx="365" cy="150" r="2" fill="#e4d9bc" class="star-pulse-offset"/>
-      <circle cx="435" cy="150" r="2" fill="#e4d9bc" class="star-pulse-offset"/>
-      <circle cx="400" cy="165" r="2.8" fill="#c47a2a" class="star-pulse"/>
+      <!-- Tramlines radiating from center (slow rotation) -->
+      <g class="carbi-tramline">
+        <line x1="400" y1="140" x2="400" y2="10"  stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
+        <line x1="400" y1="140" x2="400" y2="270" stroke="#c47a2a" stroke-width="0.4" opacity="0.45"/>
+        <line x1="400" y1="140" x2="530" y2="27"  stroke="#e4d9bc" stroke-width="0.3" opacity="0.35"/>
+        <line x1="400" y1="140" x2="270" y2="253" stroke="#e4d9bc" stroke-width="0.3" opacity="0.35"/>
+        <line x1="400" y1="140" x2="530" y2="253" stroke="#2a8a9c" stroke-width="0.3" opacity="0.35"/>
+        <line x1="400" y1="140" x2="270" y2="27"  stroke="#2a8a9c" stroke-width="0.3" opacity="0.35"/>
+      </g>
 
-      <!-- Radiating lines (stage light beams) -->
-      <line x1="400" y1="140" x2="250" y2="40" stroke="#c47a2a" stroke-width="1" opacity="0.4"/>
-      <line x1="400" y1="140" x2="550" y2="40" stroke="#2a8a9c" stroke-width="1" opacity="0.4"/>
-      <line x1="400" y1="140" x2="200" y2="140" stroke="#c47a2a" stroke-width="1" opacity="0.3"/>
-      <line x1="400" y1="140" x2="600" y2="140" stroke="#2a8a9c" stroke-width="1" opacity="0.3"/>
-      <line x1="400" y1="140" x2="250" y2="240" stroke="#e4d9bc" stroke-width="1" opacity="0.35"/>
-      <line x1="400" y1="140" x2="550" y2="240" stroke="#c47a2a" stroke-width="1" opacity="0.35"/>
+      <!-- Ring 1 — innermost solid ring, fast CW -->
+      <circle class="carbi-ring1" cx="400" cy="140" r="30"
+        fill="none" stroke="#c47a2a" stroke-width="1.2" opacity="0.9"
+        stroke-dasharray="8 4 8 4 8 4 8 4 8 4 8 4"/>
 
-      <!-- Secondary stars along beams -->
-      <circle cx="290" cy="75" r="1.8" fill="#c47a2a" class="star-pulse-offset"/>
-      <circle cx="510" cy="75" r="1.8" fill="#2a8a9c" class="star-pulse-offset"/>
-      <circle cx="240" cy="140" r="1.5" fill="#e4d9bc" class="star-pulse-slow"/>
-      <circle cx="560" cy="140" r="1.5" fill="#e4d9bc" class="star-pulse-slow"/>
-      <circle cx="300" cy="210" r="1.6" fill="#c47a2a" class="star-pulse"/>
-      <circle cx="500" cy="210" r="1.6" fill="#2a8a9c" class="star-pulse"/>
+      <!-- Ring 2 — dashed CCW, medium speed -->
+      <circle class="carbi-ring2" cx="400" cy="140" r="55"
+        fill="none" stroke="#2a8a9c" stroke-width="0.8" opacity="0.75"
+        stroke-dasharray="14 6"/>
 
-      <!-- Outer ambient stars -->
-      <circle cx="120" cy="50" r="1.2" fill="#e4d9bc" class="star-pulse-slow"/>
-      <circle cx="680" cy="60" r="1.2" fill="#c47a2a" class="star-pulse-slow"/>
-      <circle cx="100" cy="200" r="1" fill="#2a8a9c" class="star-pulse-offset"/>
-      <circle cx="700" cy="210" r="1" fill="#e4d9bc" class="star-pulse-offset"/>
-      <circle cx="150" cy="140" r="0.8" fill="#c47a2a" opacity="0.6"/>
-      <circle cx="650" cy="160" r="0.8" fill="#2a8a9c" opacity="0.6"/>
+      <!-- Ring 3 — segmented CW slow, large gap -->
+      <circle class="carbi-ring3" cx="400" cy="140" r="80"
+        fill="none" stroke="#e4d9bc" stroke-width="0.6" opacity="0.62"
+        stroke-dasharray="22 10 4 10"/>
+
+      <!-- Ring 4 — tight dash, fast CCW -->
+      <circle class="carbi-ring4" cx="400" cy="140" r="100"
+        fill="none" stroke="#c47a2a" stroke-width="0.5" opacity="0.55"
+        stroke-dasharray="6 6"/>
+
+      <!-- Ring 5 — outermost, very slow CW -->
+      <circle class="carbi-ring5" cx="400" cy="140" r="125"
+        fill="none" stroke="#2a8a9c" stroke-width="0.4" opacity="0.45"
+        stroke-dasharray="30 15 5 15"/>
+
+      <!-- Node dots at compass points of ring 1 (rotate with ring) -->
+      <g class="carbi-ring1">
+        <circle cx="400" cy="110" r="2.5" fill="#c47a2a" class="carbi-node"/>
+        <circle cx="430" cy="140" r="2"   fill="#e4d9bc" class="carbi-node" style="animation-delay:0.6s"/>
+        <circle cx="400" cy="170" r="2.5" fill="#c47a2a" class="carbi-node" style="animation-delay:1.2s"/>
+        <circle cx="370" cy="140" r="2"   fill="#e4d9bc" class="carbi-node" style="animation-delay:1.8s"/>
+      </g>
+
+      <!-- Node dots at ring 2 -->
+      <g class="carbi-ring2">
+        <circle cx="400"   cy="85"  r="2"   fill="#2a8a9c" class="carbi-node"/>
+        <circle cx="455"   cy="108" r="1.5" fill="#e4d9bc" class="carbi-node" style="animation-delay:0.8s"/>
+        <circle cx="455"   cy="172" r="2"   fill="#2a8a9c" class="carbi-node" style="animation-delay:1.6s"/>
+        <circle cx="400"   cy="195" r="1.5" fill="#e4d9bc" class="carbi-node" style="animation-delay:2.4s"/>
+        <circle cx="345"   cy="172" r="2"   fill="#2a8a9c" class="carbi-node" style="animation-delay:0.4s"/>
+        <circle cx="345"   cy="108" r="1.5" fill="#e4d9bc" class="carbi-node" style="animation-delay:1.2s"/>
+      </g>
+
+      <!-- Ambient corner stars (static) -->
+      <circle cx="80"  cy="40"  r="1"   fill="#e4d9bc" opacity="0.8"/>
+      <circle cx="720" cy="55"  r="0.8" fill="#c47a2a" opacity="0.75"/>
+      <circle cx="100" cy="220" r="0.9" fill="#2a8a9c" opacity="0.7"/>
+      <circle cx="700" cy="230" r="1"   fill="#e4d9bc" opacity="0.8"/>
+      <circle cx="180" cy="30"  r="0.7" fill="#2a8a9c" opacity="0.65"/>
+      <circle cx="620" cy="260" r="0.7" fill="#c47a2a" opacity="0.65"/>
+
+      <!-- Center dot -->
+      <circle cx="400" cy="140" r="4" fill="#c47a2a" class="carbi-center"/>
+      <circle cx="400" cy="140" r="8" fill="none" stroke="#c47a2a" stroke-width="0.5" opacity="0.6" class="carbi-center"/>
     </svg>
   </div>
 
