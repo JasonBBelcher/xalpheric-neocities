@@ -167,19 +167,25 @@ navHome: true
 <section class="section" id="releases" style="background: var(--bg-base);">
   <div class="container">
     <p class="section__eyebrow">03 · RELEASES</p>
-    <h2 class="section__title">Catalog</h2>
 
-    <!-- Release strips from data -->
-    {% for release in releases %}
-    <div class="release-strip">
-      <span class="release-strip__num">XAL·{{ loop.index0 | zeroPad }}</span>
-      <div>
-        <div class="release-strip__title">{{ release.title }}</div>
-        <div class="release-strip__meta">{{ release.duration }} · {{ release.year }}</div>
-      </div>
-      <a href="{{ release.audio }}" class="release-strip__action" download>Download</a>
-    </div>
-    {% endfor %}
+    <details class="catalog-details">
+      <summary class="catalog-summary">
+        <h2 class="section__title" style="margin:0;">Catalog</h2>
+        <span class="catalog-chevron" aria-hidden="true">▾</span>
+      </summary>
+
+      <!-- Release strips — entire row is the download link -->
+      {% for release in releases %}
+      <a href="{{ release.audio }}" class="release-strip" download>
+        <span class="release-strip__num">XAL·{{ loop.index0 | zeroPad }}</span>
+        <div>
+          <div class="release-strip__title">{{ release.title }}</div>
+          <div class="release-strip__meta">{{ release.duration }} · {{ release.year }}</div>
+        </div>
+        <span class="release-strip__action">Download</span>
+      </a>
+      {% endfor %}
+    </details>
 
     <!-- Player carousel -->
     <div style="margin-top: var(--space-block);">
