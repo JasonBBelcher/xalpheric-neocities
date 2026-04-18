@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "neocities-utils": {
+      "command": "npx",
+      "args": [
+        "tsx",
+        "/Users/jasonbelcher/Documents/code/xalpheric-neocities/mcp/src/index.ts"
+      ],
+      "env": {
+        "NEOCITIES_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}
