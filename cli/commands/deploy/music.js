@@ -20,8 +20,8 @@ const logger = require('../../lib/utils/logger');
  */
 async function deployMusic(apiKey, options = {}) {
   const {
-    musicDir,
-    configFile,
+    musicDir = 'public/music',
+    configFile = 'public/config/releases.json',
     force = false,
     deleteOrphans = false,
     dryRun = false,

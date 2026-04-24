@@ -18,7 +18,7 @@ const logger = require('../../lib/utils/logger');
  */
 async function deployMusings(apiKey, options = {}) {
   const {
-    musingsDir,
+    musingsDir = 'public/musings',
     force = false,
     deleteOrphans = false,
     dryRun = false,
