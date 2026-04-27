@@ -101,10 +101,9 @@ deployCommand
 
 deployCommand
   .command('drum-machine')
-  .description('Deploy drum machine build artifacts (HTML, CSS, JS from dist)')
-  .option('--dist-dir <path>', 'Drum machine dist directory', '../drum-machine/dist')
+  .description('Deploy drum machine HTML + JS/CSS bundles from public/')
   .option('--html <path>', 'HTML file path', 'public/drum-machine.html')
-  .option('--css <path>', 'CSS file path', 'public/css/drum-machine.css')
+  .option('--js-dir <path>', 'JS/CSS bundle directory', 'public/js/drum-machine')
   .option('--include-maps', 'Include source map files')
   .option('--dry-run', 'Show what would be deployed without uploading')
   .option('-v, --verbose', 'Verbose output')
@@ -112,13 +111,12 @@ deployCommand
     try {
       const { getApiKey } = require('./lib/utils/config');
       const deployDrumMachine = require('./commands/deploy/drum-machine');
-      
+
       const apiKey = getApiKey(true);
-      
+
       await deployDrumMachine(apiKey, {
-        distDir: options.distDir,
         htmlFile: options.html,
-        cssFile: options.css,
+        jsDir: options.jsDir,
         includeMaps: options.includeMaps,
         dryRun: options.dryRun,
         verbose: options.verbose

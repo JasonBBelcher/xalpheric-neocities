@@ -46,16 +46,45 @@ function getChangedFiles(options = {}) {
 
   // Get changed/added files
   if (since) {
-    // Time-based query
+    // Time-based query.
+    // NOTE: `git diff` does NOT support --since; only `git log` does.
+    // Strategy: find the oldest commit within the time window via git log,
+    // then diff from that commit to HEAD. Falls back to HEAD~1 if no commits
+    // are found in the window (e.g. no recent activity but there are older commits).
     const statusFlag = includeStatus ? '--name-status' : '--name-only';
-    const cmd = `git diff ${statusFlag} --diff-filter=AMRT --since="${since}" HEAD`;
-    
+
+    let baseCommit = null;
     try {
-      const stdout = execSync(cmd, { cwd, encoding: 'utf8', stdio: 'pipe' });
-      const lines = stdout.trim().split('\n').filter(line => line);
-      files = files.concat(lines);
+      const logCmd = `git log --since="${since}" --pretty=format:"%H"`;
+      const logOut = execSync(logCmd, { cwd, encoding: 'utf8', stdio: 'pipe' });
+      const commits = logOut.trim().split('\n').filter(Boolean);
+      if (commits.length > 0) {
+        // commits are newest-first; take the last one as the oldest in the window
+        baseCommit = commits[commits.length - 1];
+      }
     } catch (error) {
-      // Empty result is okay for git diff
+      // ignore — will fall back below
+    }
+
+    // If no commits found in the window, fall back to HEAD~1 (last commit)
+    if (!baseCommit) {
+      try {
+        execSync('git rev-parse HEAD~1', { cwd, stdio: 'pipe' });
+        baseCommit = 'HEAD~1';
+      } catch (e) {
+        // Only one commit in repo; nothing to diff
+      }
+    }
+
+    if (baseCommit) {
+      const cmd = `git diff ${statusFlag} --diff-filter=AMRT ${baseCommit}..HEAD`;
+      try {
+        const stdout = execSync(cmd, { cwd, encoding: 'utf8', stdio: 'pipe' });
+        const lines = stdout.trim().split('\n').filter(line => line);
+        files = files.concat(lines);
+      } catch (error) {
+        // Empty result is okay
+      }
     }
   } else if (commit) {
     // Commit-based query
