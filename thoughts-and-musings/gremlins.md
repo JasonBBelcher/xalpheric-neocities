@@ -1,7 +1,7 @@
 # Gremlins in the Gears
 ### A love letter to Murphy's Law
 
-*MIDI Mob Collective · Xalphericon Chronicles*
+**MIDI Mob Collective · Xalphericon Chronicles**
 
 ---
 
