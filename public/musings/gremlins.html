@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xalpheric - gremlins</title>
+  <meta name="description" content="Thoughts and musings from Xalpheric - gremlins">
+  <meta name="author" content="Xalpheric">
+  <meta name="robots" content="index, follow">
+  <link rel="icon" type="image/png" href="/assets/xalpheric_favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/css/main.css">
+</head>
+<body>
+  <nav class="site-nav">
+    <div class="container">
+      <div class="site-nav__inner">
+        <div class="site-nav__brand">
+          <div class="site-nav__brand-text">XALPHERIC</div>
+          <div class="site-nav__brand-sub" style="font-family:var(--font-data);font-size:0.65rem;letter-spacing:0.08em;color:var(--text-secondary);margin-top:0.25rem;">MIDI MOB</div>
+        </div>
+        <div class="site-nav__mobile">
+          <ul class="site-nav__links">
+            <li><a href="/index.html" class="site-nav__link">Home</a></li>
+            <li><a href="/gallery.html" class="site-nav__link">Gallery</a></li>
+            <li><a href="/collective.html" class="site-nav__link">Collective</a></li>
+            <li><a href="/musings.html" class="site-nav__link site-nav__link--active" aria-current="page">Musings</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section" style="background:var(--bg-mid);padding-top:calc(var(--space-section) + 1rem);">
+    <div class="starmap-bg" aria-hidden="true">
+      <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+    <defs><style>
+      @keyframes ms-blink  { 0%,100%{opacity:.18} 12%{opacity:1}   18%{opacity:.18} 65%{opacity:.18} 70%{opacity:.85} 76%{opacity:.18} }
+      @keyframes ms-blink2 { 0%,100%{opacity:.18} 30%{opacity:.95} 36%{opacity:.18} 80%{opacity:.18} 85%{opacity:1}   90%{opacity:.18} }
+      @keyframes ms-blink3 { 0%,100%{opacity:.18} 5%{opacity:.75}  10%{opacity:.18} 50%{opacity:.18} 55%{opacity:.95} 60%{opacity:.18} }
+      .ms-a{animation:ms-blink  var(--d,4s) ease-in-out infinite var(--dl,0s)}
+      .ms-b{animation:ms-blink2 var(--d,5s) ease-in-out infinite var(--dl,0s)}
+      .ms-c{animation:ms-blink3 var(--d,6s) ease-in-out infinite var(--dl,0s)}
+    </style></defs>
+    <circle cx="45"  cy="22"  r="1.4" fill="#e4d9bc" class="ms-a" style="--d:4.1s;--dl:0s"/>
+    <circle cx="130" cy="55"  r="1.0" fill="#c47a2a" class="ms-b" style="--d:5.3s;--dl:0.7s"/>
+    <circle cx="215" cy="18"  r="1.2" fill="#e4d9bc" class="ms-c" style="--d:6.2s;--dl:1.4s"/>
+    <circle cx="310" cy="42"  r="0.8" fill="#2a8a9c" class="ms-a" style="--d:7.8s;--dl:2.1s"/>
+    <circle cx="420" cy="25"  r="1.5" fill="#e4d9bc" class="ms-b" style="--d:3.9s;--dl:0.5s"/>
+    <circle cx="540" cy="50"  r="1.0" fill="#c47a2a" class="ms-c" style="--d:5.6s;--dl:1.8s"/>
+    <circle cx="640" cy="18"  r="1.3" fill="#2a8a9c" class="ms-a" style="--d:6.5s;--dl:0.3s"/>
+    <circle cx="755" cy="45"  r="0.9" fill="#e4d9bc" class="ms-b" style="--d:7.1s;--dl:2.9s"/>
+    <circle cx="70"  cy="100" r="1.1" fill="#2a8a9c" class="ms-c" style="--d:6.0s;--dl:1.1s"/>
+    <circle cx="170" cy="130" r="1.4" fill="#e4d9bc" class="ms-a" style="--d:4.4s;--dl:3.2s"/>
+    <circle cx="265" cy="95"  r="0.9" fill="#c47a2a" class="ms-b" style="--d:5.8s;--dl:0.9s"/>
+    <circle cx="375" cy="118" r="1.2" fill="#e4d9bc" class="ms-c" style="--d:8.2s;--dl:1.5s"/>
+    <circle cx="485" cy="90"  r="1.0" fill="#2a8a9c" class="ms-a" style="--d:3.7s;--dl:2.6s"/>
+    <circle cx="580" cy="122" r="1.6" fill="#c47a2a" class="ms-b" style="--d:5.4s;--dl:0.2s"/>
+    <circle cx="690" cy="102" r="0.8" fill="#e4d9bc" class="ms-c" style="--d:6.8s;--dl:3.7s"/>
+    <circle cx="770" cy="130" r="1.1" fill="#2a8a9c" class="ms-a" style="--d:7.4s;--dl:1.0s"/>
+    <circle cx="35"  cy="170" r="1.3" fill="#c47a2a" class="ms-b" style="--d:5.1s;--dl:2.3s"/>
+    <circle cx="145" cy="195" r="0.9" fill="#e4d9bc" class="ms-a" style="--d:4.7s;--dl:0.8s"/>
+    <circle cx="245" cy="165" r="1.2" fill="#2a8a9c" class="ms-c" style="--d:7.6s;--dl:3.5s"/>
+    <circle cx="345" cy="200" r="1.0" fill="#c47a2a" class="ms-b" style="--d:6.3s;--dl:1.7s"/>
+    <circle cx="450" cy="175" r="1.5" fill="#e4d9bc" class="ms-a" style="--d:4.2s;--dl:2.8s"/>
+    <circle cx="555" cy="192" r="0.8" fill="#2a8a9c" class="ms-c" style="--d:5.9s;--dl:0.4s"/>
+    <circle cx="665" cy="172" r="1.3" fill="#c47a2a" class="ms-b" style="--d:8.0s;--dl:1.3s"/>
+    <circle cx="760" cy="200" r="1.0" fill="#e4d9bc" class="ms-a" style="--d:6.7s;--dl:3.0s"/>
+    <circle cx="90"  cy="248" r="1.1" fill="#2a8a9c" class="ms-b" style="--d:4.5s;--dl:1.9s"/>
+    <circle cx="205" cy="258" r="0.9" fill="#e4d9bc" class="ms-c" style="--d:6.1s;--dl:0.6s"/>
+    <circle cx="325" cy="248" r="1.4" fill="#c47a2a" class="ms-a" style="--d:5.2s;--dl:3.8s"/>
+    <circle cx="465" cy="265" r="1.0" fill="#e4d9bc" class="ms-b" style="--d:7.3s;--dl:2.2s"/>
+    <circle cx="590" cy="248" r="1.2" fill="#2a8a9c" class="ms-c" style="--d:4.0s;--dl:1.6s"/>
+    <circle cx="700" cy="260" r="0.8" fill="#c47a2a" class="ms-a" style="--d:6.4s;--dl:0.1s"/>
+    <circle cx="778" cy="245" r="1.1" fill="#e4d9bc" class="ms-b" style="--d:5.5s;--dl:2.7s"/>
+  </svg>
+    </div>
+    <div class="container">
+      <p class="section__eyebrow">MUSINGS</p>
+      <h1 class="section__title">gremlins</h1>
+      <a href="/musings.html" class="glide-btn glide-btn--cold" style="margin-top:var(--space-block);display:inline-flex;">← Back to Musings</a>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--bg-base);">
+    <div class="container">
+      <div class="post-content">
+        <h1>Gremlins in the Gears</h1>
+<h3>A love letter to Murphy’s Law</h3>
+<p><em>MIDI Mob Collective · Xalphericon Chronicles</em></p>
+<hr>
+<p>If you’ve ever watched a perfectly rehearsed plan disintegrate in real time, you know the specific flavour of chaos that visited Xalphericon this past Sunday. We didn’t just have a bad gig. We had a <em>cinematic</em> bad gig. The kind where you start laughing because the alternative is a full existential crisis in a parking lot.</p>
+<p>Let’s run the tape.</p>
+<h2>The building wouldn’t have us</h2>
+<p>The venue scheduled a meditation session before our load-in. Peaceful. Serene. Completely incompatible with two musicians trying to haul gear in and stress-eat whatever snacks they brought. We stood outside, spiritually uninvited, watching the clock do exactly what clocks do when you need more time.</p>
+<h2>Noah’s mixer had trust issues</h2>
+<p>Once we finally got in, we discovered we’d forgotten the one RCA cable holding Noah’s entire signal chain together. Not a spare cable. <em>The</em> cable. The crucial one — laughing at us from the gear room at home while we stood in the venue with nothing to plug into nothing.</p>
+<h2>My compressor chose violence</h2>
+<p>My guitar compressor died mid-setup. No farewell. No warning light. Just silence where sound should be. We spent a chunk of our already-compressed (ha) setup time troubleshooting what was, in retrospect, a component quietly quitting on us like a disgruntled employee on their last day.</p>
+<h2>The projector and my iPhone had never met</h2>
+<p>Tested at home: perfect. Showed up to the gig: my iPhone had apparently never met this projector before in its life. They regarded each other like strangers at a party. I <em>know</em> I tested this. Technology does not care what you know.</p>
+<h2>And then there was the key</h2>
+<p>Before any of this — before the monks, the rogue cable, the compressor’s resignation — I lost the only key to my Volvo. So we rented a U-Haul van, loaded our gear into it, and drove it across town to play our set.</p>
+<h2>The audience of two</h2>
+<p>One couple showed up. Retired, friendly, genuinely kind people who clapped for us — and we appreciated every bit of it. After our set we got chatting and asked if they’d heard much electronic music before.</p>
+<p>The lady thought about it for a moment and said: “You mean like Electric Light Orchestra?”</p>
+<p>We smiled. We nodded. We died a little inside.</p>
+<p>Bless them both. They had absolutely no idea what they were listening to and they clapped anyway. That’s more than most people do.</p>
+<hr>
+<blockquote>
+<p>Gremlins don’t punch once. They pile on. They wait for you to fix one thing and quietly destroy two others while your back is turned.</p>
+</blockquote>
+<hr>
+<p>Sunday was a masterclass in cascading failure — every safeguard stripped away one by one until we were standing in front of a projector that didn’t recognise us, playing for a retired couple who thought ELO was electronic music, having arrived in a rented van because our car key was somewhere in a parallel dimension.</p>
+<p>But we set up. We played. We threw that gremlin in the blender.</p>
+<p>Because that’s what you do. Not because it feels good in the moment — it doesn’t — but because the alternative is letting a dead compressor and a forgetful projector write the end of your story. And that’s a terrible ending.</p>
+<p>We’d rather write a bad blog post about it instead.</p>
+<p><em>See you at the next one. We’ll have the cable.</em></p>
+<hr>
+<p><em>Xalphericon — MIDI Mob Collective</em></p>
+
+      </div>
+    </div>
+  </section>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/radio-player.js"></script>
+</body>
+</html>
