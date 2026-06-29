@@ -108,13 +108,59 @@ permalink: /collective.html
           rigs, drum machines, and endless patch cables under colorful LED-lit tents.
         </p>
         <div class="photo-grid" style="margin-top: var(--space-block); display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem;">
-          {% for i in range(1, 24) %}
-          <img
-            src="/assets/midimob{{ i }}.jpg"
-            alt="Day of the Dead event — MIDI Mob {{ i }}"
-            loading="lazy"
-            style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
-          >
+          {% for photo in event_photos["day-of-the-dead"] %}
+          {% set filepath = "/assets/events/day-of-the-dead/" + photo.filename %}
+          {% set description = photo.description %}
+          <div class="photo-container" style="position: relative;">
+            <img
+              src="{{ filepath }}"
+              alt="Day of the Dead event — {{ photo.filename }}"
+              {% if description %}title="{{ description }}"{% endif %}
+              loading="lazy"
+              style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+            >
+            {% if description %}
+            <div class="photo-tooltip" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26, 18, 8, 0.85); color: var(--text-primary); padding: 0.5rem; font-family: var(--font-body); font-size: 0.75rem; line-height: 1.4; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; text-align: center;">
+              {{ description }}
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Vape Loft Summer Street Jam June 2026 -->
+      <div style="border-left: 2px solid var(--accent-cold); padding-left: 1.5rem; margin-bottom: var(--space-block);">
+        <p class="section__eyebrow" style="margin-bottom: 0.5rem;">JUNE 15TH, 2026</p>
+        <h3 style="font-family: var(--font-display); font-size: var(--type-h2); font-weight: 400; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-primary); margin-bottom: 1rem;">
+          Vape Loft Summer Street Jam
+        </h3>
+        <p class="section__body">
+          It rained most of the day but in the end we prevailed anyway and had a great time. 
+          The Birmingham MIDI Mob Collective gathered once again at Vape Loft for another memorable 
+          street jam session. Artists including Xalpheric, Lower Hybrid, Hamrock Records, and Noah Richardson, 
+          and more brought their hardware to the street — Prophet synths, modular rigs, drum machines, 
+          and a PA system with 900w sub-woofer to fill the air with music. The community came together to celebrate creativity,
+          collaboration, and the joy of making music together.
+        </p>
+        <div class="photo-grid" style="margin-top: var(--space-block); display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem;">
+          {% for photo in event_photos["summer-street-jam"] %}
+          {% set filepath = "/assets/events/summer-street-jam/" + photo.filename %}
+          {% set description = photo.description %}
+          <div class="photo-container" style="position: relative; overflow: hidden;">
+            <img
+              src="{{ filepath }}"
+              alt="Summer Street Jam event — {{ photo.filename }}"
+              {% if description %}title="{{ description }}"{% endif %}
+              loading="lazy"
+              style="width: 100%; aspect-ratio: 1; object-fit: cover; border: 1px solid var(--border-subtle); transition: var(--transition-glide);"
+            >
+            {% if description %}
+            <div class="photo-tooltip" style="position: absolute; bottom: 0; left: 0; right: 0; background: rgba(26, 18, 8, 0.85); color: var(--text-primary); padding: 0.5rem; font-family: var(--font-body); font-size: 0.75rem; line-height: 1.4; opacity: 0; transition: opacity 0.3s ease; pointer-events: none; text-align: center;">
+              {{ description }}
+            </div>
+            {% endif %}
+          </div>
           {% endfor %}
         </div>
       </div>
@@ -122,10 +168,34 @@ permalink: /collective.html
   </div>
 </section>
 
-<!-- 04 CONTACT -->
+<!-- 04 DJ SET HIGHLIGHT -->
 <section class="section section--alt">
   <div class="container">
-    <p class="section__eyebrow">04 · CONNECT</p>
+    <p class="section__eyebrow">04 · DJ SET</p>
+    <h2 class="section__title">Noah Richardson's Performance</h2>
+    <p class="section__body">
+      Experience the energy of live electronic music with Noah Richardson's DJ set from the Summer Street Jam event.
+    </p>
+    
+    <div style="margin-top: var(--space-block); max-width: 800px;">
+      <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+        <iframe 
+          src="https://www.youtube.com/embed/khpQRp8JH3c" 
+          title="Noah Richardson DJ Set at Summer Street Jam" 
+          frameborder="0" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 1px solid var(--border-subtle);">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 CONTACT -->
+<section class="section section--alt">
+  <div class="container">
+    <p class="section__eyebrow">05 · CONNECT</p>
     <h2 class="section__title">Get Involved</h2>
     <p class="section__body">
       MIDI Mob Collective is always open to new collaborators and sonic adventurers.

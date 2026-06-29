@@ -75,6 +75,8 @@ setopt NULL_GLOB
 counter=1
 processed_count=0
 found_files=()
+# Array to track successfully processed files for cleanup
+successful_files=()
 
 # Change to source directory
 if [[ ! -d "$SOURCE_DIR" ]]; then
@@ -84,11 +86,14 @@ fi
 
 cd "$SOURCE_DIR"
 
-# Collect all image files
-for file in *.jpg *.jpeg *.png *.heic *.HEIC *.avif *.AVIF *.JPG *.JPEG *.PNG *.gif *.GIF *.webp *.WEBP; do
-  # Skip if no files match (in case glob returns the pattern itself)
-  [[ -f "$file" ]] || continue
-  found_files+=("$file")
+# Collect all image files by handling each pattern separately
+# This prevents issues when some patterns don't match any files
+for pattern in "*.jpg" "*.jpeg" "*.png" "*.heic" "*.HEIC" "*.avif" "*.AVIF" "*.JPG" "*.JPEG" "*.PNG" "*.gif" "*.GIF" "*.webp" "*.WEBP"; do
+  for file in $~pattern; do
+    # Skip if no files match (in case glob returns the pattern itself)
+    [[ -f "$file" ]] || continue
+    found_files+=("$file")
+  done
 done
 
 if [ ${#found_files[@]} -eq 0 ]; then
@@ -130,6 +135,8 @@ for file in "${found_files[@]}"; do
   if [ $? -eq 0 ]; then
     echo "  ✅ Successfully processed"
     processed_count=$((processed_count + 1))
+    # Track successfully processed files for cleanup
+    successful_files+=("$file")
     
     # For blog mode, optionally remove original after successful processing
     if [[ "$MODE" == "blog" ]]; then
@@ -146,12 +153,17 @@ cd ..
 
 # --- Cleanup (only for assets mode, similar to original behavior) ---
 if [[ "$MODE" == "assets" ]]; then
-  echo "🧹 Cleaning up source HEIC and AVIF files in $SOURCE_DIR..."
+  echo "🧹 Cleaning up successfully processed HEIC and AVIF files in $SOURCE_DIR..."
   cd "$SOURCE_DIR"
-  for file in *.heic *.HEIC *.avif *.AVIF; do
-    [[ -f "$file" ]] || continue
-    echo "Deleting $file ..."
-    rm "$file"
+  # Only delete files that were successfully processed
+  for processed_file in "${successful_files[@]}"; do
+    # Check if the processed file is a HEIC or AVIF file
+    if [[ "$processed_file" == *.[Hh][Ee][Ii][Cc] ]] || [[ "$processed_file" == *.[Aa][Vv][Ii][Ff] ]]; then
+      if [[ -f "$processed_file" ]]; then
+        echo "Deleting successfully processed file: $processed_file ..."
+        rm "$processed_file"
+      fi
+    fi
   done
   cd ..
 fi

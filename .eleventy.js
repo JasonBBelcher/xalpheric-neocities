@@ -4,6 +4,11 @@ module.exports = function(eleventyConfig) {
     return String(Number(index) + 1).padStart(3, "0");
   });
 
+  // Custom filter for padding numbers to 2 digits
+  eleventyConfig.addFilter("pad2", function(number) {
+    return String(number).padStart(2, "0");
+  });
+
   eleventyConfig.addFilter("currentYear", function() {
     return new Date().getFullYear();
   });

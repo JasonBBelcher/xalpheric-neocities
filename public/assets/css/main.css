@@ -19,6 +19,36 @@ html {
   scroll-behavior: smooth;
 }
 
+/* ============================================================================
+   SECTION 2: TOOLTIP STYLES
+   ============================================================================ */
+
+.photo-container {
+  position: relative;
+  overflow: hidden;
+}
+
+.photo-container:hover .photo-tooltip {
+  opacity: 1;
+}
+
+.photo-tooltip {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(26, 18, 8, 0.85);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  text-align: center;
+}
+
 :root {
   --bg-base:        #1a1208;
   --bg-mid:         #231a0a;
