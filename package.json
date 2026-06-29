@@ -20,6 +20,7 @@
     "media:videos": "node cli/index.js media videos",
     "media:list-presets": "node cli/index.js media list-video-presets",
     "media:gif": "node cli/index.js media gif",
+    "media:organize-photos": "node cli/index.js media organize-photos",
     "mcp:start": "npx tsx mcp/src/index.ts",
     "process-blog-photos": "./cli/process-photos-enhanced.sh blog 512 jpg",
     "process-asset-photos": "./cli/process-photos-enhanced.sh assets 512 jpg",

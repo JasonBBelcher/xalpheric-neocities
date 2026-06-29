@@ -379,6 +379,35 @@ mediaCommand
     console.log();
   });
 
+mediaCommand
+  .command('organize-photos')
+  .description('Organize event photos into event-specific directories')
+  .requiredOption('-e, --event <name>', 'Event name for the photo collection')
+  .option('-s, --source <dir>', 'Source directory containing photos', 'process_photos')
+  .option('-d, --dest <dir>', 'Destination directory for organized photos', 'public/assets/events')
+  .option('--pattern <pattern>', 'File pattern to match', '*.{jpg,jpeg,png,gif,heic,avif}')
+  .option('--naming <convention>', 'Naming convention (use {n} for number)', 'midimob-{n}')
+  .option('--dry-run', 'Simulate without actually moving files')
+  .option('-v, --verbose', 'Verbose output')
+  .action(async (options) => {
+    try {
+      const organizeEventPhotos = require('./commands/media/organize-event-photos');
+      
+      await organizeEventPhotos({
+        source: options.source,
+        eventName: options.event,
+        destination: options.dest,
+        pattern: options.pattern,
+        naming: options.naming,
+        dryRun: options.dryRun,
+        verbose: options.verbose
+      });
+    } catch (error) {
+      console.error(`❌ Error: ${error.message}`);
+      process.exit(1);
+    }
+  });
+
 // Check command group
 const checkCommand = program
   .command('check')
