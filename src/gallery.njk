@@ -61,7 +61,20 @@ permalink: /gallery.html
 <section class="section section--alt">
   <div class="container">
     <div class="gallery-grid" id="gallery-grid">
-      <!-- Populated by gallery.js from config/gallery.json -->
+      {% for image in gallery.images %}
+        <div class="gallery-item" data-category="{{ image.category }}">
+          <img src="/assets/{{ image.filename }}"
+               alt="{{ image.title }}"
+               class="gallery-image"
+               loading="lazy">
+          <div class="gallery-item-info">
+            <h3 class="gallery-item-title">{{ image.title }}</h3>
+            {% if image.description %}
+              <p class="gallery-item-description">{{ image.description }}</p>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
 </section>
