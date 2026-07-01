@@ -5,12 +5,46 @@ $(document).ready(function() {
 
   // Load gallery configuration from JSON
   async function loadGallery() {
+    // If the template already rendered gallery items into #gallery-grid,
+    // use those as the source of truth and skip the JSON fetch entirely.
+    // The JSON is only a fallback for pages that have no template data.
+    const preRenderedItems = $('#gallery-grid .gallery-item');
+    if (preRenderedItems.length > 0) {
+      galleryImages = preRenderedItems.map(function() {
+        const $item = $(this);
+        const $img = $item.find('img.gallery-image');
+        const $title = $item.find('.gallery-item-title');
+        const $desc = $item.find('.gallery-item-description');
+        // Strip leading "assets/" so filename matches the JSON shape.
+        const src = $img.attr('src') || '';
+        const filename = src.replace(/^.*assets\//, '');
+        return {
+          filename,
+          title: $title.text(),
+          description: $desc.text(),
+          category: $item.data('category') || 'general'
+        };
+      }).get();
+
+      // Still fetch the JSON to get category labels for the filter buttons.
+      try {
+        const response = await fetch('config/gallery.json');
+        const data = await response.json();
+        galleryConfig = data.gallery || {};
+        createCategoryFilters();
+      } catch (error) {
+        // No JSON is fine when the template provides everything.
+        galleryConfig = { categories: {} };
+      }
+      return;
+    }
+
     try {
       const response = await fetch('config/gallery.json');
       const data = await response.json();
       galleryConfig = data.gallery;
       galleryImages = data.gallery.images;
-      
+
       // Update page title and description if available
       if (galleryConfig.title) {
         document.title = galleryConfig.title + ' | Xalpheric';
@@ -18,7 +52,7 @@ $(document).ready(function() {
       if (galleryConfig.description) {
         $('#gallery-description').text(galleryConfig.description);
       }
-      
+
       populateGallery();
     } catch (error) {
       console.error('Error loading gallery configuration:', error);
@@ -283,6 +317,17 @@ $(document).ready(function() {
         navigateImage(1);
       }
     }
+  });
+
+  // Delegated click handler for template-rendered gallery items
+  // (the JSON-built items use an inline onclick; this catches both cases).
+  $(document).on('click', '#gallery-grid .gallery-image', function(e) {
+    e.preventDefault();
+    const src = $(this).attr('src') || '';
+    const $item = $(this).closest('.gallery-item');
+    const title = $item.find('.gallery-item-title').text() || '';
+    const description = $item.find('.gallery-item-description').text() || '';
+    openLightbox(src, title, description);
   });
 
   // Initialize gallery
