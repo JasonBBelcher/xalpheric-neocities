@@ -1,454 +1,239 @@
-const { execSync } = require('child_process');
+const { execFileSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
 const processVideos = require('../videos');
-const { PRESETS } = require('../videos');
+const { PRESETS, PROFILES, parseConversions, formatFromOutputName } = require('../videos');
 const { checkDependencies, DEPENDENCIES } = require('../../../lib/media/dependencies');
+const ffmpeg = require('../../../lib/media/ffmpeg');
 
 // Mock modules
 jest.mock('child_process');
+jest.mock('fs');
 jest.mock('../../../lib/media/dependencies');
+jest.mock('../../../lib/media/ffmpeg');
 
-describe('Process Videos Command', () => {
+describe('Process Videos Command (JS-native)', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    
+
     // Default: dependencies satisfied
     checkDependencies.mockResolvedValue(undefined);
-    
-    // Default: execSync succeeds
-    execSync.mockReturnValue(Buffer.from(''));
-    
-    // Mock DEPENDENCIES
-    DEPENDENCIES.ffmpeg = { commands: ['ffmpeg'], description: 'FFmpeg' };
-    DEPENDENCIES.ffprobe = { commands: ['ffprobe'], description: 'FFprobe' };
-    DEPENDENCIES.jq = { commands: ['jq'], description: 'jq' };
+
+    // Default: ffmpeg runs succeed
+    ffmpeg.runFfmpeg.mockReturnValue(Buffer.from(''));
+    ffmpeg.ensureDir.mockReturnValue(undefined);
+    ffmpeg.getVideoStreamInfo.mockReturnValue({ width: 1280, height: 720, codec: 'h264' });
+    ffmpeg.webScaleFilter.mockReturnValue(null);
+    ffmpeg.getDuration.mockReturnValue(60);
+
+    // Input/output files exist when checked
+    fs.existsSync.mockReturnValue(true);
+    fs.statSync.mockReturnValue({ size: 1024 * 1024 });
+    fs.mkdirSync.mockReturnValue(undefined);
+  });
+
+  describe('PROFILES', () => {
+    it('has profiles for all common formats', () => {
+      ['mp3', 'wav', 'mp4', 'webm', 'mov'].forEach(f => {
+        expect(PROFILES[f]).toBeDefined();
+        expect(typeof PROFILES[f].buildArgs).toBe('function');
+      });
+    });
+
+    it('mp3 profile uses libmp3lame at 192k', () => {
+      const args = PROFILES.mp3.buildArgs({ input: 'in.MOV', outputPath: 'out.mp3' });
+      expect(args).toContain('-acodec');
+      expect(args).toContain('libmp3lame');
+      expect(args).toContain('-ab');
+      expect(args).toContain('192k');
+      expect(args[args.length - 1]).toBe('out.mp3');
+    });
+
+    it('wav profile uses pcm_s16le', () => {
+      const args = PROFILES.wav.buildArgs({ input: 'in.mp4', outputPath: 'out.wav' });
+      expect(args).toContain('pcm_s16le');
+    });
+
+    it('mp4 profile uses H.264 + AAC + faststart', () => {
+      const args = PROFILES.mp4.buildArgs({
+        input: 'in.MOV', outputPath: 'out.mp4',
+        videoInfo: { width: 1280, height: 720, codec: 'h264' }
+      });
+      expect(args).toContain('libx264');
+      expect(args).toContain('aac');
+      expect(args).toContain('+faststart');
+    });
+
+    it('webm profile uses libvpx-vp9 + libopus', () => {
+      const args = PROFILES.webm.buildArgs({
+        input: 'in.MOV', outputPath: 'out.webm',
+        videoInfo: { width: 1280, height: 720, codec: 'h264' }
+      });
+      expect(args).toContain('libvpx-vp9');
+      expect(args).toContain('libopus');
+    });
+
+    it('mp4 profile adds scale filter when source is over 1920 wide', () => {
+      ffmpeg.webScaleFilter.mockReturnValue('scale=1920:-2:flags=lanczos');
+      const args = PROFILES.mp4.buildArgs({
+        input: 'in.MOV', outputPath: 'out.mp4',
+        videoInfo: { width: 3840, height: 2160, codec: 'hevc' }
+      });
+      const vfIdx = args.indexOf('-vf');
+      expect(vfIdx).toBeGreaterThan(-1);
+      expect(args[vfIdx + 1]).toBe('scale=1920:-2:flags=lanczos');
+    });
+  });
+
+  describe('formatFromOutputName', () => {
+    it('extracts the extension lowercased', () => {
+      expect(formatFromOutputName('clip.MP4')).toBe('mp4');
+      expect(formatFromOutputName('clip.webm')).toBe('webm');
+      expect(formatFromOutputName('noext')).toBe('');
+    });
+  });
+
+  describe('parseConversions', () => {
+    it('accepts a valid JSON array', () => {
+      const out = parseConversions(JSON.stringify([{ inputName: 'a.mov', outputName: 'a.mp4' }]));
+      expect(out).toEqual([{ inputName: 'a.mov', outputName: 'a.mp4' }]);
+    });
+
+    it('throws on invalid JSON', () => {
+      expect(() => parseConversions('not-json')).toThrow('Invalid conversions JSON');
+    });
+
+    it('throws when not an array', () => {
+      expect(() => parseConversions('{"a":1}')).toThrow('Conversions must be an array');
+    });
+
+    it('throws when entries are missing fields', () => {
+      expect(() => parseConversions(JSON.stringify([{ outputName: 'x.mp4' }])))
+        .toThrow('missing inputName or outputName');
+    });
   });
 
   describe('presets', () => {
-    it('should have web-mp4 preset', () => {
-      expect(PRESETS['web-mp4']).toBeDefined();
-      expect(PRESETS['web-mp4'].description).toBeTruthy();
-      expect(PRESETS['web-mp4'].getConversions).toBeInstanceOf(Function);
+    it('has the four expected presets', () => {
+      expect(Object.keys(PRESETS).sort())
+        .toEqual(['extract-audio', 'gif', 'web-mp4', 'web-ready']);
     });
 
-    it('should have extract-audio preset', () => {
-      expect(PRESETS['extract-audio']).toBeDefined();
-      expect(PRESETS['extract-audio'].description).toBeTruthy();
+    it('web-mp4 generates a single mp4 conversion', () => {
+      const c = PRESETS['web-mp4'].getConversions('video.MOV', 'video', 'public/music');
+      expect(c).toEqual([{ inputName: 'video.MOV', outputName: 'video.mp4', outputDir: 'public/music' }]);
     });
 
-    it('should have web-ready preset', () => {
-      expect(PRESETS['web-ready']).toBeDefined();
-      expect(PRESETS['web-ready'].description).toBeTruthy();
+    it('extract-audio generates a single mp3 conversion', () => {
+      const c = PRESETS['extract-audio'].getConversions('video.mp4', 'audio', 'public/music');
+      expect(c[0].outputName).toBe('audio.mp3');
     });
 
-    it('should have gif preset', () => {
-      expect(PRESETS['gif']).toBeDefined();
-      expect(PRESETS['gif'].description).toBeTruthy();
-    });
-
-    describe('web-mp4 preset', () => {
-      it('should generate MP4 conversion', () => {
-        const conversions = PRESETS['web-mp4'].getConversions('video.MOV', 'video');
-        
-        expect(conversions).toEqual([
-          { inputName: 'video.MOV', outputName: 'video.mp4' }
-        ]);
-      });
-    });
-
-    describe('extract-audio preset', () => {
-      it('should generate MP3 conversion', () => {
-        const conversions = PRESETS['extract-audio'].getConversions('video.mp4', 'audio');
-        
-        expect(conversions).toEqual([
-          { inputName: 'video.mp4', outputName: 'audio.mp3' }
-        ]);
-      });
-    });
-
-    describe('web-ready preset', () => {
-      it('should generate both MP4 and MP3 conversions', () => {
-        const conversions = PRESETS['web-ready'].getConversions('source.MOV', 'output');
-        
-        expect(conversions).toEqual([
-          { inputName: 'source.MOV', outputName: 'output.mp4' },
-          { inputName: 'source.MOV', outputName: 'output.mp3' }
-        ]);
-      });
-    });
-
-    describe('gif preset', () => {
-      it('should generate GIF conversion', () => {
-        const conversions = PRESETS['gif'].getConversions('video.mp4', 'animation');
-        
-        expect(conversions).toEqual([
-          { inputName: 'video.mp4', outputName: 'animation.gif' }
-        ]);
-      });
+    it('web-ready generates both mp4 and mp3', () => {
+      const c = PRESETS['web-ready'].getConversions('src.MOV', 'out', 'public/music');
+      expect(c.map(x => x.outputName)).toEqual(['out.mp4', 'out.mp3']);
     });
   });
 
-  describe('parameter validation', () => {
-    it('should throw error when neither conversions nor preset provided', async () => {
-      await expect(
-        processVideos({})
-      ).rejects.toThrow('Either conversions JSON or preset with input file required');
+  describe('processVideos parameter validation', () => {
+    it('throws when neither conversions nor preset provided', async () => {
+      await expect(processVideos({})).rejects.toThrow('Either conversions JSON or preset');
     });
 
-    it('should throw error when preset used without input file', async () => {
-      await expect(
-        processVideos({ preset: 'web-mp4' })
-      ).rejects.toThrow('Input file required when using preset');
+    it('throws when preset used without input', async () => {
+      await expect(processVideos({ preset: 'web-mp4' }))
+        .rejects.toThrow('Input file required when using preset');
     });
 
-    it('should throw error for unknown preset', async () => {
-      await expect(
-        processVideos({ preset: 'unknown', input: 'video.mp4' })
-      ).rejects.toThrow('Unknown preset "unknown"');
+    it('throws for unknown preset', async () => {
+      await expect(processVideos({ preset: 'nope', input: 'x.mov' }))
+        .rejects.toThrow('Unknown preset "nope"');
     });
 
-    it('should accept valid preset with input', async () => {
-      const result = await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV'
-      });
-
+    it('runs successfully with a valid preset', async () => {
+      const result = await processVideos({ preset: 'web-mp4', input: 'video.MOV', outputDir: 'public/music' });
       expect(result.success).toBe(true);
       expect(result.preset).toBe('web-mp4');
+      expect(ffmpeg.runFfmpeg).toHaveBeenCalled();
     });
 
-    it('should accept conversions JSON', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'input.MOV', outputName: 'output.mp4' }
-      ]);
-
+    it('runs successfully with a manual conversions array', async () => {
+      const conversions = JSON.stringify([{ inputName: 'a.MOV', outputName: 'a.mp3' }]);
       const result = await processVideos({ conversions });
-
       expect(result.success).toBe(true);
-      expect(result.conversions).toHaveLength(1);
+      expect(ffmpeg.runFfmpeg).toHaveBeenCalled();
     });
   });
 
-  describe('conversions JSON validation', () => {
-    it('should throw error for invalid JSON', async () => {
-      await expect(
-        processVideos({ conversions: 'not-valid-json' })
-      ).rejects.toThrow('Invalid conversions JSON');
-    });
-
-    it('should throw error when conversions is not an array', async () => {
-      await expect(
-        processVideos({ conversions: '{"inputName": "test"}' })
-      ).rejects.toThrow('Conversions must be an array');
-    });
-
-    it('should throw error when conversion missing inputName', async () => {
-      const conversions = JSON.stringify([
-        { outputName: 'output.mp4' }
-      ]);
-
-      await expect(
-        processVideos({ conversions })
-      ).rejects.toThrow('missing inputName or outputName');
-    });
-
-    it('should throw error when conversion missing outputName', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'input.MOV' }
-      ]);
-
-      await expect(
-        processVideos({ conversions })
-      ).rejects.toThrow('missing inputName or outputName');
-    });
-
-    it('should accept valid conversions array', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'video1.MOV', outputName: 'video1.mp4' },
-        { inputName: 'video2.MOV', outputName: 'video2.mp4' }
-      ]);
-
-      const result = await processVideos({ conversions });
-
-      expect(result.success).toBe(true);
-      expect(result.conversions).toHaveLength(2);
-    });
-  });
-
-  describe('dependency checking', () => {
-    it('should check for FFmpeg, FFprobe, and jq', async () => {
-      await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV'
-      });
-
+  describe('processVideos dependency checking', () => {
+    it('checks ffmpeg and ffprobe (no longer jq)', async () => {
+      await processVideos({ preset: 'web-mp4', input: 'video.MOV' });
       expect(checkDependencies).toHaveBeenCalledWith(
-        [DEPENDENCIES.ffmpeg, DEPENDENCIES.ffprobe, DEPENDENCIES.jq],
-        expect.objectContaining({
-          autoInstall: true,
-          required: true
-        })
+        [DEPENDENCIES.ffmpeg, DEPENDENCIES.ffprobe],
+        expect.objectContaining({ autoInstall: true, required: true })
       );
     });
 
-    it('should fail when dependencies are not satisfied', async () => {
+    it('propagates dependency errors', async () => {
       checkDependencies.mockRejectedValue(new Error('FFmpeg not found'));
-
-      await expect(
-        processVideos({
-          preset: 'web-mp4',
-          input: 'video.MOV'
-        })
-      ).rejects.toThrow('FFmpeg not found');
+      await expect(processVideos({ preset: 'web-mp4', input: 'video.MOV' }))
+        .rejects.toThrow('FFmpeg not found');
     });
   });
 
-  describe('script execution with presets', () => {
-    it('should execute script with web-mp4 preset', async () => {
-      await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV'
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('[{"inputName":"video.MOV","outputName":"video.mp4"}]'),
-        expect.any(Object)
-      );
-    });
-
-    it('should execute script with extract-audio preset', async () => {
-      await processVideos({
-        preset: 'extract-audio',
-        input: 'video.mp4'
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('[{"inputName":"video.mp4","outputName":"video.mp3"}]'),
-        expect.any(Object)
-      );
-    });
-
-    it('should execute script with web-ready preset', async () => {
-      await processVideos({
-        preset: 'web-ready',
-        input: 'source.MOV'
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('"outputName":"source.mp4"'),
-        expect.any(Object)
-      );
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('"outputName":"source.mp3"'),
-        expect.any(Object)
-      );
-    });
-
-    it('should execute script with gif preset', async () => {
-      await processVideos({
-        preset: 'gif',
-        input: 'video.mp4'
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('[{"inputName":"video.mp4","outputName":"video.gif"}]'),
-        expect.any(Object)
-      );
-    });
-
-    it('should use custom script path when provided', async () => {
-      await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV',
-        scriptPath: 'custom/path/script.sh'
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('./script.sh'),
-        expect.objectContaining({
-          cwd: expect.stringContaining('custom/path')
-        })
-      );
-    });
-  });
-
-  describe('script execution with manual conversions', () => {
-    it('should execute script with single conversion', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'input.MOV', outputName: 'output.mp4' }
-      ]);
-
-      await processVideos({ conversions });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining(conversions),
-        expect.any(Object)
-      );
-    });
-
-    it('should execute script with multiple conversions', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'video1.MOV', outputName: 'video1.mp4' },
-        { inputName: 'video2.MOV', outputName: 'video2.webm' },
-        { inputName: 'video3.MOV', outputName: 'video3.mp3' }
-      ]);
-
-      await processVideos({ conversions });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining(conversions),
-        expect.any(Object)
-      );
-    });
-
-    it('should handle complex file paths in conversions', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'path/to/video.MOV', outputName: 'output/video.mp4' }
-      ]);
-
-      await processVideos({ conversions });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.stringContaining('path/to/video.MOV'),
-        expect.any(Object)
-      );
-    });
-  });
-
-  describe('stdio handling', () => {
-    it('should inherit stdio when verbose is true', async () => {
-      await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV',
-        verbose: true
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.objectContaining({
-          stdio: 'inherit'
-        })
-      );
-    });
-
-    it('should pipe stdio when verbose is false', async () => {
-      await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV',
-        verbose: false
-      });
-
-      expect(execSync).toHaveBeenCalledWith(
-        expect.any(String),
-        expect.objectContaining({
-          stdio: 'pipe'
-        })
-      );
-    });
-  });
-
-  describe('return values', () => {
-    it('should return success status with preset', async () => {
-      const result = await processVideos({
-        preset: 'web-mp4',
-        input: 'video.MOV'
-      });
-
-      expect(result).toMatchObject({
-        success: true,
-        preset: 'web-mp4'
-      });
-    });
-
-    it('should return success status without preset', async () => {
-      const conversions = JSON.stringify([
-        { inputName: 'input.MOV', outputName: 'output.mp4' }
-      ]);
-
+  describe('processVideos per-conversion behavior', () => {
+    it('skips and returns null when input file is missing', async () => {
+      fs.existsSync.mockReturnValue(false);
+      const conversions = JSON.stringify([{ inputName: 'gone.MOV', outputName: 'gone.mp4' }]);
       const result = await processVideos({ conversions });
-
-      expect(result).toMatchObject({
-        success: true,
-        preset: null
-      });
+      expect(result.results).toEqual([]);
+      expect(ffmpeg.runFfmpeg).not.toHaveBeenCalled();
     });
 
-    it('should return conversions array', async () => {
-      const result = await processVideos({
-        preset: 'web-ready',
-        input: 'video.MOV'
-      });
+    it('skips and returns null when output format is unknown', async () => {
+      const conversions = JSON.stringify([{ inputName: 'x.MOV', outputName: 'x.xyz' }]);
+      const result = await processVideos({ conversions });
+      expect(result.results).toEqual([]);
+      expect(ffmpeg.runFfmpeg).not.toHaveBeenCalled();
+    });
 
-      expect(result.conversions).toEqual([
-        { inputName: 'video.MOV', outputName: 'video.mp4' },
-        { inputName: 'video.MOV', outputName: 'video.mp3' }
+    it('uses PROFILES.mp3 args for .mp3 outputs', async () => {
+      const conversions = JSON.stringify([{ inputName: 'a.MOV', outputName: 'a.mp3' }]);
+      await processVideos({ conversions, outputDir: 'public/music' });
+      const args = ffmpeg.runFfmpeg.mock.calls[0][0];
+      expect(args).toContain('libmp3lame');
+    });
+
+    it('uses PROFILES.mp4 args for .mp4 outputs', async () => {
+      const conversions = JSON.stringify([{ inputName: 'a.MOV', outputName: 'a.mp4' }]);
+      await processVideos({ conversions, outputDir: 'public/music' });
+      const args = ffmpeg.runFfmpeg.mock.calls[0][0];
+      expect(args).toContain('libx264');
+      expect(args).toContain('+faststart');
+    });
+
+    it('runs multiple conversions in sequence', async () => {
+      const conversions = JSON.stringify([
+        { inputName: 'a.MOV', outputName: 'a.mp4' },
+        { inputName: 'a.MOV', outputName: 'a.mp3' }
       ]);
+      const result = await processVideos({ conversions, outputDir: 'public/music' });
+      expect(ffmpeg.runFfmpeg).toHaveBeenCalledTimes(2);
+      expect(result.results).toHaveLength(2);
+    });
+
+    it('passes verbose through to ffmpeg.runFfmpeg', async () => {
+      const conversions = JSON.stringify([{ inputName: 'a.MOV', outputName: 'a.mp3' }]);
+      await processVideos({ conversions, outputDir: 'public/music', verbose: true });
+      const opts = ffmpeg.runFfmpeg.mock.calls[0][1];
+      expect(opts.verbose).toBe(true);
     });
   });
 
-  describe('error handling', () => {
-    it('should throw error when script execution fails', async () => {
-      execSync.mockImplementation(() => {
-        throw new Error('FFmpeg failed');
-      });
-
-      await expect(
-        processVideos({
-          preset: 'web-mp4',
-          input: 'video.MOV'
-        })
-      ).rejects.toThrow('FFmpeg failed');
-    });
-
-    it('should handle missing script file', async () => {
-      execSync.mockImplementation(() => {
-        const error = new Error('ENOENT: no such file or directory');
-        error.code = 'ENOENT';
-        throw error;
-      });
-
-      await expect(
-        processVideos({
-          preset: 'web-mp4',
-          input: 'video.MOV'
-        })
-      ).rejects.toThrow('no such file or directory');
-    });
-  });
-
-  describe('file extension handling', () => {
-    const testCases = [
-      { input: 'video.MOV', expected: 'video' },
-      { input: 'video.mp4', expected: 'video' },
-      { input: 'file.with.dots.MOV', expected: 'file.with.dots' },
-      { input: 'no-extension', expected: 'no-extension' }
-    ];
-
-    testCases.forEach(({ input, expected }) => {
-      it(`should extract base name from ${input}`, async () => {
-        const result = await processVideos({
-          preset: 'web-mp4',
-          input
-        });
-
-        expect(result.conversions[0].outputName).toBe(`${expected}.mp4`);
-      });
-    });
-  });
-
-  describe('listPresets function', () => {
-    it('should export listPresets function', () => {
+  describe('listPresets', () => {
+    it('returns the same object as PRESETS', () => {
       const { listPresets } = require('../videos');
-      expect(listPresets).toBeInstanceOf(Function);
-    });
-
-    it('should return presets object', () => {
-      const { listPresets } = require('../videos');
-      const presets = listPresets();
-      
-      expect(presets).toHaveProperty('web-mp4');
-      expect(presets).toHaveProperty('extract-audio');
-      expect(presets).toHaveProperty('web-ready');
-      expect(presets).toHaveProperty('gif');
+      expect(listPresets()).toBe(PRESETS);
     });
   });
 });

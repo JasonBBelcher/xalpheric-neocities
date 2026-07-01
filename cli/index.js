@@ -311,21 +311,21 @@ mediaCommand
 
 mediaCommand
   .command('videos')
-  .description('Process videos with FFmpeg')
+  .description('Process videos with ffmpeg (mp3, wav, mp4, webm, mov)')
   .option('-c, --conversions <json>', 'JSON array of conversion mappings')
   .option('-p, --preset <name>', 'Preset name (web-mp4, extract-audio, web-ready, gif)')
   .option('-i, --input <file>', 'Input file (required with preset)')
-  .option('--script <path>', 'Path to processing script', 'process_video/convert_videos.sh')
+  .option('-o, --output-dir <path>', 'Default output directory', 'public/music')
   .option('-v, --verbose', 'Verbose output')
   .action(async (options) => {
     try {
       const processVideos = require('./commands/media/videos');
-      
+
       await processVideos({
         conversions: options.conversions,
         preset: options.preset,
         input: options.input,
-        scriptPath: options.script,
+        outputDir: options.outputDir,
         verbose: options.verbose
       });
     } catch (error) {
@@ -336,15 +336,26 @@ mediaCommand
 
 mediaCommand
   .command('gif')
-  .description('Create an animated GIF from a video file')
-  .requiredOption('-i, --input <file>', 'Input video file')
+  .description('Create animated GIFs from video files (segment | summary | full | batch)')
+  .option('-i, --input <file>', 'Input video file (omit with --batch to process all videos in process_video/)')
   .option('-o, --output <name>', 'Output filename (default: input basename + .gif)')
-  .option('-d, --output-dir <path>', 'Output directory', 'public/assets/')
-  .option('-s, --start <time>', 'Start time (seconds or HH:MM:SS)', '0')
-  .option('-t, --duration <seconds>', 'Duration in seconds')
+  .option('-d, --output-dir <path>', 'Output directory', 'public/assets/gifs/')
+  .option('--batch', 'Process every video in the input directory (default: process_video/)')
+  .option('--batch-input <dir>', 'Batch input directory', 'process_video')
+  .option('--recipe <name>', 'Use a preset recipe: tiny | flipbook | flat | loop-once')
+  .option('-m, --mode <mode>', 'GIF mode: segment (default) | summary | full', 'segment')
+  .option('-s, --start <time>', 'Start time (segment mode; seconds or HH:MM:SS)', '0')
+  .option('-t, --duration <seconds>', 'Duration in seconds (segment mode)')
+  .option('-n, --frames <count>', 'Number of frames to sample (summary mode; default 12)', '12')
   .option('--fps <number>', 'Frames per second', '12')
   .option('-w, --width <pixels>', 'Output width in pixels', '480')
-  .option('--loop <count>', 'Loop count (0=infinite, -1=no loop)', '0')
+  .option('--loop <value>', 'Loop count: infinite (default) | none | positive integer', 'infinite')
+  .option('--colors <count>', 'Number of palette colors (1-256; default 256)', '256')
+  .option('--dither <mode>', 'Dither: bayer (default) | floyd_steinberg | sierra2 | none', 'bayer')
+  .option('--dither-scale <1-8>', 'Bayer dither scale (default 5)', '5')
+  .option('--stats-mode <mode>', 'Palette stats: diff (default) | single', 'diff')
+  .option('--transparent', 'Reserve a transparent palette entry')
+  .option('--overwrite', 'Overwrite existing GIFs in batch mode (default: skip)')
   .option('-v, --verbose', 'Show ffmpeg output')
   .action(async (options) => {
     try {
@@ -353,11 +364,22 @@ mediaCommand
         input: options.input,
         output: options.output,
         outputDir: options.outputDir,
+        batch: options.batch,
+        batchInput: options.batchInput,
+        recipe: options.recipe,
+        mode: options.mode,
         start: options.start,
         duration: options.duration,
+        frames: options.frames,
         fps: options.fps,
         width: options.width,
         loop: options.loop,
+        colors: options.colors,
+        dither: options.dither,
+        ditherScale: options.ditherScale,
+        statsMode: options.statsMode,
+        transparent: options.transparent,
+        overwrite: options.overwrite,
         verbose: options.verbose
       });
     } catch (error) {
