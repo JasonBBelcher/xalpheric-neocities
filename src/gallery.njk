@@ -53,10 +53,15 @@ permalink: /gallery.html
     <p class="section__eyebrow">01 · VISUAL ARCHIVE</p>
     <h1 class="section__title">Gallery</h1>
     <p class="section__body" id="gallery-description">
-      Studio sessions, live events, and moments from MIDI Mob Collective — Birmingham AL.
+      {{ gallery.description }}
     </p>
   </div>
 </section>
+
+<!-- Categories from the Eleventy data layer; consumed by gallery.js for the filter UI. -->
+<script id="gallery-data" type="application/json">
+  {{ gallery.categories | dump | safe }}
+</script>
 
 <section class="section section--alt">
   <div class="container">

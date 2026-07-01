@@ -3,11 +3,23 @@ $(document).ready(function() {
   let galleryConfig = {};
   let currentImageIndex = 0;
 
-  // Load gallery configuration from JSON
+  // Load gallery configuration
   async function loadGallery() {
+    // Categories are emitted into a <script id="gallery-data"> tag by
+    // the Eleventy template. This is the source of truth for labels.
+    let templateCategories = {};
+    const $dataEl = $('#gallery-data');
+    if ($dataEl.length > 0) {
+      try {
+        templateCategories = JSON.parse($dataEl.text());
+      } catch (e) {
+        templateCategories = {};
+      }
+    }
+
     // If the template already rendered gallery items into #gallery-grid,
     // use those as the source of truth and skip the JSON fetch entirely.
-    // The JSON is only a fallback for pages that have no template data.
+    // The JSON is only a fallback for legacy pages that have no template data.
     const preRenderedItems = $('#gallery-grid .gallery-item');
     if (preRenderedItems.length > 0) {
       galleryImages = preRenderedItems.map(function() {
@@ -26,16 +38,8 @@ $(document).ready(function() {
         };
       }).get();
 
-      // Still fetch the JSON to get category labels for the filter buttons.
-      try {
-        const response = await fetch('config/gallery.json');
-        const data = await response.json();
-        galleryConfig = data.gallery || {};
-        createCategoryFilters();
-      } catch (error) {
-        // No JSON is fine when the template provides everything.
-        galleryConfig = { categories: {} };
-      }
+      galleryConfig = { categories: templateCategories };
+      createCategoryFilters();
       return;
     }
 
