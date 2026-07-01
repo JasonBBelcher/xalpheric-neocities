@@ -1,5 +1,5 @@
 # XALPHERIC · xalpheric.neocities.org
-## Claude Code Project Instructions
+## AI Agent Project Instructions
 
 ---
 
@@ -7,7 +7,7 @@
 
 Static website for Xalpheric — Birmingham-based electronic music producer, co-founder of MIDI Mob Collective. Hosted on Neocities (static files only).
 
-This project has an **existing CLI build system** with media processing, deployment, and blog pipelines already in place. We are adding **Eleventy (11ty) with Handlebars** as the template layer. Do not break or replace existing CLI functionality — integrate alongside it.
+This project has an **existing CLI build system** with media processing, deployment, and blog pipelines already in place. We use **Eleventy (11ty) with Nunjucks** as the template layer. Do not break or replace existing CLI functionality — integrate alongside it.
 
 **Primary purpose:** Artist identity is the hero. Music releases are the core content. Everything serves that.
 
@@ -91,42 +91,42 @@ xalpheric-neocities/
 ## Eleventy Integration
 
 ### Approach
-Eleventy sits **between** the source templates and `public/`. It compiles Handlebars templates into static HTML that lands in `public/`. The existing CLI then deploys `public/` to Neocities exactly as before. The media processing pipeline and CLI are untouched.
+Eleventy sits **between** the source templates and `public/`. It compiles Nunjucks templates into static HTML that lands in `public/`. The existing CLI then deploys `public/` to Neocities exactly as before. The media processing pipeline and CLI are untouched.
 
 ```
-src/                    ← NEW: Eleventy source
+src/                    ← Eleventy source
   _data/                ← Global data files (JSON/JS)
-  _includes/            ← Handlebars partials and layouts
-  *.hbs                 ← Page templates
+  _includes/            ← Nunjucks partials and layouts
+  *.njk                 ← Page templates
         ↓  eleventy build
 public/                 ← EXISTING: deployed to Neocities by CLI
 ```
 
-### New Directories (additions only — nothing existing moves)
+### Directories (Eleventy source lives alongside existing structure)
 ```
 xalpheric-neocities/
-├── src/                          # NEW — Eleventy source root
+├── src/                          # Eleventy source root
 │   ├── _data/
 │   │   ├── releases.js           # Reads from public/config/releases.json
 │   │   ├── collective.json       # MIDI Mob member data
 │   │   ├── site.json             # Global site metadata
-│   │   └── gallery.js            # Reads processed images from public/images/
+│   │   └── event_photos.js       # Reads processed images from public/images/
 │   ├── _includes/
 │   │   ├── layouts/
-│   │   │   └── base.hbs          # Base HTML shell — head, grain, fonts, nav, footer
+│   │   │   └── base.njk          # Base HTML shell — head, grain, fonts, nav, footer
 │   │   └── partials/
-│   │       ├── nav.hbs
-│   │       ├── hero.hbs
-│   │       ├── release-strip.hbs
-│   │       ├── member-card.hbs
-│   │       ├── tag.hbs
-│   │       └── footer.hbs
-│   ├── index.hbs                 # Home page (single scroll)
-│   ├── releases.hbs              # Full catalog sub-page
-│   ├── gallery.hbs               # Photo grid sub-page
-│   ├── collective.hbs            # MIDI Mob members
-│   └── drum-machine.hbs          # Interactive feature
-├── .eleventy.js                  # NEW — Eleventy config
+│   │       ├── nav.njk
+│   │       ├── hero.njk
+│   │       ├── release-strip.njk
+│   │       ├── member-card.njk
+│   │       ├── tag.njk
+│   │       └── footer.njk
+│   ├── index.njk                 # Home page (single scroll)
+│   ├── releases.njk              # Full catalog sub-page
+│   ├── gallery.njk               # Photo grid sub-page
+│   ├── collective.njk            # MIDI Mob members
+│   └── drum-machine.njk          # Interactive feature
+├── .eleventy.js                  # Eleventy config
 └── [all existing files unchanged]
 ```
 
@@ -139,16 +139,16 @@ module.exports = function(eleventyConfig) {
   // Watch CSS for rebuilds
   eleventyConfig.addWatchTarget("src/assets/css/");
 
-  // Handlebars helpers
-  eleventyConfig.addHandlebarsHelper("upper", function(str) {
+  // Nunjucks filters (built-in to Eleventy 3.x)
+  eleventyConfig.addFilter("upper", function(str) {
     return str ? str.toUpperCase() : "";
   });
 
-  eleventyConfig.addHandlebarsHelper("currentYear", function() {
+  eleventyConfig.addFilter("currentYear", function() {
     return new Date().getFullYear();
   });
 
-  eleventyConfig.addHandlebarsHelper("formatDuration", function(seconds) {
+  eleventyConfig.addFilter("formatDuration", function(seconds) {
     if (!seconds) return "";
     const m = Math.floor(seconds / 60);
     const s = seconds % 60;
@@ -179,12 +179,19 @@ Add only — do not remove existing scripts:
 "build:full":     "@11ty/eleventy && node cli/index.js build musings"
 ```
 
-### New Dev Dependencies to Add
+### Dev Dependencies
+Nunjucks is bundled with Eleventy 3.x — no separate `handlebars` package needed.
+
 ```bash
-npm install --save-dev @11ty/eleventy handlebars
+npm install --save-dev @11ty/eleventy
 ```
 
-Verify Eleventy's current Handlebars support before installing — check the Eleventy docs for the version in use. Eleventy 2.x supports Handlebars natively without a separate plugin.
+If you ever need a custom filter or shortcode, add it in `.eleventy.js`:
+
+```javascript
+eleventyConfig.addFilter("currentYear", () => new Date().getFullYear());
+eleventyConfig.addShortcode("currentYear", () => new Date().getFullYear());
+```
 
 ---
 
@@ -219,43 +226,52 @@ module.exports = function() {
 
 ---
 
-## Handlebars Template Conventions
+## Nunjucks Template Conventions
 
 ### Frontmatter on every page
 ```yaml
 ---
-layout: layouts/base.hbs
+layout: layouts/base.njk
 title: Releases
 description: Full catalog of Xalpheric releases
 ---
 ```
 
-### Partial usage
-```handlebars
-{{> partials/nav site=site}}
-{{> partials/release-strip release=this}}
-{{> partials/tag label="DOWNTEMPO"}}
+### Partial includes
+```nunjucks
+{% include "partials/nav.njk" %}
+{% include "partials/release-strip.njk" %}
+{% include "partials/tag.njk" %}
 ```
 
+To pass a label that contains spaces, build the string with concatenation or `set` first:
+```nunjucks
+{% set label = "DOWNTEMPO" %}
+{% include "partials/tag.njk" %}
+```
+Nunjucks does not support the Handlebars `key=value` shorthand, so prefer `set` or pass via frontmatter.
+
 ### Iterating releases
-```handlebars
-{{#each releases}}
-  {{> partials/release-strip release=this index=@index}}
-{{/each}}
+```nunjucks
+<ul>
+  {% for release in releases %}
+    {% include "partials/release-strip.njk" %}
+  {% endfor %}
+</ul>
 ```
 
 ### Conditionals
-```handlebars
-{{#if release.isNew}}
+```nunjucks
+{% if release.isNew %}
   <span class="tag tag--alert">NEW</span>
-{{/if}}
+{% endif %}
 ```
 
-### Content slot in base.hbs
-```handlebars
-{{{content}}}
+### Content slot in base.njk
+```nunjucks
+{{ content | safe }}
 ```
-Triple braces — Eleventy passes compiled HTML, must not be escaped.
+The `| safe` filter is required so Eleventy's pre-rendered HTML isn't escaped.
 
 ---
 
@@ -295,7 +311,7 @@ npm run deploy:full   # Deploy everything to Neocities
 
 **All visual decisions are in `DESIGN-SYSTEM.md`. It is the source of truth. Do not deviate without being told to. If a visual decision isn't covered, ask before guessing.**
 
-### CSS Variables (define in base.hbs linked stylesheet or `<style>` block)
+### CSS Variables (define in base.njk linked stylesheet or `<style>` block)
 ```css
 :root {
   --bg-base:        #1a1208;
@@ -317,13 +333,13 @@ npm run deploy:full   # Deploy everything to Neocities
 }
 ```
 
-### Google Fonts (in base.hbs `<head>`)
+### Google Fonts (in base.njk `<head>`)
 ```html
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@300;400;700&family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 ```
 
-### Grain overlay (in base.hbs — always present)
+### Grain overlay (in base.njk — always present)
 ```css
 body::before {
   content: '';
@@ -354,7 +370,7 @@ Grain only (see above). No scan lines. No halftone. Nothing else.
 ### Motifs
 Star maps / coordinates + reel tape imagery. Hero background and one section accent. Never repeated, never cluttered.
 
-### Section color map (index.hbs scroll order)
+### Section color map (index.njk scroll order)
 ```
 01 HERO         → --bg-base + --text-primary headlines + star map bg
 02 IDENTITY     → --bg-mid  + --accent-primary headlines
@@ -410,4 +426,4 @@ Star maps / coordinates + reel tape imagery. Hero background and one section acc
 
 ---
 
-*MIDI MOB COLLECTIVE · BIRMINGHAM AL · Design System v2.0 · Eleventy + Handlebars*
+*MIDI MOB COLLECTIVE · BIRMINGHAM AL · Design System v2.0 · Eleventy + Nunjucks*
