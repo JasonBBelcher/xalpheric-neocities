@@ -15,7 +15,8 @@ jest.mock('fs', () => ({
     copyFile: jest.fn()
   },
   existsSync: jest.fn(),
-  mkdirSync: jest.fn()
+  mkdirSync: jest.fn(),
+  unlinkSync: jest.fn()
 }));
 jest.mock('child_process');
 jest.mock('../../lib/utils/logger');
@@ -62,7 +63,8 @@ describe('buildMusings', () => {
       expect(result.built).toBe(2);
       expect(result.failed).toBe(0);
       expect(fs.readdir).toHaveBeenCalledWith('test-source');
-      expect(fs.writeFile).toHaveBeenCalledTimes(3); // 2 posts + index
+      // 2 posts written; no index.html is generated anymore (Eleventy handles the listing)
+      expect(fs.writeFile).toHaveBeenCalledTimes(2);
     });
 
     test('should handle no markdown files gracefully', async () => {
@@ -443,7 +445,10 @@ describe('buildMusings', () => {
   });
 
   describe('Index Generation', () => {
-    test('should generate index.html with all posts', async () => {
+    // The legacy index.html is no longer written by the CLI — Eleventy now
+    // renders the /musings.html listing. This suite verifies the CLI no longer
+    // writes a duplicate listing and cleans up any stale index.html on disk.
+    test('should not write an index.html listing', async () => {
       fs.readdir.mockResolvedValue(['first.md', 'second.md']);
       fs.stat.mockResolvedValue({ mtime: new Date() });
       fs.readFile.mockResolvedValue('# Content');
@@ -455,15 +460,50 @@ describe('buildMusings', () => {
         processPhotos: false
       });
 
-      // Find the index.html write call
       const indexCall = fs.writeFile.mock.calls.find(call =>
         call[0].includes('index.html')
       );
+      expect(indexCall).toBeUndefined();
+    });
 
-      expect(indexCall).toBeDefined();
-      expect(indexCall[1]).toContain('<ul>');
-      expect(indexCall[1]).toContain('first.html');
-      expect(indexCall[1]).toContain('second.html');
+    test('should remove a stale index.html left from before the cleanup', async () => {
+      fs.readdir.mockResolvedValue(['post.md']);
+      fs.stat.mockResolvedValue({ mtime: new Date() });
+      fs.readFile.mockResolvedValue('# Content');
+      fs.writeFile.mockResolvedValue();
+      // Pretend the stale index.html exists; unlinkSync should be called.
+      fsSync.existsSync.mockReturnValue(true);
+
+      await buildMusings({
+        source: 'test-source',
+        output: 'test-output',
+        processPhotos: false,
+        verbose: true
+      });
+
+      expect(fsSync.unlinkSync).toHaveBeenCalledWith(
+        expect.stringContaining('index.html')
+      );
+    });
+
+    test('should not call unlinkSync when no stale index.html exists', async () => {
+      fs.readdir.mockResolvedValue(['post.md']);
+      fs.stat.mockResolvedValue({ mtime: new Date() });
+      fs.readFile.mockResolvedValue('# Content');
+      fs.writeFile.mockResolvedValue();
+      // Output dir exists, blog images dir exists, but stale index.html does not.
+      fsSync.existsSync
+        .mockReturnValueOnce(true)   // output dir exists
+        .mockReturnValueOnce(true)   // blog images dir exists
+        .mockReturnValue(false);     // everything else (including index.html) is false
+
+      await buildMusings({
+        source: 'test-source',
+        output: 'test-output',
+        processPhotos: false
+      });
+
+      expect(fsSync.unlinkSync).not.toHaveBeenCalled();
     });
   });
 

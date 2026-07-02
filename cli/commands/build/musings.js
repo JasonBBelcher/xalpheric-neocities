@@ -122,9 +122,22 @@ async function buildMusings(options = {}) {
       }
     }
 
-    // Generate index.html
+    // The legacy public/musings/index.html listing is no longer generated here.
+    // Eleventy now renders the /musings.html listing from src/_data/musings.js,
+    // which reads the same thoughts-and-musings/ source. Keeping a second
+    // listing here would create a duplicate page on the site.
+    //
+    // If a stale index.html exists from before this change, remove it so the
+    // build output is clean.
     const indexFile = path.join(output, 'index.html');
-    await generateIndex(indexEntries, indexFile);
+    if (fsSync.existsSync(indexFile)) {
+      try {
+        fsSync.unlinkSync(indexFile);
+        logger.verbose(`🗑️  Removed stale ${indexFile}`);
+      } catch (err) {
+        logger.warn(`⚠️  Could not remove ${indexFile}: ${err.message}`);
+      }
+    }
 
     // Summary
     logger.info('\n📊 Build Summary:', 'cyan');
