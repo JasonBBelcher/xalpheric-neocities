@@ -73,22 +73,16 @@ permalink: /musings.html
 <section class="section" style="background: var(--bg-base);">
   <div class="container">
     <div id="musings-list" style="display: grid; gap: 1.5rem;">
-      <!-- Posts loaded via jQuery from musings/index.html -->
-      <p style="font-family: var(--font-data); font-size: var(--type-caption); color: var(--text-faint); letter-spacing: 0.1em;">
-        LOADING...
-      </p>
+      {% if musings and musings.length > 0 %}
+        {% for post in musings %}
+          <a href="{{ post.url }}" class="release-strip" style="display:flex;align-items:center;gap:1.5rem;padding:1rem 0;border-bottom:1px solid var(--border-subtle);text-decoration:none;transition:var(--transition-glide);">
+            <span style="font-family:var(--font-data);font-size:var(--type-caption);color:var(--text-faint);letter-spacing:0.1em;min-width:3rem;">{{ loop.index | zeroPad }}</span>
+            <span style="font-family:var(--font-display);font-size:var(--type-h3);font-weight:400;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-primary);">{{ post.data.title or post.fileSlug }}</span>
+          </a>
+        {% endfor %}
+      {% else %}
+        <p style="font-family: var(--font-body); color: var(--text-secondary);">No musings available yet. Check back soon.</p>
+      {% endif %}
     </div>
   </div>
 </section>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-  fetch('/musings/index.html')
-    .then(function(r) { return r.ok ? r.text() : Promise.reject(); })
-    .then(function(html) { document.getElementById('musings-list').innerHTML = html; })
-    .catch(function() {
-      document.getElementById('musings-list').innerHTML =
-        '<p style="font-family: var(--font-body); color: var(--text-secondary);">No musings available yet. Check back soon.</p>';
-    });
-});
-</script>
