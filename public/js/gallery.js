@@ -279,17 +279,17 @@ $(document).ready(function() {
 
   // Global functions for lightbox
   window.openLightbox = function(imageSrc, caption, description = '') {
-    // Strip leading "assets/" to match the filename stored in gallery config
-    // e.g. "assets/gifs/IMG_3654.gif" → "gifs/IMG_3654.gif"
-    //      "assets/studio1.jpg"        → "studio1.jpg"
-    const imageName = imageSrc.replace(/^assets\//, '');
+    // Strip a leading slash and "assets/" so the filename matches the
+    // shape stored in the gallery data (e.g. "/assets/gifs/IMG_3654.gif"
+    // → "gifs/IMG_3654.gif", and "assets/studio1.jpg" → "studio1.jpg").
+    const imageName = imageSrc.replace(/^\/?assets\//, '');
     // Find the index by comparing filenames
     currentImageIndex = galleryImages.findIndex(img => img.filename === imageName);
-    
+
     if (currentImageIndex === -1) {
       currentImageIndex = 0; // Fallback to first image
     }
-    
+
     updateLightboxContent();
     $('#lightbox').fadeIn(300);
   };
