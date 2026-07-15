@@ -1894,3 +1894,148 @@ audio {
   letter-spacing: 0.08em;
   opacity: 0.8;
 }
+
+
+/* ============================================================================
+   SECTION 25: INSTAGRAM EMBED GRID (LIGHT-BLEEDER)
+   ----------------------------------------------------------------------------
+   Click-to-load cards. The full Instagram blockquote is held in a
+   <template> and only injected into the DOM after the visitor clicks
+   the placeholder. This keeps the page fast and stops Instagram's
+   third-party embed.js from running on load.
+   ============================================================================ */
+
+.ig-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.ig-embed {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 1.25rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  transition: var(--transition-glide);
+}
+
+.ig-embed:hover {
+  border-color: var(--border-warm);
+}
+
+.ig-embed__title {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.ig-embed__meta {
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  color: var(--text-secondary);
+  margin: 0 0 0.5rem 0;
+  line-height: 1.5;
+}
+
+/* ── Placeholder button ── */
+.ig-embed__placeholder {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  min-height: 56px;
+  padding: 0.65rem 0.9rem;
+  background: var(--bg-dark);
+  border: 1px dashed var(--border-warm);
+  color: var(--text-primary);
+  font-family: var(--font-data);
+  text-align: left;
+  cursor: pointer;
+  transition: var(--transition-glide);
+}
+
+.ig-embed__placeholder:hover,
+.ig-embed__placeholder:focus-visible {
+  border-style: solid;
+  border-color: var(--accent-primary);
+  background: rgba(196, 122, 42, 0.05);
+  outline: none;
+}
+
+.ig-embed__placeholder-mark {
+  font-size: 0.95rem;
+  color: var(--accent-primary);
+  line-height: 1;
+  flex-shrink: 0;
+  /* Subtle text-shadow only — per design system, no glow elsewhere */
+  text-shadow: 0 0 6px rgba(196, 122, 42, 0.25);
+}
+
+.ig-embed__placeholder-label {
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  color: var(--text-primary);
+  text-transform: uppercase;
+  flex: 1;
+}
+
+.ig-embed__placeholder-handle {
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--accent-cold);
+  opacity: 0.85;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+/* Live slot fills the same space so layout doesn't jump when loaded */
+.ig-embed__slot {
+  width: 100%;
+  min-height: 0;
+}
+
+.ig-embed__slot[hidden] {
+  display: none;
+}
+
+.ig-embed__slot blockquote.instagram-media {
+  margin: 0 auto;
+}
+
+/* Loading + error states */
+.ig-embed[data-ig-state="loading"] .ig-embed__slot::before {
+  content: "LOADING…";
+  display: block;
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  color: var(--accent-cold);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.ig-embed[data-ig-state="error"] .ig-embed__slot::before {
+  content: "EMBED FAILED TO LOAD · CHECK CONNECTION";
+  display: block;
+  font-family: var(--font-data);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  color: var(--accent-red);
+  text-align: center;
+  padding: 2rem 0;
+}
+
+@media (max-width: 600px) {
+  .ig-grid {
+    grid-template-columns: 1fr;
+  }
+}
