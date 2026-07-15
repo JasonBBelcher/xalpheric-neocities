@@ -1,0 +1,128 @@
+---
+layout: layouts/base.njk
+title: Light-Bleeder — Visual Works
+description: Visual art and reel collection from Light-Bleeder — analog visuals, electronic music collaborations, and immersive projections from the MIDI Mob Collective orbit.
+permalink: /light-bleeder.html
+---
+
+<section class="section" style="background: var(--bg-base); padding-top: calc(var(--space-section) + 1rem);">
+  <div class="starmap-bg" aria-hidden="true">
+    <svg viewBox="0 0 800 280" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+      <defs>
+        <linearGradient id="lb-bg" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%"   style="stop-color:#1a0c1a;stop-opacity:1" />
+          <stop offset="100%" style="stop-color:#0e0a14;stop-opacity:1" />
+        </linearGradient>
+        <style>
+          /* Slow light-bleed horizontal sweep — like overexposed film */
+          @keyframes lb-bleed  { from { transform: translateX(-900px); } to { transform: translateX(900px); } }
+          /* Faint flicker on highlight nodes */
+          @keyframes lb-flick  { 0%,92%,100% { opacity:0.85; } 94% { opacity:0.25; } 96% { opacity:1; } }
+          /* Soft pulse for the central anchor */
+          @keyframes lb-pulse  { 0%,100% { opacity:0.55; } 50% { opacity:1; } }
+
+          .lb-b1 { animation: lb-bleed 18s linear infinite; }
+          .lb-b2 { animation: lb-bleed 26s linear infinite 4s; }
+          .lb-b3 { animation: lb-bleed 22s linear infinite 9s; }
+
+          .lb-anchor { animation: lb-pulse 4s ease-in-out infinite; }
+          .lb-flick  { animation: lb-flick 6s steps(1,end) infinite; }
+        </style>
+      </defs>
+      <rect width="800" height="280" fill="url(#lb-bg)"/>
+
+      <!-- Faint cyan grid — cool counterpoint to the warm wash -->
+      <line x1="0"   y1="140" x2="800" y2="140" stroke="#2a8a9c" stroke-width="0.4" opacity="0.18"/>
+      <line x1="200" y1="0"   x2="200" y2="280" stroke="#2a8a9c" stroke-width="0.3" opacity="0.14"/>
+      <line x1="400" y1="0"   x2="400" y2="280" stroke="#2a8a9c" stroke-width="0.3" opacity="0.14"/>
+      <line x1="600" y1="0"   x2="600" y2="280" stroke="#2a8a9c" stroke-width="0.3" opacity="0.14"/>
+
+      <!-- LIGHT-BLEED SWEEPS — soft horizontal gradients crossing the frame -->
+      <g class="lb-b1">
+        <rect x="0" y="60"  width="220" height="2"  fill="#c47a2a" opacity="0.55"/>
+        <rect x="0" y="60"  width="220" height="14" fill="#c47a2a" opacity="0.10"/>
+        <rect x="0" y="200" width="180" height="2"  fill="#2a8a9c" opacity="0.45"/>
+        <rect x="0" y="200" width="180" height="10" fill="#2a8a9c" opacity="0.08"/>
+      </g>
+      <g class="lb-b2">
+        <rect x="0" y="110" width="260" height="1"  fill="#e4d9bc" opacity="0.55"/>
+        <rect x="0" y="110" width="260" height="8"  fill="#e4d9bc" opacity="0.08"/>
+        <rect x="0" y="30"  width="160" height="1"  fill="#c47a2a" opacity="0.45"/>
+      </g>
+      <g class="lb-b3">
+        <rect x="0" y="240" width="300" height="2"  fill="#c47a2a" opacity="0.50"/>
+        <rect x="0" y="240" width="300" height="12" fill="#c47a2a" opacity="0.09"/>
+        <rect x="0" y="160" width="140" height="1"  fill="#2a8a9c" opacity="0.45"/>
+      </g>
+
+      <!-- Static accent stars — settled light points -->
+      <circle cx="120" cy="80"  r="0.8" fill="#e4d9bc" class="lb-flick"/>
+      <circle cx="320" cy="50"  r="1.0" fill="#c47a2a"/>
+      <circle cx="540" cy="95"  r="0.7" fill="#e4d9bc"/>
+      <circle cx="680" cy="60"  r="0.9" fill="#2a8a9c"/>
+      <circle cx="200" cy="220" r="0.8" fill="#e4d9bc"/>
+      <circle cx="460" cy="250" r="1.0" fill="#c47a2a"/>
+      <circle cx="640" cy="230" r="0.7" fill="#2a8a9c"/>
+
+      <!-- Central anchor — focal point of the bleed -->
+      <circle cx="400" cy="140" r="1.6" fill="#c47a2a" class="lb-anchor"/>
+      <circle cx="400" cy="140" r="3.5" fill="none"    stroke="#c47a2a" stroke-width="0.4" opacity="0.4" class="lb-anchor"/>
+    </svg>
+  </div>
+  <div class="container">
+    <p class="section__eyebrow">MIDI MOB COLLECTIVE · LIGHT-BLEEDER</p>
+    <h1 class="section__title">Vee / Light-Bleeder</h1>
+    <p class="section__body">
+      Analog visual artist and electronic music producer. Light, color, and texture — captured in motion.
+    </p>
+    <p class="section__body" style="margin-top: 0.75rem;">
+      <a href="https://www.instagram.com/lightbleeder" target="_blank" rel="noopener" style="color: var(--accent-cold);">@lightbleeder on Instagram</a>
+    </p>
+    <a href="/collective.html" class="download" style="margin-top: 1.5rem; display: inline-block;">← Back to Collective</a>
+  </div>
+</section>
+
+<section class="section section--alt">
+  <div class="container">
+    <p class="section__eyebrow">01 · VISUAL FEED</p>
+    <h2 class="section__title">Reels &amp; Posts</h2>
+    <p class="section__body" style="margin-bottom: var(--space-block);">Direct from the source — Instagram embeds load below.</p>
+
+    <!--
+      ┌────────────────────────────────────────────────────────────────┐
+      │  INSTAGRAM EMBED GRID (data-driven)                             │
+      │                                                                 │
+      │  Posts are declared in src/_data/light_bleeder_posts.json.     │
+      │  Each entry has { id, type, title, meta }. The macro            │
+      │  partials/instagram-embed.njk renders the full <blockquote>     │
+      │  from those fields. The grid stacks to one column on mobile     │
+      │  and runs two-up on wider screens, so the embeds keep their     │
+      │  native 540px max-width without distortion.                     │
+      │                                                                 │
+      │  TO ADD A NEW POST:                                             │
+      │    1. Open the post on Instagram                                │
+      │    2. Note the shortcode from the URL (the 11-char token)      │
+      │       and the type ("reel" or "p")                              │
+      │    3. Append a new entry to src/_data/light_bleeder_posts.json  │
+      │    4. Run `npm run build:site` — no template edit needed.       │
+      │                                                                 │
+      │  The Instagram embed loader is loaded ONCE at the end of the    │
+      │  grid (below). It hydrates every blockquote on the page.       │
+      └────────────────────────────────────────────────────────────────┘
+    -->
+    <div class="ig-grid">
+      {% from "partials/instagram-embed.njk" import igEmbed %}
+      {% for post in light_bleeder_posts.posts %}
+        {{ igEmbed(post) }}
+      {% endfor %}
+    </div>
+
+    <!--
+      Click-to-load embeds. Each card shows a placeholder until the
+      visitor opts in. The full Instagram embed.js payload is loaded
+      exactly once, only after the first click.
+    -->
+    <script src="/assets/js/ig-lazy.js" defer></script>
+
+  </div>
+</section>
