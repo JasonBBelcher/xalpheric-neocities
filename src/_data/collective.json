@@ -6,8 +6,14 @@
       "bio": "Jason Belcher — Birmingham-based electronic producer and co-founder of MIDI Mob Collective. Koala sampler, hardware drum machines, and groove-driven electronic music spanning lofi, jazz-hop, ambient, and experimental.",
       "youtubeId": "5mMxfpYarM4",
       "links": [
-        { "label": "YouTube", "url": "https://www.youtube.com/@TheRealXalpheric" },
-        { "label": "Full Collection", "url": "xalpheric-videos.html" }
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/@TheRealXalpheric"
+        },
+        {
+          "label": "Full Collection",
+          "url": "xalpheric-videos.html"
+        }
       ]
     },
     {
@@ -16,9 +22,18 @@
       "bio": "Noah Richardson — Korg hardware enthusiast and vinyl DJ specializing in classic Goa trance. Known for hypnotic live performances and deep hardware explorations.",
       "youtubeId": "ifO4oQLr-2U",
       "links": [
-        { "label": "YouTube", "url": "https://www.youtube.com/@carbilicon" },
-        { "label": "SoundCloud", "url": "https://soundcloud.com/carbilicon" },
-        { "label": "Full Collection", "url": "carbilicon.html" }
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/@carbilicon"
+        },
+        {
+          "label": "SoundCloud",
+          "url": "https://soundcloud.com/carbilicon"
+        },
+        {
+          "label": "Full Collection",
+          "url": "carbilicon.html"
+        }
       ]
     },
     {
@@ -27,9 +42,18 @@
       "bio": "Shane and Kaleb Wynn — synth pop, electro punk and post rock through a lo-fi DIY lens. Analog hardware synths and drum machines create a grimy, yet psychedelic garage aesthetic. From Birmingham, Alabama.",
       "youtubeId": "isAV7UeCaRI",
       "links": [
-        { "label": "Bandcamp", "url": "https://lowerhybrid.bandcamp.com/" },
-        { "label": "YouTube", "url": "https://www.youtube.com/@lowerhybrid" },
-        { "label": "Full Collection", "url": "lower-hybrid.html" }
+        {
+          "label": "Bandcamp",
+          "url": "https://lowerhybrid.bandcamp.com/"
+        },
+        {
+          "label": "YouTube",
+          "url": "https://www.youtube.com/@lowerhybrid"
+        },
+        {
+          "label": "Full Collection",
+          "url": "lower-hybrid.html"
+        }
       ]
     },
     {
@@ -52,8 +76,29 @@
       "bio": "Birmingham producer creating instrumental music focused on mental wellness and relaxation. Prolific creator with a digital recording studio and a mission to support mental health through sound.",
       "soundcloudUrl": "https://w.soundcloud.com/player/?url=https%3A//soundcloud.com/joseph-stephen-deese/a-mothers-love&color=%23c47a2a&auto_play=false&hide_related=false&show_comments=true&show_user=true",
       "links": [
-        { "label": "SoundCloud", "url": "https://soundcloud.com/joseph-stephen-deese" },
-        { "label": "Full Collection", "url": "joseph-deese.html" }
+        {
+          "label": "SoundCloud",
+          "url": "https://soundcloud.com/joseph-stephen-deese"
+        },
+        {
+          "label": "Full Collection",
+          "url": "joseph-deese.html"
+        }
+      ]
+    },
+    {
+      "name": "Vee / Light-Bleeder",
+      "role": "Analog Visual Artist and Electronic Music Producer",
+      "bio": "LIGHTBLEEDER, aka Vee, is a visual artist from Birmingham, Alabama specializing in analog video art and video feedback synthesis. Capable of making music also, he knows how to blend a variety of sonic genres with visuals to make a better experience for everyone. Live shows, music visualizers, trippy patterns, you name it. Visuals are best described as psychedelic, with a futuristic yet nostalgic feeling.",
+      "links": [
+        {
+          "label": "Instagram",
+          "url": "https://www.instagram.com/lightbleeder"
+        },
+        {
+          "label": "Full Collection",
+          "url": "light-bleeder.html"
+        }
       ]
     }
   ]
