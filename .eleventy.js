@@ -31,6 +31,9 @@ module.exports = function(eleventyConfig) {
   // Watch CSS for rebuilds
   eleventyConfig.addWatchTarget("src/assets/css/");
 
+  // Watch JS for rebuilds (e.g. ig-lazy.js)
+  eleventyConfig.addWatchTarget("src/assets/js/");
+
   return {
     dir: {
       input: "src",
