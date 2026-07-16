@@ -1,0 +1,67 @@
+{
+  "releases": [
+    {
+      "id": "can_mechanical_hearts_feel_love",
+      "title": "Can Mechanical Hearts Feel Love",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_CAN_MECHANICAL_HEARTS_FEEL_LOVE.mp3",
+      "description": "A brooding analog synth piece from LIGHTBLEEDER. Slow-burn textures and a question posed in the title — answered only by the machine.",
+      "year": 2026,
+      "duration": "2:43"
+    },
+    {
+      "id": "feeding_cigarettes_to_pigeons",
+      "title": "Feeding Cigarettes to Pigeons",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_Feeding_Cigarettes_to_Pigeons.mp3",
+      "description": "A short, glitchy cut from LIGHTBLEEDER — warped samples and a tongue-in-cheek title riding on top of decaying tape hiss.",
+      "year": 2026,
+      "duration": "1:06"
+    },
+    {
+      "id": "glimmer",
+      "title": "Glimmer",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_GLIMMER.mp3",
+      "description": "A bright, atmospheric sketch from LIGHTBLEEDER. The audio companion to overexposed film — a flash of light, then the room changes.",
+      "year": 2026,
+      "duration": "2:45"
+    },
+    {
+      "id": "pineal_gland_decalcifier",
+      "title": "Pineal Gland Decalcifier",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_PINEAL_GLAND_DECALCIFIER.mp3",
+      "description": "Esoteric frequencies from LIGHTBLEEDER. Low, droning synth beds with a title that does exactly what it says on the tin.",
+      "year": 2026,
+      "duration": "3:04"
+    },
+    {
+      "id": "second_introduction",
+      "title": "Second Introduction",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_SECOND_INTRODUCTION.mp3",
+      "description": "LIGHTBLEEDER returns. A re-entry cue — slow build, feedback wash, the moment the visuals re-sync and the room comes back online.",
+      "year": 2026,
+      "duration": "3:33"
+    },
+    {
+      "id": "to_love_someone_like_me",
+      "title": "To Love Someone Like Me",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_TO_LOVE_SOMEONE_LIKE_ME.mp3",
+      "description": "A tender analog piece from LIGHTBLEEDER. Warm pads and a vulnerable title that hangs in the air long after the track ends.",
+      "year": 2026,
+      "duration": "2:16"
+    },
+    {
+      "id": "whatever_u_like",
+      "title": "Whatever U Like",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/LightBleeder_WHATEVER_U_LIKE.mp3",
+      "description": "A short, bouncy cut from LIGHTBLEEDER — playful synth lines and a laid-back invitation.",
+      "year": 2026,
+      "duration": "1:46"
+    }
+  ]
+}
