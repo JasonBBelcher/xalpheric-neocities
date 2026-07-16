@@ -2,8 +2,19 @@
 
 A complete static site builder, content management, and deployment system for Neocities. Features automated workflows, media processing, and a unified CLI for deploying a music artist's website.
 
-[![Tests](https://img.shields.io/badge/tests-409%20passing-brightgreen)](https://github.com/JasonBBelcher/xalpheric-neocities)
+[![Tests](https://img.shields.io/badge/tests-483%20passing-brightgreen)](https://github.com/JasonBBelcher/xalpheric-neocities)
 [![Coverage](https://img.shields.io/badge/coverage-86%25-brightgreen)](https://github.com/JasonBBelcher/xalpheric-neocities)
+
+---
+
+## Documentation
+
+| Doc | Audience | What's in it |
+|---|---|---|
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Senior engineers new to the codebase | What runs where, function signatures across every module, data flow, conventions, how-tos. **Read this first.** |
+| **[AGENTS.md](AGENTS.md)** | AI agents and humans working on the repo | Hard rules, data-layer conventions, Eleventy integration details, hard "do not do X" constraints. |
+| **[DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)** | Designers and anyone touching visual code | Color tokens, typography, section color map, interaction model, motif rules. |
+| **README.md** *(this file)* | End users of the CLI | How to install, run, and deploy. |
 
 ---
 
@@ -24,13 +35,13 @@ A complete static site builder, content management, and deployment system for Ne
 
 ## Features
 
-✨ **Unified CLI** - Single `neocities` command for all operations  
-📝 **Blog System** - Markdown to HTML with frontmatter support  
-🎵 **Audio Integration** - Music player with lightbox gallery  
-🖼️ **Photo Processing** - Automated image optimization and resizing  
-🎥 **Video Processing** - Video conversion and audio extraction  
-🚀 **Smart Deployment** - Git-aware, incremental, or full site deployment  
-🧪 **Comprehensive Testing** - 409 tests, 86% coverage  
+✨ **Unified CLI** - Single `neocities` command for all operations
+📝 **Blog System** - Markdown to HTML with frontmatter support
+🎵 **Audio Integration** - Music player with click-to-play catalogs
+🖼️ **Photo Processing** - Automated image optimization and resizing
+🎥 **Video Processing** - Video conversion and audio extraction
+🚀 **Smart Deployment** - Git-aware, incremental, or full site deployment
+🧪 **Comprehensive Testing** - 483 tests across 27 suites, ~86% coverage
 ⚙️ **Configuration Management** - JSON-based site config deployment
 
 ---
@@ -222,70 +233,26 @@ node cli/index.js deploy all [options]
 
 ### Media Processing
 
-#### Process Photos
-
-Batch photo optimization and resizing:
+Photos and videos are processed via shell scripts that wrap ImageMagick and FFmpeg. Both scripts take three positional arguments: `<folder> <max-size> <format>` and read from `process_photos/input/`, writing to `process_photos/output/`.
 
 ```bash
-# Via npm script
-npm run process:photos -- <options>
+# Process photos for the blog (512px wide JPEG)
+npm run process-blog-photos
 
-# Direct script
-node process-photos.js <width>x<height> <format> <prefix>
-
-# Examples:
-npm run process:photos -- 512x512 jpg studio{increment}
-npm run process:photos -- 1920x1080 webp photo_{increment}
-npm run process:photos -- 800x600 png thumb
-
-# Options:
-#   <width>x<height>  Target dimensions
-#   <format>          jpg, png, webp
-#   <prefix>          Filename pattern ({increment} = auto-number)
+# Process asset photos (covers, gallery — 512px wide JPEG)
+npm run process-asset-photos
 ```
 
-**What it does:**
-- Reads from `process_photos/input/`
-- Resizes and optimizes images
-- Outputs to `process_photos/output/`
-- Generates sequential filenames
-
-#### Process Videos
-
-Video conversion and audio extraction:
+The underlying script `cli/process-photos-enhanced.sh` accepts a custom size and format, e.g.:
 
 ```bash
-# Via npm script
-npm run process:video -- '<json>'
-
-# Direct script  
-node process-video.js '[{"inputName":"video.mp4","outputName":"audio.mp3"}]'
-
-# Examples:
-npm run process:video -- '[{"inputName":"concert.mov","outputName":"concert.mp3"}]'
-npm run process:video -- '[{"inputName":"raw.mp4","outputName":"compressed.mp4"}]'
-
-# Input: process_video/input/
-# Output: process_video/output/
+./cli/process-photos-enhanced.sh blog 512 jpg
+./cli/process-photos-enhanced.sh assets 1920 webp
 ```
 
-**Supported Operations:**
-- MP4 → MP3 (audio extraction)
-- MOV → MP4 (video conversion)
-- Video compression
-- Audio quality optimization
+After processing, move the output to its final location in `public/` (typically `public/images/` for blog photos, `public/assets/` for gallery/cover art).
 
-#### Deploy Drum Machine
-
-Deploy drum machine app:
-
-```bash
-npm run deploy:drum-machine
-
-# Options via script:
-#   DRY_RUN=true     Preview only
-#   VERBOSE=true     Detailed output
-```
+For video transcoding, the equivalent scripts live in `cli/commands/media/` (`videos.js`, `gif.js`, `sync-images.js`, `organize-event-photos.js`) and are typically invoked by the watch commands during an active editing session.
 
 ---
 
@@ -518,29 +485,14 @@ npm run watch
 
 ## Documentation
 
-Comprehensive documentation in the `xalpheric-neocities-kb` workspace:
+| Doc | Audience | What's in it |
+|---|---|---|
+| **[ARCHITECTURE.md](ARCHITECTURE.md)** | Senior engineers new to the codebase | What runs where, function signatures across every module, data flow, conventions, how-tos. Read this first. |
+| **[AGENTS.md](AGENTS.md)** | AI agents and humans working on the repo | Hard rules, data-layer conventions, Eleventy integration details, hard "do not do X" constraints. |
+| **[DESIGN-SYSTEM.md](DESIGN-SYSTEM.md)** | Designers and anyone touching visual code | Color tokens, typography, section color map, interaction model, motif rules. |
+| **README.md** *(this file)* | End users of the CLI | How to install, run, and deploy. |
 
-### Architecture
-- [System Overview](../xalpheric-neocities-kb/architecture/system-overview.md)
-- [File Structure](../xalpheric-neocities-kb/architecture/file-structure.md)
-- [Data Flow](../xalpheric-neocities-kb/architecture/data-flow.md)
-
-### Features  
-- [Content Management](../xalpheric-neocities-kb/features/content-management.md)
-- [Gallery System](../xalpheric-neocities-kb/features/gallery-system.md)
-- [Audio System](../xalpheric-neocities-kb/features/audio-system.md)
-- [Blog System](../xalpheric-neocities-kb/features/enhanced-blog-system.md)
-
-### Workflows
-- [CLI Migration Guide](../xalpheric-neocities-kb/workflows/CLI_MIGRATION.md)
-- [Development Workflow](../xalpheric-neocities-kb/workflows/development-workflow.md)
-
-### Project Phases
-- [Phase 4A Complete](PHASE4A_COMPLETE.md) - Deployment commands
-- [Phase 4B Complete](PHASE4B_COMPLETE.md) - Media processing
-- [Phase 4C Complete](PHASE4C_COMPLETE.md) - Utility commands
-
----
+Project history lives in the `PHASE*A_COMPLETE.md` notes at the repo root.
 
 ## Testing
 
@@ -641,17 +593,17 @@ npm run deploy:config       # Configuration
 ### Media Workflow
 
 ```bash
-# 1. Process photos
-cp *.jpg process_photos/input/
-npm run process:photos -- 1920x1080 jpg photo{increment}
+# 1. Process photos for the blog
+cp *.jpg process_photos/input/blog/
+npm run process-blog-photos
 
-# 2. Process videos  
-cp video.mov process_video/input/
-npm run process:video -- '[{"inputName":"video.mov","outputName":"audio.mp3"}]'
+# 2. Process asset photos (gallery, covers)
+cp *.jpg process_photos/input/assets/
+npm run process-asset-photos
 
 # 3. Move processed files to public/
-mv process_photos/output/* public/images/
-mv process_video/output/* public/music/
+mv process_photos/output/blog/*  public/images/
+mv process_photos/output/assets/* public/assets/
 
 # 4. Deploy
 npm run deploy:recent
@@ -743,7 +695,7 @@ MIT License - See LICENSE file for details
 - 📦 6 deployment commands
 - 🎨 2 media processing commands
 - 🛠️ 3 utility commands
-- 🧪 409 tests (86% coverage)
+- 🧪 483 tests (27 suites, ~86% coverage)
 - 📝 Comprehensive documentation
 
 ### v1.0.0 - Initial Release
@@ -754,4 +706,4 @@ MIT License - See LICENSE file for details
 
 ---
 
-*For detailed documentation, see the [knowledge base](../xalpheric-neocities-kb/)*
+*For architectural deep-dive, see [ARCHITECTURE.md](ARCHITECTURE.md).*

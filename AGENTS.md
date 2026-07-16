@@ -22,7 +22,7 @@ Blog:         markdown-it / marked — markdown → HTML pipeline
 Media:        ImageMagick, FFmpeg — photo resize, video/audio transcoding
 Deployment:   Neocities API via node-fetch + form-data
 Watching:     chokidar — file watch for photos/videos
-Testing:      Jest — 409 tests, 86% coverage
+Testing:      Jest — 483 tests, ~86% coverage
 Local server: http-server — serves public/ on :8080
 ```
 
@@ -423,7 +423,7 @@ Star maps / coordinates + reel tape imagery. Hero background and one section acc
 - Do not add purple — considered and rejected
 - Do not use `!important`
 - Do not inline styles except for dynamic/data-driven values
-- Run `npm test` after any changes to CLI code — 409 tests must stay green
+- Run `npm test` after any changes to CLI code — 483 tests must stay green
 
 ---
 
