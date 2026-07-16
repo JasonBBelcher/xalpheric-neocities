@@ -236,6 +236,12 @@ $(document).ready(() => {
           e.preventDefault();
           const player = $("#player")[0];
           if (player.paused) {
+            // Cross-player switch: ask the light-bleeder channel to
+            // pause before we start the home player.
+            if (window.AudioBus && typeof window.AudioBus.requestPause === 'function') {
+              const channel = (window.AudioBus.CHANNELS && window.AudioBus.CHANNELS.XALPHERIC) || 'xalpheric';
+              window.AudioBus.requestPause(channel);
+            }
             player.play();
           } else {
             player.pause();

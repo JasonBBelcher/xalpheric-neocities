@@ -33,26 +33,31 @@ class XalphericRadioPlayer {
     async init() {
         // Check if we're on the home page
         this.isHomePage = window.location.pathname === '/' || window.location.pathname.includes('index.html');
-        
+
         // Create the radio player UI first (with loading state)
         this.createRadioPlayer();
-        
+
         // Load releases configuration and update UI
         await this.loadReleasesConfig();
         this.refreshPlaylistUI();
-        
+
         // Create audio element
         this.createAudioElement();
-        
+
         // If on home page, find and sync with the main player
         if (this.isHomePage) {
             // Wait for main.js to be ready before setting up sync
             this.waitForMainPlayerReady();
         }
-        
+
         // Set up global state management
         this.setupGlobalState();
-        
+
+        // Cross-player switch: when the light-bleeder channel starts
+        // playback, this listener pauses both the radio widget and the
+        // home page main player (whichever is currently playing).
+        this.setupAudioBus();
+
         // Load saved state and auto-resume if applicable
         this.loadAndResumeState();
         
@@ -365,13 +370,44 @@ class XalphericRadioPlayer {
     setupGlobalState() {
         // Store reference globally for cross-page state
         window.xalphericRadio = this;
-        
+
         // Save state before page unload
         window.addEventListener('beforeunload', () => {
             this.saveState();
             // On home page, save home player state specifically
             if (this.isHomePage && this.homePlayer) {
                 this.saveHomePlayerPosition();
+            }
+        });
+    }
+
+    /**
+     * Cross-player switch: ask the AudioBus to pause every other channel
+     * (currently just the light-bleeder page) before we start playback.
+     */
+    requestXalphericPause() {
+        if (window.AudioBus && typeof window.AudioBus.requestPause === 'function') {
+            var channel = (window.AudioBus.CHANNELS && window.AudioBus.CHANNELS.XALPHERIC) || 'xalpheric';
+            window.AudioBus.requestPause(channel);
+        }
+    }
+
+    /**
+     * Listen for pause requests from other channels. When the light-bleeder
+     * page wants to play, it broadcasts a request; this handler pauses
+     * whichever audio element is currently playing on this channel.
+     */
+    setupAudioBus() {
+        if (!window.AudioBus || typeof window.AudioBus.onRequestPause !== 'function') return;
+        var ownChannel = (window.AudioBus.CHANNELS && window.AudioBus.CHANNELS.XALPHERIC) || 'xalpheric';
+        window.AudioBus.onRequestPause(ownChannel, () => {
+            // Pause the radio widget audio if it's playing.
+            if (this.audio && !this.audio.paused) {
+                this.audio.pause();
+            }
+            // On the home page, the main player is the active source — pause it too.
+            if (this.isHomePage && this.homePlayer && !this.homePlayer.paused) {
+                this.homePlayer.pause();
             }
         });
     }
@@ -683,6 +719,7 @@ class XalphericRadioPlayer {
         if (this.isHomePage && this.homePlayer) {
             // If on home page, control the main player
             if (this.homePlayer.paused) {
+                this.requestXalphericPause();
                 this.homePlayer.play();
             } else {
                 this.homePlayer.pause();
@@ -690,28 +727,31 @@ class XalphericRadioPlayer {
         } else {
             // Control radio player
             if (this.audio.paused) {
+                this.requestXalphericPause();
                 this.playCurrentTrack();
             } else {
                 this.audio.pause();
             }
         }
     }
-    
+
     playTrack(index) {
         this.currentTrack = index;
-        
+
         if (this.isHomePage && this.homePlayer) {
             // Update main player
             this.homePlayer.src = this.playlist[index].audio;
+            this.requestXalphericPause();
             this.homePlayer.play();
-            
+
             // Update home page UI if it exists
             this.updateHomePageUI(index);
         } else {
             // Play on radio
+            this.requestXalphericPause();
             this.playCurrentTrack();
         }
-        
+
         this.updateRadioUI();
         this.updatePlaylistSelection();
     }
@@ -727,6 +767,7 @@ class XalphericRadioPlayer {
         }
         
         this.audio.src = track.audio;
+        this.requestXalphericPause();
         this.audio.play().catch(error => {
             console.log('Audio play failed:', error);
         });
@@ -960,6 +1001,7 @@ class XalphericRadioPlayer {
                         // Auto-resume playback if it was playing when page changed
                         if (position.isPlaying) {
                             console.log('Resuming playback from', position.fromHomePage ? 'home page' : 'radio player');
+                            this.requestXalphericPause();
                             this.audio.play().catch(e => console.log('Auto-resume play failed:', e));
                         }
                     }
