@@ -76,7 +76,7 @@ xalpheric-neocities/
 │   ├── images/
 │   ├── music/
 │   ├── config/
-│   │   └── releases.json         # Music catalog — source of truth for releases
+│   │   └── releases.json         # Mirrored from src/_data/releases.json at build time
 │   └── thoughts-and-musings/     # Built blog posts land here
 ├── thoughts-and-musings/         # Source markdown blog posts
 ├── coverage/
@@ -107,7 +107,7 @@ public/                 ← EXISTING: deployed to Neocities by CLI
 xalpheric-neocities/
 ├── src/                          # Eleventy source root
 │   ├── _data/
-│   │   ├── releases.js           # Reads from public/config/releases.json
+│   │   ├── releases.json         # Music catalog — source of truth (mirrored to public/config/ at build)
 │   │   ├── collective.json       # MIDI Mob member data
 │   │   ├── site.json             # Global site metadata
 │   │   └── event_photos.js       # Reads processed images from public/images/
@@ -197,20 +197,26 @@ eleventyConfig.addShortcode("currentYear", () => new Date().getFullYear());
 
 ## Data Layer
 
-### releases.js — reads existing releases.json, do not duplicate data
-```javascript
-// src/_data/releases.js
-const fs = require("fs");
-const path = require("path");
+### releases.json — canonical music catalog (editable flat JSON)
+The music catalog lives at `src/_data/releases.json` alongside the other
+data files (collective.json, light_bleeder_posts.json, site.json). It is
+a flat JSON file with a wrapper object — Eleventy exposes it as the
+`releases` variable in templates. Iterate the inner array via
+`releases.releases`.
 
-module.exports = function() {
-  const filePath = path.resolve(__dirname, "../../public/config/releases.json");
-  const raw = fs.readFileSync(filePath, "utf8");
-  return JSON.parse(raw).releases;
-};
+```json
+{
+  "releases": [
+    { "id": "...", "title": "...", "cover": "...", "audio": "...", "description": "...", "year": 2025, "duration": "2:32" }
+  ]
+}
 ```
 
-`public/config/releases.json` remains the **single source of truth**. Eleventy reads it at build time. The existing `deploy:config` CLI command still manages it. Never duplicate release data into `src/_data/`.
+`scripts/sync-releases.js` mirrors `src/_data/releases.json` to
+`public/config/releases.json` on every `npm run build:site` (and
+`build:full`) so the CLI's `deploy:config` command still finds the
+canonical file at its expected path. The two files must stay identical —
+the script is a no-op if they already match.
 
 ### site.json
 ```json
@@ -254,11 +260,13 @@ Nunjucks does not support the Handlebars `key=value` shorthand, so prefer `set` 
 ### Iterating releases
 ```nunjucks
 <ul>
-  {% for release in releases %}
+  {% for release in releases.releases %}
     {% include "partials/release-strip.njk" %}
   {% endfor %}
 </ul>
 ```
+The wrapper object means the array is reached as `releases.releases`.
+The loop variable `release` is the single release object — unchanged.
 
 ### Conditionals
 ```nunjucks
@@ -285,8 +293,8 @@ npm run watch:photos      # Existing photo watcher unchanged
 ```
 
 ### Adding a new release
-1. Add entry to `public/config/releases.json`
-2. `npm run build:site` — Eleventy picks up new data, rebuilds HTML
+1. Add entry to `src/_data/releases.json` (canonical location)
+2. `npm run build:site` — sync-releases.js mirrors it to public/config/releases.json, then Eleventy rebuilds HTML
 3. `npm run deploy:config` — deploys releases.json
 4. `npm run deploy:recent` — deploys rebuilt HTML
 
@@ -404,8 +412,8 @@ Star maps / coordinates + reel tape imagery. Hero background and one section acc
 
 - Do not remove or break any existing CLI commands or npm scripts
 - Do not move, rename, or restructure `public/` — CLI deploys from there
-- Do not move `public/config/releases.json` — it is the music data source of truth
-- Do not duplicate release data into `src/_data/` as static JSON — always read from releases.json
+- Do not move `public/config/releases.json` — it is mirrored from `src/_data/releases.json` at build time, and the CLI's `deploy:config` still reads it from this path
+- Always edit release data in `src/_data/releases.json` (canonical), not in `public/config/releases.json` — the public copy is overwritten on every build
 - Do not use Tailwind, Bootstrap, or any CSS framework
 - Do not use React, Vue, or any JS framework in templates — vanilla JS only
 - Do not introduce colors outside the palette without asking
