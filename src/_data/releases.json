@@ -1,0 +1,238 @@
+{
+  "releases": [
+    {
+      "id": "good_mood_geometry",
+      "title": "Good Mood Geometry",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Good-mood-geometry.mp3",
+      "description": "A Koala Sampler sketch consisting of playful rhythms and melodic shapes combine to create an uplifting sonic architecture.",
+      "year": 2025,
+      "duration": "2:32"
+    },
+    {
+      "id": "i_believe_in_music",
+      "title": "I Believe in Music",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/I-believe-in-music.mp3",
+      "description": "A heartfelt Koala Sampler composition celebrating the power of music. Simple but sincere, this sketch captures pure creative joy.",
+      "year": 2025,
+      "duration": "2:09"
+    },
+    {
+      "id": "josh_flute",
+      "title": "Josh Flute",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Josh-Flute.mp3",
+      "description": "An improvisational flute melody performed by Josh Davis aka GONE captured on the Koala Sampler. Organic, flowing, and meditative - a moment of musical spontaneity preserved.",
+      "year": 2025,
+      "duration": "2:27"
+    },
+    {
+      "id": "snake_taming_for_dummies",
+      "title": "Snake Taming for Dummies",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/snake-taming-for-dummies.mp3",
+      "description": "A hypnotic Koala Sampler groove that slithers and winds through shifting rhythms. Equal parts playful and mysterious - a sonic guide to the art of serpent charming.",
+      "year": 2025,
+      "duration": "4:32"
+    },
+    {
+      "id": "sunrise_over_alborz",
+      "title": "Sunrise over Alborz",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Sunrise-over-Alborz.mp3",
+      "description": "A techno piece inspired by the Alborz mountain range. Dawn breaks over ancient peaks in this ambient sketch captured on the Koala Sampler.  This is a collaboration between myself and Josh Davis aka GONE.",
+      "year": 2025,
+      "duration": "2:46"
+    },
+    {
+      "id": "who_let_the_funk_out",
+      "title": "Who Let the Funk Out",
+      "cover": "assets/koala-album-art-default.jpg",
+      "audio": "music/Who-let-the-funk-out.mp3",
+      "description": "A funky Koala Sampler jam that refuses to be contained. Groovy, punchy, and impossible to resist - this one's going to make you move.",
+      "year": 2025,
+      "duration": "1:44"
+    },
+    {
+      "id": "scenius",
+      "title": "Scenius",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/Scenius.mp3",
+      "description": "A collage of sound. A sound painting of media.  Chopped just right for your listening pleasure. Brian Eno monologue interlude tops the cake.",
+      "year": 2025,
+      "duration": "8:29"
+    },
+    {
+      "id": "seaspray",
+      "title": "Sea Spray",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - sea-spray.mp3",
+      "description": "A happy DnB tune, who ever thought of such a thing? -- The seagulls glide on the winds as you feel the water tickle your feet.  Girls walk by in bikini's and children make sand castles.  In the distance you see the dolphins play.  You feel the sea spray on your face and raise a toast to the moment. ",
+      "year": 2017,
+      "duration": "7:24"
+    },
+    {
+      "id": "emotionaldebris",
+      "title": "Emotional Debris",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/EmotionalDebris2.0.mp3",
+      "description": "Made almost entirely with buzz modular studio and NI Massive. Meant to invoke a sense of quiet contemplation with the universe and a profound sadness burdened by the limited scope of android lifetimes.",
+      "year": 2013,
+      "duration": "6:36"
+    },
+    {
+      "id": "deepshimmer",
+      "title": "Deep Shimmer",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - deepshimmer.mp3",
+      "description": "Cool Melodic Dream House. Nothing much else to say other than it has some nice vibes :)",
+      "year": 2013,
+      "duration": "8:19"
+    },
+    {
+      "id": "november_feelings",
+      "title": "November Feelings",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/November Feeling (Extended).mp3",
+      "description": "An old buzz tune that has no bottom end as many of my older tracks did back then. I might re make this one, one day.  It was well liked back then.",
+      "year": 2004,
+      "duration": "6:51"
+    },
+    {
+      "id": "xalpheria",
+      "title": "Xalpheria",
+      "cover": "assets/xalpheria-coverart.jpg",
+      "audio": "music/Xalpheria.mp3",
+      "description": "One of my best trance tracks ever, back in the day when I was still into that genre. I learned Ableton for this one and then promptly forgot how to use Ableton and moved to Reaper.  The track employs the neapolitan chord resolution. I also created the album art myself using Gimp.  I really should do that more often but back then I had more time for that.",
+      "year": 2013,
+      "duration": "8:07"
+    },
+    {
+      "id": "crystalline",
+      "title": "Crystalline",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - crystalline.mp3",
+      "description": "A song about magical crystals stabbing the heart of the first men.  Thus the first White Walkers were created. ",
+      "year": 2017,
+      "duration": "6:04"
+    },
+    {
+      "id": "im_the_blue_type",
+      "title": "I'm the Blue Type",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - im-the-blue-type.mp3",
+      "description": "Atmospheric DnB with lush pads and a driving beat.",
+      "year": 2017,
+      "duration": "4:27"
+    },
+    {
+      "id": "gentlenotion",
+      "title": "Gentle Notion Le Premier",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/zaphoid - gentle notion.ogg",
+      "description": "A melody of love.  No words but the music should speak it. Float away on a gentle sea of tranquility.",
+      "year": 2009,
+      "duration": "5:24"
+    },
+    {
+      "id": "gentlenotion2",
+      "title": "Gentle Notion Part Deux",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - gentle-notion-mp3.mp3",
+      "description": "A soothing blend of ambient sounds and gentle melodies, designed to evoke a sense of calm and introspection. Close your eyes, take a deep breath, and let the music carry you away to a place of peace and tranquility. Rising from this a crecendo of emotional intensity carries you away and assures you that all is well here. We have arrived at the apex of joy.",
+      "year": 2019,
+      "duration": "6:25"
+    },
+    {
+      "id": "driftwood",
+      "title": "Driftwood",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - driftwood-mixed.mp3",
+      "description": "I'm driftwood.  I'm not going to fight it.  Floating down that river without a care. Shaped by time and flow. A since of longing for the expanse.",
+      "year": 2019,
+      "duration": "4:27"
+    },
+    {
+      "id": "descent",
+      "title": "Descent",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - descencion.mp3",
+      "description": " Imagine decending into a dystopian megatropolis.  As you decend into the fog belowyou realize this is the home you didn't choose among the damned and the blessed. Lights of all the shades of heaven shine among this hellish city of mans own making.How many murders will there be tonight?  How many lovers will embrace.  Do you love this city or do you hate it?  Maybe it's both and maybe that is ok.",
+      "year": 2019,
+      "duration": "4:02"
+    },
+    {
+      "id": "madman",
+      "title": "The Mad Man",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - mind-of-a-mad-man.mp3",
+      "description": "The madman.  A tortured soul of ill repute.  Alone in a dark room.  The demons in his soul encroaching.  He struggles to keep them at bay but knows that eventually they will win.  Nods to Danny Elfman who happens to be my favorite composer",
+      "year": 2015,
+      "duration": "2:27"
+    },
+    {
+      "id": "bluezen",
+      "title": "Blue Zen",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - bluezen.mp3",
+      "description": "zen like chimes blues guitar and hiphop beats in a blender, why?  I have no idea but it works!",
+      "year": 2022,
+      "duration": "3:33"
+    },
+    {
+      "id": "xaphoid_quasar_total_remake",
+      "title": "Quasar",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/xaphoid - quasar-total-remake.mp3",
+      "description": "Progressive House with elements of Trance and Tech, radiating energy like a quasar - one of the universe's most luminous objects powered by supermassive black holes. Just as quasars can outshine entire galaxies while being billions of light-years away, this track channels cosmic intensity through pulsing rhythms and stellar melodies.",
+      "year": 2014,
+      "duration": "6:07"
+    },
+    {
+      "id": "Arrival_on_Ganymede",
+      "title": "Arrival on Ganymede",
+      "cover": "assets/arrival_square.jpg",
+      "audio": "music/Arrival_on_Ganymede.mp3",
+      "description": "Progressive House track with a spacey vibe.  Art by olyavk.art@gmail.com",
+      "year": 2019,
+      "duration": "6:43"
+    },
+    {
+      "id": "face_the_shadow",
+      "title": "Face The Shadow",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/face_the_shadow.mp3",
+      "description": "Introspective, chill, trip-hop track",
+      "year": 2025,
+      "duration": "8:51"
+    },
+    {
+      "id": "contemplate",
+      "title": "Contemplate",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/contemplate.mp3",
+      "description": "Strange meditative pop with self made vocal chanting.",
+      "year": 2020,
+      "duration": "4:25"
+    },
+    {
+      "id": "hitchcrackpot",
+      "title": "Hitch Crack Pot",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/hitchcrackpot.mp3",
+      "description": "Dark and groovy trip-hop track.  Think Massive Attack meets Portishead.",
+      "year": 2025,
+      "duration": "5:32"
+    },
+    {
+      "id": "dogs_in_the_street",
+      "title": "Dogs in the Street",
+      "cover": "assets/Xalpheric-default.png",
+      "audio": "music/dogs_in_the_street.mp3",
+      "description": "Down-tempo, jazzy, political, trip-hop track. Think Thievery Corporation meets DJ Shadow.",
+      "year": 2025,
+      "duration": "7:35"
+    }
+  ]
+}

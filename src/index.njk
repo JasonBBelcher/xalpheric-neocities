@@ -193,8 +193,9 @@ navHome: true
         <span class="catalog-chevron" aria-hidden="true">▾</span>
       </summary>
 
-      <!-- Release strips — entire row is the download link -->
-      {% for release in releases %}
+      <!-- Release strips — entire row is the download link.
+           Iterates releases.releases (the array inside the wrapper object). -->
+      {% for release in releases.releases %}
       <a href="{{ release.audio }}" class="release-strip" download>
         <span class="release-strip__num">XAL·{{ loop.index0 | zeroPad }}</span>
         <div>
