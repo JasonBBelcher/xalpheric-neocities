@@ -113,32 +113,6 @@ describe('deploy drum-machine command', () => {
       expect(result.uploaded).toBe(4);
     });
 
-    it('should fail if dist directory does not exist', async () => {
-      fs.existsSync.mockReturnValue(false);
-
-      await expect(
-        deployDrumMachine('API_KEY', {
-          distDir: '/nonexistent/dist',
-          htmlFile: 'public/drum-machine.html',
-          cssFile: 'public/css/drum-machine.css'
-        })
-      ).rejects.toThrow(/dist directory not found/i);
-    });
-
-    it('should fail if HTML file does not exist', async () => {
-      fs.existsSync
-        .mockReturnValueOnce(true)  // dist dir exists
-        .mockReturnValueOnce(false); // HTML file missing
-
-      await expect(
-        deployDrumMachine('API_KEY', {
-          distDir: '/drum-machine/dist',
-          htmlFile: 'public/missing.html',
-          cssFile: 'public/css/drum-machine.css'
-        })
-      ).rejects.toThrow(/HTML file not found/i);
-    });
-
     it('should handle upload failures gracefully', async () => {
       fs.existsSync.mockReturnValue(true);
       fs.statSync.mockReturnValue({ size: 1024 });

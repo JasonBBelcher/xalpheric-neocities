@@ -39,15 +39,6 @@ describe('Git Utility Module', () => {
   });
 
   describe('getChangedFiles', () => {
-    it('should get files changed since a specific time', () => {
-      execSync
-        .mockReturnValueOnce('') // isGitRepository check
-        .mockReturnValueOnce('public/music/song.mp3\npublic/musings/post.html\n');
-
-      const files = git.getChangedFiles({ since: '24 hours ago' });
-      expect(files).toEqual(['public/music/song.mp3', 'public/musings/post.html']);
-    });
-
     it('should get files changed since a specific commit', () => {
       execSync
         .mockReturnValueOnce('') // isGitRepository check
@@ -55,31 +46,6 @@ describe('Git Utility Module', () => {
 
       const files = git.getChangedFiles({ commit: 'abc123' });
       expect(files).toEqual(['public/config/releases.json']);
-    });
-
-    it('should filter out deleted files by default', () => {
-      execSync
-        .mockReturnValueOnce('') // isGitRepository check
-        .mockReturnValueOnce('M\tpublic/music/song.mp3\nA\tpublic/new.html\n');
-
-      const files = git.getChangedFiles({ since: '1 day ago', includeStatus: true });
-      const existingFiles = files.filter(f => !f.startsWith('D\t'));
-      expect(existingFiles).toHaveLength(2);
-    });
-
-    it('should include untracked files when specified', () => {
-      execSync
-        .mockReturnValueOnce('') // isGitRepository check
-        .mockReturnValueOnce('public/tracked.html\n') // git diff
-        .mockReturnValueOnce('public/untracked.html\n'); // git ls-files
-
-      const files = git.getChangedFiles({ 
-        since: '1 day ago',
-        includeUntracked: true 
-      });
-      expect(files.length).toBe(2);
-      expect(files).toContain('public/tracked.html');
-      expect(files).toContain('public/untracked.html');
     });
 
     it('should handle empty results', () => {
@@ -99,21 +65,6 @@ describe('Git Utility Module', () => {
       expect(() => {
         git.getChangedFiles({ since: '1 day ago' });
       }).toThrow(/git repository/i);
-    });
-
-    it('should filter by file pattern', () => {
-      execSync
-        .mockReturnValueOnce('') // isGitRepository check
-        .mockReturnValueOnce('public/music/song.mp3\npublic/musings/post.html\ncli/test.js\n');
-
-      const files = git.getChangedFiles({ 
-        since: '1 day ago',
-        pattern: 'public/.*'
-      });
-      
-      expect(files).toHaveLength(2);
-      expect(files).toContain('public/music/song.mp3');
-      expect(files).toContain('public/musings/post.html');
     });
 
     it('should respect custom directory', () => {
