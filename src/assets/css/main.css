@@ -2039,3 +2039,38 @@ audio {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* ============================================================================
+   SECTION 26: LIGHT-BLEEDER MUSIC PLAYER
+   ----------------------------------------------------------------------------
+   Click-to-play release strip grid for the Light-Bleeder page. Reuses the
+   .release-strip design from Section 9 (same hover, same number/title/meta
+   layout). Only adds the .is-playing state and a small action label.
+   ============================================================================ */
+
+.lb-player {
+  margin-top: 1rem;
+}
+
+.lb-player__strips {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Playing state: amber accent on the row, action label flips to PAUSE */
+.lb-player__strip.is-playing {
+  background: rgba(196, 122, 42, 0.06);
+  border-bottom-color: var(--border-warm);
+  padding-left: 0.5rem;
+}
+
+.lb-player__strip.is-playing .release-strip__action {
+  color: var(--accent-primary);
+  letter-spacing: 0.12em;
+}
+
+.lb-player__action {
+  min-width: 4rem;
+  text-align: right;
+}

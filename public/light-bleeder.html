@@ -141,9 +141,142 @@
   </div>
 </section>
 
+<section class="section">
+  <div class="container">
+    <p class="section__eyebrow">01 · MUSIC</p>
+    <h2 class="section__title">Audio Works</h2>
+    <p class="section__body" style="margin-bottom: var(--space-block);">Original audio from LIGHTBLEEDER. Click a strip to play — the whole row is the play control.</p>
+
+    <!--
+      ┌────────────────────────────────────────────────────────────────┐
+      │  LIGHT-BLEEDER MUSIC CATALOG (data-driven)                      │
+      │                                                                 │
+      │  Releases are declared in src/_data/light_bleeder_releases.json.│
+      │  Each entry has the same shape as the main Xalpheric catalog:   │
+      │  { id, title, audio, duration, year, description, cover }.      │
+      │  scripts/sync-releases.js mirrors this file to                   │
+      │  public/config/light_bleeder_releases.json at build time so the  │
+      │  runtime player (below) can fetch it via the public path.       │
+      │                                                                 │
+      │  TO ADD A NEW TRACK:                                            │
+      │    1. Drop the .mp3 into public/music/                           │
+      │    2. Append a new entry to src/_data/light_bleeder_releases.json│
+      │    3. Run `npm run build:site` — no template edit needed.       │
+      └────────────────────────────────────────────────────────────────┘
+    -->
+    <div class="lb-player" data-lb-player>
+      <audio class="lb-player__audio" preload="none"></audio>
+
+      <div class="lb-player__strips">
+        
+        <a href="music/LightBleeder_CAN_MECHANICAL_HEARTS_FEEL_LOVE.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_CAN_MECHANICAL_HEARTS_FEEL_LOVE.mp3"
+           download>
+          <span class="release-strip__num">LB·001</span>
+          <div>
+            <div class="release-strip__title">Can Mechanical Hearts Feel Love</div>
+            <div class="release-strip__meta">2:43 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+        <a href="music/LightBleeder_Feeding_Cigarettes_to_Pigeons.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_Feeding_Cigarettes_to_Pigeons.mp3"
+           download>
+          <span class="release-strip__num">LB·002</span>
+          <div>
+            <div class="release-strip__title">Feeding Cigarettes to Pigeons</div>
+            <div class="release-strip__meta">1:06 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+        <a href="music/LightBleeder_GLIMMER.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_GLIMMER.mp3"
+           download>
+          <span class="release-strip__num">LB·003</span>
+          <div>
+            <div class="release-strip__title">Glimmer</div>
+            <div class="release-strip__meta">2:45 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+        <a href="music/LightBleeder_PINEAL_GLAND_DECALCIFIER.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_PINEAL_GLAND_DECALCIFIER.mp3"
+           download>
+          <span class="release-strip__num">LB·004</span>
+          <div>
+            <div class="release-strip__title">Pineal Gland Decalcifier</div>
+            <div class="release-strip__meta">3:04 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+        <a href="music/LightBleeder_SECOND_INTRODUCTION.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_SECOND_INTRODUCTION.mp3"
+           download>
+          <span class="release-strip__num">LB·005</span>
+          <div>
+            <div class="release-strip__title">Second Introduction</div>
+            <div class="release-strip__meta">3:33 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+        <a href="music/LightBleeder_TO_LOVE_SOMEONE_LIKE_ME.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_TO_LOVE_SOMEONE_LIKE_ME.mp3"
+           download>
+          <span class="release-strip__num">LB·006</span>
+          <div>
+            <div class="release-strip__title">To Love Someone Like Me</div>
+            <div class="release-strip__meta">2:16 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+        <a href="music/LightBleeder_WHATEVER_U_LIKE.mp3"
+           class="release-strip lb-player__strip"
+           data-lb-track
+           data-audio="music/LightBleeder_WHATEVER_U_LIKE.mp3"
+           download>
+          <span class="release-strip__num">LB·007</span>
+          <div>
+            <div class="release-strip__title">Whatever U Like</div>
+            <div class="release-strip__meta">1:46 · 2026</div>
+          </div>
+          <span class="release-strip__action lb-player__action">Play</span>
+        </a>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+<!--
+  Click-to-play handler. One shared <audio> element. Clicking a strip
+  sets audio.src to that track and starts playback. The previously
+  playing strip flips its action label back to "Play". We don't
+  preventDefault on the link so right-click / cmd-click still downloads
+  the file (the row's `download` attribute is preserved).
+-->
+<script src="/assets/js/lb-player.js" defer></script>
+
 <section class="section section--alt">
   <div class="container">
-    <p class="section__eyebrow">01 · VISUAL FEED</p>
+    <p class="section__eyebrow">02 · VISUAL FEED</p>
     <h2 class="section__title">Reels &amp; Posts</h2>
     <p class="section__body" style="margin-bottom: var(--space-block);">Direct from the source — Instagram embeds load below.</p>
 
