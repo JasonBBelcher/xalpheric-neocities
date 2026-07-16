@@ -42,10 +42,15 @@ Sans + Share Tech Mono).
    [DESIGN-SYSTEM.md](../../DESIGN-SYSTEM.md). The short version: amber is
    dominant, cyan is the single cold accent, no purple, no Inter/Roboto,
    grain only (no scan lines, no halftone).
-4. **Use the skills, don't reinvent them.** "Sync a YouTube playlist",
-   "deploy", "process a new batch of photos" — all have bundled scripts
-   under [`.github/skills/`](./skills/). Read the SKILL.md before writing
-   your own solution.
+4. **Use the skills, don't reinvent them.** Every routine workflow in this
+   project has a bundled skill at [`.github/skills/`](./skills/):
+   - `sync-youtube-playlist` — diff a YouTube playlist against any
+     `<artist>-videos.njk` page
+   - `add-instagram-post` — add a Vee/Light-Bleeder IG post to the data layer
+   - `add-xalpheric-release` — add a music track to the canonical catalog
+   - `pre-deploy-check` — run four drift/sanity checks before any deploy
+   - `process-gallery-photos` — run the ImageMagick processor for new photos
+   Read the SKILL.md before writing your own solution.
 5. **The project is small, but the conventions are strict.** When in doubt,
    search for an existing example first (a similar artist page, a similar
    data file, a similar partial). New code that doesn't match an existing
